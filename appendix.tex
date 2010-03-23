@@ -1,0 +1,106 @@
+\section{better noise model}
+
+The assumption that the interferometer noise is well-modeled by a multivariate normal distribution is convenient, but false.  The presence of `glitches' in the interferometer, where the noise statistics change dramatically, is well documented.  Current methods, including ours in the form proposed in the paper, are easily fooled by these bursts of excess power, simply because the analyses assume that the only way that extra power can be introduced to the interferometer is by a gravitational wave.  The gravitational wave hypothesis $H_\mathrm{signal}$ will do a very poor job of explaining temporally coincident incoherent bursts of noise power in the interferometer, but the noise hypothesis $H_\mathrm{signal}$ in its simple form does even worse; the gravitational wave explanation is thus preferred.
+
+We can generalize the noise hypothesis to cope with glitches by creating a model for glitches and adding that hypothesis to the set under consideration.  Like gravitational waves, glitches are infrequent, have poorly known waveforms, and poorly known power.  Unlike gravitational waves, they will not be correlated between instruments.
+
+%The Gursel-Tinto method is not robust against interferometer glitches (nor does it claim to be; real interferometer data doesn't follow the normal distribution assumed in the derivation of the method.)  This is a problem in naive attempts to use the Gursel-Tinto algorithm as a search.  Excess energy of any almost any kind will be interpreted as a evidence of a gravitational wave.  An \emph{ad hoc} addition to the method was propsed in \cite{us}.  A better way forward is to use a noise model that more accurately reflects the 'bursty' or 'glitchy' nature of the data, by replacing the normal noise distribution with a long-tailed distribution.  An immediate problem is that the marginalization integral does not in general have a closed form solution for such distributions.  If we model the long-tailed distribution using two normal distributions the marginalization integral remains tractable.
+
+One first attempt at such a hypothesis is to propose that an interferometer is either `quiet' with some probability $p(H_\mathrm{quiet}|H_\mathrm{noise})$ and has a unit normal noise distribution, or is `glitching' with probability $p(H_\mathrm{glitch}|H_\mathrm{noise})$ and has an increased standard deviation $\sigma_g$
+
+\begin{equation}
+P(\mathbf{x}|H_\mathrm{noise})
+=
+\prod_{i=1}^{N}\left[p(H_\mathrm{quiet}|H_\mathrm{noise})
+(2\pi)^{-n/2}
+\exp(-\frac{1}{2}\sum_{j=1}^n x_{ij}^2)
++p(H_\mathrm{glitch}|H_\mathrm{noise})
+(2\pi)^{-n/2}\sigma_g^{-n}
+\exp(-\frac{1}{2\sigma_g^2}\sum_{j=1}^n x_{ij}^2)
+\right]\label{eq:glitchy}
+\end{equation}
+
+If there is excess energy in only one detector, the new noise hypothesis will readily explain it.  If there is excess energy in three detectors, the noise hypothesis must invoke three coincident glitches and is penalized by $p(H_\mathrm{glitch}|H_\mathrm{noise})^3$ reflecting our belief that triple-coincidence glitches are rare, and the prediction that the glitches are incoherent thinly spreads the hypothesis over a higher-dimensional space than that of the signal hypothesis, which is concentrated around $\mathrm{span}\,\mathbf{F}$. These factors make it possible for the gravitational wave hypothesis to be preferred for some data.
+
+%Instrumental glitches (hereafter, just `glitches') correspond to noise components with a greater variance than the stationary instrumental noise.
+
+%\label{marg} The evidence for model 1 is most easily calculated in
+%the original basis, where the detectors are separable.  In this
+%model we assume the glitch or noise outputs of the detectors are
+%uncorrelated, so that the overall evidence is simply the product of
+%the evidences from each:
+%
+% \begin{align}
+% p(d_i|M_1) &= \int p_i(\sns|M_1)p(d_i|\sns,M_1)\,{\rm d}\sns\\
+%            &= \frac{1}{(2\pi)^{1/2}}\left[(1-\alpha_i)\exp(-d_i^2/2) + \frac{\alpha_i}{g_i}\exp(-d_i^2/2g^2)
+%            \right],
+% \end{align}
+%so that
+% \begin{align}
+% p(\vec{d}|M_1) &= \prod_i p(d_i|M_1)\\
+%                &= \frac{1}{(2\pi)^{3/2}}\prod_i \left[(1-\alpha_i)\exp(-d_i^2/2) + \frac{\alpha_i}{g_i}\exp(-d_i^2/2g^2)
+%                \right].
+% \end{align}
+
+%\begin{widetext}
+
+%Similarly the evidence for model 2 comes straight from
+%Eqn.~(\ref{lik2}) by setting $\shs$ to $s^2$,  and $\sns$ to unity,
+%so that the overall Bayes factor for a signal to be present is
+% \be
+% B_{21}=\frac{\exp\left\{ - (\vfph.\,\vec{d})^2/[2(1+s^2|\vfp|^2)]
+%                          - (\vfch.\,\vec{d})^2/[2(1+s^2|\vfc|^2)]
+%                          - (\vkh\,.\,\vec{d})^2/2 \right\}}
+%{[(1+s^2|\vfp|^2)(1+s^2|\vfc|^2)]^{1/2} \prod_i
+%\left[(1-\alpha_i)\exp(-d_i^2/2) +
+%\frac{\alpha_i}{g_i}\exp(-d_i^2/2g^2)\right]}.
+% \label{bayes}
+% \ee
+%Using the orthogonality relation
+% \be
+% |\vec{d}|^2 = (\vfph.\,\vec{d})^2 + (\vfch.\,\vec{d})^2 +
+% (\vkh\,.\,\vec{d})^2,
+% \ee
+%this same result may be written in terms of power components in the
+%$(\fp,\fc)$-plane and in the total power $ |\vec{d}|^2$:
+% \be
+% B_{21}=\frac{\displaystyle\exp\left\{ \frac{1}{2}\frac{s^2|\vfp|^2}{(1+s^2|\vfp|^2)}(\vfph.\,\vec{d})^2
+%                         +\frac{1}{2}\frac{s^2|\vfc|^2}{(1+s^2|\vfc|^2)}(\vfch.\,\vec{d})^2
+%                          \right\}}
+%{[(1+s^2|\vfp|^2)(1+s^2|\vfc|^2)]^{1/2} \displaystyle\prod_i
+%\left\{(1-\alpha_i)\displaystyle\exp\left(-\frac{d_i^2}{2}\right) +
+%\displaystyle\frac{\alpha_i}{g_i}\displaystyle\exp\left[\frac{1}{2}\left(1-\frac{1}{g_i^2}\right)d_i^2\right]\right\}}.
+% \ee
+%
+% Consider the simplified scenario in which model 1 assumes all three
+%detectors are currently glitching, so that $\alpha=1$, and where the
+%characteristic glitch power is the same in each, so that
+%$g_i^2=g^2$. The Bayes factor is now comparing the idea that (1) we
+%are seeing a triple-coincidence glitch with (2) we are seeing a
+%gravitational wave, and Eqn.~(\ref{bayes}) reduces to
+% \be
+% B_{21}=\frac{g^3\exp\left\{\displaystyle \frac{|\vec{d}|^2}{2g^2} -
+% \left[\frac{(\vfph.\,\vec{d})^2}{2(1+s^2|\vfp|^2)}
+%                          +
+%                          \frac{(\vfch.\,\vec{d})^2}{2(1+s^2|\vfc|^2)}
+%                          + \frac{(\vkh\,.\,\vec{d})^2}{2}\right] \right\}}
+%{[(1+s^2|\vfp|^2)(1+s^2|\vfc|^2)]^{1/2} }.
+% \ee
+%The exponent is simply the difference between the chisquared
+%statistic for a glitch of mean power $g^2$ and that for a
+%gravitational wave signal of mean power $s^2$.  The other terms
+%represent an Occam factor, reflecting the difference in the sizes of
+%the competing hypothesis spaces.
+%
+%The same expression can be written as
+% \be
+% B_{21}=\frac{g^3\exp\left[ %\displaystyle
+%              \frac{1}{2}\left(\frac{1}{g^2}-\frac{1}{1+s^2|\vfp|^2}\right)(\vfph.\,\vec{d})^2
+%             +\frac{1}{2}\left(\frac{1}{g^2}-\frac{1}{1+s^2|\vfc|^2}\right)(\vfch.\,\vec{d})^2
+%             -\frac{1}{2}\left(1-\frac{1}{g^2}\right) (\vkh\,.\,\vec{d})^2 \right]}
+%         {[(1+s^2|\vfp|^2)(1+s^2|\vfc|^2)]^{1/2} },
+% \ee
+%to highlight the fact that power in the null-stream direction $\vkh$
+%always reduces $B$.
+
+%\end{widetext}

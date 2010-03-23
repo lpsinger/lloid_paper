@@ -1,0 +1,219 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Si vous voulez plus petit passez en 11pt voire encore plus petit en 10pt
+\documentclass[11pt]{report}
+\author{Romain Cariou}
+\date{Juin 2009}
+\title{rapport résumé}
+
+\usepackage{floatrow}
+
+
+%Symboles divers dont euro ...
+\usepackage{marvosym}
+
+%% Je suis francophone !
+\usepackage[francais]{babel}\usepackage[T1]{fontenc}
+
+%% Je veux utiliser néanmoins des fontes qui « paraissent bien » en PDF
+\usepackage[cyr]{aeguill}
+
+%% J'aime bien pouvoir contrôler mes hauts de page !
+\usepackage{fancyhdr}
+
+\fancyhead[R]{\leftmark} % Nom du chapitre en cours
+
+    
+%% Je veux pouvoir inclure des figures...
+%% À commenter si vous voulez faire du DVI :
+\usepackage[pdftex]{graphicx}
+
+%% ... des figures ``jpeg'' ou ``pdf''
+%% À commenter si vous voulez faire du DVI :
+\DeclareGraphicsExtensions{.jpg,.pdf,.png}
+
+%%position des images un peu partout
+\usepackage{wrapfig}
+
+%% Je veux créer des Hyperdocuments
+%% À commenter si vous voulez faire du DVI :
+\usepackage[pdftex,colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+%% Je contrôle la taille de ma zone imprimée...
+\usepackage{anysize}
+%% ...en définissants les marges {gauche}{droite}{haute}{basse}
+\marginsize{16mm}{16mm}{-10mm}{5mm}
+
+%pour la numerotation des pages
+\usepackage{lastpage}
+\makeatletter
+\renewcommand{\@evenfoot}%
+	{\hfil \upshape {\thepage} / \pageref{LastPage}}
+\renewcommand{\@oddfoot}{\@evenfoot}
+\makeatother
+
+%pour changer le style des notes de bas de page
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+
+
+%pour changer les marges d'une page
+\usepackage{chngpage}
+
+% Usage:
+% ------
+%
+%%%%%%%%%%%%%
+% \changetext
+%%%%%%%%%%%%%
+%     The \changetext command is for changing the size and horizontal position
+% of the text block on a page. The command takes 5 arguments, each of which
+% is a length or is empty. i.e.,
+%
+% \changetext{textheight}{textwidth}{evensidemargin}{oddsidemargin}{columnsep}
+%
+% The given lengths are added to the corresponding current lengths and
+% the remainder of the current page is typeset using the changed text block
+% layout. The new layout remains in effect until another \change... command
+% is issued.
+%
+%%%%%%%%%%%%%
+% \changepage
+%%%%%%%%%%%%%
+%     The \changepage command is for changing the general layout of
+% a page. The command takes 9 arguments, each of which is a length or is empty.
+% The first 5 arguments are the same as for \changetext and have the same effect.
+% The last four arguments are:
+%
+% \changepage{5 args}{topmargin}{headheight}{headsep}{footskip}
+%
+% These lengths are added to the corresponding current lengths and
+% thus modify the vertical positions of the elements of the page. The
+% remainder of the current page is typeset using the changed text block
+% and page layout. The new layout remains in effect until another
+% \change... command is issued.
+
+
+
+
+%pour mettre quelquechose en filigrane
+\usepackage{tikz}
+
+%modifier les marges
+\usepackage[francais]{layout}
+
+%pour ecrire sur 2 colonnes
+\usepackage{multicol}
+\setlength{\columnseprule}{0pt} %largeur trait séparateur
+\setlength{\columnsep}{22pt}
+
+%pour ecrire a coté des images
+\usepackage{floatflt}
+
+
+\newenvironment{narrow}[2]{%
+\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{#1}%
+\setlength{\rightmargin}{#1}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{\parskip}}%
+\item[]}{\end{list}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Je peux définir mes propres « commandes »...
+%Pour changer le titre de la bibliographie
+\renewcommand{\bibname}{R\'ef\'erences}
+
+%% pour citer une figure :
+\newcommand{\figref}[1]{figure~\ref{#1}}
+
+%% pour citer une équation :
+\newcommand{\Ref}[1]{(\ref{#1})}
+
+%% pour mettre l'emphase sur un mot ou un groupe de mots :
+\newcommand{\empha}[1]{\textit{\textbf{#1}}}
+
+%% opérateurs de dérivation :
+\newcommand{\D}{\partial}
+\newcommand{\Dt}{\partial_t}
+\newcommand{\Dx}{\partial_x}
+\newcommand{\Dy}{\partial_y}
+
+\begin{document}
+%filigrane
+\begin{tikzpicture}[remember picture,overlay]
+	\node[rotate=60,scale=15,text opacity=0.1]
+	  at (current page.center) {Confidential};
+\end{tikzpicture}
+
+
+%pour changer le titre de la Bibliographie
+\renewcommand{\bibname}{R\'ef\'erences}
+
+\author{Romain Cariou}
+\title{Fiche résumé début de stage}
+
+
+%% Voilà mes légendes de figures comme je les aime
+\makeatletter
+\def\figurename{{\protect\sc \protect\small\bfseries Fig.}}
+\def\f@ffrench{\protect\figurename\space{\protect\small\bf \thefigure}\space}
+\let\fnum@figure\f@ffrench%
+\let\captionORI\caption
+\def\caption#1{\captionORI{\rm\small #1}}
+\makeatother
+
+
+%Pour les numerotations
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\thesection .\Alph{subsection}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Couverture :
+%\thispagestyle{plain}
+{\Large
+
+\begin{center}
+%\vskip1cm
+%% Le \vphantom{\int_\int} sert à introduire de l'espace entre les deux lignes
+%% (essayez donc de le commenter)
+\textbf{{\LARGE Bias in geometric sample mean}}
+%$ \vphantom{\int_\int}$
+ %\\
+%\textbf{{\LARGE de l'expérience LIGO : Lloid}}
+\begin{center}
+\rule[1ex]{5cm}{0.15ex}
+\end{center}
+\end{center}
+\vspace*{-0.8cm}
+\begin{center}
+\textsl{ Romain Cariou }
+\end{center}
+
+
+
+\normalsize
+\vspace*{0.5cm}
+\begin{multicols}{2}
+
+
+Here we compute the bias factor $\beta$ of the sample median of a chi-square distributed variables relative to the sample geometric mean.\\ Let's define n chi-square distributed variable : $x_{l}$ l$\in\left[\hspace{-1ex}\left[\hspace{0.5ex}1,n\right]\kern-0.15em\right]$. The probability density function for each $x_{l}$ is given by : $f(x)=\frac{1}{2} e^{-x/2}$, where $$2=\langle x \rangle = \int_{0}^{\infty}xf(x)dx$$ is the \textit{expected value} of the random variable $x$. The median, $x_{1/2}$ is defined by $$ \frac{1}{2}=\int_{0}^{x_{1/2}}f(x)dx$$ which yields $x_{1/2}=2\,ln2$. Thus the bias of the \textit{expected value} is $ln2$.\\
+Let's $\rho$ be the geometric sample mean of the chi-square variables : $$\rho=\left\langle(\prod_{l=1}^{n}x_{l})^{1/n}\right\rangle=\left\langle exp \left[\frac{1}{n}\sum_{l=1}^{n} \ln x_{l}\right] \right\rangle$$ so $\ln \rho$ is the arithmetic mean from the logarithm of the discret distribution and thus, for a continuous variable as $x_{l}$ we have : $$ \rho=exp \left(\int_{0}^{\infty}\ln x\,f(x)\,dx \right)$$ $$=exp \left(\frac{1}{2} \int_{0}^{\infty}e^{-x/2}\,\ln x dx \right)$$
+The integral above can be calculated\footnote{\label{1}\textit{Table of integrals, series and products}, I.S. Gradshteyn/I.M. Ryzhik, BI ((256))(2).} and we find : $$ \rho\,\,=\,\frac{2}{e^{C}}= 1.122918967...\,. $$ where $C\,= \lim\limits_{s\to \infty}\left(\sum_{m=1}^{s}\frac{1}{m}-\ln s \right)$ $= 0.577215...\,.$\\
+As the expected value of uncorrelated random variable is the product of the expected values (E(XY)=E(X)E(Y)), we can calculate the expected value of the geometric sample mean :$\langle \rho \rangle = \langle x_{l}^{1/n} \rangle^{n}$. The probability density function of the new random variable $Y=x^{1/n}$ is : $$P(Y)=\frac{n}{2}.e^{-Y^{n}/2}.Y^{n-1}$$ and so $$
+\langle \rho \rangle = \left[\frac{n}{2}\int_{0}^{\infty}Y^{n}e^{-Y^{n}/2}dY \right]^{n}$$ $$=\frac{1}{2^{n}}\left[\int_{0}^{\infty}z^{1/n}e^{-z/2}dz\right]^{n}$$ with $z=Y^{n}$. This integral can be easily calculated\footnote{\label{2}\textit{Table of integrals, series and products},  I.S. Gradshteyn/I.M. Ryzhik, FI 2 779.} using the GAMMA function we have : $$ \langle \rho \rangle= \frac{2}{n^{n}}\left[\Gamma(\frac{1}{n})\right]^{n}$$
+This result makes sense : we can calculate the exact limit as n $\rightarrow \infty$ : $\lim\limits_{n\to \infty}\langle \rho \rangle=\rho$ as illustrated on the figure below, which represent the expected value of the geometric sample mean versus n :
+
+\vspace*{0.2cm}
+\includegraphics[scale=0.19]{geosamplemean.png}
+
+Therefore, assuming that expected value of the sample median can is \footnote{FINDCHIRP : an algorithm for detection of gravitational waves from inspiraling compact binaries, Appendix B.}: $$\langle x_{med}\rangle = 2 \times \sum_{l=1}^{n}\frac{(-1)^{l+1}}{l}$$
+we have the following relation : $$\langle x_{med}\rangle\langle \rho\rangle=\frac{4}{n^{n}}\left[\Gamma(\frac{1}{n})\right]^{n}\sum_{l=1}^{n}\frac{(-1)^{l+1}}{l}$$
+Thus the bias factor is : $$ \beta=\frac{2\sum_{l=1}^{n}\frac{(-1)^{l+1}}{l}}{\frac{2}{n^{n}}\left[\Gamma(\frac{1}{n})\right]^{n}}$$
+
+
+\end{multicols}
+
+
+
+\end{document}

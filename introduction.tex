@@ -1,0 +1,59 @@
+\section{Introduction}
+\label{sec:introduction}
+Modern gravitational-wave observatories are likely to deliver on the promise 
+that their name implies by observing multiple gravitational-wave signals from
+compact binary coalescence within the coming decade ~\cite{kopparapu2008}. 
+There is now a world-wide network of gravitational-wave observatories 
+including the laser interferometers
+LIGO, VIRGO, GEO, and TAMA, which should assure that coincident detections 
+will be possible among at least three separate sites lending confidence
+to any detections.
+~\cite{Abbott:2005qm, beauville2008, beauville2006, blackburn2005, LIGOS1instpaper}.  
+However, having an electromagnetic or neutrino counterpart to a 
+gravitational-wave detection would not only increase the confidence in 
+the detection but would also greatly improve the astrophysical information
+available from the event.
+
+Work has already commenced to trigger gravitational-wave searches from 
+electromagnetic observations ~\cite{triggeredsearches2008}. LIGO has recently
+ruled out the possibility of GRB070201 originating from the merger of a
+neutron star / neutron star or neutron star / black hole system in the
+Andromeda galaxy ~\cite{GRB070201}.  The still open question is, will 
+gravitational-wave observations be able to trigger electromagnetic followup?
+
+
+This question has been investigated and it seems  at least
+possible that gravitational-wave detections could provide a region of the
+sky to prompt electromagnetic observation followups~\cite{sylvestre2003}.
+Much work is currently underway in providing the best possible source 
+localization from gravitational-wave detector networks
+~\cite{markowitz2008, raymond2008, cavalier2006}.  Colloborations are
+currently forming to provide infrastructure for the gravitational-wave
+Astronomers to provide targets of opportunity for electromagnetic 
+Astronomers ~\cite{kanner2008}.  Most models that predict simultaneous
+gravitational-wave and electromagnetic observations also predict that the
+peak amplitude of electromagetic radiation will occur soon after 
+gravitational-wave emmission ~\cite{sylvestre2003}.  Thus in order to maximize
+the chance of a successful electromagnetic followup the latencey of 
+gravitational-wave signal analysis must be made minimal.
+
+The parameter space of compact binary coalescence signals is large
+~\cite{Owen:1995tm, Owen:1998dk} .  It is a
+computationally burdensome task to analyze these signals with even moderate
+latency ~\cite{Abbott:2007xi}.  
+This work will describe how to exploit degeneracy in the signal
+parameter space to answer more quickly whether or not a gravitational-wave 
+is present, with what confidence, and where it is coming from. Specifically
+we will explore using the singular value decomposition (SVD) to reduce the
+effective number of filters required to search the data.  We note that others
+have applied the use of SVD to gravitational wave data analysis to analyze
+optimal gravitational-wave burst detection 
+~\cite{bradyraymajumder2004, heng2008} and coherent networks 
+of detectors ~\cite{wen2008} 
+
+The paper is organized as follows.  First we provide an overview of the 
+standard method for detecting compact binary coalescence signals and
+describe how it can be modified to accomodate low latency analysis.  We
+then describe the pipeline we have constructed to implement these changes.
+To validate the approach we present results of simulations and finish
+with some concluding remarks. 
