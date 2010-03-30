@@ -202,10 +202,8 @@ Let's $\rho$ be the geometric sample mean of the chi-square variables : $$\rho=\
 The integral above can be calculated\footnote{\label{1}\textit{Table of integrals, series and products}, I.S. Gradshteyn/I.M. Ryzhik, BI ((256))(2).} and we find : $$ \rho\,\,=\,\frac{2}{e^{C}}= 1.122918967...\,. $$ where $C\,= \lim\limits_{s\to \infty}\left(\sum_{m=1}^{s}\frac{1}{m}-\ln s \right)$ $= 0.577215...\,.$\\
 As the expected value of uncorrelated random variable is the product of the expected values (E(XY)=E(X)E(Y)), we can calculate the expected value of the geometric sample mean :$\langle \rho \rangle = \langle x_{l}^{1/n} \rangle^{n}$. The probability density function of the new random variable $Y=x^{1/n}$ is : $$P(Y)=\frac{n}{2}.e^{-Y^{n}/2}.Y^{n-1}$$ and so $$
 \langle \rho \rangle = \left[\frac{n}{2}\int_{0}^{\infty}Y^{n}e^{-Y^{n}/2}dY \right]^{n}$$ $$=\frac{1}{2^{n}}\left[\int_{0}^{\infty}z^{1/n}e^{-z/2}dz\right]^{n}$$ with $z=Y^{n}$. This integral can be easily calculated\footnote{\label{2}\textit{Table of integrals, series and products},  I.S. Gradshteyn/I.M. Ryzhik, FI 2 779.} using the GAMMA function we have : $$ \langle \rho \rangle= \frac{2}{n^{n}}\left[\Gamma(\frac{1}{n})\right]^{n}$$
-This result makes sense : we can calculate the exact limit as n $\rightarrow \infty$ : $\lim\limits_{n\to \infty}\langle \rho \rangle=\rho$ as illustrated on the figure below, which represent the expected value of the geometric sample mean versus n :
-
-\vspace*{0.2cm}
-\includegraphics[scale=0.19]{geosamplemean.png}
+This result makes sense : we can calculate the exact limit as n $\rightarrow \infty$ : $\lim\limits_{n\to \infty}\langle \rho \rangle=\rho$ as illustrated on the figure below, which represent the expected value of the geometric sample mean versus n:
+\resizebox{\linewidth}{!}{\includegraphics{geosamplemean.png}}
 
 Therefore, assuming that expected value of the sample median can is \footnote{FINDCHIRP : an algorithm for detection of gravitational waves from inspiraling compact binaries, Appendix B.}: $$\langle x_{med}\rangle = 2 \times \sum_{l=1}^{n}\frac{(-1)^{l+1}}{l}$$
 we have the following relation : $$\langle x_{med}\rangle\langle \rho\rangle=\frac{4}{n^{n}}\left[\Gamma(\frac{1}{n})\right]^{n}\sum_{l=1}^{n}\frac{(-1)^{l+1}}{l}$$
