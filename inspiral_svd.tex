@@ -1,53 +1,29 @@
-\documentclass[aps,prd,twocolumn,showpacs,groupedaddress,showkeys,preprintnumbers]{revtex4}
+\documentclass[showpacs,groupedaddress,showkeys,preprintnumbers]{iopart}
 \input{packages}
 \input{macros}
 
-% $Id:$
-
 \begin{document}
 
-\title{Low-latency search for gravitational-waves: prospects for near real time detection of compact binary coalescence} 
+\title[LLOID]{A novel method for detecting coalescing binaries in near realtime with Advanced LIGO and beyond \editorial{Submit to PRD or CQG?}}
 
 \date{\today}
 
-\author{Kipp Cannon} 
-% \email{antony.searle@anu.edu.au}
-\affiliation{The LIGO Laboratory - California Institute of Technology, Pasadena, CA 91125}
+\author{Kipp Cannon$^1$, Adrian Chapman$^2$, Chad Hanna$^3$, Drew Keppel$^4$, Antony C. Searle$^2$, Alan J. Weinstein$^2$} 
 
-\author{Adrian Chapman} 
-% \email{antony.searle@anu.edu.au}
-\affiliation{The LIGO Laboratory - California Institute of Technology, Pasadena, CA 91125}
-
-\author{Chad Hanna}  
-% \email{antony.searle@anu.edu.au}
-\affiliation{The LIGO Laboratory - California Institute of Technology, Pasadena, CA 91125}
-
-\author{Drew Keppel}  
-% \email{antony.searle@anu.edu.au}
-\affiliation{The LIGO Laboratory - California Institute of Technology, Pasadena, CA 91125}
-
-\author{Antony C. Searle}
-% \email{antony.searle@anu.edu.au}
-\affiliation{The LIGO Laboratory - California Institute of Technology, Pasadena, CA 91125}
-
-
-\author{Alan J. Weinstein}
-% \email{antony.searle@anu.edu.au}
-\affiliation{The LIGO Laboratory - California Institute of Technology, Pasadena, CA 91125}
-
+\address{$^1$ Canadian Institute for Theoretical Astrophysics, ON, Canada}
+\address{$^2$ LIGO Laboratory - California Institute of Technology, Pasadena, CA, USA}
+\address{$^3$ Perimeter Institute for Theoretical Physics, Waterloo, ON, Canada}
+\address{$^3$ Albert-Einstein-Institut, Max-Planck-Institut f\"{u}r Gravitationphysik, Hannover, Germany}
 
 \begin{abstract}
-
+Conventional matched filter bank methods for the detection of gravitational waves from the inspiral of compact binaries are computationally expensive, have hundreds of seconds of unavoidable intrinsic latency, and require arrays of largely redundant matched filters.  Novel detection methods that are more computationally efficient and have lower latency will be required to realize the full potential of advanced of gravitational wave detectors that are currently under construction.  In this paper, we describe a new detection method that exploits the properties of inspiral waveforms using multi-rate filtering, principal component analysis, and hierarchical detection.  We provide receiver operating characteristics from a prototype search pipeline that is capable of low-latency or near-realtime detection with greatly reduced computational requirements in comparison with previously described methods.
 \end{abstract}
 
-\pacs{}
+\pacs{95.55.Ym, 84.30.Vn, 95.75.Wx}
 
-\keywords{Gravitational Waves, Laser Interferometry}
+%\keywords{Gravitational Waves, Laser Interferometry}
 
-\preprint{}
-
-\maketitle
-
+%\preprint{}
 \input{introduction}
 
 \input{method}
@@ -58,13 +34,14 @@
 
 \input{conclusions}
 
-\begin{acknowledgments}
-LIGO was constructed by the California Institute of Technology and Massachusetts Institute of Technology with funding from the National Science Foundation and operates under cooperative agreement PHY-0107417. This paper has LIGO Document Number LIGO-P0900004-v1
-
-\end{acknowledgments}
+\ack{\textsc{ligo} was constructed by the California Institute of Technology and Massachusetts Institute of Technology with funding from the National Science Foundation and operates under cooperative agreement \textsc{phy}-\oldstylenums{0107417}. This paper has \textsc{ligo} Document Number \textsc{ligo}-\textsc{p}\oldstylenums{0900004}-v\oldstylenums{1}.
 
 \appendix
+\input{appendix}
 
+\section*{References}
+
+\bibliographystyle{unsrt}
 \bibliography{references}
 
 \end{document}

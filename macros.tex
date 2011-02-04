@@ -1,3 +1,9 @@
+% Editing macros
+
+\newcommand\citeneeded{\textsc{\color{blue}[citation needed]}}
+% Borrowed from http://albert.rierol.net/latex_tips.html
+\newcommand\editorial[1]{\mbox{}\marginpar{\footnotesize\raggedright\hspace{0pt}\color{blue}\emph{#1}}}
+
 \newcommand{\be}{\begin{equation}}
 \newcommand{\ee}{\end{equation}}
 \newcommand{\ben}{$$}
@@ -6,8 +12,8 @@
 \newcommand{\eea}{\end{eqnarray}}
 \newcommand{\bean}{\begin{eqnarray*}}
 \newcommand{\eean}{\end{eqnarray*}}
-\newcommand{\e}{{\rm e}}
-\newcommand{\tr}{{\rm tr}}
+%\newcommand{\e}{{\rm e}} % breaks my build
+%\newcommand{\tr}{{\rm tr}} % breaks my build
 \newcommand{\erf}{{\rm erf}}
 \newcommand{\ie}{{\rm i.e.}}
 \newcommand{\n}[1]{\label{#1}}

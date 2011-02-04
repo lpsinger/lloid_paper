@@ -1,3 +1,16 @@
+\section{Floating point operation counts}
+
+\editorial{I just yanked this from the methods section.  It needs to be made more concise, maybe turned into a table of CPU budgets for various components of LLOID.} The filter bank can be implemented using finite impulse response (\textsc{fir}) filters, which are just sliding window dot products.  If there are $M$ templates of length $n$, and the data stream contains $N$ samples, then applying the filter bank requires $2 M N n$ operations.
+
+More commonly, the matched filters are implemented using the \textsc{fft} convolution.  This entails applying \textsc{fft}s to blocks of $D$ samples, with $2 n \leq D$, each block overlapping the previous one by $n$ samples.  There are $N/(D-n)$ such blocks.  Modern implementations of the Cooley-Tukey \textsc{fft}, such as the ubiquitous \texttt{fftw}, require about $4 N \lg N$ operations to evaluate a \textsc{dft} of size $N$~\cite{Johnson:2007p9654}.  \editorial{This is more commonly known as ``overlap-save''.  We should find someone else's operation count and cite it.}  A $D$ sample cross-correlation consists of a forward \textsc{fft}, an $D$ sample dot product, and an inverse \textsc{fft}, totaling $8 D \lg N + 2 D$ operations per block.  Per sample, this is $(8 \lg D + 2) / (1 - n/D)$ operations.
+
+The \textsc{fir} filter implementation has the advantage that it has no intrinsic latency, whereas the \textsc{fft} convolution has at least the latency of the \textsc{fft} block size $D \geq 2 n$.  For example, for a $1.4 - 1.4 \, M_\odot$ template with duration $\sim 1 \, \mathrm{ks}$, the \textsc{fft} convolution has a latency $\geq 2 \, \mathrm{ks}$.  However, the \textsc{fir} filter implementation has the disadvantage of much greater overhead per sample than the \textsc{fft} convolution.  For a $1\,\mathrm{ks}$ template sampled at $4096\,\mathrm{Hz}$, the \textsc{fir} implementation requires about about $n / 8 \lg 2 n = 2.2 \times 10^4$ times more operations per sample than the \textsc{fft} implementation.
+
+
+
+\begin{comment}
+% Let's make glitch rejection in LLOID a separate paper.
+
 \section{better noise model}
 
 The assumption that the interferometer noise is well-modeled by a multivariate normal distribution is convenient, but false.  The presence of `glitches' in the interferometer, where the noise statistics change dramatically, is well documented.  Current methods, including ours in the form proposed in the paper, are easily fooled by these bursts of excess power, simply because the analyses assume that the only way that extra power can be introduced to the interferometer is by a gravitational wave.  The gravitational wave hypothesis $H_\mathrm{signal}$ will do a very poor job of explaining temporally coincident incoherent bursts of noise power in the interferometer, but the noise hypothesis $H_\mathrm{signal}$ in its simple form does even worse; the gravitational wave explanation is thus preferred.
@@ -21,6 +34,8 @@ P(\mathbf{x}|H_\mathrm{noise})
 \end{equation}
 
 If there is excess energy in only one detector, the new noise hypothesis will readily explain it.  If there is excess energy in three detectors, the noise hypothesis must invoke three coincident glitches and is penalized by $p(H_\mathrm{glitch}|H_\mathrm{noise})^3$ reflecting our belief that triple-coincidence glitches are rare, and the prediction that the glitches are incoherent thinly spreads the hypothesis over a higher-dimensional space than that of the signal hypothesis, which is concentrated around $\mathrm{span}\,\mathbf{F}$. These factors make it possible for the gravitational wave hypothesis to be preferred for some data.
+
+\end{comment}
 
 %Instrumental glitches (hereafter, just `glitches') correspond to noise components with a greater variance than the stationary instrumental noise.
 

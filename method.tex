@@ -1,49 +1,81 @@
 \section{Method}
 \label{SECII}\label{sec:method}
 \subsection{The standard approach: matched filtering}
-Compact binary coalescence searches typically employ matched filtering as the
-first step to locating a gravitational wave signal ~\cite{findchirppaper}.  
-A template waveform is convolved with the whitened data, and if 
-properly normalized it produces a signal-to-noise ratio (SNR) that indicates the
-probability of a signal being present ~\cite{wainstein:1962}.  
-Since the parameters of the signal are
-not known apriori, multiple templates must be filtered for a wide range of
-parameters.  Let us assume that the waveforms are simply parameterized by
-component mass and denote the $i$th template waveform of $N$ templates necessary
-to search a given parameter space as $h_i(t) = f(m1,m2,t)$.
-The SNR, $\rho_i$ for that template is
-\begin{equation}
-\label{eq:time_domain_snr}
-\rho_i(t) = \int h_i(t) s(t-\tau) \, d\tau,
-\end{equation}
-where $s(t)$ is the detector data stream suitably whitened having mean zero
-and unity variance.  Time domain convolutions don't have any inherent latency. 
-The template waveform can be ``slid onto" the detector data as it is produced
-giving the possibility of measuring a peak SNR at the time of inspiral
-coalescence.  Typically it is not tractable to compute SNR via a
-time domain convolution as indicated in (\ref{eq:time_domain_snr}) because
-it involves an $\mathcal{O}(N^2)$ operation per template. Instead the
-convolution theorem is applied and the SNR is obtained via an inverse Fourier
-transform
-\begin{equation}
-\label{eq:freq_domain_snr}
-\rho_i(t) = \int \tilde{h}_i(f)\,^*\,\tilde{s}(f)\,e^{-2\pi i f t}\, df,
-\end{equation}
-where the $\tilde{h}_i(f)$ and $\tilde{s}(f)$ denote the Fourier transforms
-of the template and detector data respectively.  This operation is far
-faster to compute with $\mathcal{O}(N\,{\rm log}\,N)$ operations per template.  
-However, the acausal nature of the Fourier transform introduces an inherent
-latency.  One must wait until they have collected data as long as their 
-signal and for minimally overlapping computations that means having a latency
-about as long as the template waveform.  The latency can be reduced by having
-redudant overlapping transforms, but at an additional cost.  
 
-Thus we have that low latency searches are inherently more computationally
-costly than moderate latency searches that employ frequency domain matched
-filtering.  The next section discusses a method to mitigate the cost of
-low latency searches. 
+Searches for gravitational waves from compact binary coalescences typically employ matched filter banks \cite{findchirppaper}.  Potential inspiral signals are continuously parameterized by time, amplitude, phase, and a set of intrinsic source parameters $\theta$, which in this paper we shall take to consist of the two component masses of a binary, $\theta = (m_1, m_2)$.  Let $h_+(\theta)$ and $h_\times(\theta)$ be, respectively, the `$+$' and `$\times$' polarization gravitational wave signals that would arise from a fiducial face-on binary at some distance.  Because, for inspiral signals, $h_+$ and $h_\times$ are nearly in quadrature, they are generally combined into a single complex-valued template $h = h_+ + i h_\times$.
 
-\subsection{Reducing the number of filters with singular value decomposition}
+The detection procedure for just one set of intrinsic source parameters $\theta$ starts by {\em whitening} the measurement data stream $x$.  This involves finding a linear filter that renders the detector's noise \textsc{iid} and Gaussian.  This filter is applied to the measurement, yielding the whitened data stream $x^\mathrm W$.  The same linear filter is applied to the template $h(\theta)$, yielding the whitened template $h^\mathrm W (\theta)$.  The matched filter is the normalized cross-correlation of $h^\mathrm W$ and $x^\mathrm W$, \editorial{After introducing the $\star$ notation for cross correlation, must we define it for continuous and discrete time?}
+$$
+\rho(\theta) = \frac{h^\mathrm W (\theta) \star x^\mathrm W}{|h^\mathrm W (\theta)|}.
+$$
+This is called the signal to noise ratio, or \textsc{snr}.  The detection statistic is the modulus of this, $|\rho(\theta)|$, which has a $\chi^2$ distribution with 2 degrees of freedom in the absence of signal.%, and it indicates the probability of a signal being present \cite{wainstein:1962}\editorial{Comment about probability doesn't seem relevant.}.
+
+To construct a filter bank, matched filters are realized for discrete signal parameters $\theta_1,\, \theta_2,\, \cdots$, $\theta_N$, such that any possible signal will have a maximum cross-correlation of at least 0.97 with at least one template.  \editorial{Citation needed for template placement procedure?}  Such a template bank is said to have a 97\% {\em minimum match}.  This technique is designed so that an inspiral signal can be detected without any prior knowledge of its intrinsic parameters: at most 3\% of the \textsc{snr} is lost by a signal's parameters not exactly coinciding with a template's.  A trigger is reported for the template parameters $\theta_i$ and time $t$ for which $|\rho|$ is a maximum over some moving interval in $\theta$ and $t$.
+
+\subsubsection{Latency and overhead}
+
+The matched filter bank can be implemented with finite impulse response (\textsc{fir}) filters.  \textsc{fir} filters are perfectly suited for realtime detection, because they do not introduce any latency at all.  However, \textsc{fir} filters are very expensive: for $N$ templates of $M$ samples each, a \textsc{fir} matched filter bank costs $\mathcal O(M N)$ operations per sample.
+
+Much more commonly, the matched filter bank is implemented using \textsc{fft} convolutions, costing only $\mathcal O(M \lg N)$ per sample but having a latency of at least $M$ samples.  For example, for a bank of $1\,\mathrm{ks}$ templates sampled at $4096\,\mathrm{Hz}$, the \textsc{fft} implementation requires about about $2.2 \times 10^4$ times fewer floating point operations per sample than the \textsc{fir} implementation.  However, the \textsc{fft} implementation has a latency of at least $1\,\mathrm{ks}$.
+
+This presents a dilemma: it seems that low latency detection using the \textsc{fir} implementation is prohibitively expensive, whereas computational cheap detection with the \textsc{fft} method comes with minutes to hours of latency.
+
+In the rest of the section, we will describe a detection strategy that makes use of some very general properties of inspiral template banks in order to evaluate a matched filter bank with far lower computational cost than the \textsc{fir} method and far less latency than the \textsc{fft} method.
+
+\subsection{Selectively reducing the sample rate of the data and template waveforms}
+
+Our first innovation is based upon the common knowledge that gravitational waveforms from the inspiral stage of compact binary coalescences are chirps: they are quasi-monochromatic and slowly evolving in frequency.
+
+\editorial{The time slice boundary notation is a little awkward and different identifiers are used in a few places in the source code.  It would be nice to clean that up.}  It is possible to strike a balance between the low latency of the \textsc{fir} filter method and the low overhead of the \textsc{fft} method by breaking the templates into disjoint time intervals, or {\em time slices}.  The outputs of the filters for all of the time slices are delayed by the appropriate numbers of samples and then summed to produce the \textsc{snr}s for original templates in the template bank.  Each time slice may be implemented using either \textsc{fir} filters or \textsc{fft} convolution.  If the $i$th time slice spans the times $[-t_\mathrm{end}^i, -t_\mathrm{start}^i)$ relative to the time of coalescence, then the latency is $\max \, (2 (t_\mathrm{end}^i - t_\mathrm{start}^i) - t_\mathrm{start}^i)$, where the maximum is taken over all time slices that are implemented using \textsc{fft} convolution.
+
+We can exploit the time-frequency structure of the templates by processing each time slice at a reduced sample rate.  In the quadrupole approximation~\cite{finn1993}, the frequency of gravitational radiation resulting from the inspiral of two compact objects evolves according to
+\begin{equation}
+\label{eq:fgw}
+f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{-t} \right]^{3/8}
+\end{equation}
+where $\mathcal{M}$ is the chirp mass and $t$ is the time relative to the coalescence of the binary~\cite{kidder1992, blanchet2002, findchirppaper, hanna2009}. \editorial{Way too many citations here.} Typically the template is truncated at some time before coalescence, corresponding to a finite frequency which is often chosen to be the frequency at the innermost stable circular orbit, $f_\mathrm{final} = f_\mathrm{ISCO} = 4400 \, M_\odot / M$.
+
+Applying the relationship $f/f_\mathrm{final} = (t_\mathrm{final}/t)^{3/8}$ it is possible to design time slices such that the templates are critically sampled at monotonically decreasing sample rates.  The data stream is downsampled to many different sample rates, then filtered in each time slice, then upsampled to a high common sample rate, and summed.  In order to work efficiently with radix-2 \textsc{fft}s, sample rates and sample counts for time slices are both constrained to be powers of 2.
+
+\editorial{I didn't mention the upsampling and downsampling overhead, but I included it in my calculation.  Should I describe this here, in an appendix, or in a publicly available tech note in the \textsc{dcc}?} An example time slice design satisfying these constraints for a $1.4 - 1.4 \, M_{\odot}$ is shown in table~\ref{table:time_slices} below.  For this example, the latency for this time slice design is just $\input{time_slice_latency.tex}$ even if all of the time slices are implemented with the \textsc{fft} method.  This set of time slices will require $\input{time_slice_ops_firslice.tex}$ operations per sample per template, compared with $\input{time_slice_ops_conv.tex}$ for pure \textsc{fft} cross-correlation without time slices, or $\input{time_slice_ops_td.tex}$ for the \textsc{fir} filter method without time slices.
+
+\begin{table}[!h]
+\caption{Example of critically sampled, power-of-2 time slices for a $1.4 - 1.4 \, M_{\odot}$ template extending from $f_\mathrm{low} = 10 \, \mathrm{Hz}$ to $f_\mathrm{ISCO} = 1571\, \mathrm{Hz}$ with a time frequency structure given by ($\ref{eq:fgw})$.}
+\label{table:time_slices}
+\begin{center}
+\input{time_slices.tex}
+\end{center}
+\end{table}
+
+\editorial{\textsc{mbta} should be cited in the introduction.}  This idea has been demonstrated by the Virgo Collaboration's \textsc{mbta} pipeline~\cite{beauville2006,beauville2008}, which operated in a low-latency mode during \textsc{ligo}'s sixth science run and Virgo's second science run in 2010.
+
+A similar procedure can be applied for any signal family that is piecewise band-limited, as long as the time-frequency evolution is understood, either symbolically as in equation~(\ref{eq:fgw}), or numerically.
+
+\subsection{Reducing the number of filters with the singular value decomposition}
+
+Our second innovation exploits the fact that the templates in inspiral template banks are, by design, highly correlated.  It is possible to greatly reduce the number of matched filters required to achieve a particular minimum match by designing an appropriate set of orthonormal {\em basis templates}.  A purely numerical technique based on the singular value decomposition (\textsc{svd}) is demonstrated by the authors in~\cite{Cannon:2010p10398}.
+
+\editorial{I'm sweeping the complex nature of the templates under the rug here.  Is it OK to regard our packing of the real and imaginary parts of the \textsc{svd} as an implementation detail?  It makes the math a little more concise.}  One may regard a bank of $N$ discretely sampled templates of length $M$ samples, $h^\mathrm W(\theta_i; t_j) = [\mathbf H]_{ij} = H_{ij}$, as a matrix.  The singular value decomposition is an exact factorization that exists for any matrix such that
+\begin{equation}
+\label{eq:svd-exact}
+H_{ij} = [\mathbf {V \Sigma U}]_{ij} = \sum_{k=1}^{N} v_{ik} \sigma_k u_{kj},
+\end{equation}
+where $\mathbf V$ and $\mathbf U$ are both unitary matrices and $\mathbf \Sigma$ is a diagonal matrix.  For our purposes, we associate the rows of $\mathbf U$ with a minimal set of basis templates, which become the kernels of basis filters.  These filters give rise to the orthogonal \textsc{snr}s, $[\mathbf \rho^\perp]_k = \rho_k^\perp = \mathbf{U}_k \star x^\mathsf{W}$.  The rows of $\mathbf{V \Sigma}$ become reconstruction coefficients that map linear combinations of the orthogonal \textsc{snr}s from the basis filters back onto \textsc{snr}s for the original templates of interest: $\rho_i = \sum_k [\mathbf V \mathbf \Sigma]_{ik} \rho_k^\perp$.
+
+In many applications of the \textsc{svd}, including ours, the matrix can be well approximated by truncating the summation in equation~(\ref{eq:svd-exact}) at $L \ll N$:
+\begin{equation}
+H_{ij}^\prime = \sum_{k=1}^{L} v_{ik} \sigma_k u_{kj}
+\end{equation}
+The cumulative sum of squares of the {\em singular values}, $\sigma_k$, measures the Frobenius norm of the approximation, such that
+\begin{equation}
+\frac{\| \mathbf H^\prime \|}{\| \mathbf H \|} = \left(\sum_{k=1}^{L} |\sigma_k|^2\right)^{1/2} \left(\sum_{k=1}^{N} |\sigma_k|^2\right)^{-1/2}.
+\end{equation}
+This is also called the \textsc{svd} tolerance.  In our application, it relates to how much \textsc{snr} is lost by discarding $N - L$ of the basis filters with the lowest singular values.
+
+\begin{comment}
+
+% Rewritten above.
+
 It is clear that in order to reduce the cost of a low latency search for
 compact binaries of unknown mass we need to reduce the number of convolutions
 necessary to find the gravitational-wave signal.  Rather than filter the
@@ -88,25 +120,44 @@ new basis of template waveforms derived from ${U_{lk}} = \{{\bf \hat{u}_1}, {\bf
        &=& \sum_{j=1}^{N'} M_{ij} ({\bf \hat{u}_j}|{\bf \hat{s}})
 \end{eqnarray}
 
-This result differs from other work that models gravitational-wave chirp
-signals in approximate ways 
-~\cite{Chassande-Mottin2006, Candes2008, BuonannoChenVallisneri:2003a} 
-by starting with an exact representation of the desired template family and
-producing a rigorous approximation with a tunable accuracy.  
+\end{comment}
 
-\subsection{Detection statistic}
+\editorial{This passage, from the original draft, sounds confrontational to me, but these are good citations.  Can we tone it down or move it elsewhere?}  This result differs from other work that models gravitational-wave chirp signals in approximate ways~\cite{Chassande-Mottin2006, Candes2008, BuonannoChenVallisneri:2003a} by starting with an exact representation of the desired template family and producing a rigorous approximation with a tunable accuracy.  
+
+\subsection{Composite detection statistic and hierarchical detection}
+
+Although the \textsc{svd} allows us to reduce the number of matched filters, this comes at the price of having to perform a matrix multiplication by the reconstruction matrix $\mathbf {V \Sigma}$ at every sample.  In some circumstances, this matrix multiplication may be more expensive than applying the orthogonal matched filters.
+
+\editorial{We have an old block diagram of our pipeline, but it takes up a lot of space.  A new, more compact one that uses conventional signal-flow diagram symbols would be nice.}  Further speedup may be gained in a hierarchical detection scheme.  In general, the orthogonal \textsc{snr}s alone provide some indication of whether any template in the original template bank is likely to have a large \textsc{snr}.  Consider some composite detection statistic that is a scalar function of the orthogonal \textsc{snr}s, $\Gamma(\rho_1^\perp, \rho_2^\perp, \cdots, \rho_L^\perp)$.  Suppose that we can infer the distribution of $\Gamma$ for a data stream with the signal present or with the signal absent.  Then we may use a threshold crossing of $\Gamma$ to trigger the conditional application of the expensive reconstruction matrix only during the times when a signal is likely to be present.
+
+The composite detection statistic that we employ is a weighted sum of squares, $\Gamma = \sum_{k=1}^L w_k (\rho_k^\perp) ^ 2$, with the particular weights
+\begin{equation}
+w_k = \frac{\sigma_k^2}{\sigma_k^2 + N / A^2}.
+\end{equation}
+\editorial{We now have a pretty good description of time slices, the SVD, and conditional reconstruction.  We still need to tie it all together.}Here, $A$ is a desired \textsc{snr} scale that is set by the analyst.  As the authors show in ~\cite{svd-compdetstat}, this choice of weights has a better receiver operating characteristic for a signal of \textsc{snr}~=~$A$ than some other obvious choices, $w_k = \sigma_k^2$ or $w_k = 1$.
+
+\begin{comment}
+
+% Fold this into SVD discussion.
+
+%\subsection{Detection statistic}
 It is not necessary to reconstruct the SNR of all templates in order to 
 determine if a signal is present.  By thresholding on the sum of squares
 of the orthoganal decomposition described above it is possible to answer
 whether or not an inspiral like event is in the data.  Then only 
 potentially interesting times can be reconstructed on a sample by sample 
-basis.  Following the ideas in ~\cite{Anderson:2000yy} we employ a detection
+basis.  Following the ideas in~\cite{Anderson:2000yy} we employ a detection
 statistic as
 \begin{equation}
 \label{eq:stat}
 \Gamma^2 = \sum_{l} \sum_{j} {B'_{lj}}^2 {({\bf \hat{u}_j}|{\bf \hat{s}})}^2
 \end{equation}
 
+\end{comment}
+
+\begin{comment}
+
+% We aren't using this chi square test.
 
 \subsection{Signal consistency check}
 After reconstructing the SNR of an individual template it is possible to 
@@ -117,58 +168,11 @@ expectation by performing a $\chi^2$ fit to the decomposition.
 \chi^2_i = \sum_j {[({\bf \hat{u}_j}|{\bf \hat{s}}) - \rho_i / M_{ij}]}^2
 \end{equation}
 
+\end{comment}
 
-\subsection{Selectively reducing the sample rate of the data and template
-waveforms}
-The computational cost of filtering can be further reduced by selectively
-downsampling certain intervals of the template waveform.  Note that the
-frequency of gravitational radiation resulting from the inspiral of two
-compact object is given by the quadrupole aproximation as ~\cite{finn1993}
-\begin{equation}
-\label{eq:fgw}
-f_{\rm GW} = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{t_c} \right]^{3/8}
-\end{equation}
-where $\mathcal{M}$ is the chirpmass in units of $G=c=1$ and $t_c$ is the time
-before the coalescence of the binary.  Typically the filter is integrated to
-a finite frequency, $f_e$ which corresponds to a time, $t_e$ before the 
-coalescence~\cite{kidder1992, blanchet2002, findchirppaper, hanna2009}.  Given
-the relationship $f/f_e = (t_e/t)^{3/8}$ it is possible to reduce a
-filter waveform into critically sampled bands by dividing them up in time.
-This is possible regardless of the time-frequency relationship as long as
-it can be computed rigorously and thus the method doesn't depend on 
-(\ref{eq:fgw}).  As a concrete example consider a waveform obeying 
-(\ref{eq:fgw}) with a chirp mass of 1 $M_{\odot}$ for which we decide
-to cut the filter at $f_e = 2048$Hz (corresponding to $t_e = 0.00093$s).  
-It is then possible to compute sub bands which are each critically sampled
-according to table \ref{table1}  
-\begin{table}[!h]
-\caption{
-Example critically sampled sub bands for a 1 $M_{\odot}$ filter with a 
-time frequency structure given by ($\ref{eq:fgw})$.  Most of the filter is
-low frequency and it is possible to save computation by breaking up the filter
-into bands each of which has restricted frequency content. 
-}
-\begin{center}
-\label{table1}
-\begin{tabular}{@{} lll @{}}
-\hline
-\hline
-Sub band & Sample rate (Hz) &Interval (s) \\
-\hline
-1 & 2048 & [0.00093, 0.0059] \\
-2 & 1024 & [0.0059, 0.037]  \\
-3 & 512  & [0.037, 0.24]   \\
-4 & 256  & [0.24, 1.51]   \\
-5 & 128  & [1.51, 9.60]   \\
-6 & 64   & [9.60, 60.95]  \\
-7 & 32   & [60.95, 387.0]  \\
-\hline
-\end{tabular}
-\end{center}
-\end{table}
-where it is assumed that the filter is cut to some finite length, 387s 
-for this example.  This idea has been demonstrated by the Virgo Collaborations
-MBTA pipeline~\cite{beauville2006, beauville2008}.
+\begin{comment}
+
+% I think that this part can be swalled into the computational costs discussion above.
 
 \subsection{Comparison of computational costs and latency}
 Convolutions are best done with the use of the Fast Fourier Transform (FFT).
@@ -191,7 +195,14 @@ $\mathcal{O}[10 N_o N_s \log_2(N_s)]$.  Thus for comparable computational
 cost where $N_f \approx 10 N_o \log_2(N_s)$ the latency of the FFT method 
 would be $\mathcal{O}[N_s/f_s/N_o]$ seconds.  Depending on the task at hand,
 latency requirements and computational costs can dictate what procedure to
-use.  
+use.
+
+\end{comment}
+
+\begin{comment}
+
+% Do we want to spend this much copy on the whitener?
+% What matters is that we have picked a low-latency whitening procedure.
 
 \subsection{Data Whitening}
 Matched filtering the SVD basis vectors has motivated a decoupling of the
@@ -259,5 +270,4 @@ is comparable to LLOID's 1 per 7 PSDs in the median history. Since LLOID has an
 injection history of 7 PSDs which span 32 seconds, this means LLOID can perform
 one injection every 32 seconds, or 64 injections per 2048 second segment, more
 than an order of magnitude increase in density over lalapps\_inspiral.
-
-
+\end{comment}
