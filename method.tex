@@ -16,7 +16,7 @@ To construct a filter bank, matched filters are realized for discrete signal par
 
 The matched filter bank can be implemented with finite impulse response (\textsc{fir}) filters.  \textsc{fir} filters are perfectly suited for realtime detection, because they do not introduce any latency at all.  However, \textsc{fir} filters are very expensive: for $N$ templates of $M$ samples each, a \textsc{fir} matched filter bank costs $\mathcal O(M N)$ operations per sample.
 
-Much more commonly, the matched filter bank is implemented using \textsc{fft} convolutions, costing only $\mathcal O(M \lg N)$ per sample but having a latency of at least $M$ samples.  For example, for a bank of $1\,\mathrm{ks}$ templates sampled at $4096\,\mathrm{Hz}$, the \textsc{fft} implementation requires about about $2.2 \times 10^4$ times fewer floating point operations per sample than the \textsc{fir} implementation.  However, the \textsc{fft} implementation has a latency of at least $1\,\mathrm{ks}$.
+Much more commonly, the matched filter bank is implemented using \textsc{fft} convolutions, costing only $\mathcal O(M \lg N)$ \editorial{$\lg$ is $\log_2$. Explain nomenclature? Switch to $\log_2$?} per sample but having a latency of at least $M$ samples.  For example, for a bank of $1\,\mathrm{ks}$ templates sampled at $4096\,\mathrm{Hz}$, the \textsc{fft} implementation requires about about $2.2 \times 10^4$ times fewer floating point operations per sample than the \textsc{fir} implementation.  However, the \textsc{fft} implementation has a latency of at least $1\,\mathrm{ks}$.
 
 This presents a dilemma: it seems that low latency detection using the \textsc{fir} implementation is prohibitively expensive, whereas computational cheap detection with the \textsc{fft} method comes with minutes to hours of latency.
 
@@ -27,6 +27,9 @@ In the rest of the section, we will describe a detection strategy that makes use
 Our first innovation is based upon the common knowledge that gravitational waveforms from the inspiral stage of compact binary coalescences are chirps: they are quasi-monochromatic and slowly evolving in frequency.
 
 \editorial{The time slice boundary notation is a little awkward and different identifiers are used in a few places in the source code.  It would be nice to clean that up.}  It is possible to strike a balance between the low latency of the \textsc{fir} filter method and the low overhead of the \textsc{fft} method by breaking the templates into disjoint time intervals, or {\em time slices}.  The outputs of the filters for all of the time slices are delayed by the appropriate numbers of samples and then summed to produce the \textsc{snr}s for original templates in the template bank.  Each time slice may be implemented using either \textsc{fir} filters or \textsc{fft} convolution.  If the $i$th time slice spans the times $[-t_\mathrm{end}^i, -t_\mathrm{start}^i)$ relative to the time of coalescence, then the latency is $\max \, (2 (t_\mathrm{end}^i - t_\mathrm{start}^i) - t_\mathrm{start}^i)$, where the maximum is taken over all time slices that are implemented using \textsc{fft} convolution.
+\editorial{It may be worth pointing out that time-slicing buys you latency even
+without exploiting time-frequency structure. The downsampling really just buys
+you throughput. It may even be worth renaming the section.}
 
 We can exploit the time-frequency structure of the templates by processing each time slice at a reduced sample rate.  In the quadrupole approximation~\cite{finn1993}, the frequency of gravitational radiation resulting from the inspiral of two compact objects evolves according to
 \begin{equation}
