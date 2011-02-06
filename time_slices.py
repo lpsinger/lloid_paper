@@ -47,11 +47,12 @@ for color, (rate, more_slices) in izip(pylab.linspace(1., 0., 5), groupby(sorted
 		a = (-0.2 * t / mc) ** (-1./4)
 		pylab.fill_between(t, -a, a, facecolor = str(color))
 		pylab.axvline(-slice['end'], color = 'k', linestyle = ':')
-pylab.gca().get_yaxis().set_visible(False)
+pylab.yticks([], [])
 pylab.legend(legend_artists, legend_labels, loc = 'lower left')
 pylab.xlim(-tmax, 0.)
 pylab.ylim(-.15, .15)
 pylab.xlabel('time relative to coalescence')
+pylab.ylabel(r'gravitational wave strain amplitude')
 pylab.title(r'Time slices for a %g $\emdash$ %g M$_\odot$ inspiral' % (opts.mass1, opts.mass2))
 pylab.savefig('time_slices.pdf')
 
