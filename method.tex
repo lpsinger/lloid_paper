@@ -40,30 +40,18 @@ where $\mathcal{M}$ is the chirp mass and $t$ is the time relative to the coales
 
 Applying the relationship $f/f_\mathrm{final} = (t_\mathrm{final}/t)^{3/8}$ it is possible to design time slices such that the templates are critically sampled at monotonically decreasing sample rates.  The data stream is downsampled to many different sample rates, then filtered in each time slice, then upsampled to a high common sample rate, and summed.  In order to work efficiently with radix-2 \textsc{fft}s, sample rates and sample counts for time slices are both constrained to be powers of 2.
 
-\editorial{I didn't mention the upsampling and downsampling overhead, but I included it in my calculation.  Should I describe this here, in an appendix, or in a publicly available tech note in the \textsc{dcc}?} An example time slice design satisfying these constraints for a $1.4 - 1.4 \, M_{\odot}$ is shown in table~\ref{table:time_slices} below.  For this example, the latency for this time slice design is just
-%
-%$\input{time_slice_latency.tex}$
-%
-even if all of the time slices are implemented with the \textsc{fft} method.  This set of time slices will require
-%
-%$\input{time_slice_ops_firslice.tex}$ operations per sample per template, compared with $\input{time_slice_ops_conv.tex}$
-%
-for pure \textsc{fft} cross-correlation without time slices, or
-%
-%$\input{time_slice_ops_td.tex}$
-%
-for the \textsc{fir} filter method without time slices.
+\editorial{I didn't mention the upsampling and downsampling overhead, but I included it in my calculation.  Should I describe this here, in an appendix, or in a publicly available tech note in the \textsc{dcc}?} An example time slice design satisfying these constraints for a $1.4 - 1.4 \, M_{\odot}$ is shown in table~\ref{table:time_slices} below.  For this example, the latency for this time slice design is just $\input{time_slice_latency.tex}$ even if all of the time slices are implemented with the \textsc{fft} method.  This set of time slices will require $\input{time_slice_ops_firslice.tex}$ operations per sample per template, compared with $\input{time_slice_ops_conv.tex}$ for pure \textsc{fft} cross-correlation without time slices, or $\input{time_slice_ops_td.tex}$ for the \textsc{fir} filter method without time slices.
 
 \begin{table}[!h]
 \caption{Example of critically sampled, power-of-2 time slices for a $1.4 - 1.4 \, M_{\odot}$ template extending from $f_\mathrm{low} = 10 \, \mathrm{Hz}$ to $f_\mathrm{ISCO} = 1571\, \mathrm{Hz}$ with a time frequency structure given by ($\ref{eq:fgw})$.}
 \label{table:time_slices}
 \begin{minipage}[c]{0.5\textwidth}
 \centering
-%\includegraphics[trim = 3cm 0cm 1.5cm 0cm, scale=0.4]{time_slices.pdf}
+\includegraphics[trim = 3cm 0cm 1.5cm 0cm, scale=0.4]{time_slices.pdf}
 \end{minipage}
 \begin{minipage}[c]{0.3\textwidth}
 \centering
-%\input{time_slices.tex}
+\input{time_slices.tex}
 \end{minipage}
 \end{table}
 

@@ -1,72 +1,25 @@
-\documentclass[showpacs,groupedaddress,showkeys,preprintnumbers]{revtex4-1}
-
+\documentclass[showpacs,groupedaddress,showkeys,preprintnumbers]{iopart}
 \input{packages}
 \input{macros}
 
-% Institutions
-\newcommand{\LIGOCaltech}{LIGO Laboratory, California Institute of Technology, 
-Pasadena, CA 91125, USA}
-\newcommand{\CITA}{Canadian Institute for Theoretical Astrophysics, 60 St.
-George Street, University of Toronto, Toronto, ON M5S 3H8, Canada}
-\newcommand{\Perimeter}{Perimeter Institute for Theoretical Physics, Waterloo,
-Ontario N2L 2Y5, Canada}
-\newcommand{\AEI}{Albert-Einstein-Institut, Max-Planck-Institut f\"ur
-Gravitationsphysik, D-30167 Hannover, Germany}
-\newcommand{\Leibniz}{Leibniz Universit\"at Hannover, D-30167 Hannover, Germany}
-
 \begin{document}
 
-\title[LLOID]{A novel method for detecting coalescing binaries in near realtime with Advanced LIGO and beyond}
+\title[LLOID]{A novel method for detecting coalescing binaries in near realtime with Advanced LIGO and beyond \editorial{Submit to PRD or CQG?}}
 
 \date{\today}
 
-\author{Kipp~Cannon}
-\email{kipp.cannon@ligo.org}
-\affiliation{\CITA}
+\author{Kipp Cannon$^1$, Adrian Chapman$^2$, Chad Hanna$^3$, Drew Keppel$^4$, Antony C. Searle$^2$, Alan J. Weinstein$^2$} 
 
-\author{Adrian~Chapman}
-\affiliation{\LIGOCaltech}
-
-\author{Chad~Hanna}
-\email{chad.hanna@ligo.org}
-\affiliation{\Perimeter}
-
-\author{Drew~Keppel}
-\email{drew.keppel@ligo.org}
-\affiliation{\AEI}
-\affiliation{\Leibniz}
-
-\author{Antony~C.~Searle}
-\email{antony.searle@ligo.org}
-\affiliation{\LIGOCaltech}
-
-\author{Alan~J.~Weinstein}
-\email{alan.weinstein@ligo.org}
-\affiliation{\LIGOCaltech}
+\address{$^1$ Canadian Institute for Theoretical Astrophysics, ON, Canada}
+\address{$^2$ LIGO Laboratory - California Institute of Technology, Pasadena, CA, USA}
+\address{$^3$ Perimeter Institute for Theoretical Physics, Waterloo, ON, Canada}
+\address{$^3$ Albert-Einstein-Institut, Max-Planck-Institut f\"{u}r Gravitationphysik, Hannover, Germany}
 
 \begin{abstract}
-%
-\editorial{Submit to PRD or CQG?}
-%
-Conventional matched filter bank methods for the detection of gravitational
-waves from the inspiral of compact binaries are computationally expensive, have
-hundreds of seconds of unavoidable intrinsic latency, and require arrays of
-largely redundant matched filters.  Novel detection methods that are more
-computationally efficient and have lower latency will be required to realize
-the full potential of advanced of gravitational wave detectors that are
-currently under construction.  In this paper, we describe a new detection
-method that exploits the properties of inspiral waveforms using multi-rate
-filtering, principal component analysis, and hierarchical detection.  We
-provide receiver operating characteristics from a prototype search pipeline
-that is capable of low-latency or near-realtime detection with greatly reduced
-computational requirements in comparison with previously described methods.
-%
+Conventional matched filter bank methods for the detection of gravitational waves from the inspiral of compact binaries are computationally expensive, have hundreds of seconds of unavoidable intrinsic latency, and require arrays of largely redundant matched filters.  Novel detection methods that are more computationally efficient and have lower latency will be required to realize the full potential of advanced of gravitational wave detectors that are currently under construction.  In this paper, we describe a new detection method that exploits the properties of inspiral waveforms using multi-rate filtering, principal component analysis, and hierarchical detection.  We provide receiver operating characteristics from a prototype search pipeline that is capable of low-latency or near-realtime detection with greatly reduced computational requirements in comparison with previously described methods. Help me!
 \end{abstract}
 
 \pacs{95.55.Ym, 84.30.Vn, 95.75.Wx}
-
-\maketitle
-
 
 %\keywords{Gravitational Waves, Laser Interferometry}
 
@@ -81,15 +34,12 @@ computational requirements in comparison with previously described methods.
 
 \input{conclusions}
 
-\acknowledgments
-\textsc{ligo} was constructed by the California Institute of Technology
-and Massachusetts Institute of Technology with funding from the National
-Science Foundation and operates under cooperative agreement
-\textsc{phy}-\oldstylenums{0107417}. This paper has \textsc{ligo} Document
-Number \textsc{ligo}-\textsc{p}\oldstylenums{0900004}-v\oldstylenums{1}.
+\ack{\textsc{ligo} was constructed by the California Institute of Technology and Massachusetts Institute of Technology with funding from the National Science Foundation and operates under cooperative agreement \textsc{phy}-\oldstylenums{0107417}. This paper has \textsc{ligo} Document Number \textsc{ligo}-\textsc{p}\oldstylenums{0900004}-v\oldstylenums{1}.
 
 \appendix
 \input{appendix}
+
+\section*{References}
 
 \bibliographystyle{unsrt}
 \bibliography{references}
