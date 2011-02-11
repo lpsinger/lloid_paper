@@ -32,14 +32,14 @@ mass_pairs = ((opts.mass1, opts.mass2), )
 slices = time_slices(mass_pairs, opts.flow, fhigh)
 mc = spawaveform.chirpmass(opts.mass1, opts.mass2)
 
-
 # Generate plot
 tmin = min(slice['begin'] for slice in slices)
 tmax = max(slice['end'] for slice in slices)
 legend_artists = []
 legend_labels = []
 rate_key = lambda x: x['rate']
-for color, (rate, more_slices) in izip(pylab.linspace(1., 0., 5), groupby(sorted(slices, key = rate_key), key = rate_key)):
+num_rates = len(set([x[0] for x in sorted(slices, key = rate_key)]))
+for color, (rate, more_slices) in izip(pylab.linspace(1., 0., num_rates), groupby(sorted(slices, key = rate_key), key = rate_key)):
 	legend_artists += [pylab.Rectangle((0, 0), 1, 1, facecolor = str(color))]
 	legend_labels += ['%d Hz' % rate]
 	for slice in more_slices:
@@ -53,7 +53,7 @@ pylab.xlim(-tmax, 0.)
 pylab.ylim(-.15, .15)
 pylab.xlabel('time relative to coalescence')
 pylab.ylabel(r'gravitational wave strain amplitude')
-pylab.title(r'Time slices for a %g $\emdash$ %g M$_\odot$ inspiral' % (opts.mass1, opts.mass2))
+#pylab.title(r'Time slices for a %g $\emdash$ %g M$_\odot$ inspiral' % (opts.mass1, opts.mass2))
 pylab.savefig('time_slices.pdf')
 
 
