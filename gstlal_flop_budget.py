@@ -5,6 +5,7 @@ __author__ = "Leo Singer <leo.singer@ligo.org>"
 
 
 import math
+import sys
 
 
 #
@@ -260,6 +261,15 @@ if __name__ == '__main__':
 				s = "%d%s" % (r, s)
 		return s
 
+	def prettyprint_sci(f):
+		f = r"%.1e"%f
+		s = r"$"
+		s += f.split('e')[0]
+		s += r" \times 10^{"
+		s += r"%i"%int(f.split('e')[-1])
+		s += r"}$"
+		return s
+
 	from optparse import Option, OptionParser
 	opts, args = OptionParser(usage = '%prog file').parse_args()
 
@@ -273,17 +283,28 @@ if __name__ == '__main__':
 	N = frags[0].mix_matrix.shape[1]
 	raw_kernel_length = (max(frag.end for frag in frags) - min(frag.start for frag in frags)) * max(rates)
 
-	print r"\begin{tabular}{r l}"
+	latencies = {}
+	latencies['fir'] = 1./max(rates)
+	latencies['fft'] = max([frag.end for frag in frags])
+	latencies['fft_slice'] = min([frag.end for frag in frags])
+
+	print r"\begin{tabular}{r c l}"
 	print r"\hline\hline"
-	print r"operations/sample & method \\"
+	print r"operations/sample & latency (s.) & method \\"
 	print r"\hline"
-	print r"%16s & %s \\" % (prettyprint_int(int(round(td_conv_ops(raw_kernel_length, count_channels=N)))), r"conventional \textsc{fir} method")
-	print r"%16s & %s \\" % (prettyprint_int(int(round(fd_conv_ops(raw_kernel_length, count_channels=N)))), r"conventional \textsc{fft} method")
-	print r"%16s & %s \\" % (prettyprint_int(int(round(td_conv_time_slice_ops(M, rates, count_channels=N)))), r"\textsc{fir} method with time slices")
-	print r"%16s & %s \\" % (prettyprint_int(int(round(fd_conv_time_slice_ops(M, rates, count_channels=N)))), r"\textsc{fft} method with time slices")
-	print r"%16s & %s \\" % (prettyprint_int(int(round(td_lloid_ops(L, M, N, rates)))), r"\textsc{fir} method with \textsc{lloid}")
-	print r"%16s & %s \\" % (prettyprint_int(int(round(fd_lloid_ops(L, M, N, rates)))), r"\textsc{fft} method with \textsc{lloid}")
-	print r"%16s & %s \\" % (prettyprint_int(int(round(fd_lloid_cascade_ops(L, M, N, rates)))), r"same, with cascade topology")
-	print r"%16s & %s \\" % (prettyprint_int(int(round(fd_lloid_cascade_2_ops(L, M, N, rates)))), r"same, with cascade topology 2")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(td_conv_ops(raw_kernel_length, count_channels=N)))), prettyprint_sci(latencies['fir']), r"conventional \textsc{fir} method")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(fd_conv_ops(raw_kernel_length, count_channels=N)))), prettyprint_sci(latencies['fft']), r"conventional \textsc{fft} method")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(td_lloid_ops([int(N/7.)], [raw_kernel_length], N, [max(rates)], reconstruction_duty_cycle=1.)))), prettyprint_sci(latencies['fir']), r"\textsc{fir} method with \textsc{svd}")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(fd_lloid_ops([int(N/7.)], [raw_kernel_length], N, [max(rates)], reconstruction_duty_cycle=1.)))), prettyprint_sci(latencies['fft']), r"\textsc{fft} method with \textsc{svd}")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(td_lloid_ops([int(N/7.)], [raw_kernel_length], N, [max(rates)])))), prettyprint_sci(latencies['fir']), r"\textsc{fir} method with \textsc{lloid} and no time slices")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(fd_lloid_ops([int(N/7.)], [raw_kernel_length], N, [max(rates)])))), prettyprint_sci(latencies['fft']), r"\textsc{fft} method with \textsc{lloid} and no time slices")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(td_conv_time_slice_ops(M, rates, count_channels=N)))), prettyprint_sci(latencies['fir']), r"\textsc{fir} method with time slices")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(fd_conv_time_slice_ops(M, rates, count_channels=N)))), prettyprint_sci(latencies['fft_slice']), r"\textsc{fft} method with time slices")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(td_lloid_ops(L, M, N, rates, reconstruction_duty_cycle=1.)))), prettyprint_sci(latencies['fir']), r"\textsc{fir} method with time slices and \textsc{svd}")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(fd_lloid_ops(L, M, N, rates, reconstruction_duty_cycle=1.)))), prettyprint_sci(latencies['fft_slice']), r"\textsc{fft} method with time slices and \textsc{svd}")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(td_lloid_ops(L, M, N, rates)))), prettyprint_sci(latencies['fir']), r"\textsc{fir} method with \textsc{lloid}")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(fd_lloid_ops(L, M, N, rates)))), prettyprint_sci(latencies['fft_slice']), r"\textsc{fft} method with \textsc{lloid}")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(fd_lloid_cascade_ops(L, M, N, rates)))), prettyprint_sci(latencies['fft_slice']), r"same, with cascade topology")
+	print r"%16s & %s & %s \\" % (prettyprint_int(int(round(fd_lloid_cascade_2_ops(L, M, N, rates)))), prettyprint_sci(latencies['fft_slice']), r"same, with cascade topology 2")
 	print r"\hline"
 	print r"\end{tabular}"
