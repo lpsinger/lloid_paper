@@ -18,7 +18,7 @@ The matched filter bank can be implemented with finite impulse response (\textsc
 
 Much more commonly, the matched filter bank is implemented using \textsc{fft} convolutions, costing only $\mathcal O(M \lg N)$ \editorial{$\lg$ is $\log_2$. Explain nomenclature? Switch to $\log_2$?} per sample but having a latency of at least $M$ samples.  For example, for a bank of $1\,\mathrm{ks}$ templates sampled at $4096\,\mathrm{Hz}$, the \textsc{fft} implementation requires about about $2.2 \times 10^4$ times fewer floating point operations per sample than the \textsc{fir} implementation.  However, the \textsc{fft} implementation has a latency of at least $1\,\mathrm{ks}$.
 
-This presents a dilemma: it seems that low latency detection using the \textsc{fir} implementation is prohibitively expensive, whereas computational cheap detection with the \textsc{fft} method comes with minutes to hours of latency.
+This presents a dilemma: it seems that low latency detection using the \textsc{fir} implementation is prohibitively expensive, whereas computationally cheap detection with the \textsc{fft} method comes with minutes to hours of latency.
 
 In the rest of the section, we will describe a detection strategy that makes use of some very general properties of inspiral template banks in order to evaluate a matched filter bank with far lower computational cost than the \textsc{fir} method and far less latency than the \textsc{fft} method.
 
