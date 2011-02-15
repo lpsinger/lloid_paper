@@ -12,7 +12,10 @@ time_slices.tex time_slices.pdf time_slice_latency.tex: time_slices.py
 	python $< --mass1 1.4 --mass2 1.4 --flow 10 > $@
 
 inspiral_svd.pdf: $(PREREQS)
-	$(TEX) inspiral_svd && bibtex inspiral_svd && $(TEX) inspiral_svd && $(TEX) inspiral_svd
+	$(TEX) inspiral_svd
+	bibtex inspiral_svd
+	$(TEX) inspiral_svd
+	$(TEX) inspiral_svd
 
 clean:
 	rm -f inspiral_svd.{aux,log,bbl,blg,pdf} time_slices.{tex,pdf} time_slice_latency.tex
