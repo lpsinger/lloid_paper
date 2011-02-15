@@ -14,7 +14,12 @@
 Low-mass inspiraling binaries are the most promising sources of gravitational
 radiation for Advanced \textsc{ligo}. Observation demonstrates that they must
 exist in the local Universe in some abundance~\cite{Abadie:2010p10836}.
-[science] In the
+A detection would strongly constrain mass and
+spin~\cite{finn1993,Poisson:1995ef}, and with sufficient signal strength, the
+neutron star equation of state~\cite{flanagan:021502,Read:2009}, general
+relativity in the strong-field regime~\cite{Will:2005va}, the graviton
+mass~\cite{PhysRevD.80.044002,Keppel:2010qu}, and the Lorentz Invariance
+principle~\cite{Ellis2006402}. In the
 final stages of inspiral, the neutron star is tidally disrupted, providing the
 matter required to produce bright electromagnetic
 counterparts~\cite{shibata:2007}. Conveniently, the gravitational waveforms are
@@ -32,7 +37,7 @@ corresponding thousandfold increase in observable volume in the local Universe.
 The computational requirements of conventional detection strategies will be
 greatly increased by this upgrade for two reasons. First, advanced detectors
 will have much improved low-frequency sensitivity, so chirp signals from
-coalescing binaries will remain in the detectors' band for a significantly
+coalescing binaries will remain in the detectors' bands for a significantly
 longer time. This will demand that matched filter based searches use longer
 templates, requiring more memory and more cycles to process. Second, background
 noise for advanced detectors will be more spectrally uniform, so it will be
@@ -43,7 +48,7 @@ more matched filters, again demanding more memory and more cycles.
 
 Beyond raw throughput, the ability to detect signals in near realtime will
 become increasingly valuable as the gravitational-wave detection horizon pushes
-outward.  Having an electromagnetic or neutrino counterpart to a
+outward. Having an electromagnetic or neutrino counterpart to a
 gravitational-wave detection would not only increase the confidence in the
 detection but will also greatly increase the astrophysical information
 available from the event. Most models that predict simultaneous
@@ -53,6 +58,21 @@ emission~\cite{sylvestre2003}. Thus in order to maximize the chance of a
 successful electromagnetic followup the latency of gravitational-wave signal
 analysis must be made minimal.
 
+\editorial{More speculative and no reference. Thoughts? Move to discussion? Worth adding any plots?}
+More tantalizingly, these long waveforms enable us to accumulate a significant
+fraction of the signal-to-noise ratio before coalescence. With enough
+signal-to-noise ratio (and a lot of work!) it should be possible to reconfigure
+the detectors on-the-fly to more sensitively capture the later merger part of
+the signal, where neutron star equation of state information can be extracted.
+With similar caveats, it is certainly possible to send alerts to telescopes
+several seconds before prompt emission. There are no theoretical hurdles to
+negative latency, but careful attention must be paid to the algorithms and
+implementation of search pipelines to take advantage of a fortuitously loud
+signal.
+
+\editorial{If we publish before the LUMIN papers, we have to redo this section.
+We can't make claims about those private communications with the telescopes.
+Else, cite the pre-S6 LUMIN paper \cite{kanner2008}.}
 In \oldstylenums{2010}, \textsc{ligo} and Virgo completed S6/VSR3,
 a short period of
 joint data taking during which several all-sky detection pipelines operated in
@@ -61,8 +81,8 @@ significance were promptly sent for electromagnetic followup \citeneeded{} to
 several telescopes including Swift, \textsc{rotse}, \textsc{tarot}, and Zadko.
 They achieved latencies of BLAH, but required human vetting of each candidate
 before alerting the telescope partners. As confidence in the infrastructure
-increases, humans can be removed from the loop, setting a demonstrated previous
-best latency at BLAH.
+increases, humans can be removed from the loop, demonstrating a best latency
+of BLAH.
 
 This work will describe how to exploit degeneracy in the signal parameter space
 to answer more quickly and economically whether or not a gravitational wave is
@@ -85,4 +105,4 @@ standard method for detecting compact binary coalescence signals and
 describe how it can be modified to accomodate low latency analysis.  We
 then describe the pipeline we have constructed to implement these changes.
 To validate the approach we present results of simulations and finish
-with some concluding remarks. 
+with some concluding remarks.
