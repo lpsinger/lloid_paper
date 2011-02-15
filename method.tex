@@ -60,7 +60,7 @@ An example time slice design satisfying these constraints for a $1.4 - 1.4 \, M_
 
 \subsection{Reducing the number of filters with the singular value decomposition}
 
-Our second innovation exploits the fact that the templates in inspiral template banks are, by design, highly correlated.  It is possible to greatly reduce the number of matched filters required to achieve a particular minimum match by designing an appropriate set of orthonormal {\em basis templates}.  A purely numerical technique based on the singular value decomposition (\textsc{svd}) is demonstrated by the authors in~\cite{Cannon:2010p10398}.
+Our second innovation exploits the fact that the templates in inspiral template banks are, by design, highly correlated.  It is possible to greatly reduce the number of matched filters required to achieve a particular minimum match by designing an appropriate set of orthonormal {\em basis templates}.  A purely numerical technique based on the application of the singular value decomposition (\textsc{svd}) to inspiral waveforms is demonstrated by the authors in~\cite{Cannon:2010p10398}.
 
 \editorial{I'm sweeping the complex nature of the templates under the rug here.  Is it OK to regard our packing of the real and imaginary parts of the \textsc{svd} as an implementation detail?  It makes the math a little more concise.}  One may regard a bank of $N$ discretely sampled templates of length $M$ samples, $h^\mathrm W(\theta_i; t_j) = [\mathbf H]_{ij} = H_{ij}$, as a matrix.  The singular value decomposition is an exact factorization that exists for any matrix such that
 \begin{equation}
