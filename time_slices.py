@@ -61,13 +61,13 @@ pylab.savefig('time_slices.pdf')
 
 print r"\begin{tabular}{rr@{, }ll}"
 print r"\hline\hline"
-print r"$f_k$ (Hz) & ($t_{k+1}$ & $t_k$] & Samples \\"
+print r"$f_k$ (Hz) & ($t_{k+1}$ & $t_k$] (s) & Samples \\"
 print r"\hline"
 for slice in slices:
 	begin = slice['begin']
 	if begin != 0.: # arrgh! floats have both negative and positive 0!
 		begin = -begin
-	print r"%(rate)d & [%(end)g&%(begin)g) & %(samples)d \\" % {'begin': begin, 'end': -slice['end'], 'rate': slice['rate'], 'samples': int(round((slice['end'] - slice['begin']) * slice['rate']))}
+	print r"%(rate)d & $(%(end)g$&$%(begin)g]$ & %(samples)d \\" % {'begin': begin, 'end': -slice['end'], 'rate': slice['rate'], 'samples': int(round((slice['end'] - slice['begin']) * slice['rate']))}
 print r"\hline"
 print r"\end{tabular}"
 
