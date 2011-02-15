@@ -35,15 +35,13 @@ If the template is known to be quasi-bandlimited, then the partial matched filte
 For concreteness and simplicity, let us consider an inspiral waveform in the quadrupole approximation, for which the time-frequency relation is
 \begin{equation}
 \label{eq:fgw}
-f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{t} \right]^{3/8}.
+f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{-t} \right]^{3/8}.
 \end{equation}
-Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G M_\odot / c^3 \approx 5 \mu\mathrm{s}$) and $t$ is the time remaining until the coalescence of the binary~\cite{findchirppaper, kidder1992, blanchet2002, hanna2009}. \editorial{Way too many citations here.} Usually the template is truncated at some prescribed time $t = t_0$ before coalescence, often chosen to correspond to the innermost stable circular orbit at which $f = f_\mathrm{ISCO} = 4400 \, M_\odot / M$.  The full template will extend to some low frequency cutoff, $f = f_\mathrm{low}$ corresponding to a time $t_\mathrm{low}$.  This template has a duration of $t_\mathrm{low} - t_\mathrm{0}$ and is critically sampled at a rate of $2 f_\mathrm{isco}$.
+Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G M_\odot / c^3 \approx 5 \mu\mathrm{s}$) and $t$ is the time relative to the coalescence of the binary~\cite{findchirppaper, kidder1992, blanchet2002, hanna2009}. \editorial{Way too many citations here.} Usually the template is truncated at some prescribed time $t = t_0$, often chosen to correspond to the innermost stable circular orbit at which $f = f_\mathrm{ISCO} \approx 4400 \, M_\odot / M$.  An inspiral signal will enter the \textsc{ligo} band at a low frequency cutoff, $f = f_\mathrm{low}$ corresponding to a time $t_\mathrm{low}$.  This template has a duration of $t_\mathrm{0} - t_\mathrm{low}$ and is critically sampled at a rate of $2 f_\mathrm{isco}$.
 
 The time slices for this template consist of the $K$ intervals $(t_K, t_{K-1}], \dots, (t_2, t_1], (t_1, t_0]$ sampled at frequencies $f_\mathrm{K-1}, \dots, f_1, f_0$ where $f_0 = 2 f_\mathrm{ISCO}$, $t_0 = t_\mathrm{ISCO}$, $f_{K-1} \geqslant 2 f_\mathrm{low}$, and $t_K \leqslant t_\mathrm{low}$.
 
-If all of these time slices are implemented using the \textsc{fft}, then the latency of this filter bank is $\max_j \left( 2(t_j - t_{j-1}) - t_{j-1} \right) = \max_j \left( 2 t_j - 3 t_{j-1} \right)$.
-
-An example time slice design satisfying these constraints for a $1.4 - 1.4 \, M_{\odot}$ is shown in table~\ref{table:time_slices} below.  For this example, the latency for this time slice design is just $\input{time_slice_latency.tex}$ even if all of the time slices are implemented with the \textsc{fft} method.  This set of time slices will require $\input{time_slice_ops_firslice.tex}$ operations per sample per template, compared with $\input{time_slice_ops_conv.tex}$ for pure \textsc{fft} cross-correlation without time slices, or $\input{time_slice_ops_td.tex}$ for the \textsc{fir} filter method without time slices.
+If all of these time slices are implemented using the \textsc{fft}, then the latency of this filter bank is $\max_j {\left[-\left( 2(t_j - t_{j-1}) - t_{j-1} \right)\right]} = \max_j \left( 3 t_{j-1} - 2 t_j \right)$.
 
 \begin{table}[h!]
 \caption{Example of critically sampled, power-of-2 time slices for a $1.4 - 1.4 \, M_{\odot}$ template extending from $f_\mathrm{low} = 10 \, \mathrm{Hz}$ to $f_\mathrm{ISCO} = 1571\, \mathrm{Hz}$ with a time frequency structure given by ($\ref{eq:fgw})$.}
@@ -57,6 +55,8 @@ An example time slice design satisfying these constraints for a $1.4 - 1.4 \, M_
 \input{time_slices.tex}
 \end{minipage}
 \end{table}
+
+An example time slice design satisfying these constraints for a $1.4 - 1.4 \, M_{\odot}$ is shown in table~\ref{table:time_slices}.  For this example, the latency for this time slice design is just $\input{time_slice_latency.tex}$ even if all of the time slices are implemented with the \textsc{fft} method.  This set of time slices will require $\input{time_slice_ops_firslice.tex}$ operations per sample per template, compared with $\input{time_slice_ops_conv.tex}$ for pure \textsc{fft} cross-correlation without time slices, or $\input{time_slice_ops_td.tex}$ for the \textsc{fir} filter method without time slices.
 
 \subsection{Reducing the number of filters with the singular value decomposition}
 
