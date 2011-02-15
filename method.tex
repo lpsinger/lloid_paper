@@ -24,25 +24,28 @@ In the rest of the section, we will describe a detection strategy that makes use
 
 \subsection{Selectively reducing the sample rate of the data and template waveforms}
 
-Our first innovation is based upon the common knowledge that gravitational waveforms from the inspiral stage of compact binary coalescences are chirps: they are quasi-monochromatic and slowly evolving in frequency.
+Our first innovation is to split each template into disjoint intervals, or \emph{time slices}.  A matched filter is constructed for each time slice, whose outputs form an ensemble of partial \textsc{snr} streams.  By linearity, these partial \textsc{snr} streams can be suitably time delayed and summed to reproduce exactly the \textsc{snr} with respect to the original template.  By exploiting some general properties of inspiral waveforms, we shall see that time slices permit a reduction in latency relative to the \textsc{fft} matched filter, but with comparable computational overhead.
 
-\editorial{The time slice boundary notation is a little awkward and different identifiers are used in a few places in the source code.  It would be nice to clean that up.}  It is possible to strike a balance between the low latency of the \textsc{fir} filter method and the low overhead of the \textsc{fft} method by breaking the templates into disjoint time intervals, or {\em time slices}.  The outputs of the filters for all of the time slices are delayed by the appropriate numbers of samples and then summed to produce the \textsc{snr}s for original templates in the template bank.  Each time slice may be implemented using either \textsc{fir} filters or \textsc{fft} convolution.  If the $i$th time slice spans the times $[-t_\mathrm{end}^i, -t_\mathrm{start}^i)$ relative to the time of coalescence, then the latency is $\max \, (2 (t_\mathrm{end}^i - t_\mathrm{start}^i) - t_\mathrm{start}^i)$, where the maximum is taken over all time slices that are implemented using \textsc{fft} convolution.
-\editorial{It may be worth pointing out that time-slicing buys you latency even
-without exploiting time-frequency structure. The downsampling really just buys
-you throughput. It may even be worth renaming the section.}
+\editorial{\textsc{mbta} should be cited in the introduction.}  A similar idea has been demonstrated by the Virgo Collaboration's \textsc{mbta} pipeline~\cite{Marion2004,beauville2006,beauville2008,Buskulic2010}, which operated in a low-latency mode during \textsc{ligo}'s sixth science run and Virgo's second science run in 2010.
 
-We can exploit the time-frequency structure of the templates by processing each time slice at a reduced sample rate.  In the quadrupole approximation~\cite{finn1993}, the frequency of gravitational radiation resulting from the inspiral of two compact objects evolves according to
+Each partial matched filter can be realized with either the \textsc{fir} or the \textsc{fft} method.  If all of the time slices make use of the \textsc{fft} method, the resulting filter will have lower latency than a conventional \textsc{fft} matched filter, and also less computational overhead than an \textsc{fir} matched filter.  A further benefit is that all of the time slices may be processed in parallel for additional speedup.
+
+If the template is known to be quasi-bandlimited, then the partial matched filter for each time slice may be processed at a reduce sample rate.  Compact binary inspiral waveforms fit this description superbly: they are chirps whose frequency and amplitude rise according to power laws of time.  They are not only quasi-bandlimited, but quasi-monochromatic.  By exploiting this property, we can implement a matched filter for an inspiral waveform using a multirate filter bank that requires far fewer floating point operations.
+
+For concreteness and simplicity, let us consider an inspiral waveform in the quadrupole approximation, for which the time-frequency relation is
 \begin{equation}
 \label{eq:fgw}
-f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{-t} \right]^{3/8}
+f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{t} \right]^{3/8}.
 \end{equation}
-where $\mathcal{M}$ is the chirp mass and $t$ is the time relative to the coalescence of the binary~\cite{findchirppaper, kidder1992, blanchet2002, hanna2009}. \editorial{Way too many citations here.} Typically the template is truncated at some time before coalescence, corresponding to a finite frequency which is often chosen to be the frequency at the innermost stable circular orbit, $f_\mathrm{final} = f_\mathrm{ISCO} = 4400 \, M_\odot / M$.
+Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G M_\odot / c^3 \approx 5 \mu\mathrm{s}$) and $t$ is the time remaining until the coalescence of the binary~\cite{findchirppaper, kidder1992, blanchet2002, hanna2009}. \editorial{Way too many citations here.} Usually the template is truncated at some prescribed time $t = t_0$ before coalescence, often chosen to correspond to the innermost stable circular orbit at which $f = f_\mathrm{ISCO} = 4400 \, M_\odot / M$.  The full template will extend to some low frequency cutoff, $f = f_\mathrm{low}$ corresponding to a time $t_\mathrm{low}$.  This template has a duration of $t_\mathrm{low} - t_\mathrm{0}$ and is critically sampled at a rate of $2 f_\mathrm{isco}$.
 
-Applying the relationship $f/f_\mathrm{final} = (t_\mathrm{final}/t)^{3/8}$ it is possible to design time slices such that the templates are critically sampled at monotonically decreasing sample rates.  The data stream is downsampled to many different sample rates, then filtered in each time slice, then upsampled to a high common sample rate, and summed.  In order to work efficiently with radix-2 \textsc{fft}s, sample rates and sample counts for time slices are both constrained to be powers of 2.
+The time slices for this template consist of the $K$ intervals $(t_K, t_{K-1}], \dots, (t_2, t_1], (t_1, t_0]$ sampled at frequencies $f_\mathrm{K-1}, \dots, f_1, f_0$ where $f_0 = 2 f_\mathrm{ISCO}$, $t_0 = t_\mathrm{ISCO}$, $f_{K-1} \geqslant 2 f_\mathrm{low}$, and $t_K \leqslant t_\mathrm{low}$.
 
-\editorial{I didn't mention the upsampling and downsampling overhead, but I included it in my calculation.  Should I describe this here, in an appendix, or in a publicly available tech note in the \textsc{dcc}?} An example time slice design satisfying these constraints for a $1.4 - 1.4 \, M_{\odot}$ is shown in table~\ref{table:time_slices} below.  For this example, the latency for this time slice design is just $\input{time_slice_latency.tex}$ even if all of the time slices are implemented with the \textsc{fft} method.  This set of time slices will require $\input{time_slice_ops_firslice.tex}$ operations per sample per template, compared with $\input{time_slice_ops_conv.tex}$ for pure \textsc{fft} cross-correlation without time slices, or $\input{time_slice_ops_td.tex}$ for the \textsc{fir} filter method without time slices.
+If all of these time slices are implemented using the \textsc{fft}, then the latency of this filter bank is $\max_j \left( 2(t_j - t_{j-1}) - t_{j-1} \right) = \max_j \left( 2 t_j - 3 t_{j-1} \right)$.
 
-\begin{table}[!h]
+An example time slice design satisfying these constraints for a $1.4 - 1.4 \, M_{\odot}$ is shown in table~\ref{table:time_slices} below.  For this example, the latency for this time slice design is just $\input{time_slice_latency.tex}$ even if all of the time slices are implemented with the \textsc{fft} method.  This set of time slices will require $\input{time_slice_ops_firslice.tex}$ operations per sample per template, compared with $\input{time_slice_ops_conv.tex}$ for pure \textsc{fft} cross-correlation without time slices, or $\input{time_slice_ops_td.tex}$ for the \textsc{fir} filter method without time slices.
+
+\begin{table}[h!]
 \caption{Example of critically sampled, power-of-2 time slices for a $1.4 - 1.4 \, M_{\odot}$ template extending from $f_\mathrm{low} = 10 \, \mathrm{Hz}$ to $f_\mathrm{ISCO} = 1571\, \mathrm{Hz}$ with a time frequency structure given by ($\ref{eq:fgw})$.}
 \label{table:time_slices}
 \begin{minipage}[c]{0.5\textwidth}
@@ -54,10 +57,6 @@ Applying the relationship $f/f_\mathrm{final} = (t_\mathrm{final}/t)^{3/8}$ it i
 \input{time_slices.tex}
 \end{minipage}
 \end{table}
-
-\editorial{\textsc{mbta} should be cited in the introduction.}  This idea has been demonstrated by the Virgo Collaboration's \textsc{mbta} pipeline~\cite{Marion2004,beauville2006,beauville2008,Buskulic2010}, which operated in a low-latency mode during \textsc{ligo}'s sixth science run and Virgo's second science run in 2010.
-
-A similar procedure can be applied for any signal family that is piecewise band-limited, as long as the time-frequency evolution is understood, either symbolically as in equation~(\ref{eq:fgw}), or numerically.
 
 \subsection{Reducing the number of filters with the singular value decomposition}
 
