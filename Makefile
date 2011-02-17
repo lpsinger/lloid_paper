@@ -18,4 +18,4 @@ inspiral_svd.pdf: $(PREREQS)
 	$(TEX) inspiral_svd
 
 clean:
-	rm -f inspiral_svd.{aux,log,bbl,blg,pdf} time_slices.{tex,pdf} time_slice_latency.tex
+	rm -f inspiral_svd.{aux,log,bbl,blg,pdf} time_slices.{tex,pdf} time_slice_latency.tex flop_budget.tex
