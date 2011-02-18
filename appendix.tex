@@ -11,13 +11,13 @@ The mock Advanced \textsc{ligo} noise generator is implemented by the GStreamer 
 
 \begin{eqnarray}
 \label{eq:iirbank}
-x_i &[n] \sim& \mathcal{N}[0, 1] \quad \forall \, i, n \nonumber\\\noalign{\vskip 2mm}
-y_1 &[n] =& \left(4 \times 10^{-28}\right) x_1[n] - y_1[n-1] + 2 \cdot .99995 \cos \left(\frac{2\pi \cdot 9.103}{16384}\right) y_1[n-2] - .99995^2 y_1[n-3] \nonumber\\\noalign{\vskip 2mm}
-y_2 &[n] =& \left(1.1 \times 10^{-23}\right) (x_2[n] - x_2[n-1]) \nonumber\\\noalign{\vskip 2mm}
-y_3 &[n] =& \left(10^{-27}\right) x_3[n] - y_3[n-1] + 2 \cdot .999 y_3[n-2] - .999^2 y_3[n-3] \nonumber\\\noalign{\vskip 2mm}
-y_4 &[n] =& \left(4 \times 10^{-26}\right) x_4[n] - y_4[n-1] + 2 \cdot .87 \cos \left(\frac{2\pi \cdot 50}{16384}\right) y_4[n-2] - .87 ^ 2 y_4[n-3] \nonumber\\\noalign{\vskip 2mm}
-y_5 &[n] =& \left(6.5 \times 10^{-24}\right) x_5[n] - y_5[n-1] - 2 \cdot .45 y_5[n-2] - .45 ^ 2 y_5[n-3] \nonumber\\\noalign{\vskip 2mm}
-\; y &[n] =& \frac{3\sqrt{16384}}{4} \left(y_1[n] + y_2[n] + y_3[n] + y_4[n] + y_5[n]\right)
+\fl x_i &[n] \sim& \mathcal{N}[0, 1] \quad \forall \, i, n \nonumber\\\noalign{\vskip 2mm}
+\fl y_1 &[n] =& \left(4 \times 10^{-28}\right) x_1[n] - y_1[n-1] + 2 \cdot .99995 \cos \left(\frac{2\pi \cdot 9.103}{16384}\right) y_1[n-2] - .99995^2 y_1[n-3] \nonumber\\\noalign{\vskip 2mm}
+\fl y_2 &[n] =& \left(1.1 \times 10^{-23}\right) (x_2[n] - x_2[n-1]) \nonumber\\\noalign{\vskip 2mm}
+\fl y_3 &[n] =& \left(10^{-27}\right) x_3[n] - y_3[n-1] + 2 \cdot .999 y_3[n-2] - .999^2 y_3[n-3] \nonumber\\\noalign{\vskip 2mm}
+\fl y_4 &[n] =& \left(4 \times 10^{-26}\right) x_4[n] - y_4[n-1] + 2 \cdot .87 \cos \left(\frac{2\pi \cdot 50}{16384}\right) y_4[n-2] - .87 ^ 2 y_4[n-3] \nonumber\\\noalign{\vskip 2mm}
+\fl y_5 &[n] =& \left(6.5 \times 10^{-24}\right) x_5[n] - y_5[n-1] - 2 \cdot .45 y_5[n-2] - .45 ^ 2 y_5[n-3] \nonumber\\\noalign{\vskip 2mm}
+\fl \; y &[n] =& \frac{3\sqrt{16384}}{4} \left(y_1[n] + y_2[n] + y_3[n] + y_4[n] + y_5[n]\right)
 \end{eqnarray}
 
 \begin{figure}[h!]
