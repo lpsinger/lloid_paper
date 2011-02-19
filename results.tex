@@ -24,9 +24,15 @@ Orientations of injection sources are drawn uniformly, such that the sky locatio
 
 We completed one injection-free pass over the 14~day dataset. \editorial{And **why**?  This part is too terse.}
 
-\subsection{Trigger reduction procedure}
- 
-{\color{red} Describe triggering, clustering, injection finding, injection re-weighting, and \textsc{roc} plotting here.}
+\subsection{Triggering and data reduction}
+
+For each template with parameters $\theta_i$, a trigger is recorded any time the absolute value of the \textsc{snr}, $|\rho(\theta_i)|$, is greater than a threshold $\rho^* = 5.5$, and is also a maximum over the 10~ms before and after. \editorial{This is a proposed trigger criterion that is much simpler than what we currently use.} A trigger is therefore an ordered triple $(t, i, \rho)$, recording the time, template number, and complex \textsc{snr} of an excursion in the outputs of the matched filter bank.
+
+Offline, triggers for all templates collectively are clustered by time, such that within a sliding window of 4 seconds, all triggers except the one with the highest $\rho$ is kept.
+
+For the injection-free passes, all clustered triggers are regarded as false alarms.  We accumulate the \textsc{snr}s of all of the false alarms into the set $\{|\rho|\}_\mathrm{false\,alarm}$.
+
+For each injection, we check whether there was any clustered trigger that was within 2 seconds of the injection's time.  If there was, then the injection is considered to be recovered at the \textsc{snr} of that trigger.  Otherwise, the injection was not recovered because the \textsc{snr} threshold $\rho^*$ was not met, so we consider the injection to be recovered only at an \textsc{snr} of $\infty$.  From all found injections, we accumulate the injected distance and the recovered \textsc{snr} into the set $\{(d, |\rho|)\}_\mathrm{found}$.
 
 \begin{figure}[htbp]
 \begin{center}
