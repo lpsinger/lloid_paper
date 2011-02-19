@@ -33,7 +33,27 @@ Note that the \textsc{cpu} overhead of this procedure will be entirely dominated
 
 \section{Floating point operation counts}
 
-\editorial{I just yanked this from the methods section.  It needs to be made more concise, maybe turned into a table of CPU budgets for various components of LLOID.} The filter bank can be implemented using finite impulse response (\textsc{fir}) filters, which are just sliding window dot products.  If there are $M$ templates of length $n$, and the data stream contains $N$ samples, then applying the filter bank requires $2 M N n$ operations.
+Each addition and each multiplication is counted as a single floating point operation.   We are not assuming that a multiply-accumulate is available as a single operation.
+
+\begin{table}[htdp]
+\caption{Number of floating point operations per sample (multiplications and divisions) required for a selection of signal processing operations used in \textsc{lloid}.}
+\begin{center}
+\setlength{\extrarowheight}{6pt}
+\begin{tabular}{l c}
+\hline
+Process & ops/sample \\
+\hline\hline
+\textsc{fir} matched filter, M templates of length $n$ & $2 M n$ \\\hline
+\textsc{fft} matched filter, M templates of length $n$, blocks of length $D$ & $\frac{4 (M + 1) \lg D + 2 M}{1 - n/D}$ \\\hline
+$n$ tap \textsc{fir} resampling filter, sample rates $f_1 < f_2$ & $2 M n f_1 / f_2$ \\\hline
+multiply $M \times L$ real matrix by $L\times1$ real vector & $2 M L$ \\\hline
+\end{tabular}
+\end{center}
+\label{table:flops}
+\end{table}%
+
+
+The filter bank can be implemented using finite impulse response (\textsc{fir}) filters, which are just sliding window dot products.  If there are $M$ templates of length $n$, and the data stream contains $N$ samples, then applying the filter bank requires $2 M N n$ operations.
 
 More commonly, the matched filters are implemented using the \textsc{fft} convolution.  This entails applying \textsc{fft}s to blocks of $D$ samples, with $2 n \leq D$, each block overlapping the previous one by $n$ samples.  There are $N/(D-n)$ such blocks.  Modern implementations of the Cooley-Tukey \textsc{fft}, such as the ubiquitous \texttt{fftw}, require about $4 N \lg N$ operations to evaluate a \textsc{dft} of size $N$~\cite{Johnson:2007p9654}.  \editorial{This is more commonly known as ``overlap-save''.  We should find someone else's operation count and cite it.}  A $D$ sample cross-correlation consists of a forward \textsc{fft}, an $D$ sample dot product, and an inverse \textsc{fft}, totaling $8 D \lg N + 2 D$ operations per block.  Per sample, this is $(8 \lg D + 2) / (1 - n/D)$ operations. \editorial{Drew: Why don't we change this to an overlap of $m$ samples so we can see what happens as we increase the overlap to reduce latency.}
 
