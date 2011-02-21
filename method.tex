@@ -306,36 +306,45 @@ geometric average of the PSD computed by Hann windowing 8 second buffers of
 data and using 50\% overlapping buffers. The running geometric average is
 updated once per buffer from a median of the recent PSDs. We find that this
 algorithm is extremely fast to converge to an accurate PSD and also very robust
-against glitches. This is demonstrated below where we have injected
-band-limited white noise burst with a central frequency of 150 Hz, a bandwidth
-of 100 Hz, a time duration of 0.2 seconds, and a injection density of one
-injection every $100/\pi \approx 32$ seconds. At this density we find there
-should only ever be one injection affecting the median history so the glitches
-should minimally affect PSD estimation as can be seen by comparing the local
-RMS amplitude between injections to that without injections.
-
-\begin{center}
-\resizebox{0.9\textwidth}{!}{\includegraphics{figures/whiten_burst_step_100_semilogy.png}}
-\end{center}
+against glitches.
 
 An inspiral, to leading order, has gravitational-wave frequency evolution given
 by
+%
 \begin{equation}
-f(t) = \frac{1}{8 \pi \mathcal{M}} \left( \frac{t_c - t}{5 \mathcal{M}} \right)^{-3/8}\;,
+%
+f(t) = \frac{1}{8 \pi \mathcal{M}} \left( \frac{t_c - t}{5 \mathcal{M}}
+\right)^{-3/8}\;,
+%
 \end{equation}
+%
 whose time derivative is given by
+%
 \begin{equation}
-\frac{df}{dt} = \frac{3}{320 \pi \mathcal{M}^2} \left( \frac{t_c - t}{5 \mathcal{M}} \right)^{-11/8}\;.
+%
+\frac{df}{dt} = \frac{3}{320 \pi \mathcal{M}^2} \left( \frac{t_c - t}{5
+\mathcal{M}} \right)^{-11/8}\;.
+%
 \end{equation}
+%
 Combining these, we find the frequency evolution as a function of frequency to
 be
+%
 \begin{equation}
-\frac{df}{dt}(f_0) = \frac{3}{320 \pi \mathcal{M}^2} \left( 8 \pi \mathcal{M} f_0 \right)^{3/11}\;,
+%
+\frac{df}{dt}(f_0) = \frac{3}{320 \pi \mathcal{M}^2} \left( 8 \pi \mathcal{M}
+f_0 \right)^{3/11}\;,
+%
 \end{equation}
+%
 which can be inverted to get the minimum frequency which has a given frequency
 derivative,
+%
 \begin{equation}
-f_0 = \frac{1}{8 \pi \mathcal{M}} \left( \frac{320 \pi \mathcal{M}^2}{3} \frac{df}{dt} \right)^{11/3}\;.
+%
+f_0 = \frac{1}{8 \pi \mathcal{M}} \left( \frac{320 \pi \mathcal{M}^2}{3}
+\frac{df}{dt} \right)^{11/3}\;.
+%
 \end{equation}
 
 If we allow frequency bins to be affected by an injection only once within the
