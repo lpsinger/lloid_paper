@@ -1,3 +1,64 @@
+\section{Floating point operation counts}
+\label{appendix:cost}
+
+Each addition and each multiplication is counted as a single floating point
+operation. We are not assuming that a multiply-accumulate is available as a
+single operation.
+
+\begin{comment}
+
+% I think that this part can be swalled into the computational costs discussion above.
+
+\subsection{Comparison of computational costs and latency}
+Convolutions are best done with the use of the Fast Fourier Transform (FFT).
+However there is an inherent latency in performing convolutions this way. This
+section describes the computational cost and latency of FFT convolutions, time 
+domain (TD) convolutions and TD convolutions with SVD.  
+
+Convolving one filter with data using FFTs involves 
+$\mathcal{O}[10 N_s \log_2(N_s)]$
+floating point operations where $N_s$ is the number of sample points in
+the data being convolved and results in $N_s - N_f$ samples of usable output.  
+In comparison time domain convolutions require
+$\mathcal{O}[N_s N_f]$ where $N_f$ is the number of sample points in the
+filter.  The FFT is faster to compute when $N_f > 10 \log_2(N_s)$.  However
+the FFT has an inherent latency of $\mathcal{O}[N_s/f_s]$ seconds, where
+$f_s$ is the sample rate when minimally overlapping FFTs are computed. It is
+possible to reduce the latency of the FFT by performing vastly overlapping
+FFTs.  The cost of such a procedure would be 
+$\mathcal{O}[10 N_o N_s \log_2(N_s)]$.  Thus for comparable computational
+cost where $N_f \approx 10 N_o \log_2(N_s)$ the latency of the FFT method 
+would be $\mathcal{O}[N_s/f_s/N_o]$ seconds.  Depending on the task at hand,
+latency requirements and computational costs can dictate what procedure to
+use.
+
+\end{comment}
+
+\begin{table}[htdp]
+\caption{Number of floating point operations per sample (multiplications and divisions) required for a selection of signal processing operations used in \textsc{lloid}.}
+\begin{center}
+\setlength{\extrarowheight}{6pt}
+\begin{tabular}{l c}
+\hline
+Process & ops/sample \\
+\hline\hline
+\textsc{fir} matched filter, M templates of length $n$ & $2 M n$ \\\hline
+\textsc{fft} matched filter, M templates of length $n$, blocks of length $D$ & $\frac{4 (M + 1) \lg D + 2 M}{1 - n/D}$ \\\hline
+$n$ tap \textsc{fir} resampling filter, sample rates $f_1 < f_2$ & $2 M n f_1 / f_2$ \\\hline
+multiply $M \times L$ real matrix by $L\times1$ real vector & $2 M L$ \\\hline
+\end{tabular}
+\end{center}
+\label{table:flops}
+\end{table}%
+
+
+The filter bank can be implemented using finite impulse response (\textsc{fir}) filters, which are just sliding window dot products.  If there are $M$ templates of length $n$, and the data stream contains $N$ samples, then applying the filter bank requires $2 M N n$ operations.
+
+More commonly, the matched filters are implemented using the \textsc{fft} convolution.  This entails applying \textsc{fft}s to blocks of $D$ samples, with $2 n \leq D$, each block overlapping the previous one by $n$ samples.  There are $N/(D-n)$ such blocks.  Modern implementations of the Cooley-Tukey \textsc{fft}, such as the ubiquitous \texttt{fftw}, require about $4 N \lg N$ operations to evaluate a \textsc{dft} of size $N$~\cite{Johnson:2007p9654}.  \editorial{This is more commonly known as ``overlap-save''.  We should find someone else's operation count and cite it.}  A $D$ sample cross-correlation consists of a forward \textsc{fft}, an $D$ sample dot product, and an inverse \textsc{fft}, totaling $8 D \lg N + 2 D$ operations per block.  Per sample, this is $(8 \lg D + 2) / (1 - n/D)$ operations. \editorial{Drew: Why don't we change this to an overlap of $m$ samples so we can see what happens as we increase the overlap to reduce latency.}
+
+The \textsc{fir} filter implementation has the advantage that it has no intrinsic latency, whereas the \textsc{fft} convolution has at least the latency of the \textsc{fft} block size $D \geq 2 n$.  \editorial{Drew: Should the latency be D-n?} For example, for a $1.4 - 1.4 \, M_\odot$ template with duration $\sim 1 \, \mathrm{ks}$, the \textsc{fft} convolution has a latency $\geq 2 \, \mathrm{ks}$.  However, the \textsc{fir} filter implementation has the disadvantage of much greater overhead per sample than the \textsc{fft} convolution.  For a $1\,\mathrm{ks}$ template sampled at $4096\,\mathrm{Hz}$, the \textsc{fir} implementation requires about about $n / 8 \lg 2 n = 2.2 \times 10^4$ times more operations per sample than the \textsc{fft} implementation.
+
+
 \section{Filter bank for generating mock Advanced {\sc ligo} strain data}
 \label{appendix:mock-data}
 
@@ -29,36 +90,6 @@ The mock Advanced \textsc{ligo} noise generator is implemented by the GStreamer 
 \end{figure}
 
 Note that the \textsc{cpu} overhead of this procedure will be entirely dominated by drawing the pseudorandom numbers $x_1, \dots, x_5$.
-
-
-\section{Floating point operation counts}
-
-Each addition and each multiplication is counted as a single floating point operation.   We are not assuming that a multiply-accumulate is available as a single operation.
-
-\begin{table}[htdp]
-\caption{Number of floating point operations per sample (multiplications and divisions) required for a selection of signal processing operations used in \textsc{lloid}.}
-\begin{center}
-\setlength{\extrarowheight}{6pt}
-\begin{tabular}{l c}
-\hline
-Process & ops/sample \\
-\hline\hline
-\textsc{fir} matched filter, M templates of length $n$ & $2 M n$ \\\hline
-\textsc{fft} matched filter, M templates of length $n$, blocks of length $D$ & $\frac{4 (M + 1) \lg D + 2 M}{1 - n/D}$ \\\hline
-$n$ tap \textsc{fir} resampling filter, sample rates $f_1 < f_2$ & $2 M n f_1 / f_2$ \\\hline
-multiply $M \times L$ real matrix by $L\times1$ real vector & $2 M L$ \\\hline
-\end{tabular}
-\end{center}
-\label{table:flops}
-\end{table}%
-
-
-The filter bank can be implemented using finite impulse response (\textsc{fir}) filters, which are just sliding window dot products.  If there are $M$ templates of length $n$, and the data stream contains $N$ samples, then applying the filter bank requires $2 M N n$ operations.
-
-More commonly, the matched filters are implemented using the \textsc{fft} convolution.  This entails applying \textsc{fft}s to blocks of $D$ samples, with $2 n \leq D$, each block overlapping the previous one by $n$ samples.  There are $N/(D-n)$ such blocks.  Modern implementations of the Cooley-Tukey \textsc{fft}, such as the ubiquitous \texttt{fftw}, require about $4 N \lg N$ operations to evaluate a \textsc{dft} of size $N$~\cite{Johnson:2007p9654}.  \editorial{This is more commonly known as ``overlap-save''.  We should find someone else's operation count and cite it.}  A $D$ sample cross-correlation consists of a forward \textsc{fft}, an $D$ sample dot product, and an inverse \textsc{fft}, totaling $8 D \lg N + 2 D$ operations per block.  Per sample, this is $(8 \lg D + 2) / (1 - n/D)$ operations. \editorial{Drew: Why don't we change this to an overlap of $m$ samples so we can see what happens as we increase the overlap to reduce latency.}
-
-The \textsc{fir} filter implementation has the advantage that it has no intrinsic latency, whereas the \textsc{fft} convolution has at least the latency of the \textsc{fft} block size $D \geq 2 n$.  \editorial{Drew: Should the latency be D-n?} For example, for a $1.4 - 1.4 \, M_\odot$ template with duration $\sim 1 \, \mathrm{ks}$, the \textsc{fft} convolution has a latency $\geq 2 \, \mathrm{ks}$.  However, the \textsc{fir} filter implementation has the disadvantage of much greater overhead per sample than the \textsc{fft} convolution.  For a $1\,\mathrm{ks}$ template sampled at $4096\,\mathrm{Hz}$, the \textsc{fir} implementation requires about about $n / 8 \lg 2 n = 2.2 \times 10^4$ times more operations per sample than the \textsc{fft} implementation.
-
 
 
 \begin{comment}

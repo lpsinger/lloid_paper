@@ -71,7 +71,8 @@ latency.
 In the rest of the section, we will describe a detection strategy that makes
 use of some very general properties of inspiral template banks in order to
 evaluate a matched filter bank with far lower computational cost than the
-\textsc{fir} method and far less latency than the \textsc{fft} method.
+conventional \textsc{fir} method and far less latency than the conventional
+\textsc{fft} method.
 
 \subsection{Selectively reducing the sample rate of the data and template waveforms}
 
@@ -98,7 +99,7 @@ method, the resulting filter will have lower latency than a conventional
 may be processed in parallel for additional speedup.
 
 If the template is known to be quasi-bandlimited, then the partial matched
-filter for each time slice may be processed at a reduce sample rate.  Compact
+filter for each time slice may be processed at a reduced sample rate.  Compact
 binary inspiral waveforms fit this description superbly: they are chirps whose
 frequency and amplitude rise according to power laws of time.  They are not
 only quasi-bandlimited, but quasi-monochromatic.  By exploiting this property,
@@ -164,20 +165,21 @@ filter method without time slices.
 \subsection{Reducing the number of filters with the singular value decomposition}
 
 Our second innovation exploits the fact that the templates in inspiral template
-banks are, by design, highly correlated.  It is possible to greatly reduce the
-number of matched filters required to achieve a particular minimum match by
-designing an appropriate set of orthonormal {\em basis templates}.  A purely
-numerical technique based on the application of the singular value
-decomposition (\textsc{svd}) to inspiral waveforms is demonstrated by the
-authors in~\cite{Cannon:2010p10398}.
+banks are, by design, highly correlated.  This is due to the fact that points
+are chosen in parameter space to be templates such that any point from the
+region parameter space we cover has a match to the nearest template greater
+than our chosen minimum match. It is possible to greatly reduce the number of
+matched filters required to achieve a particular minimum match by designing an
+appropriate set of orthonormal {\em basis templates}.  A purely numerical
+technique based on the application of the singular value decomposition
+(\textsc{svd}) to inspiral waveforms is demonstrated by the authors
+in~\cite{Cannon:2010p10398}.
 
-\editorial{I'm sweeping the complex nature of the templates under the rug here.
-Is it OK to regard our packing of the real and imaginary parts of the
-\textsc{svd} as an implementation detail?  It makes the math a little more
-concise.}  One may regard a bank of $N$ discretely sampled templates of length
-$M$ samples, $h^\mathrm W(\theta_i; t_j) = [\mathbf H]_{ij} = H_{ij}$, as a
-matrix.  The singular value decomposition is an exact factorization that exists
-for any matrix such that
+One may regard a bank of $N/2$ discretely-sampled, complex-valued templates of
+length $M$ samples, $h^\mathrm W(\theta_i; t_j) = [\mathbf H]_{ij} = H_{ij}$,
+as a real matrix of shape $N \times M$, where we have unpacked each
+complex-valued template into two real-valued templates.  The singular value
+decomposition is an exact factorization that exists for any matrix such that
 %
 \begin{equation} \label{eq:svd-exact}
 %
@@ -189,19 +191,18 @@ where $\mathbf V$ and $\mathbf U$ are both unitary matrices and $\mathbf
 \Sigma$ is a diagonal matrix.  For our purposes, we associate the rows of
 $\mathbf U$ with a minimal set of basis templates, which become the kernels of
 basis filters.  These filters give rise to the orthogonal \textsc{snr}s,
-$[\mathbf \rho^\perp]_k = \rho_k^\perp = \mathbf{U}_k \star x^\mathsf{W}$.  The
-rows of $\mathbf{V \Sigma}$ become reconstruction coefficients that map linear
-combinations of the orthogonal \textsc{snr}s from the basis filters back onto
-\textsc{snr}s for the original templates of interest: $\rho_i = \sum_k [\mathbf
-V \mathbf \Sigma]_{ik} \rho_k^\perp$.
+$\rho_k^\perp = u_k \star x^\mathsf{W}$.  The rows of $\mathbf{V \Sigma}$
+become reconstruction coefficients that map linear combinations of the
+orthogonal \textsc{snr}s from the basis filters back onto \textsc{snr}s for the
+original templates of interest: $\rho_i = \sum_k v_{ik} \sigma_k \rho_k^\perp$.
 
 In many applications of the \textsc{svd}, including ours, the matrix can be
 well approximated by truncating the summation in equation~(\ref{eq:svd-exact})
-at $L \ll N$:
+at $N' \ll N$:
 %
 \begin{equation}
 %
-H_{ij}^\prime = \sum_{k=1}^{L} v_{ik} \sigma_k u_{kj}
+H_{ij}^\prime = \sum_{k=1}^{N'} v_{ik} \sigma_k u_{kj}
 %
 \end{equation}
 %
@@ -210,141 +211,85 @@ measures the Frobenius norm of the approximation, such that
 %
 \begin{equation}
 %
-\frac{\| \mathbf H^\prime \|}{\| \mathbf H \|} = \left(\sum_{k=1}^{L}
+\frac{\| \mathbf H^\prime \|}{\| \mathbf H \|} = \left(\sum_{k=1}^{N'}
 |\sigma_k|^2\right)^{1/2} \left(\sum_{k=1}^{N} |\sigma_k|^2\right)^{-1/2}.
 %
 \end{equation}
 %
 This is also called the \textsc{svd} tolerance.  In our application, it relates
-to how much \textsc{snr} is lost by discarding $N - L$ of the basis filters
+to how much \textsc{snr} is lost by discarding $N - N'$ of the basis filters
 with the lowest singular values.
 
-\begin{comment}
-
-% Rewritten above.
-
-It is clear that in order to reduce the cost of a low latency search for
-compact binaries of unknown mass we need to reduce the number of convolutions
-necessary to find the gravitational-wave signal.  Rather than filter the
-$i$ templates corresponding to binaries of different component masses it is
-possible to find a basis set of fewer filter $u_j$ that can be linearly combined
-to reproduce $\rho_i$ to some accuracy.  For the remainder of this section
-we will drop the explicit time dependence of the convolution and recognize
-that the snr for any point in time is simply the innerproduct between a
-template waveform vector ${\bf \hat{h}_i}$ and a vector of the detector data 
-${\bf \hat{s}}$, $\rho_i = ({\bf \hat{h}_i}|{\bf \hat{s}})$.  
-The goal is to have
-\begin{equation}
-\label{eq:linear_combination_of_snr}
-\rho_i = \sum_{j=1}^{N'} M_{ij} ({\bf \hat{u}_j}|{\bf \hat{s}})
-\end{equation}
-where the number of inner products is reduced from $N$ to $N'$. In order to
-find the basis set ${\bf u_j}$ we use the singular value decomposition of
-the matrix 
-${H_{ik}} = \{{\bf \hat{h}_1}, {\bf \hat{h}_2}, ...{\bf \hat{h}_N}\}$. Where
-$i$ is the index over the template number and $k$ is the index over sample 
-points. The singular value decomposition factors a matrix such that
-\begin{equation}
-\label{eq:svd}
-{H_{ik}} = {A_{ij}\,B_{jl}\,U_{lk}}
-\end{equation}
-The matrix ${B_{jl}}$ is a diagonal matrix of singular values ranked in
-order of importance of reconstructing the original matrix ${H_{ik}}$.
-However since a search for binary inspirals only needs  waveform accuracy to a
-few percent to be successful it is possible to make an approximate 
-reconstruction of ${H_{ik}}$ 
-\begin{equation}
-\label{eq:svdapprox}
-{H_{ik}} \approx {A_{ij}\,B'_{jl}\,U_{lk}}
-\end{equation}
-where the rank of ${B'_{jl}}$ is less than the rank of ${B_{jl}}$.
-This reduces the number of rows in ${U_{lk}}$.  Now we have a 
-new basis of template waveforms derived from ${U_{lk}} = \{{\bf \hat{u}_1}, {\bf \hat{u}_2}, ...{\bf \hat{u}_{N'}}\}$ and can write 
-(\ref{eq:linear_combination_of_snr})
-\begin{eqnarray}
-\label{eq:svdsnr}
-\rho_i &=& \sum_{j=1}^{N'} A_{il}\,B'_{lj} ({\bf \hat{u}_j}|{\bf \hat{s}}) \nonumber \\
-       &=& \sum_{j=1}^{N'} M_{ij} ({\bf \hat{u}_j}|{\bf \hat{s}})
-\end{eqnarray}
-
-\end{comment}
-
-\editorial{This sounds confrontational to me, but these are good citations.  Can we tone it down?}  This result differs from other work that models gravitational-wave chirp signals in approximate ways~\cite{Chassande-Mottin2006, Candes2008, BuonannoChenVallisneri:2003a} by starting with an exact representation of the desired template family and producing a rigorous approximation with a tunable accuracy.  
+This result differs from other work that models gravitational-wave chirp
+signals in approximate ways~\cite{Chassande-Mottin2006, Candes2008,
+BuonannoChenVallisneri:2003a} by starting with an exact representation of the
+desired template family and producing a rigorous approximation with a tunable
+accuracy.
 
 \subsection{Composite detection statistic and hierarchical detection}
 
-\editorial{We should cite \cite{Scharf:1994p12497} here.} Although the \textsc{svd} allows us to reduce the number of matched filters, this comes at the price of having to perform a matrix multiplication by the reconstruction matrix $\mathbf {V \Sigma}$ at every sample.  In some circumstances, this matrix multiplication may be more expensive than applying the orthogonal matched filters.
+\editorial{We should cite \cite{Scharf:1994p12497} here.} Although the
+\textsc{svd} allows us to reduce the number of matched filters, this comes at
+the price of having to perform a matrix multiplication by the reconstruction
+matrix $\mathbf {V \Sigma}$ at every sample.  In some circumstances, this
+matrix multiplication may be more expensive than applying the orthogonal
+matched filters.
 
-Further speedup may be gained in a hierarchical detection scheme.  In general, the orthogonal \textsc{snr}s alone provide some indication of whether any template in the original template bank is likely to have a large \textsc{snr}.  Consider some composite detection statistic that is a scalar function of the orthogonal \textsc{snr}s, $\Gamma(\rho_1^\perp, \rho_2^\perp, \cdots, \rho_L^\perp)$.  Suppose that we can infer the distribution of $\Gamma$ for a data stream with the signal present or with the signal absent.  Then we may use a threshold crossing of $\Gamma$ to trigger the conditional application of the expensive reconstruction matrix only during the times when a signal is likely to be present.
+Further speedup may be gained in a hierarchical detection scheme.  In general,
+the orthogonal \textsc{snr}s alone provide some indication of whether any
+template in the original template bank is likely to have a large \textsc{snr}.
+Consider some composite detection statistic that is a scalar function of the
+orthogonal \textsc{snr}s, $\Gamma(\rho_1^\perp, \rho_2^\perp, \cdots,
+\rho_L^\perp)$.  Suppose that we can infer the distribution of $\Gamma$ for a
+data stream with the signal present or with the signal absent.  Then we may use
+a threshold crossing of $\Gamma$ to trigger the conditional application of the
+expensive reconstruction matrix only during the times when a signal is likely
+to be present.
 
-The composite detection statistic that we employ is a weighted sum of squares, $\Gamma = \sum_{k=1}^L w_k (\rho_k^\perp) ^ 2$, with the particular weights
+Following the ideas in~\cite{Anderson:2000yy}, we employ is a weighted sum of
+squares, $\Gamma = \sum_{k=1}^{N'} w_k (\rho_k^\perp) ^ 2$, with the particular
+weights
+%
 \begin{equation}
-w_k = \frac{\sigma_k^2}{\sigma_k^2 + N / A^2}.
+%
+w_k = \frac{\sigma_k^2}{\sigma_k^2 + N / A^2},
+%
 \end{equation}
-\editorial{We now have a pretty good description of time slices, the SVD, and conditional reconstruction.  We still need to tie it all together.}Here, $A$ is a desired \textsc{snr} scale that is set by the analyst.  As the authors show in ~\cite{svd-compdetstat}, this choice of weights has a better receiver operating characteristic for a signal of \textsc{snr}~=~$A$ than some other obvious choices, $w_k = \sigma_k^2$ or $w_k = 1$.
+%
+where $A^2$ is a desired \textsc{snr} scale that is set by the analyst.  As the
+authors show in~\cite{svd-compdetstat}, this choice of weights has a better
+receiver operating characteristic for a signal of \textsc{snr}~=~$A$ than some
+other obvious choices, $w_k = \sigma_k^2$ or $w_k = 1$.
 
-\begin{comment}
 
-% Fold this into SVD discussion.
-
-%\subsection{Detection statistic}
-It is not necessary to reconstruct the SNR of all templates in order to 
-determine if a signal is present.  By thresholding on the sum of squares
-of the orthoganal decomposition described above it is possible to answer
-whether or not an inspiral like event is in the data.  Then only 
-potentially interesting times can be reconstructed on a sample by sample 
-basis.  Following the ideas in~\cite{Anderson:2000yy} we employ a detection
-statistic as
-\begin{equation}
-\label{eq:stat}
-\Gamma^2 = \sum_{l} \sum_{j} {B'_{lj}}^2 {({\bf \hat{u}_j}|{\bf \hat{s}})}^2
-\end{equation}
-
-\end{comment}
-
-\begin{comment}
-
-% We aren't using this chi square test.
-
-\subsection{Signal consistency check}
-After reconstructing the SNR of an individual template it is possible to 
-to check that the components along the SVD basis were consistent with 
-expectation by performing a $\chi^2$ fit to the decomposition.  
-\begin{equation}
-\label{eq:chisq}
-\chi^2_i = \sum_j {[({\bf \hat{u}_j}|{\bf \hat{s}}) - \rho_i / M_{ij}]}^2
-\end{equation}
-
-\end{comment}
-
-\begin{comment}
-
-% I think that this part can be swalled into the computational costs discussion above.
 
 \subsection{Comparison of computational costs and latency}
-Convolutions are best done with the use of the Fast Fourier Transform (FFT).
-However there is an inherent latency in performing convolutions this way. This
-section describes the computational cost and latency of FFT convolutions, time 
-domain (TD) convolutions and TD convolutions with SVD.  
 
-Convolving one filter with data using FFTs involves 
-$\mathcal{O}[10 N_s \log_2(N_s)]$
-floating point operations where $N_s$ is the number of sample points in
-the data being convolved and results in $N_s - N_f$ samples of usable output.  
-In comparison time domain convolutions require
-$\mathcal{O}[N_s N_f]$ where $N_f$ is the number of sample points in the
-filter.  The FFT is faster to compute when $N_f > 10 \log_2(N_s)$.  However
-the FFT has an inherent latency of $\mathcal{O}[N_s/f_s]$ seconds, where
-$f_s$ is the sample rate when minimally overlapping FFTs are computed. It is
-possible to reduce the latency of the FFT by performing vastly overlapping
-FFTs.  The cost of such a procedure would be 
-$\mathcal{O}[10 N_o N_s \log_2(N_s)]$.  Thus for comparable computational
-cost where $N_f \approx 10 N_o \log_2(N_s)$ the latency of the FFT method 
-would be $\mathcal{O}[N_s/f_s/N_o]$ seconds.  Depending on the task at hand,
-latency requirements and computational costs can dictate what procedure to
-use.
+Using all of these innovations, we are able to greatly reduce the compuational
+cost of searching for these signals. An example of this can be seen in
+table~\ref{table:comp_cost} where we compute the computational cost of
+filtering 256 templates from a $97\%$ minimal match template bank whitened with
+an (FIXME: is this correct?) Advanced \textsc{ligo} \textsc{asd}. It is
+interesting to note that by themselves, both the \textsc{svd} and time-slice
+innovations \emph{increase} the overall computational cost when combined with
+\textsc{fft} filtering. It is only when combined with conditional
+reconstruction do these methods yield computational savings. Details of the
+computational cost of different operations can be found in \ref{appendix:cost}.
 
-\end{comment}
+\editorial{It would be good to illustrate the layout of this particular
+template bank: masses spanned, time slice layout \dots}
+\begin{table}[!h]
+\caption{Operation counts per sample for six different detection methods.  The
+operation counts for \textsc{lloid} assume a reconstruction duty cycle of 5\%.
+Note that the \textsc{fft} method with \textsc{lloid} is almost 10 times faster
+than the conventional \textsc{fft} method, despite having substantially lower
+latency.}
+\label{table:comp_cost}
+\begin{center}
+\input{flop_budget}
+\end{center}
+\end{table}
+
 
 \begin{comment}
 
