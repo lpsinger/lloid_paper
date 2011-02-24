@@ -4,21 +4,51 @@
 
 \begin{document}
 
-\title[LLOID]{A novel method for detecting coalescing binaries in near realtime with Advanced LIGO and beyond \editorial{Submit to PRD or CQG?}}
+\title[LLOID]{Towards realtime detection of compact binary coalescence to
+improve the prospects for multimessenger astronomy\editorial{Submit to PRD or
+CQG?}}
 
 \date{\today}
 
-\author{Kipp Cannon$^1$, Adrian Chapman$^2$, Nickolas Fotopoulos$^2$, Chad Hanna$^3$, Drew Keppel$^{4,5}$, Antony C. Searle$^2$, Leo Singer$^2$, Alan J. Weinstein$^2$} 
+\author{Kipp Cannon$^{1}$, Romain Cariou$^{2}$, Adrian Chapman$^3$, M.
+Crispin-Ortuzar$^4$, Nickolas Fotopoulos$^3$, Melissa Frei $^5$, Chad
+Hanna$^{6}$, Erin Kara$^{7}$, Drew Keppel$^{8,9}$, Laura Liao$^{10}$, Stephen
+Privitera $^3$, Antony C.  Searle$^3$, Leo Singer$^3$, Alan J.  Weinstein$^3$}
 
-\address{$^1$ Canadian Institute for Theoretical Astrophysics, Toronto, ON, Canada}
-\address{$^2$ LIGO Laboratory - California Institute of Technology, Pasadena, CA, USA}
-\address{$^3$ Perimeter Institute for Theoretical Physics, Waterloo, ON, Canada}
-\address{$^4$ Albert-Einstein-Institut, Max-Planck-Institut f\"{u}r Gravitationphysik, Hannover, Germany}
-\address{$^5$ Leibniz Universit\"{a}t Hannover, Hannover, Germany}
-
+\address{$^1$ Canadian Institute for Theoretical Astrophysics, Toronto, ON,
+Canada}
+\address{$^2$  Département de physique, École Normale Supérieure de Cachan, 61
+Avenue du Président Wilson, 94235 Cachan Cedex, France}
+\address{$^3$ LIGO Laboratory - California Institute of Technology, Pasadena,
+CA, USA} 
+\address{$^4$ Facultat de Física, Universitat de València, E-46100 Burjassot,
+Spain} 
+\address{$^5$ The University of Texas at Austin, Austin, TX, USA}
+\address{$^6$ Perimeter Institute for Theoretical Physics, Waterloo, ON,
+Canada} 
+\address{$^7$ Department of Physics and Astronomy, Barnard College, Columbia
+University, New York, NY 10027, USA} 
+\address{$^8$ Albert-Einstein-Institut, Max-Planck-Institut f\"{u}r
+Gravitationphysik, Hannover, Germany} 
+\address{$^9$ Leibniz Universit\"{a}t Hannover, Hannover, Germany}
+\address{$^{10}$ Ryerson University, Toronto, ON, Canada}
 
 \begin{abstract}
-Conventional matched filter bank methods for the detection of gravitational waves from the inspiral of compact binaries are computationally expensive, have hundreds of seconds of unavoidable intrinsic latency, and require arrays of largely redundant matched filters.  Novel detection methods that are more computationally efficient and have lower latency will be required to realize the full potential of advanced of gravitational wave detectors that are currently under construction.  In this paper, we describe a new detection method that exploits the properties of inspiral waveforms using multi-rate filtering, principal component analysis, and hierarchical detection.  We provide receiver operating characteristics from a prototype search pipeline that is capable of low-latency or near-realtime detection with greatly reduced computational requirements in comparison with previously described methods.
+The rapid detection of compact binary coalescence with a network of advanced
+gravitational-wave detectors offers a unique opportunity for multimessenger
+Astronomy.  Prompt alerts to the Astronomical community will assure that all
+available instruments are observing the electromagnetic counterparts to the
+first gravitational waves from coalescing compact objects.   Rapid, near
+realtime alerts, will improve the chances of detecting weak, decaying
+electromagnetic signals and correlating such signals with the gravitational
+wave strain.  In this paper, we describe a new, near realtime, detection
+strategy that exploits the properties of inspiral waveforms using principal
+component analysis, multi-rate filtering, and hierarchical detection.  We
+provide receiver operating characteristics from a prototype search pipeline
+that is capable of near-realtime detection with acheivable computational
+requirements.  
+\editorial{CH: I wasn't happy with the tone of the abstract.  I want to
+focus on the science goal of multimessenger Astronomy.}
 \end{abstract}
 
 \pacs{95.55.Ym, 84.30.Vn, 95.75.Wx}
@@ -36,7 +66,11 @@ Conventional matched filter bank methods for the detection of gravitational wave
 
 \input{conclusions}
 
-\ack{\textsc{ligo} was constructed by the California Institute of Technology and Massachusetts Institute of Technology with funding from the National Science Foundation and operates under cooperative agreement \textsc{phy}-\oldstylenums{0107417}. This paper has \textsc{ligo} Document Number \textsc{ligo}-\textsc{p}\oldstylenums{0900004}-v\oldstylenums{3}.
+\ack{\textsc{ligo} was constructed by the California Institute of Technology
+and Massachusetts Institute of Technology with funding from the National
+Science Foundation and operates under cooperative agreement
+\textsc{phy}-\oldstylenums{0107417}. This paper has \textsc{ligo} Document
+Number \textsc{ligo}-\textsc{p}\oldstylenums{0900004}-v\oldstylenums{3}.}
 
 \appendix
 \input{appendix}
