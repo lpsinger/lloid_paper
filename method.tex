@@ -1,112 +1,127 @@
-\section{Method}
+\section{Early warning searches for compact binary coalescence}
 \label{SECII}\label{sec:method}
-\subsection{The standard approach: matched filtering}
 
-Searches for gravitational waves from compact binary coalescences typically
-employ matched filter banks \cite{findchirppaper}.  Potential inspiral signals
-are continuously parameterized by time, amplitude, phase, and a set of
-intrinsic source parameters $\theta$, which in this paper we shall take to
-consist of the two component masses of a binary, $\theta = (m_1, m_2)$.  Let
-$h_+(\theta)$ and $h_\times(\theta)$ be, respectively, the `$+$' and `$\times$'
-polarization gravitational wave signals that would arise from a fiducial
-face-on binary at some distance.  Because, for inspiral signals, $h_+$ and
-$h_\times$ are nearly in quadrature, they are generally combined into a single
-complex-valued template $h = h_+ + i h_\times$.
+In this section we describe a decomposition of the compact binary parameter
+space that reduces low latency filtering cost sufficiently to allow for the
+possibility of \earlywarning\ detection with modest computing requirements.  We
+expand on the ideas of~\cite{Marion2004, Buskulic2010} that describe a
+multiband decomposition of the compact binary parameter space that resulted in
+search with $\sim$minutes latency in LIGO's S6 and Virgo's VSR2 science runs.
+We combine this with the orthogonal decomposition described
+in~\cite{Cannon:2010p10398} that exploits the redundancy of the template banks.
 
-The detection procedure for just one set of intrinsic source parameters
-$\theta$ starts by {\em whitening} the measurement data stream $x$.  This
-involves finding a linear filter that renders the detector's noise \textsc{iid}
-and Gaussian.  This filter is applied to the measurement, yielding the whitened
-data stream $x^\mathrm W$.  The same linear filter is applied to the template
-$h(\theta)$, yielding the whitened template $h^\mathrm W (\theta)$.  The
-matched filter is the normalized cross-correlation of $h^\mathrm W$ and
-$x^\mathrm W$, \editorial{After introducing the $\star$ notation for cross
-correlation, must we define it for continuous and discrete time?}
-%
-$$
-%
-\rho(\theta) = \frac{h^\mathrm W (\theta) \star x^\mathrm W}{|h^\mathrm W
-(\theta)|}.
-%
-$$
-%
-This is called the signal to noise ratio, or \textsc{snr}.  The detection
-statistic is the modulus of this, $|\rho(\theta)|$, which has a $\chi^2$
-distribution with 2 degrees of freedom in the absence of signal.
-
-To construct a filter bank, matched filters are realized for discrete signal
+Inspiral signals are parameterized by a set of intrinsic parameters
+$\bar{\theta}$ that determine the amplitude and phase evolution of the observed
+binary signals.  Searches for gravitational waves from compact binary
+coalescence typically employ matched filter banks, called template banks,
+\cite{findchirppaper} that discretely sample the possible intrinsic parameters.
+The filter models of the waveforms, known as templates are weighted by the
+detector noise amplitude spectral density, $x(t,\bar{\theta})$ and filtered
+against the whitened detector data.  A sufficient number of templates are
+chosen to assure a minimal loss of SNR~\cite{Owen:1995tm,Owen:1998dk}.  To
+construct a template bank, matched filters are chosen with discrete signal
 parameters $\theta_1,\, \theta_2,\, \cdots$, $\theta_N$, such that any possible
-signal will have a maximum cross-correlation of at least 0.97 with at least one
-template.  \editorial{Citation needed for template placement procedure?}  Such
-a template bank is said to have a 97\% {\em minimum match}.  This technique is
-designed so that an inspiral signal can be detected without any prior knowledge
-of its intrinsic parameters: at most 3\% of the \textsc{snr} is lost by a
-signal's parameters not exactly coinciding with a template's.  A trigger is
-reported for the template parameters $\theta_i$ and time $t$ for which $|\rho|$
-is a maximum over some moving interval in $\theta$ and $t$.
+signal will have a cross-correlation of $\geq0.97$ with at least one template.
+Such a template bank is said to have a 97\% {\em minimum match}. For systems
+where the effects of spin can be ignored, the intrinsic parameters are the
+component masses of the binary, $\bar{\theta} = (m_1, m_2)$. 
 
-\subsubsection{Latency and overhead}
+The procedure for choosing a bank of matched filters for gravitational wave
+searches is known~\cite{Owen:1995tm}. Therefore, here we will assume that a
+bank of filters has already been chosen based on the targetted parameter space
+and we will denote the $i^{\mathrm th}$ filter with parameters $\bar{\theta_i}$
+as a function of time $x_i(\tau)$.%
+%
+\footnote{There are two gravitational wave polarizations, $+$ and $\times$. A
+given detector will observe a combination of these polarizations that will
+largely be degenerate with an overall unknown constant phase.  This can be
+maximized over by filtering for quadrature phases and taking the magnitude of
+the result. For simplicity we will ignore that aspect in this work as it is
+straightforward to generalize, but not necessary for understanding any of the
+points that will be made.}
+%
+In this work we will discuss transformations to a set of filters
+$\{x_i(\tau)\}$.  Some of these transformations are not useful or practical
+over the entire parameter space.  For that reason we assume from here onward
+that the set of filters $\{x_i(\tau)\}$ refer to a set of near neighbor filters
+that can be chosen as a subset of the full parameter space.  Several such
+subsets can be chosen until all of the filters are a member of one local set.  
 
-The matched filter bank can be implemented with finite impulse response
-(\textsc{fir}) filters.  \textsc{fir} filters are perfectly suited for realtime
-detection, because they do not introduce any latency at all.  However,
-\textsc{fir} filters are very expensive: for $N$ templates of $M$ samples each,
-a \textsc{fir} matched filter bank costs $\mathcal O(M N)$ operations per
-sample.
+Filtering the detector data $h(t)$ involves a convolution of the data with the
+filter.  For a unit-normalized filter, and whitened detector data, the result
+can be interpreted as the signal-to-noise ratio, $\rho_i(t)$ and is defined as
+%
+% Filtering equations
+%
+\begin{eqnarray}
+\rho_i(t) &=& \int x_i(\tau) \, h(t-\tau) \, d \tau \label{eq:SNRTD} \\
+          &=& \int \tilde{x}_i(f) \, \tilde{h}(f) \, \e^{-2\pi\i ft} \label{eq:SNRFD} df,
+\end{eqnarray}
+%
+%
+where the second line is a result of the convolution theorem and
+$\tilde{x}_i(f)$ is the Fourier transform of $x_i(\tau)$ as is $\tilde{h}(f)$ the
+Fourier transform of $h(t)$.
 
-Much more commonly, the matched filter bank is implemented using \textsc{fft}
-convolutions, costing only $\mathcal O(M \lg N)$ \editorial{$\lg$ is $\log_2$.
-Explain nomenclature? Switch to $\log_2$?} per sample but having a latency of
-at least $M$ samples.  For example, for a bank of $1\,\mathrm{ks}$ templates
-sampled at $4096\,\mathrm{Hz}$, the \textsc{fft} implementation requires about
-about $2.2 \times 10^4$ times fewer floating point operations per sample than
-the \textsc{fir} implementation.  However, the \textsc{fft} implementation has
-a latency of at least $1\,\mathrm{ks}$.
+The evaluation of the integrals in \eqref{eq:SNRTD} and \eqref{eq:SNRFD} are
+implemented as sums over sample points for the digitized gravitational wave
+detector output.  Discrete Fourier transforms can be computed efficiently
+numerically.  For that reason \eqref{eq:SNRFD} is typically far faster,
+computationally.  To evaluate \eqref{eq:SNRTD} requires \order{\tmpsamps
+\hoftsamps} floating point operations per filter $x_i$, where \tmpsamps\ is the
+number of sample points in the filter $x_i$ and \hoftsamps\ is the number of
+sample points in the data $h$.  Assuming \numtmps\ filters are required, the
+total cost is \order{\numtmps \tmpsamps \hoftsamps} However, \eqref{eq:SNRFD}
+requires only \order{\hoftsamps \log \hoftsamps} operations per filter assuming
+transform lengths that are longer than the filter (i.e. \hoftsamps\ $>$
+\tmpsamps), resulting in a total cost of \order{\numtmps \hoftsamps \log
+\hoftsamps}.  In most cases \tmpsamps\ $\gg$ $\log$ \hoftsamps\ and the
+computational savings by choosing the frequency domain integral form
+\eqref{eq:SNRFD} is clear.  However, to take full advantage of the
+computational efficiency of \eqref{eq:SNRFD} requires an acausal knowledge of
+the detector data $h(t)$, which implies an inherent latency.  In contrast,
+\eqref{eq:SNRTD} can be updated every time a new sample point of detector data
+is taken.  
 
-This presents a dilemma: it seems that low latency detection using the
-\textsc{fir} implementation is prohibitively expensive, whereas computationally
-cheap detection with the \textsc{fft} method comes with minutes to hours of
-latency.
-
-In the rest of the section, we will describe a detection strategy that makes
-use of some very general properties of inspiral template banks in order to
-evaluate a matched filter bank with far lower computational cost than the
-conventional \textsc{fir} method and far less latency than the conventional
-\textsc{fft} method.
+In order to minimize latency we propose using the time domain convolution
+presented in \eqref{eq:SNRTD}.  However, because the brute force evaluation of
+\eqref{eq:SNRTD} is far too costly to be useful, we will consider an
+approximation to \eqref{eq:SNRTD} that can reduce substantially the cost of
+\realtime\ filtering. This approximation has the form
+%
+% orthogonal decomposition filtering
+%
+\begin{equation}
+\rho_i(t) \approx \sum_k^{\numslices} \sum_j^{\numsvdtmps} 
+	\int_{\tau_{k}}^{\tau_{k+1}} v_{ijk} \sigma_{jk} u_{jk}\,(\tau) \, h(t-\tau) \, d \tau \label{eq:decomp}
+\end{equation} 
+%
+%
+where $u_{jk}(\tau)$ is an orthogonal basis set of filters spanning the space
+of $\{x_i(\tau)\}$ and $\sigma_{jk} v_{ijk}$ is a tensor relating the filters
+$u_{jk}(\tau)$ to the original filter set $\{x_i(\tau)\}$.  We claim that with
+a suitable choice of filters $u_{jk}(\tau)$ one can reduce the computational
+cost of \eqref{eq:SNRTD} sufficiently to feasibly search for
+gravitational-waves from compact binary coalescence in \realtime.  This
+requires 1) exploiting the redundancy of the template bank and 2) exploiting
+the time-frequency characteristics of the binary waveforms.  We describe our
+procedure for producing the decompostion in \eqref{eq:decomp} in the remainder
+of this section.
 
 \subsection{Selectively reducing the sample rate of the data and template waveforms}
 
-Our first innovation is to split each template into disjoint intervals, or
-\emph{time slices}.  A matched filter is constructed for each time slice, whose
-outputs form an ensemble of partial \textsc{snr} streams.  By linearity, these
-partial \textsc{snr} streams can be suitably time delayed and summed to
-reproduce exactly the \textsc{snr} with respect to the original template.  By
-exploiting some general properties of inspiral waveforms, we shall see that
-time slices permit a reduction in latency relative to the \textsc{fft} matched
-filter, but with comparable computational overhead.
+The first step of the orthogonal decomposition described in \eqref{eq:decomp}
+is to divide the templates into \emph{time slices}.  This is a time domain
+analogue to the frequency domain decomposition described in ~\cite{Marion2004,
+Buskulic2010, beauville2006, beauville2008}.  A matched filter is constructed
+for each time slice.  The outputs form an ensemble of partial \textsc{snr}
+streams.  By linearity, these partial \SNR\ streams can be suitably time
+delayed and summed to reproduce the \SNR\ of the full template.  We will show
+in the next section that this, combined with the singular value docomposition,
+is sufficient to enable a computationally efficient time-domain search and
+furthermore is an essential part of an \earlywarning\ detection scheme.
 
-\editorial{\textsc{mbta} should be cited in the introduction.}  A similar idea
-has been demonstrated by the Virgo Collaboration's \textsc{mbta}
-pipeline~\cite{Marion2004,beauville2006,beauville2008,Buskulic2010}, which
-operated in a low-latency mode during \textsc{ligo}'s sixth science run and
-Virgo's second science run in 2010.
-
-Each partial matched filter can be realized with either the \textsc{fir} or the
-\textsc{fft} method.  If all of the time slices make use of the \textsc{fft}
-method, the resulting filter will have lower latency than a conventional
-\textsc{fft} matched filter, and also less computational overhead than an
-\textsc{fir} matched filter.  A further benefit is that all of the time slices
-may be processed in parallel for additional speedup.
-
-If the template is known to be quasi-bandlimited, then the partial matched
-filter for each time slice may be processed at a reduced sample rate.  Compact
-binary inspiral waveforms fit this description superbly: they are chirps whose
-frequency and amplitude rise according to power laws of time.  They are not
-only quasi-bandlimited, but quasi-monochromatic.  By exploiting this property,
-we can implement a matched filter for an inspiral waveform using a multirate
-filter bank that requires far fewer floating point operations.
-
-For concreteness and simplicity, let us consider an inspiral waveform in the
+For concreteness and simplicity, we will consider an inspiral waveform in the
 quadrupole approximation, for which the time-frequency relation is
 %
 \begin{equation} \label{eq:fgw}
@@ -118,176 +133,243 @@ f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{-t}
 %
 Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G
 M_\odot / c^3 \approx 5 \mu\mathrm{s}$) and $t$ is the time relative to the
-coalescence of the binary~\cite{findchirppaper, kidder1992, blanchet2002,
-hanna2009}. \editorial{Way too many citations here.} Usually the template is
-truncated at some prescribed time $t = t_0$, often chosen to correspond to the
-innermost stable circular orbit at which $f = f_\mathrm{ISCO} \approx 4400 \,
-M_\odot / M$.  An inspiral signal will enter the \textsc{ligo} band at a low
-frequency cutoff, $f = f_\mathrm{low}$ corresponding to a time
-$t_\mathrm{low}$.  This template has a duration of $t_\mathrm{0} -
-t_\mathrm{low}$ and is critically sampled at a rate of $2 f_\mathrm{isco}$.
+coalescence of the binary~\cite{findchirppaper, kidder1992}.  Usually the
+template is truncated at some prescribed time $t_0$, or equivalently frequency \fmax.
+This is often chosen to correspond to the \ISCO\ defined previously. An inspiral signal
+will enter the detection band at a low frequency, $f = f_\mathrm{low}$
+corresponding to a time $t_\mathrm{low}$.  The template is assumed to be zero
+outside the interval $[t_\mathrm{low}, t_\mathrm{0})$ and is said to have  a
+duration of $t_\mathrm{0} - t_\mathrm{low}$. It is critically sampled at a
+rate of $2 \fmax$.  
 
-The time slices for this template consist of the $K$ intervals $(t_K, t_{K-1}],
-\dots, (t_2, t_1], (t_1, t_0]$ sampled at frequencies $f_\mathrm{K-1}, \dots,
-f_1, f_0$ where $f_0 = 2 f_\mathrm{ISCO}$, $t_0 = t_\mathrm{ISCO}$, $f_{K-1}
-\geqslant 2 f_\mathrm{low}$, and $t_K \leqslant t_\mathrm{low}$.
-
-If all of these time slices are implemented using the \textsc{fft}, then the
-latency of this filter bank is $\max_j {\left[-\left( 2(t_j - t_{j-1}) -
-t_{j-1} \right)\right]} = \max_j \left( 3 t_{j-1} - 2 t_j \right)$.
-
+The monotonic time-frequency relationship of \eqref{eq:fgw} allows us to choose
+time slice boundaries that require substantially less bandwidth at early times
+in the inspiral.  Our goal is to reduce the filtering cost of a large fraction
+of the waveform by computing part of the filter integral at a lower sample
+rate.  Specifically we consider here time slice boundaries with the next
+highest power-of-two sample rate that critically samples the time sliced
+filter.  The time slices for this template consist of the $k$ intervals $(t_k,
+t_{k-1}], \dots, (t_2, t_1], (t_1, t_0]$ sampled at frequencies
+$f_\mathrm{k-1}, \dots, f_1, f_0$ where $f_0 \geq 2 f_\mathrm{ISCO}$, $t_0 =
+t_\mathrm{ISCO}$, $f_{k-1} \geqslant 2 f_\mathrm{low}$, and $t_k \leqslant
+t_\mathrm{low}$. An example time slice design satisfying these constraints for
+a $1.4 - 1.4 \, M_{\odot}$ binary is shown in table~\ref{table:time_slices}.
+%
 \begin{table}[h!]
-\caption{Example of critically sampled, power-of-2 time slices for a $1.4 - 1.4
-\, M_{\odot}$ template extending from $f_\mathrm{low} = 10 \, \mathrm{Hz}$ to
-$f_\mathrm{ISCO} = 1571\, \mathrm{Hz}$ with a time frequency structure given by
-($\ref{eq:fgw})$.}
-\label{table:time_slices}
-\begin{minipage}[c]{0.5\textwidth}
+\begin{minipage}[c]{0.52\textwidth}
 \centering
-\includegraphics[trim = 3cm 0cm 1.5cm 0cm, scale=0.4]{time_slices.pdf}
+\includegraphics{time_slices.pdf}
 \end{minipage}
 \begin{minipage}[c]{0.3\textwidth}
 \centering
 \input{time_slices.tex}
 \end{minipage}
+\caption{\label{table:time_slices} Example of nearly critically sampled,
+power-of-two time slices for a $1.4 - 1.4 \, M_{\odot}$ template extending from
+$f_\mathrm{low} = 10 \, \mathrm{Hz}$ to $f_\mathrm{ISCO} = 1571\, \mathrm{Hz}$
+with a time frequency structure given by ($\ref{eq:fgw})$. $f_k$ is the sample
+rate of the time slice, $(t_{k+1}, t_k]$ are the boundaries in seconds
+preceeding coalescence and \slicessamps\ are the number of sample points in the
+$k^{\mathrm{th}}$ filter.}
+\end{table}
+%
+
+Rather than applying a unique time slice decomposition to each template
+waveform, we find a decomposition that is adequate for the entire set
+$\{x_i\}$.  This is facilated by choosing templates in the set $\{x_i\}$ with
+similar chirp masses, $\mathcal{M}$.  The time slice decompositions of the
+filters $x_i(\tau)$ lead to new filters $y_{ik}(\tau)$ satisfying
+%
+\begin{equation}
+\label{eq:time_slices}
+x_i(\tau) \approx \sum_k^{\numslices} y_{ik}(\tau)
+\end{equation}
+where \numslices\ is the number of time slices required.  Note that we write
+the relationship as approximate since the resampling implementation may have
+some inherent loss in quality.  We note that by construction these filters are
+orthogonal over the index $k$ since they are disjoint in time.  In the next
+section we examine how to reduce the number of filters $y_{ik}(\tau)$ via
+singular value decomposition to construct a set of filters that is also
+orthogonal within a given time slice.
+
+\subsection{Reducing the number of filters with the singular value
+decomposition}
+
+As described previously, the template banks are, by design, highly correlated.
+It is possible to greatly reduce the number of filters required to achieve a
+particular minimum match by designing an appropriate set of orthonormal {\em
+basis templates}.  A purely numerical technique based on the application of the
+singular value decomposition (\SVD) to inspiral waveforms is demonstrated
+in~\cite{Cannon:2010p10398}.  Using the results of ~\cite{Cannon:2010p10398} we
+establish that the filters of the previous section can be approximated to high
+accuracy by the expansion in the singular value basis
+%
+\begin{equation}
+y_{ik}(\tau) \approx \sum_j^{\numsvdtmps} \sigma_{jk} v_{ijk} u_{j}(\tau)
+\label{eq:svddecomp}
+\end{equation}
+%
+where $\sigma_{jk}$ is the $j^{\mathrm{th}}$ singular value for the
+$k^{\mathrm{th}}$ time slice, $v_{ijk}$ is an orthogonal matrix for the
+$k^{\mathrm{th}}$ time slice  and $u_{jk}$ is a new orthogonal basis filter set
+for the $k^{\mathrm{th}}$ time slice.  The authors of \cite{Cannon:2010p10398}
+showed that to high reconstruction accuracy far fewer filters are needed than
+were in the original template bank. We find that when combined with the time
+slice decomposition, the number of \SVD\ filters, \numsvdtmps\ is much smaller
+than the original number of filters \numtmps.  We combine \eqref{eq:svddecomp}
+with \eqref{eq:time_slices} to arrive at \eqref{eq:decomp}.  In the next
+section we compute the expected computational cost scaling of this
+decomposition and compare it with the brute force implementation in
+\eqref{eq:SNRTD} and higher latency \fft\ methods.
+
+\subsection{Comparison of computational costs}
+
+We now examine the computational cost scaling of the approximate implementation
+of \eqref{eq:SNRTD} as \eqref{eq:decomp}.  An actual implementation of this
+decomposition in a working analysis pipeline is discussed in the next section
+along with measured computational requirements.  For convenience, table
+\ref{tab:recap} is a recap of the meaning of various symbols used in this
+calculation.
+%
+% symbols used in FLOPs calculations table
+%
+\begin{table}
+\begin{tabular}{rl}
+\bf{Symbol}	& \bf{Definition} \\
+\hline
+\hoftsamps	& The number of sample points in the data \\
+\tmpsamps	& The number of sample points in template $x_i$ \\
+\numtmps	& The number of templates in the set $\{x_i\}$ \\
+\numslices	& The number of time slices \\
+\numsvdtmps	& The number of orthogonal filters in time slice $k$ \\
+\slicessamps	& The number of samples in time slice $k$ \\
+\fmax		& The maximum frequency of a filter \\
+$f_k$		& The sample frequency of the $k^{\mathrm{th}}$ filter \\
+\resampsamps	& The number of sample points in the resample filter
+\end{tabular}
+\caption{\label{tab:recap} Notation used to describe filtering.  This table
+provides a quick reference for symbols used.}
 \end{table}
 
-An example time slice design satisfying these constraints for a $1.4 - 1.4 \,
-M_{\odot}$ is shown in table~\ref{table:time_slices}.  For this example, the
-latency for this time slice design is just $\input{time_slice_latency.tex}$
-even if all of the time slices are implemented with the \textsc{fft} method.
-This set of time slices will require $\input{time_slice_ops_firslice.tex}$
-operations per sample per template, compared with
-$\input{time_slice_ops_conv.tex}$ for pure \textsc{fft} cross-correlation
-without time slices, or $\input{time_slice_ops_td.tex}$ for the \textsc{fir}
-filter method without time slices.
-
-\subsection{Reducing the number of filters with the singular value decomposition}
-
-Our second innovation exploits the fact that the templates in inspiral template
-banks are, by design, highly correlated.  This is due to the fact that points
-are chosen in parameter space to be templates such that any point from the
-region parameter space we cover has a match to the nearest template greater
-than our chosen minimum match. It is possible to greatly reduce the number of
-matched filters required to achieve a particular minimum match by designing an
-appropriate set of orthonormal {\em basis templates}.  A purely numerical
-technique based on the application of the singular value decomposition
-(\textsc{svd}) to inspiral waveforms is demonstrated by the authors
-in~\cite{Cannon:2010p10398}.
-
-One may regard a bank of $N/2$ discretely-sampled, complex-valued templates of
-length $M$ samples, $h^\mathrm W(\theta_i; t_j) = [\mathbf H]_{ij} = H_{ij}$,
-as a real matrix of shape $N \times M$, where we have unpacked each
-complex-valued template into two real-valued templates.  The singular value
-decomposition is an exact factorization that exists for any matrix such that
+In table \ref{table:flops} we present the computational cost scaling in
+floating point operations per sample for common tasks in the pipeline.  
 %
-\begin{equation} \label{eq:svd-exact}
+% common tasks FLOPS table
 %
-H_{ij} = [\mathbf {V \Sigma U}]_{ij} = \sum_{k=1}^{N} v_{ik} \sigma_k u_{kj},
+\begin{table}[htdp]
+\begin{center}
+\begin{tabular}{l l}
+\bf{Process} & \bf{ops/sample} \\
+\hline
+% FIR
+\fir\ matched filter, \numtmps\ templates of length \tmpsamps\ & $2 \numtmps \tmpsamps$ \\
+% FFT
+\fft\ matched filter, \numtmps\ templates of length \tmpsamps\, & \multirow{2}{*}{$\mbox{\fontsize{14}{17}\selectfont $\frac{4 (\numtmps + 1) \lg \fftblock + 2 \numtmps}{1 - \tmpsamps/\fftblock}$}$} \\
+% FFT contd...
+$\,\,\,\,\,\,$ blocks of length \fftblock & \\
+% Resampling
+\fir\ resampling filter, length \resampsamps\ for each of \numtmps\ templates& \multirow{2}{*}{$2 \numtmps \resampsamps\ f_1 / f_2$} \\
+% Resampling contd...
+$\,\,\,\,\,\,$ and sample rates $f_1 < f_2$ & \\
+% Matrix multiply
+multiply $M \times L$ real matrix by $L\times1$ real vector & $2 M L$ \\
 %
-\end{equation}
-%
-where $\mathbf V$ and $\mathbf U$ are both unitary matrices and $\mathbf
-\Sigma$ is a diagonal matrix.  For our purposes, we associate the rows of
-$\mathbf U$ with a minimal set of basis templates, which become the kernels of
-basis filters.  These filters give rise to the orthogonal \textsc{snr}s,
-$\rho_k^\perp = u_k \star x^\mathsf{W}$.  The rows of $\mathbf{V \Sigma}$
-become reconstruction coefficients that map linear combinations of the
-orthogonal \textsc{snr}s from the basis filters back onto \textsc{snr}s for the
-original templates of interest: $\rho_i = \sum_k v_{ik} \sigma_k \rho_k^\perp$.
+\end{tabular}
+\end{center}
+\caption{Number of floating point operations per sample (multiplications and
+divisions) required for a selection of signal processing operations used in
+\textsc{lloid}.}
+\label{table:flops}
+\end{table}
 
-In many applications of the \textsc{svd}, including ours, the matrix can be
-well approximated by truncating the summation in equation~(\ref{eq:svd-exact})
-at $N' \ll N$:
+The filter bank can be implemented using finite impulse response \fir\ filters,
+which are just sliding window dot products.  If there are \numtmps\ templates
+of length \tmpsamps\, and the data stream contains \hoftsamps\ samples, then
+applying the filter bank requires $2 \numtmps \tmpsamps \hoftsamps$ operations.
+
+More commonly, the matched filters are implemented using the \fft\ convolution.
+This entails applying {\fft}s to blocks of \fftblock\ samples, with $\tmpsamps
+\leq \fftblock$, each block overlapping the previous one by $ \fftblock -
+\tmpsamps $ samples.  There are $\hoftsamps/(\fftblock-\tmpsamps)$ such blocks
+required to filter \hoftsamps\ samples of data.  Modern implementations of the
+Cooley-Tukey \fft, such as the ubiquitous \texttt{fftw}, require about $4 N \lg
+N$ operations to evaluate a \textsc{dft} of size $N$~\cite{Johnson:2007p9654}.
+%
+%
+\editorial{This is more commonly known as ``overlap-save''.  We should find
+someone else's operation count and cite it.}  
+%
+%
+A \fftblock\ sample cross-correlation consists of a forward \fft, a \fftblock
+sample dot product, and an inverse \fft\, totaling $8 \fftblock \lg \fftblock +
+2 D$ operations per block.  Per sample, this is $(8 \lg \fftblock + 2) / (1 -
+\tmpsamps/\fftblock)$ operations.  As this expression indicates the number
+of operations increases as the block size \fftblock\ approaches the
+filter length \tmpsamps.
+%
+%
+\editorial{Drew: Why don't we change this to an overlap of $m$ samples so we
+can see what happens as we increase the overlap to reduce latency.}
+
+The \fir\ filter implementation has the advantage that it has no intrinsic
+latency, whereas the \fft\ convolution has latency of $\fftblock-\tmpsamps$. 
+%
+%
+%For example, for a $1.4 -
+%1.4 \, M_\odot$ template with duration $\sim 1 \, \mathrm{ks}$, the
+%\textsc{fft} convolution has a latency $\geq 2 \, \mathrm{ks}$.  
+%
+However, the \fir\ filter implementation has the disadvantage of much greater
+overhead per sample than the \fft\ convolution.  For a $1\,\mathrm{ks}$
+template sampled at $4096\,\mathrm{Hz}$, the \textsc{fir} implementation
+requires about about $\tmpsamps / 8 \lg 2 \tmpsamps = 2.2 \times 10^4$ times
+more operations per sample than the \fft implementation.  We will now consider
+the computational cost of the \fir\ filter implementation described in the
+previous sections.
+
+It is convenient to express the computational cost of the entire filtering
+procedure in floating point operations per second {\flops}.  The cost will be
+the sum of the cost of the \fir\ filtering for the orthogonal filter in each
+time slice plus the cost of reconstructing the original waveforms with matrix
+operations and resampling.  Using the formulas in table \ref{table:flops} we
+arrive at
 %
 \begin{equation}
-%
-H_{ij}^\prime = \sum_{k=1}^{N'} v_{ik} \sigma_k u_{kj}
-%
+%\mathrm{Computational\, cost} 
+\mathrm{C.C.} \propto 2 \sum_k^{\numslices} (\slicessamps + \numtmps) \numsvdtmps f_k \nonumber
+	r \sum_{k, f_k \neq f_{\fmax}}^{\numslices} \numtmps \resampsamps f_k 
+\label{eq:TDcost}
 \end{equation}
 %
-The cumulative sum of squares of the {\em singular values}, $\sigma_k$,
-measures the Frobenius norm of the approximation, such that
-%
-\begin{equation}
-%
-\frac{\| \mathbf H^\prime \|}{\| \mathbf H \|} = \left(\sum_{k=1}^{N'}
-|\sigma_k|^2\right)^{1/2} \left(\sum_{k=1}^{N} |\sigma_k|^2\right)^{-1/2}.
-%
-\end{equation}
-%
-This is also called the \textsc{svd} tolerance.  In our application, it relates
-to how much \textsc{snr} is lost by discarding $N - N'$ of the basis filters
-with the lowest singular values.
-
-This result differs from other work that models gravitational-wave chirp
-signals in approximate ways~\cite{Chassande-Mottin2006, Candes2008,
-BuonannoChenVallisneri:2003a} by starting with an exact representation of the
-desired template family and producing a rigorous approximation with a tunable
-accuracy.
-
-\subsection{Composite detection statistic and hierarchical detection}
-
-\editorial{We should cite \cite{Scharf:1994p12497} here.} Although the
-\textsc{svd} allows us to reduce the number of matched filters, this comes at
-the price of having to perform a matrix multiplication by the reconstruction
-matrix $\mathbf {V \Sigma}$ at every sample.  In some circumstances, this
-matrix multiplication may be more expensive than applying the orthogonal
-matched filters.
-
-Further speedup may be gained in a hierarchical detection scheme.  In general,
-the orthogonal \textsc{snr}s alone provide some indication of whether any
-template in the original template bank is likely to have a large \textsc{snr}.
-Consider some composite detection statistic that is a scalar function of the
-orthogonal \textsc{snr}s, $\Gamma(\rho_1^\perp, \rho_2^\perp, \cdots,
-\rho_L^\perp)$.  Suppose that we can infer the distribution of $\Gamma$ for a
-data stream with the signal present or with the signal absent.  Then we may use
-a threshold crossing of $\Gamma$ to trigger the conditional application of the
-expensive reconstruction matrix only during the times when a signal is likely
-to be present.
-
-Following the ideas in~\cite{Anderson:2000yy}, we employ is a weighted sum of
-squares, $\Gamma = \sum_{k=1}^{N'} w_k (\rho_k^\perp) ^ 2$, with the particular
-weights
-%
-\begin{equation}
-%
-w_k = \frac{\sigma_k^2}{\sigma_k^2 + N / A^2},
-%
-\end{equation}
-%
-where $A^2$ is a desired \textsc{snr} scale that is set by the analyst.  As the
-authors show in~\cite{svd-compdetstat}, this choice of weights has a better
-receiver operating characteristic for a signal of \textsc{snr}~=~$A$ than some
-other obvious choices, $w_k = \sigma_k^2$ or $w_k = 1$.
+where the first sum is the total cost for filtering and reconstructing the
+orthogonal filters $u_{jk}$.  The second sum is the cost of resampling the
+reconstructed time slice outputs to the original sample rate {\fmax}.  It
+assumes a \fir\ filter with \resampsamps\ sample points.  Note that the cost
+for resampling only occurs for the downsampled time slices. The resampling cost
+largely depends on {\resampsamps}.  The computational cost of \eqref{eq:TDcost}
+is dominated by the highest frequency terms in the sum.  Comparing just the
+highest frequency term of \eqref{eq:TDcost} with \eqref{eq:SNRTD} shows \order{
+(\slicesamps{\mathrm{max}} + \numtmps) \svdtmps{\mathrm{max}} \fmax} \flops\
+versus \order{\numtmps \tmpsamps \fmax} {\flops}.  The full calculation for a
+particular patch of parameter space is shown in table \ref{table:comp_cost}.
+\hl{FIXME we need to actually say what went into this} 
 
 
+\editorial{From here down introduce an example, but don't go through the FFT
+methods in lloid focus just on the comparison of the TD method without lloid
+tricks, the FD method without lloid tricks, and the TD lloid method (no comp
+detection statistic though), remember that the goal is near realtime detection
+not computational cost improvements on FD methods}
 
-\subsection{Comparison of computational costs and latency}
-
-Using all of these innovations, we are able to greatly reduce the compuational
-cost of searching for these signals. An example of this can be seen in
-table~\ref{table:comp_cost} where we compute the computational cost of
-filtering 256 templates from a $97\%$ minimal match template bank whitened with
-an (FIXME: is this correct?) Advanced \textsc{ligo} \textsc{asd}. It is
-interesting to note that by themselves, both the \textsc{svd} and time-slice
-innovations \emph{increase} the overall computational cost when combined with
-\textsc{fft} filtering. It is only when combined with conditional
-reconstruction do these methods yield computational savings. Details of the
-computational cost of different operations can be found in \ref{appendix:cost}.
 
 \editorial{It would be good to illustrate the layout of this particular
 template bank: masses spanned, time slice layout \dots}
 \begin{table}[!h]
-\caption{Operation counts per sample for six different detection methods.  The
-operation counts for \textsc{lloid} assume a reconstruction duty cycle of 5\%.
-Note that the \textsc{fft} method with \textsc{lloid} is almost 10 times faster
-than the conventional \textsc{fft} method, despite having substantially lower
-latency.}
 \label{table:comp_cost}
 \begin{center}
-\input{flop_budget}
+\input{flop_budget_example}
 \end{center}
+\caption{\hl{FIXME: Operation counts per sample for four different detection methods.}}
 \end{table}
 
 
