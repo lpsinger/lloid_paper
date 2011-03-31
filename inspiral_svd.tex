@@ -1,12 +1,12 @@
 \documentclass[showpacs,groupedaddress,showkeys,preprintnumbers]{iopart}
 \input{packages}
 \input{macros}
+\renewcommand{\arraystretch}{1.2}
 
 \begin{document}
 
-\title[LLOID]{Towards realtime detection of compact binary coalescence to
-improve the prospects for multimessenger astronomy\editorial{Submit to PRD or
-CQG?}}
+\title[LLOID]{Improving the prospects for multimessenger astronomy with
+\earlywarning\ detection of compact binary coalescence.}
 
 \date{\today}
 
@@ -41,14 +41,11 @@ available instruments are observing the electromagnetic counterparts to the
 first gravitational waves from coalescing compact objects.   Rapid, near
 realtime alerts, will improve the chances of detecting weak, decaying
 electromagnetic signals and correlating such signals with the gravitational
-wave strain.  In this paper, we describe a new, near realtime, detection
-strategy that exploits the properties of inspiral waveforms using principal
-component analysis, multi-rate filtering, and hierarchical detection.  We
-provide receiver operating characteristics from a prototype search pipeline
-that is capable of near-realtime detection with acheivable computational
-requirements.  
-\editorial{CH: I wasn't happy with the tone of the abstract.  I want to
-focus on the science goal of multimessenger Astronomy.}
+wave strain.  In this paper, we describe a new, realtime, detection strategy
+that exploits the properties of inspiral waveforms using principal component
+analysis and multi-rate filtering.  We provide detection efficiency
+characteristics from a prototype search pipeline that is capable of
+\earlywarning\ detection with acheivable computational requirements.  
 \end{abstract}
 
 \pacs{95.55.Ym, 84.30.Vn, 95.75.Wx}
@@ -66,14 +63,18 @@ focus on the science goal of multimessenger Astronomy.}
 
 \input{conclusions}
 
-\ack{\textsc{ligo} was constructed by the California Institute of Technology
+\ack{\LIGO\ was constructed by the California Institute of Technology
 and Massachusetts Institute of Technology with funding from the National
 Science Foundation and operates under cooperative agreement
-\textsc{phy}-\oldstylenums{0107417}. This paper has \textsc{ligo} Document
-Number \textsc{ligo}-\textsc{p}\oldstylenums{0900004}-v\oldstylenums{3}.}
+\textsc{phy}-\oldstylenums{0107417}. CH would like to thank Ilya Mandel
+for many discussions about rate estimates and the prospects of early
+detection.
 
-\appendix
-\input{appendix}
+This paper has \LIGO\ Document
+Number \LIGO-\textsc{p}\oldstylenums{0900004}-v\oldstylenums{3}.}
+
+%\appendix
+%\input{appendix}
 
 \section*{References}
 
