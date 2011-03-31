@@ -6,9 +6,25 @@ from optparse import OptionParser, Option
 from gstlal.templates import time_slices
 from pylal import spawaveform
 import numpy as np
+import matplotlib
 import pylab
 from itertools import groupby, izip
-
+matplotlib.rcParams.update({
+        "font.size": 9.0,
+        "axes.titlesize": 9.0,
+        "axes.labelsize": 9.0,
+        "xtick.labelsize": 9.0,
+        "ytick.labelsize": 9.0,
+        "legend.fontsize": 8.0,
+        "figure.figsize": (3,3),
+        "figure.dpi": 600,
+        "subplots.left": 0.1,
+        "subplots.right": 0.75,
+        "subplots.bottom": 0.25,
+        "subplots.top": 0.75,
+        "savefig.dpi": 600,
+        "text.usetex": True     # render all text with TeX
+})
 
 # Command line interface
 
@@ -33,6 +49,8 @@ slices = time_slices(mass_pairs, opts.flow, fhigh)
 mc = spawaveform.chirpmass(opts.mass1, opts.mass2)
 
 # Generate plot
+pylab.figure()
+ax = pylab.subplot(111)
 tmin = min(slice['begin'] for slice in slices)
 tmax = max(slice['end'] for slice in slices)
 legend_artists = []
@@ -51,24 +69,24 @@ pylab.yticks([], [])
 pylab.legend(legend_artists, legend_labels, loc = 'lower left')
 pylab.xlim(-tmax, 0.)
 pylab.ylim(-.15, .15)
-pylab.xlabel('time relative to coalescence')
+pylab.xlabel('time relative to coalescence (s)')
 pylab.ylabel(r'gravitational wave strain amplitude')
-#pylab.title(r'Time slices for a %g $\emdash$ %g M$_\odot$ inspiral' % (opts.mass1, opts.mass2))
+matplotlib.pyplot.subplots_adjust(left=0.06, right=0.88, top=0.95, bottom=0.12)
+
 pylab.savefig('time_slices.pdf')
 
 
 # Generate output table
 
-print r"\begin{tabular}{rr@{, }ll}"
-print r"\hline\hline"
-print r"$f_k$ (Hz) & ($t_{k+1}$ & $t_k$] (s) & Samples \\"
+print r"\begin{tabular}{|lrr}"
+#FIXME change the symbol for the number of sample points per slice if the macro changes
+print r"$\mathbf{f_k}$ \bf{(Hz)} & $\mathbf{(t_{k+1}}$,$\mathbf{t_k]}$ \bf{(s)} & $\mathbf{M_{\mathrm{k}}}$ \\"
 print r"\hline"
 for slice in slices:
 	begin = slice['begin']
 	if begin != 0.: # arrgh! floats have both negative and positive 0!
 		begin = -begin
-	print r"%(rate)d & $(%(end)g$&$%(begin)g]$ & %(samples)d \\" % {'begin': begin, 'end': -slice['end'], 'rate': slice['rate'], 'samples': int(round((slice['end'] - slice['begin']) * slice['rate']))}
-print r"\hline"
+	print r"%(rate)d & $(%(end)g$,$%(begin)g]$ & %(samples)d \\" % {'begin': begin, 'end': -slice['end'], 'rate': slice['rate'], 'samples': int(round((slice['end'] - slice['begin']) * slice['rate']))}
 print r"\end{tabular}"
 
 # Write latency
