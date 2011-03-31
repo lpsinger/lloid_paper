@@ -80,7 +80,7 @@ pylab.savefig('time_slices.pdf')
 
 print r"\begin{tabular}{|lrr}"
 #FIXME change the symbol for the number of sample points per slice if the macro changes
-print r"$\mathbf{f_k}$ \bf{(Hz)} & $\mathbf{(t_{k+1}}$,$\mathbf{t_k]}$ \bf{(s)} & $\mathbf{M_{\mathrm{k}}}$ \\"
+print r"$\mathbf{f_k}$ \bf{(Hz)} & $\mathbf{(t_{k+1}}$,$\mathbf{t_k]}$ \bf{(s)} & $\mathbf{\slicessamps}$ \\"
 print r"\hline"
 for slice in slices:
 	begin = slice['begin']
