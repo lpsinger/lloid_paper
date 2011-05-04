@@ -3,7 +3,7 @@ TEX = echo X | env TEXINPUTS=:packages/iopart:packages: pdflatex
 all: inspiral_svd.pdf
 
 PREREQS = \
-	flop_budget.tex inspiral_svd.tex introduction.tex analysis.tex appendix.tex packages.tex macros.tex method.tex results.tex time_slices.pdf mock_psd.pdf time_slices.tex time_slice_latency.tex references.bib N_before_Tc.pdf
+	flop_budget.tex flop_budget_example.tex inspiral_svd.tex introduction.tex analysis.tex appendix.tex packages.tex macros.tex method.tex results.tex time_slices.pdf mock_psd.pdf time_slices.tex time_slice_latency.tex references.bib N_before_Tc.pdf
 
 flop_budget.tex: gstlal_flop_budget.py 0.xml
 	python $^ > $@
