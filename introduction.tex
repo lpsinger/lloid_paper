@@ -58,23 +58,11 @@ and BHBH\_20deg~\cite{ALIGONoiseBHBH_20deg} provide better results for early
 detection but at the cost of fewer total events observed above SNR 8.}
 \end{figure}
 
-Although it is technically possible to detect NS--NS signals with the
-\earlywarning\ predicted in figure \ref{fig:earlywarning}, the reduction in
-latency is a challenging task.  As finite-impulse-response (\fir) filtering
-techniques are pushed from high latency configurations to low-latency
-configurations more computational resources are required.  A brute-force
-implementation of low lateny filtering may be too computationally costly to
-implement.  However, there are aspects of searches for binary coalescence that
-can be exploited to offset some of the intrinsic computational complexity: 1)
-The time-frequency evolution of the binary waveforms is such that multi-rate
-filtering may be employed. 2) The redundancy in the filter banks used to cover
-a particular parameter space may be reduced via rank-reduction schemes such as
-the singular value decomposition~\cite{Cannon:2010p10398}. We will use both
-aspects to demonstrate that a very low latency analysis with predictive
-detection of compact binary sources is possible with current computing
-resources.  Assuming other aspects of gravitational-wave observation latency
+Predictive detection of CBCs will require striking a balance between latency and throughput.  CBC searches consist of banks of matched filters, or cross-correlations between the data stream and a bank of nominal ``template'' signals.  There are many different implementations of matched filters, but most have high throughput at the cost of high latency, or low latency at the cost of low throughput.  The former are epitomized by the overlap-save algorithm for \textsc{fft} convolution, currently the preferred method in gravitational wave searches.  The most obvious example of the latter is the time domain (\textsc{td}) convolution, which is has no latency at all.  However, its computational complexity is quadratic in the length of the templates, so it is prohibitively expensive for long templates.
+
+Fortunately, the morphology of inspiral signals can be exploited to offset some of the computational complexity of low latency algorithms.  First, the signals evolve slowly in frequency, so that they can be broken into contiguous bandlimited time intervals and processed at possibly lower sample rates.  Second, inspiral filter banks consist of highly similar templates, admitting principal component analysis to reduce the number of templates.  We described a rank reduction scheme based on singular value decomposition in \cite{Cannon:2010p10398}.  We will use both aspects to demonstrate that a very low latency analysis with predictive detection of compact binary sources is possible with current computing resources.  Assuming other aspects of gravitational-wave observation latency
 can be reduced significantly, this should allow the possibility for prompt
-alerts to be sent to the Astronomical community.
+alerts to be sent to the astronomical community.
 
 The paper is organized as follows. First we provide an overview of our method
 for detecting compact binary coalescence signals in an \earlywarning\
