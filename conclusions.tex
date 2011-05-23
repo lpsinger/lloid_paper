@@ -3,37 +3,37 @@
 
 We have demonstrated a computationally feasible procedure for the rapid
 detection of gravitational waves emitted during the coalescence of neutron
-stars and stellar mass black holes.  These sources are expected to produce
-prompt electromagnetic signals and may be the progenitors of some short-hard
-gamma ray bursts.  Rapid alerts to the broader astronomical community may
+stars and stellar-mass black holes.  These sources are expected to produce
+prompt electromagnetic signals and may be the progenitors of some short hard
+gamma-ray bursts.  Rapid alerts to the broader astronomical community may
 improve the chances of detecting an electromagnetic counterpart in bands from
 X-ray down to radio.  We antipate requiring no more than \numcpus\ modern
-computer cores to analyze a four detector network of gravitational wave data
+computer cores to analyze a four-detector network of gravitational-wave data
 for such systems assuming spin effects can be ignored in parameterizing the
-expected signals ~\cite{the-papers-that-say-that-is-okay}.  This is within the
-current computing capabilities of the LSC data grid\cite{LDG}.
+expected signals~\cite{the-papers-that-say-that-is-okay}.  This is within the
+current computing capabilities of the \textsc{lsc} Data Grid~\cite{LDG}.
 
 The algorithm we described has no intrinsic latency.  However, there are
 fundamental and practical latencies associated with the analysis and detection
-procedure. For example, the \LIGO detectors, data acquisition is synchronized
-to a 1/16 Hz cadence introducing an up-front latency of 125ms.  Data
+procedure. For example, the \LIGO{} detectors, data acquisition is synchronized
+to a 1/16 Hz cadence introducing an up-front latency of 125 ms.  Data
 aggregation from the observatories will travel over various networks, each
 capable of high bandwith but perhaps only modest latency.  This could amount to
-a similar latency of $\sim$ 100ms.  Lastly, unless a realtime infrastructure is
+a similar latency of $\sim$ 100 ms.  Lastly, unless a realtime infrastructure is
 adopted post data acquisition, it is likely that there will be an inherent
 latency introduced by such infrastructure.  We have shown a prototype
-implementation using \gstlal\ that is capable of ~$\sim$ 1s latency. In our
+implementation using \gstlal\ that is capable of $\sim$1 s latency. In our
 opinion, significant work would have to be done in order to improve upon this
 number. However, it should be considered for third generation detector design.
 For example, a tighter integration of analysis and data acquisition would be
 beneficial.
 
-We have ommitted discussion of source localization.  Localization is known to
-be poor for signals that are detected before coalescence~\cite{fairhurst}.
-However, one should not immediately dismiss the practical usefullness of a
-poorly localized source.  Even with poor localization, it should be possible to
+We have omitted discussion of source localization. Localization is known to
+be poor for signals of low \SNR~\cite{Fairhurst2009}.
+However, one should not immediately dismiss the practical usefulness of a
+poorly localized source. Even with poor localization, it should be possible to
 begin downselecting what observatories could view a potential signal and for
-such observatories to begin any necessary prerequisite activities.  In future
+such observatories to begin any necessary prerequisite activities. In future
 works we wil explore more rigorously the pointing prospects with realistic
 simulations using the infrastructure and techniques described in this work.
 
