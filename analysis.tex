@@ -19,20 +19,6 @@ used for playing, authoring, or streaming media on Linux systems, GStreamer is
 an integral component of the popular Gnome desktop.
 
 \begin{figure}
-\includegraphics[width=\textwidth, angle=-90]{lloid.pdf}
-\caption{Pipeline schematic.}
+	\includegraphics{figures/lloid-diagram.pdf}
+	\caption{Schematic of LLOID pipeline illustrating signal flow.  Circles with arrows represent upsampling \protect\includegraphics{figures/upsample-symbol.pdf} or downsampling \protect\includegraphics{figures/downsample-symbol.pdf}.  Circles with plus signs represent summing junctions \protect\includegraphics{figures/adder-symbol.pdf}.  Squares \protect\includegraphics{figures/fir-symbol.pdf} stand for FIR filters.  Sample rate decreases from the top of the diagram to the bottom.}
 \end{figure}
-
-\begin{comment}
-
-% Ugly diagram!
-
-\begin{figure*}[h!]
-\begin{center}
-\includegraphics[width=1.0\textwidth]{figures/flow_chart.pdf}
-\caption{\label{f:flowchart} 
-}
-\end{center}
-\end{figure*}
-
-\end{comment}

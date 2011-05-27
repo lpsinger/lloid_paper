@@ -1,117 +1,126 @@
 \documentclass{amsart}
-\usepackage[usenames]{color}
 \usepackage{tikz}
 \usepackage{signalflowdiagram}
-\usetikzlibrary{fit,calc,chains,scopes}
+\usetikzlibrary{external,fit,calc,chains,scopes}
+\tikzexternalize
 \begin{document}
 
 \tikzstyle{junction}=[draw, fill, circle, line width=0pt, inner sep=0pt, minimum size=3pt]
 \tikzstyle{signal}=[draw, fill=white, circle, inner sep=0pt, minimum size=4pt]
 \tikzstyle{resample}=[draw, circle, line width=1pt, inner sep=0pt, minimum size=0.3cm]
 
+\tikzsetnextfilename{lloid-diagram}
+\begin{tikzpicture}[
+	node distance=2mm,
+	every path/.style={line width=1pt},
+	every node/.style={line width=1pt}
+]
+	\foreach \x in {0,1,2} {
+		\node[draw] at (0, {\x == 0 ? 0cm : (\x == 1 ? -3cm : -7.5cm)}) (u0) {};
+		\node[draw, below=of u0] (u1) {};
+		\node[below=of u1] (uellip\x) {$\vdots$};
+		\node[draw, below=of uellip\x] (u2) {};
 
-\begin{figure}
-	\begin{center}
-		\begin{tikzpicture}[
-			node distance=2mm,
-			every path/.style={line width=1pt},
-			every node/.style={line width=1pt}
-		]
-			\foreach \x in {0,1,2} {
-				\node[draw] at (0, {\x == 0 ? 0cm : (\x == 1 ? -3cm : -7.5cm)}) (u0) {};
-				\node[draw, below=of u0] (u1) {};
-				\node[below=of u1] (uellip\x) {$\vdots$};
-				\node[draw, below=of uellip\x] (u2) {};
+		\node[junction] at ($0.5*(u0) + 0.5*(u2) - (0.5, 0)$) (in\x tee) {};
+		\node[resample, left=1.5cm of in\x tee] (in\x) {\tiny$\downarrow$};
 
-				\node[junction] at ($0.5*(u0) + 0.5*(u2) - (0.5, 0)$) (in\x tee) {};
-				\node[resample, left=1.5cm of in\x tee] (in\x) {\tiny$\downarrow$};
+		\foreach \i in {0,1,2} {
+			\draw (in\x tee) |- (u\i);
+			\node[junction, right=1cm of u\i] (tee u\i) {};
+			\draw (u\i) -- (tee u\i);
+		}
 
-				\foreach \i in {0,1,2} {
-					\draw (in\x tee) |- (u\i);
-					\node[junction, right=1cm of u\i] (tee u\i) {};
-					\draw (u\i) -- (tee u\i);
-				}
+		\node[adder, right=2cm of tee u0] (v0\x) {};
+		\node[adder, below=of v0\x] (v1\x) {};
+		\node[adder, below=of v1\x] (v2\x) {};
+		\node[right=0.85cm of uellip\x] {$\vdots$};
+		\node[adder, right=2cm of tee u2] (v3\x) {};
+		\node[above=0cm of v3\x] {$\vdots$};
 
-				\node[adder, right=2cm of tee u0] (v0\x) {};
-				\node[adder, below=of v0\x] (v1\x) {};
-				\node[adder, below=of v1\x] (v2\x) {};
-				\node[right=0.85cm of uellip\x] {$\vdots$};
-				\node[adder, right=2cm of tee u2] (v3\x) {};
-				\node[above=0cm of v3\x] {$\vdots$};
+		\foreach \i in {0,1,2}
+			\foreach \j in {0,1,2,3}
+				\draw (tee u\i) -- (v\j\x);
 
-				\foreach \i in {0,1,2}
-					\foreach \j in {0,1,2,3}
-						\draw (tee u\i) -- (v\j\x);
+		\node[draw,dashed,line width=0.5pt,fit=(in\x tee) (u0) (u2)] (ortho\x) {};
+		\node[draw,dashed,line width=0.5pt,fit=(tee u0) (tee u2) (v0\x) (v3\x)] (reconstruct\x) {};
+	}
 
-				\node[draw,dashed,line width=0.5pt,fit=(in\x tee) (u0) (u2)] (ortho\x) {};
-				\node[draw,dashed,line width=0.5pt,fit=(tee u0) (tee u2) (v0\x) (v3\x)] (reconstruct\x) {};
-			}
+	\foreach \x in {1,2} {
+		\node[resample, right=1cm of v0\x, yshift=0.5cm] (resample0\x) {\tiny$\uparrow$};
+		\node[resample, right=1.5cm of v0\x, yshift=0.5cm] (resample1\x) {\tiny$\uparrow$};
+		\node[resample, right=2cm of v0\x, yshift=0.5cm] (resample2\x) {\tiny$\uparrow$};
+		\node[right=2.5cm of v0\x, yshift=0.5cm] (dots) {$\cdots$};
+		\node[below=of dots] (dots) {$\cdots$};
+		\node[below=of dots] (dots) {$\cdots$};
+		\node[resample, right=3.5cm of v0\x, yshift=0.5cm] (resample3\x) {\tiny$\uparrow$};
+	}
 
-			\foreach \x in {1,2} {
-				\node[resample, right=1cm of v0\x, yshift=0.5cm] (resample0\x) {\tiny$\uparrow$};
-				\node[resample, right=1.5cm of v0\x, yshift=0.5cm] (resample1\x) {\tiny$\uparrow$};
-				\node[resample, right=2cm of v0\x, yshift=0.5cm] (resample2\x) {\tiny$\uparrow$};
-				\node[right=2.5cm of v0\x, yshift=0.5cm] (dots) {$\cdots$};
-				\node[below=of dots] (dots) {$\cdots$};
-				\node[below=of dots] (dots) {$\cdots$};
-				\node[resample, right=3.5cm of v0\x, yshift=0.5cm] (resample3\x) {\tiny$\uparrow$};
-			}
+	\foreach \x in {0,1} {
+		\node[adder, right=1cm of v0\x] (adder0\x) {};
+		\node[adder, right=1.5cm of v1\x] (adder1\x) {};
+		\node[adder, right=2cm of v2\x] (adder2\x) {};
+		\node[adder, right=3.5cm of v3\x] (adder3\x) {};
+		\foreach \i in {0,1,2,3} {
+			\draw[->] (v\i \x) -- (adder\i \x);
+		}
+	}
 
-			\foreach \x in {0,1} {
-				\node[adder, right=1cm of v0\x] (adder0\x) {};
-				\node[adder, right=1.5cm of v1\x] (adder1\x) {};
-				\node[adder, right=2cm of v2\x] (adder2\x) {};
-				\node[adder, right=3.5cm of v3\x] (adder3\x) {};
-				\foreach \i in {0,1,2,3} {
-					\draw[->] (v\i \x) -- (adder\i \x);
-				}
-			}
+	\foreach \i in {0,1,2,3} {
+		\node[signal, right=4.5cm of v\i 0, label=right:$\rho_\i$] (out\i) {};
+		\draw[->] (v\i 2) -| (resample\i 2);
+		\draw[->] (resample\i 2) -- (adder\i 1) node[above=0.5cm of resample\i 2,fill=white] {$\vdots$};
+		\draw[->] (adder\i 1) -- (resample\i 1);
+		\draw[->] (resample\i 1) -- (adder\i 0);
+		\draw[->] (adder\i 0) -- (out\i);
+	}
 
-			\foreach \i in {0,1,2,3} {
-				\node[signal, right=4.5cm of v\i 0, label=right:$\rho_\i$] (out\i) {};
-				\draw[->] (v\i 2) -| (resample\i 2);
-				\draw[->] (resample\i 2) -- (adder\i 1) node[above=0.5cm of resample\i 2,fill=white] {$\vdots$};
-				\draw[->] (adder\i 1) -- (resample\i 1);
-				\draw[->] (resample\i 1) -- (adder\i 0);
-				\draw[->] (adder\i 0) -- (out\i);
-			}
+	\node[draw, left=0.5cm of in0] (whiten) {\emph{whiten}};
+	\node[signal, label=left:$x$, label=below:{\small 16384 Hz}, left=0.75cm of whiten] (x) {};
+	\node[below=1.5cm of in1] (ellip) {$\vdots$};
+	\node[right=1.6cm of ellip] {$\vdots$};
+	\node[right=4.1cm of ellip] {$\vdots$};
+	\node[above=1mm of out3] {\vdots};
+	\draw[->] (x) -- (whiten);
+	\draw[->] (whiten) -- (in0);
+	\draw[->] (in0) -- (in1);
+	\draw (in1) -- (ellip);
+	\draw[->] (ellip) -- (in2);
 
-			\node[draw, left=0.5cm of in0] (whiten) {\emph{whiten}};
-			\node[signal, label=left:$x$, label=below:{\small 16384 Hz}, left=0.75cm of whiten] (x) {};
-			\node[below=1.5cm of in1] (ellip) {$\vdots$};
-			\node[right=1.6cm of ellip] {$\vdots$};
-			\node[right=4.1cm of ellip] {$\vdots$};
-			\node[above=1mm of out3] {\vdots};
-			\draw[->] (x) -- (whiten);
-			\draw[->] (whiten) -- (in0);
-			\draw[->] (in0) -- (in1);
-			\draw (in1) -- (ellip);
-			\draw[->] (ellip) -- (in2);
+	\draw (in0) -- (in0tee) node[midway,above] {\small 4096 Hz};
+	\draw (in1) -- (in1tee) node[midway,above] {\small 512 Hz};
+	\draw (in2) -- (in2tee) node[midway,above] {\small 32 Hz};
 
-			\draw (in0) -- (in0tee) node[midway,above] {\small 4096 Hz};
-			\draw (in1) -- (in1tee) node[midway,above] {\small 512 Hz};
-			\draw (in2) -- (in2tee) node[midway,above] {\small 32 Hz};
+	\node[above=0.5cm of ortho0,align=center] (fir label) {Orthogonal \\ FIR filters \\ $\overbrace{\hspace{1cm}}^{}$};
+	\node[right=0.1cm of fir label,align=center] {Reconstruction \\ matrices \\ $\overbrace{\hspace{2.75cm}}^{}$};
+	\node[right=3.5cm of fir label,align=center] {Upsampling and \\ SNR accumulation \\ $\overbrace{\hspace{2.75cm}}^{}$};
+	\node[left=0.1cm of fir label,align=center] {Down-\\ sampling \\ $\overbrace{\hspace{1cm}}^{}$};
+	\node[left=1.75cm of fir label,align=center] {Data acquisition \\ and whitening \\ $\overbrace{\hspace{2cm}}^{}$};
 
-			\node[above=0.5cm of ortho0,align=center] (fir label) {Orthogonal \\ FIR filters \\ $\overbrace{\hspace{1cm}}^{}$};
-			\node[right=0.1cm of fir label,align=center] {Reconstruction \\ matrices \\ $\overbrace{\hspace{2.75cm}}^{}$};
-			\node[right=3.5cm of fir label,align=center] {Upsampling and \\ SNR accumulation \\ $\overbrace{\hspace{2.75cm}}^{}$};
-			\node[left=0.1cm of fir label,align=center] {Down-\\ sampling \\ $\overbrace{\hspace{1cm}}^{}$};
-			\node[left=1.75cm of fir label,align=center] {Data acquisition \\ and whitening \\ $\overbrace{\hspace{2cm}}^{}$};
+\end{tikzpicture}
 
-		\end{tikzpicture}
-		\caption{Schematic of LLOID pipeline illustrating signal flow.  Circles with arrows represent upsampling \protect\tikz{\protect \node[resample] {\tiny$\uparrow$};} or downsampling \protect\tikz{\protect \node[resample] {\tiny$\downarrow$};}.  Circles with plus signs represent summing junctions \protect\tikz{\protect \node[line width=1pt,adder] {\tiny$\uparrow$};}.  Squares \protect\tikz{\protect \node[line width=1pt,draw] {};} stand for FIR filters.  Sample rate decreases from the top of the diagram to the bottom.}
-	\end{center}
-\end{figure}
 
-This diagram is a work in progress.  Some corrections to make:
+\tikzsetnextfilename{upsample-symbol}
+\begin{tikzpicture}
+	\node[resample] {\tiny$\uparrow$};
+\end{tikzpicture}
 
-{\color{red}
-\begin{itemize}
-\item Add delay lines.
-\item Switch first downsampler and whitener.
-\item Resamplers are connected in series, not parallel.
-\item Translate figure to the left to align it visually with the caption.
-\end{itemize}
-}
+
+\tikzsetnextfilename{downsample-symbol}
+\begin{tikzpicture}
+	\node[resample] {\tiny$\downarrow$};
+\end{tikzpicture}
+
+
+\tikzsetnextfilename{adder-symbol}
+\begin{tikzpicture}
+	\node[line width=1pt,adder] {};
+\end{tikzpicture}
+
+
+\tikzsetnextfilename{fir-symbol}
+\begin{tikzpicture}
+	\node[line width=1pt,draw] {};
+\end{tikzpicture}
+
 
 \end{document}
