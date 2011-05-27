@@ -29,18 +29,49 @@ final moments as a binary~\cite{shibata:2007}.
 Prompt electromagnetic emission can arise as shells of relativistically
 outflowing matter collide in the inner shock. Such an inner shock from a
 compact binary coalescence is believed to be a mechanism for short gamma-ray
-bursts~\cite{Lee:2005, nakar07}. This prompt emission is a probe into the
-extreme initial conditions of the outflow. A very bright optical flash should
-accompany the x-rays and gamma-rays~\cite{Sari99}. \editorial{Should mention
-that optical flashes have been seen for a handful of long GRBs by very fast
-slews. TAROT has seen many within ~20 seconds. \cite{Klotz09}} In contrast, an
-afterglow is produced when the outflow impacts the interstellar medium.
-Afterglows represent lower Lorentz factors and the conditions of the
-environment far outside of the central engine, and are relatively insensitive
-to initial conditions. In order to observe the most intense electromagnetic
-emission and provide an unbroken chain of observations between the progenitor
-system and the expanding fireball, telescopes must point during the seconds
-surrounding the merger.
+bursts (short GRBs)~\cite{Lee:2005, nakar07}. The same inner shocks, or
+potentially reverse shocks, can produce a bright accompanying optical flash~\cite{Sari99}. Prompt emission is a probe into the extreme
+initial conditions of the outflow, in contrast with afterglows, which are
+relatively insensitive to initial conditions. Optical flashes
+have only been observed for a handful of long
+GRBs~\cite{1999Natur.398..400A,2003Natur.422..284F,2006A&A...454L.119J,0004-637X-660-1-489,2008Natur.455..183R,2011A&A...528A..15G}
+by telescopes with extremely rapid response or, in the case of GRB 080319B, by
+pure serendipity, where several telescopes were observing a previous GRB in the
+same field~\cite{2008Natur.455..183R}. Short GRBs, on the other hand, typically
+fade too quickly to observe past the initial burst of gamma rays and hard
+x-rays. Rapid gravitational-wave transient alerts could enable the observation
+of optical flashes from short GRBs. An optical counterpart would vastly boost
+confidence in the gravitational-wave detection and provide the tight sky
+localization necessary to allow determination of the source's host galaxy,
+which leads to a redshift measurement. With both redshift and a coincident
+gravitational-wave observation, we can produce precision measurements of the
+Hubble constant~\cite{2010ApJ...725..496N}.
+
+To this end, we have the ambition of reporting candidates not minutes
+\emph{after} the merger, but seconds \emph{before}.  \editorial{I think we
+should say also something about how we can also get the full \SNR{} within moments
+after the coalescence, it is obvious maybe, but we should be explicit}  By
+looking for threshold crossings before the gravitational-wave signal leaves
+the detection band, it is possible to trade some signal to noise ratio (\SNR{})
+for latency.  Figure \ref{fig:earlywarning} shows projected early trigger rates
+for NS--NS binaries in Advanced \LIGO\ assuming the event rate predictions
+in~\cite{Abadie:2010p10836}.
+%
+\begin{figure}
+\includegraphics{N_before_Tc.pdf}
+\caption{\label{fig:earlywarning} Expected number of NS--NS sources that will
+be detectable $T_\mathrm{bc}$ seconds before coalescence.  The solid line is the most
+likely yearly rate estimate $N_{\mathrm{re}}$ for Advanced \LIGO\ and the
+shaded region is the interval $N_{\mathrm{low}}$ to $N_{\mathrm{high}}$ from
+\cite{Abadie:2010p10836}.  Note that assuming \SNR\ 8 is sufficient for
+detection and that we observe $N_{\mathrm{re}} = 40$ events per year with a
+detector having the ZERO\_DET\_high\_P noise model described
+in~\cite{ALIGONoiseZERO_DET_high_P}, $\sim10$ sources detectable within 10
+seconds of merger and $\sim1$ sources detectable within 100 seconds of
+merger.  Other noise models, ZERO\_DET\_low\_P~\cite{ALIGONoiseZERO_DET_low_P}
+and BHBH\_20deg~\cite{ALIGONoiseBHBH_20deg} provide better results for early
+detection but at the cost of fewer total events observed above \SNR{} 8.}
+\end{figure}
 
 \editorial{Citation needed for LOOC-UP} The gravitational-wave community
 initiated a project to send alerts when potential gravitational-wave transients
@@ -58,32 +89,6 @@ the best gravitational-wave trigger generation latencies of 2--5 minutes.  We
 assume that in the advanced detector era the vetting process will be automated,
 so current trigger generation and telescope actuation would then dominate
 latency.
-
-To this end, we have the ambition of reporting candidates not minutes
-\emph{after} the merger, but seconds \emph{before}.  \editorial{I think we
-should say also something about how we can also get the full SNR within moments
-after the coalescence, it is obvious maybe, but we should be explicit}  By
-looking for threshold crossings before the signal leaves the detection band, it
-is possible to trade some signal to noise ratio (\textsc{snr}) for latency.
-Figure \ref{fig:earlywarning} shows projected early trigger rates for NS--NS
-binaries in Advanced \LIGO\ assuming the event rate predictions in
-\cite{Abadie:2010p10836}.
-%
-\begin{figure}
-\includegraphics{N_before_Tc.pdf}
-\caption{\label{fig:earlywarning} Expected number of NS--NS sources that will
-be detectable $T_\mathrm{bc}$ seconds before coalescence.  The solid line is the most
-likely yearly rate estimate $N_{\mathrm{re}}$ for Advanced \LIGO\ and the
-shaded region is the interval $N_{\mathrm{low}}$ to $N_{\mathrm{high}}$ from
-\cite{Abadie:2010p10836}.  Note that assuming \SNR\ 8 is sufficient for
-detection and that we observe $N_{\mathrm{re}} = 40$ events per year with a
-detector having the ZERO\_DET\_high\_P noise model described
-in~\cite{ALIGONoiseZERO_DET_high_P}, $\sim10$ sources may be detected within 10
-seconds of merger and $\sim1$ sources maybe detected within 100 seconds of
-merger.  Other noise models, ZERO\_DET\_low\_P~\cite{ALIGONoiseZERO_DET_low_P}
-and BHBH\_20deg~\cite{ALIGONoiseBHBH_20deg} provide better results for early
-detection but at the cost of fewer total events observed above SNR 8.}
-\end{figure}
 
 Predictive detection of \CBC{}s will require striking a balance between latency
 and throughput.  \CBC{} searches consist of banks of matched filters, or
@@ -103,7 +108,7 @@ evolve slowly in frequency, so that they can be broken into contiguous
 bandlimited time intervals and processed at possibly lower sample rates.
 Second, inspiral filter banks consist of highly similar templates, admitting
 principal component analysis to reduce the number of templates.  We described a
-rank reduction scheme based on singular value decomposition in
+rank-reduction scheme based on singular value decomposition in
 \cite{Cannon:2010p10398}.  We will use both aspects to demonstrate that a very
 low latency analysis with predictive detection of compact binary sources is
 possible with current computing resources.  Assuming other aspects of
