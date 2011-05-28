@@ -1,32 +1,9 @@
 #!/usr/bin/python
 import numpy
-import matplotlib
-matplotlib.use('Agg')
 import pylab
 import scipy
 from scipy import interpolate
 import sys
-
-#
-# default plot paramaters
-#
-
-matplotlib.rcParams.update({
-	"font.size": 9.0,
-	"axes.titlesize": 9.0,
-	"axes.labelsize": 9.0,
-	"xtick.labelsize": 9.0,
-	"ytick.labelsize": 9.0,
-	"legend.fontsize": 9.0,
-	"figure.figsize": (3,3),
-	"figure.dpi": 600,
-	"subplots.left": 0.05,
-	"subplots.right": 0.95,
-	"subplots.bottom": 0.05,
-	"subplots.top": 0.95,
-	"savefig.dpi": 600,
-	"text.usetex": True     # render all text with TeX
-})
 
 #
 # Constants
@@ -67,7 +44,7 @@ def snr_to_num(fracsnr, number=40):
 	return number * (fracsnr)**3
 
 # Start a new figure
-fig = pylab.figure(1, figsize=(5.5,2.25))
+fig = pylab.figure(figsize=(5.5,2.3))
 
 markers = ['k-', 'k--', 'k-.']
 
@@ -110,16 +87,15 @@ for i, cfile in enumerate(['data/ZERO_DET_high_P.txt', 'data/ZERO_DET_low_P.txt'
 
 	# generate the figure
 	ax1 = fig.add_subplot(1,1,1, adjustable='box', aspect=0.5)
-	pylab.loglog(t, num, markers[i], lw=2, label=cfile.replace('.txt','').replace('data/','').replace('_','\\_'))
+	pylab.loglog(t, num, markers[i], lw=2, label=cfile.replace('.txt','').replace('data/','').replace('_', ' '))
 	#pylab.hold(1)
 	pylab.fill_between(t, numminus, numplus, color='k', alpha=0.15)
 
 pylab.grid()
 pylab.legend(loc='lower left')
-pylab.ylabel('$\\langle N \\rangle$ yr$^{-1}$')
-pylab.xlabel('$T_{bc}$')
-pylab.subplots_adjust(bottom=0.15,top=0.95,left=0.08,right=0.95)
+pylab.ylabel(r'$\langle N \rangle$ yr$^{-1}$')
+pylab.xlabel(r'Time before coalescence, $T_{bc}$')
+pylab.subplots_adjust(bottom=0.2,top=0.95,left=0.08,right=0.95)
 pylab.xlim([0.01,1000])
 pylab.ylim([.1, 1000])
 pylab.savefig('N_before_Tc.pdf')
-sys.exit()
