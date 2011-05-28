@@ -10,20 +10,11 @@ import matplotlib
 import pylab
 from itertools import groupby, izip
 matplotlib.rcParams.update({
-        "font.size": 9.0,
-        "axes.titlesize": 9.0,
-        "axes.labelsize": 9.0,
-        "xtick.labelsize": 9.0,
-        "ytick.labelsize": 9.0,
-        "legend.fontsize": 8.0,
         "figure.figsize": (3,3),
-        "figure.dpi": 600,
         "subplots.left": 0.1,
         "subplots.right": 0.75,
         "subplots.bottom": 0.25,
         "subplots.top": 0.75,
-        "savefig.dpi": 600,
-        "text.usetex": True     # render all text with TeX
 })
 
 # Command line interface
