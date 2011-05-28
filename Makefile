@@ -18,8 +18,11 @@ figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.
 flop_budget.tex: gstlal_flop_budget.py 0.xml
 	python $^ > $@
 
-time_slices.tex time_slices.pdf time_slice_latency.tex: time_slices.py
+time_slices.tex: time_slices.py
 	python $< --mass1 1.4 --mass2 1.4 --flow 10 > $@
+
+time_slices.pdf time_slice_latency.tex: time_slices.tex
+	true # noop, built along with time_slices.tex
 
 mock_psd.pdf: mock_psd.py
 	python $<

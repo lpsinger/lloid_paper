@@ -10,7 +10,7 @@ import matplotlib
 import pylab
 from itertools import groupby, izip
 matplotlib.rcParams.update({
-        "figure.figsize": (3,3),
+        "figure.figsize": (3,2.8),
         "subplots.left": 0.1,
         "subplots.right": 0.75,
         "subplots.bottom": 0.25,
@@ -69,9 +69,9 @@ pylab.savefig('time_slices.pdf')
 
 # Generate output table
 
-print r"\begin{tabular}{|lrr}"
+print r"\begin{tabular}{lrr}"
 #FIXME change the symbol for the number of sample points per slice if the macro changes
-print r"$\mathbf{f_k}$ \bf{(Hz)} & $\mathbf{(t_{k+1}}$,$\mathbf{t_k]}$ \bf{(s)} & $\mathbf{\slicessamps}$ \\"
+print r"$f_k$ (Hz) & $(t_{k+1}$,$t_k]$ (s) & $\slicessamps$ \\"
 print r"\hline"
 for slice in slices:
 	begin = slice['begin']
