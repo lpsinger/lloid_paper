@@ -22,7 +22,6 @@
 		\node[draw, below=of uellip\x] (u2) {};
 
 		\node[junction] at ($0.5*(u0) + 0.5*(u2) - (0.5, 0)$) (in\x tee) {};
-		\node[resample, left=1.75cm of in\x tee] (in\x) {\tiny$\downarrow$};
 
 		\foreach \i in {0,1,2} {
 			\draw (in\x tee) |- (u\i);
@@ -55,6 +54,10 @@
 		\node[resample, right=3.5cm of v0\x, yshift=0.5cm] (resample3\x) {\tiny$\uparrow$};
 	}
 
+	\node[junction, left=1.9cm of in0tee] (in0) {};
+	\node[resample, left=1.75cm of in1tee] (in1) {\tiny$\downarrow$};
+	\node[resample, left=1.75cm of in2tee] (in2) {\tiny$\downarrow$};
+
 	\foreach \x in {0,1} {
 		\node[adder, right=1cm of v0\x] (adder0\x) {};
 		\node[adder, right=1.5cm of v1\x] (adder1\x) {};
@@ -74,14 +77,16 @@
 		\draw[->] (adder\i 0) -- (out\i);
 	}
 
-	\node[draw, left=0.5cm of in0] (whiten) {\emph{whiten}};
-	\node[signal, label=left:$x$, label=below:{\small 16384 Hz}, left=0.75cm of whiten] (x) {};
+	\node[signal, label=left:$x$, left=0.75cm of in0] (x) {};
+	%\node[draw, left=0.5cm of in0] (whiten) {\emph{whiten}};
+	%\node[signal, label=left:$x$, label=below:{\small 16384 Hz}, left=0.75cm of whiten] (x) {};
 	\node[below=1.5cm of in1] (ellip) {$\vdots$};
 	\node[right=1.6cm of ellip] {$\vdots$};
 	\node[right=4.1cm of ellip] {$\vdots$};
 	\node[above=1mm of out3] {\vdots};
-	\draw[->] (x) -- (whiten);
-	\draw[->] (whiten) -- (in0);
+	\draw[->] (x) -- (in0);
+	%\draw[->] (x) -- (whiten);
+	%\draw[->] (whiten) -- (in0);
 	\draw[->] (in0) -- (in1);
 	\draw (in1) -- (ellip);
 	\draw[->] (ellip) -- (in2);
@@ -92,9 +97,9 @@
 
 	\node[above=0.5cm of ortho0,align=center] (fir label) {Orthogonal \\ FIR filters \\ $\overbrace{\hspace{1cm}}^{}$};
 	\node[right=0.1cm of fir label,align=center] {Reconstruction \\ matrices \\ $\overbrace{\hspace{2.75cm}}^{}$};
-	\node[right=3.5cm of fir label,align=center] {Upsampling and \\ SNR accumulation \\ $\overbrace{\hspace{2.75cm}}^{}$};
-	\node[left=0.1cm of fir label,align=center] {Down-\\ sampling \\ $\overbrace{\hspace{1cm}}^{}$};
-	\node[left=1.75cm of fir label,align=center] {Data acquisition \\ and whitening \\ $\overbrace{\hspace{2cm}}^{}$};
+	\node[right=3.5cm of fir label,align=center] {Interpolation and \\ SNR accumulation \\ $\overbrace{\hspace{2.75cm}}^{}$};
+	\node[left=0.3cm of fir label,align=center] {Decimation \\ of input \\ $\overbrace{\hspace{1cm}}^{}$};
+	%\node[left=1.75cm of fir label,align=center] {Data acquisition \\ and whitening \\ $\overbrace{\hspace{2cm}}^{}$};
 
 \end{tikzpicture}
 
