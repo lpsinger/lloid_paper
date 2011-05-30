@@ -13,20 +13,21 @@ in~\cite{Cannon:2010p10398} that exploits the redundancy of the template banks.
 \subsection{Conventional \CBC{} matched filter searches}
 
 Inspiral signals are parameterized by a set of intrinsic parameters
-$\bar{\theta}$ that determine the amplitude and phase evolution of the observed
-binary signals. For systems where the effects of spin can be ignored, the
+$\bar{\theta}$%
+%
+\editorial{Change this to a harpoon or vector symbol.}
+%
+that determine the amplitude and phase evolution of the gravitational wave strain. For systems where the effects of spin can be ignored, the
 intrinsic parameters are the component masses of the binary, $\bar{\theta} =
 (m_1, m_2)$. Searches for gravitational waves from compact binary coalescence
 typically employ matched filter banks that discretely
 sample the possible intrinsic parameters~\cite{findchirppaper}.  The filters
-for the waveforms $x(t,\bar{\theta})$, known as templates, are the waveforms
-weighted by the inverse detector noise amplitude spectral density, so as to
-whiten them. To construct a template bank, templates are chosen with discrete
-signal parameters $\theta_1,\, \theta_2,\, \cdots$, $\theta_N$ to assure a
+for the waveforms $h(t,\bar{\theta})$, known as templates, are the waveforms
+weighted by the inverse detector noise amplitude spectral density. To construct a template bank, templates are chosen with discrete signal parameters $\theta_1,\, \theta_2,\, \cdots$, $\theta_N$ to assure a
 bounded loss of \SNR~\cite{Owen:1995tm,Owen:1998dk}. That is, any possible
 signal within the search space will have a cross-correlation of $\geq0.97$ with
-at least one template. Such a template bank is said to have a 97\% {\em
-minimum match}. Data are filtered against each template to produce an \SNR{}
+at least one template. Such a template bank is said to have a {\em
+minimum match} of 0.97. Data are filtered against each template to produce an \SNR{}
 time-series. Local peak-finding across time and templates determines detection
 candidates.
 %
