@@ -33,12 +33,14 @@ sample rate $f^s$, ($k^{s} \equiv k f / f^{s}$).  For the case of band limited
 functions it is sufficient to simply remove sample points to define the
 downsampled version as is shown in the previous equation.  
 
-Definition of decimation for a function $p$:
+In general one requiries an anti aliasing filter in order to decimate the data.
+The definition of decimation for a function $p$:
 \begin{equation}
 p[k^{s+1}] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] \, p\!\left[k^{s}-n\right]
 \end{equation}
 
-Definition of interpolation for a function $p$:
+It is also necessary to increas the sample rate of a function.  Definition of
+interpolation for a function $p$:
 \begin{equation}
 p[k^{s}] = \sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] \, p\!\left[k^{s+1}-n\right]
 %p[k^{s}] = \sum_{n=k^{s}-N^\shortuparrow/2}^{k^{s} + N^\shortuparrow/2-1} b^\shortuparrow[k^{s} - n] \, p\!\left[\frac{n f^{s+1}}{f^{s}}\right]
