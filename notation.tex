@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{stmaryrd}
 
 \title{Notation proposal}
 \author{Leo and Nick}
@@ -12,46 +13,44 @@
 
 Definition of matched filter:
 \begin{equation}
-\rho_i [k] = \sum_{n=0}^{N-1} h_{i n} x [k-n]
+\rho_i [k] = \sum_{n=0}^{N-1} h_{i}[n] x [k-n]
 \end{equation}
 
 Definition of time slices:
 \begin{align}
-h_{i k} &= \sum_s h_{i k}^{(s)} \\
-h_{i k}^{(s)} &= \left\{ \begin{aligned}
-    h_{ik} & \; \text{if } t^{(s+1)} < \frac{k}{f} \leq t^{(s)} \\
+h_{i}[k] &= \sum_s h_{i}^{s}[k] \\
+h_{i}^{s}[k] &= \left\{ \begin{aligned}
+    h_{i}[k] & \; \text{if } t^{s+1} < \frac{k}{f} \leq t^{s} \\
     0 & \; \text{, otherwise }
     \end{aligned} \right.
 \end{align}
 
 Definition of decimation:
 \begin{equation}
-x^{(s+1)}[k] = \sum_{n=-N^\downarrow/2}^{N^\downarrow/2-1} b_n^\downarrow x^{(s)}\!\left[k \frac{f^{(s)}}{f^{(s+1)}} - n\right]
+x^{s+1}[k] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] x^{s}\!\left[k \frac{f^{s}}{f^{s+1}} - n\right]
 \end{equation}
 
 \textsc{svd}:
 \begin{equation}
-h^{(s)}_{i\left(\frac{f}{f^{(s)}} k\right)} = \sum_{m=0}^{M-1} v^{(s)}_{im} \sigma^{(s)}_m u^{(s)}_{mk}
+h^{s}_{i}\!\left[\frac{f}{f^{s}} k\right] = \sum_{m=0}^{M-1} v^{s}_{im} \sigma^{s}_m u^{s}_{m}[k] \approx \sum_{l=0}^{L^s-1} v^{s}_{il} \sigma^{s}_l u^{s}_{l}[k]
 \end{equation}
 
 Early-warning \textsc{snr}:
 \begin{equation}
-    \rho^{(s)}_i[k] = \underbrace{\sum_{l=0}^{L^{(s)}-1} v^{(s)}_{il} \sigma^{(s)}_l}_{\substack{\text{Reconstruction}\\ \text{with {\sc SVD}}}}
-    \underbrace{\sum_{n=0}^{N^{(s)} - 1} u^{(s)}_{ln} x^{(s)}[k-n]}_{\substack{\text{orthogonal}\\ \text{{\sc FIR} filter}}} + \underbrace{\sum_{n=-N^\uparrow/2}^{N^\uparrow/2-1} b^\uparrow_n \sum_{q \in \mathbb{Z}} \delta\!\left[k-n, q \frac{f^{(s)}}{f^{(s-1)}}\right]}_\text{interpolation filter} \underbrace{\rho^{(s+1)}_i[q]}_{\substack{\text{accumulated {\sc snr}}\\ \text{from prior time slices}}}
+    \rho^{s}_i[k] = \underbrace{\sum_{l=0}^{L^{s}-1} v^{s}_{il} \sigma^{s}_l}_{\substack{\text{Reconstruction}\\ \text{with {\sc SVD}}}}
+    \underbrace{\sum_{n=0}^{N^{s} - 1} u^{s}_{l}[n] x^{s}[k-n]}_{\substack{\text{orthogonal}\\ \text{{\sc FIR} filter}}} + \underbrace{\sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] \sum_{q \in \mathbb{Z}} \delta\!\left[k-n, q \frac{f^{s}}{f^{s+1}}\right]}_\text{interpolation filter} \underbrace{\rho^{s+1}_i[q]}_{\substack{\text{accumulated {\sc snr}}\\ \text{from prior time slices}}}
 \end{equation}
-
-nvf commentary: I think it would be more natural to use $h_i[k]$ everywhere rather than $h_{ik}$. Accordingly, I'd notate $u^{(s)}_m[k]$ as the basis templates. Leo disagreed.
 
 \begin{table}
 \begin{tabular}{rl}
 \hline
 \textbf{Symbol} & \textbf{Definition} \\\hline
-$f^{(s)}$ & The sample rate for time-slice $s$\\
-$t^{(s)}$ & The time of ``late'' boundary for time-slice $s$\\
-$N^{(s)}$ & The number of samples in time-slice $s$\\
-$L^{(s)}$ & The number of principal components in time-slice $s$\\
-$N^\uparrow$ & The number of sample points in the interpolation filter\\
-$N^\downarrow$ & The number of sample points in the decimation filter\\
+$f^{s}$ & The sample rate for time-slice $s$\\
+$t^{s}$ & The time of ``late'' boundary for time-slice $s$\\
+$N^{s}$ & The number of samples in time-slice $s$\\
+$L^{s}$ & The number of principal components in time-slice $s$\\
+$N^\shortuparrow$ & The number of sample points in the interpolation filter\\
+$N^\shortdownarrow$ & The number of sample points in the decimation filter\\
 $M$ & The number of templates\\
 \hline
 \end{tabular}
