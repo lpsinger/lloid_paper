@@ -25,16 +25,16 @@ h_{i}^{s}[k] &= \left\{ \begin{aligned}
 
 Definition of decimation:
 \begin{equation}
-x^{s+1}[k] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] x^{s}\!\left[k \frac{f^{s}}{f^{s+1}} - n\right]
+x^{s+1}[k^{s+1}] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] x^{s}\!\left[k^{s} - n\right] \text{, where } k^{s} = k^{s + 1} \frac{f^{s}}{f^{s+1}}
 \end{equation}
 
 \textsc{svd}:
 \begin{equation}
-h^{s}_{i}\!\left[\frac{f}{f^{s}} k\right] = \sum_{m=0}^{M-1} v^{s}_{im} \sigma^{s}_m u^{s}_{m}[k] \approx \sum_{l=0}^{L^s-1} v^{s}_{il} \sigma^{s}_l u^{s}_{l}[k]
+h^{s}_{i}\!\left[k^{s}\right] = \sum_{m=0}^{M-1} v^{s}_{im} \sigma^{s}_m u^{s}_{m}[k^{s}] \approx \sum_{l=0}^{L^s-1} v^{s}_{il} \sigma^{s}_l u^{s}_{l}[k^{s}] \text{, where } k^{s} = \frac{f}{f^{s}} k
 \end{equation}
 
 Early-warning \textsc{snr}:
-\newcommand{\mystrut}{\rule[-2em]{0pt}{0pt}}
+\newcommand{\mystrut}{\rule[-2em]{0pt}{0pt}}  % line up the underbraces
 \begin{equation}
     \rho^{s}_i[k] = \underbrace{\mystrut\sum_{l=0}^{L^{s}-1} v^{s}_{il} \sigma^{s}_l}_{\substack{\text{Reconstruction}\\ \text{with {\sc SVD}}}}
     \underbrace{\mystrut\sum_{n=0}^{N^{s} - 1} u^{s}_{l}[n] x^{s}[k-n]}_{\substack{\text{orthogonal}\\ \text{{\sc FIR} filter}}} + \underbrace{\mystrut\sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] \sum_{q \in \mathbb{Z}} \delta\!\left[k-n, q \frac{f^{s}}{f^{s+1}}\right]}_\text{interpolation filter} \underbrace{\mystrut\rho^{s+1}_i[q]}_{\substack{\text{accum.}\\ \text{prior {\sc snr}}}}
