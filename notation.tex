@@ -33,9 +33,14 @@ sample rate $f^s$.  For the case of band limited functions it is sufficient to
 simply remove sample points to define the downsampled version as is shown in
 the previous equation.  
 
-Definition of decimation:
+Definition of decimation for a function $f$:
 \begin{equation}
-x^{s+1}[k^{s+1}] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] x^{s}\!\left[k^{s} - n\right]
+f[k^{s+1}] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] f\!\left[k^{s} - n\right]
+\end{equation}
+
+Definition of interpolation for a function $f$:
+\begin{equation}
+f[k^{s}] = \sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] f\!\left[k^{s+1} - n\right]
 \end{equation}
 
 \textsc{svd}:
@@ -46,8 +51,11 @@ h^{s}_{i}\!\left[k^{s}\right] = \sum_{m=0}^{M-1} v^{s}_{im} \sigma^{s}_m u^{s}_{
 Early-warning \textsc{snr}:
 \newcommand{\mystrut}{\rule[-2em]{0pt}{0pt}}  % line up the underbraces
 \begin{equation}
-    \rho^{s}_i[k] = \underbrace{\mystrut\sum_{l=0}^{L^{s}-1} v^{s}_{il} \sigma^{s}_l}_{\substack{\text{Reconstruction}\\ \text{with {\sc SVD}}}}
-    \underbrace{\mystrut\sum_{n=0}^{N^{s} - 1} u^{s}_{l}[n] x^{s}[k-n]}_{\substack{\text{orthogonal}\\ \text{{\sc FIR} filter}}} + \underbrace{\mystrut\sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] \sum_{q \in \mathbb{Z}} \delta\!\left[k-n, q \frac{f^{s}}{f^{s+1}}\right]}_\text{interpolation filter} \underbrace{\mystrut\rho^{s+1}_i[q]}_{\substack{\text{accum.}\\ \text{prior {\sc snr}}}}
+    \rho^{s}_i[k^{s}] = \underbrace{\mystrut\sum_{l=0}^{L^{s}-1} v^{s}_{il} \sigma^{s}_l}_{\substack{\text{Reconstruction}\\ \text{with {\sc SVD}}}}
+    \underbrace{\mystrut\sum_{n=0}^{N^{s} - 1} u^{s}_{l}[n] x[k^{s}-n]}_{\substack{\text{orthogonal}\\ \text{{\sc FIR} filter}}} + 
+    % + 
+    % \underbrace{\mystrut\sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] \sum_{q \in \mathbb{Z}} \delta\!\left[k-n, q \frac{f^{s}}{f^{s+1}}\right]}_\text{interpolation filter} 
+    \underbrace{\mystrut\rho^{s+1}_i[k^{s}]}_{\substack{\text{accum.}\\ \text{prior {\sc snr}}}}
 \end{equation}
 
 \begin{table}
