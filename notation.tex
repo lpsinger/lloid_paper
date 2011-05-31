@@ -1,9 +1,7 @@
 \documentclass[letterpaper,11pt]{article}
-\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
-\usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{amsmath}
-\usepackage{stmaryrd}
+\usepackage{stmaryrd}  % gives \shortuparrow and \shortdownarrow
 
 \title{Notation proposal}
 \author{Leo and Nick}
@@ -36,9 +34,10 @@ h^{s}_{i}\!\left[\frac{f}{f^{s}} k\right] = \sum_{m=0}^{M-1} v^{s}_{im} \sigma^{
 \end{equation}
 
 Early-warning \textsc{snr}:
+\newcommand{\mystrut}{\rule[-2em]{0pt}{0pt}}
 \begin{equation}
-    \rho^{s}_i[k] = \underbrace{\sum_{l=0}^{L^{s}-1} v^{s}_{il} \sigma^{s}_l}_{\substack{\text{Reconstruction}\\ \text{with {\sc SVD}}}}
-    \underbrace{\sum_{n=0}^{N^{s} - 1} u^{s}_{l}[n] x^{s}[k-n]}_{\substack{\text{orthogonal}\\ \text{{\sc FIR} filter}}} + \underbrace{\sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] \sum_{q \in \mathbb{Z}} \delta\!\left[k-n, q \frac{f^{s}}{f^{s+1}}\right]}_\text{interpolation filter} \underbrace{\rho^{s+1}_i[q]}_{\substack{\text{accumulated {\sc snr}}\\ \text{from prior time slices}}}
+    \rho^{s}_i[k] = \underbrace{\mystrut\sum_{l=0}^{L^{s}-1} v^{s}_{il} \sigma^{s}_l}_{\substack{\text{Reconstruction}\\ \text{with {\sc SVD}}}}
+    \underbrace{\mystrut\sum_{n=0}^{N^{s} - 1} u^{s}_{l}[n] x^{s}[k-n]}_{\substack{\text{orthogonal}\\ \text{{\sc FIR} filter}}} + \underbrace{\mystrut\sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] \sum_{q \in \mathbb{Z}} \delta\!\left[k-n, q \frac{f^{s}}{f^{s+1}}\right]}_\text{interpolation filter} \underbrace{\mystrut\rho^{s+1}_i[q]}_{\substack{\text{accum.}\\ \text{prior {\sc snr}}}}
 \end{equation}
 
 \begin{table}
