@@ -6,28 +6,35 @@ for compact binary coalescence.  The previous method requires several
 computations that can be done before the analysis is actually underway.  Thus
 we divide the procedure into two stages 1) an offline planning stage and 2) an
 online, low latency filtering stage.  The offline stage can be done before the
-analysis is started an updated asychronously whereas the online stage must keep
+analysis is started an updated asychronously, whereas the online stage must keep
 up with the detector output and produce search results as rapidly as possible.
 In the next two subsections we describe what these stages entail.
 
 \subsection{Planning stage}
 
-The planning stage proceeds as follows.  First, the templates are chosen by
-covering the space of mass parameters with a hexagonal grid
-\cite{PhysRevD.76.102004} in order to satisfy the minimum match criterion.
-Next, the templates are subdivided into groups of neighbors called
-``sub-banks'' that are appropriately sized so that each bank can be efficiently
-handled by a single machine.  (In this paper, we will only study a single
-sub-bank.)  Using our understanding of the time-frequency evolution of the
-templates, we choose time slice boundaries such that all of the templates
-within this sub-bank are sub-critically sampled at progressively lower sample
-rates.  Next, the templates within this sub-bank are realized as \textsc{fir}
-filter coefficients.  For each time slice, the templates are downsampled to the
-appropriate sample rate.  Finally, the \textsc{svd} is applied to each time
-slice in order to produce a set of orthogonal \textsc{fir} filters and a
-reconstruction matrix that maps them back to the original templates.  The
-downsampled orthogonal \textsc{fir} filter coefficients, the reconstruction
-matrix, and the time slice boundaries are all saved to disk.
+The choice of filter waveforms and singular value decomposition can be done in
+advance and will be valid as long as the detector noise spectrum remains
+roughly constant.  New filter waveforms can be computed asynchronously using
+updated spectrum estimates as they are available. 
+
+The planning stage begins with choosing templates that cover the space of mass
+parameters with a hexagonal grid \cite{PhysRevD.76.102004} in order to satisfy
+the minimum match criterion, which assures a user specified maximum loss in SNR
+for signals that fall in-between the chosen templates.  Next, the templates are
+subdivided into groups of neighbors called ``sub-banks'' that are appropriately
+sized so that each bank can be efficiently handled by a single computer.
+Dividing the mass space into smaller sub-banks also aids in the computational
+cost of the singular value decomposition.  Using our understanding of the
+time-frequency evolution of the templates, we choose time slice boundaries as
+in \eqref{FIXME} such that all of the templates within a sub-bank are
+sub-critically sampled at progressively lower sample rates.  Next, the
+templates within the sub-bank are realized as \textsc{fir} filter coefficients.
+For each time slice, the templates are downsampled to the appropriate sample
+rate.  Finally, the \textsc{svd} is applied to each time slice in order to
+produce a set of orthogonal \textsc{fir} filters and a reconstruction matrix
+that maps them back to the original templates.  The downsampled orthogonal
+\textsc{fir} filter coefficients, the reconstruction matrix, and the time slice
+boundaries are all saved to disk.
 
 \subsection{Filtering stage}
 
