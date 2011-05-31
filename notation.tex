@@ -20,17 +20,20 @@ h_{i}[k] &= \sum_s h_{i}^{s}[k] \\
 h_{i}^{s}[k] &= \left\{ \begin{aligned}
     h_{i}[k] & \; \text{if } t^{s+1} < \frac{k}{f} \leq t^{s} \\
     0 & \; \text{, otherwise }
-    \end{aligned} \right.
+    \end{aligned} \right. \\
+h_{i}^{s}[k^{s}] &\equiv h_{i}^{s}\!\left[k\frac{f}{f^{s}}\right]
 \end{align}
+
+Throughout, we will use the convention that $k$ indexes time-series sampled at the full sample rate $f$ and $k^s$ indexes time-series sampled at a reduced sample rate $f^s$.
 
 Definition of decimation:
 \begin{equation}
-x^{s+1}[k^{s+1}] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] x^{s}\!\left[k^{s} - n\right] \text{, where } k^{s} = k^{s + 1} \frac{f^{s}}{f^{s+1}}
+x^{s+1}[k^{s+1}] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] x^{s}\!\left[k^{s} - n\right]
 \end{equation}
 
 \textsc{svd}:
 \begin{equation}
-h^{s}_{i}\!\left[k^{s}\right] = \sum_{m=0}^{M-1} v^{s}_{im} \sigma^{s}_m u^{s}_{m}[k^{s}] \approx \sum_{l=0}^{L^s-1} v^{s}_{il} \sigma^{s}_l u^{s}_{l}[k^{s}] \text{, where } k^{s} = \frac{f}{f^{s}} k
+h^{s}_{i}\!\left[k^{s}\right] = \sum_{m=0}^{M-1} v^{s}_{im} \sigma^{s}_m u^{s}_{m}[k^{s}] \approx \sum_{l=0}^{L^s-1} v^{s}_{il} \sigma^{s}_l u^{s}_{l}[k^{s}]
 \end{equation}
 
 Early-warning \textsc{snr}:
