@@ -29,18 +29,20 @@ h_{i}^{s}[k^{s}] &\equiv h_{i}^{s}\!\left[k\frac{f}{f^{s}}\right]
 
 Throughout, we will use the convention that $k$ indexes time-series sampled at
 the full sample rate $f$ and $k^s$ indexes time-series sampled at a reduced
-sample rate $f^s$.  For the case of band limited functions it is sufficient to
-simply remove sample points to define the downsampled version as is shown in
-the previous equation.  
+sample rate $f^s$, ($k^{s} \equiv k f \ f^{s}$).  For the case of band limited
+functions it is sufficient to simply remove sample points to define the
+downsampled version as is shown in the previous equation.  
 
-Definition of decimation for a function $f$:
+Definition of decimation for a function $p$:
 \begin{equation}
-f[k^{s+1}] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] f\!\left[k^{s} - n\right]
+p[k^{s+1}] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] \, p\!\left[k^{s}-n\right]
 \end{equation}
 
-Definition of interpolation for a function $f$:
+Definition of interpolation for a function $p$:
 \begin{equation}
-f[k^{s}] = \sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] f\!\left[k^{s+1} - n\right]
+p[k^{s}] = \sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] \, p\!\left[k^{s+1}-n\right]
+%p[k^{s}] = \sum_{n=k^{s}-N^\shortuparrow/2}^{k^{s} + N^\shortuparrow/2-1} b^\shortuparrow[k^{s} - n] \, p\!\left[\frac{n f^{s+1}}{f^{s}}\right]
+%f[k^{s}] = \sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] f\!\left[n \frac{f^{s}}{f^{s+1}}  \right]
 \end{equation}
 
 \textsc{svd}:
