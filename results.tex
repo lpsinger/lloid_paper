@@ -13,10 +13,31 @@ pipeline described in the previous section.  We answer the following questions
 
 \subsection{Measured \SNR\ loss}
 
+We expect two contributions to the \SNR\ loss to arise in our implementation of
+the \lloid\ algorithm.  The first is the \SNR\ loss due to the truncation of
+the SVD basis, which is fundamental, and estimates for it
+exist~\cite{Cannon:2010p10398}.  The second comes from non ideal
+implementations of resampling that cause signal loss.  We have measured the
+effect of the resampling in the pipeline alone on a single waveform to gauge
+the magnitude of the loss.  It is shown in figure \ref{fig:resamp_mm} as a
+function of the quality of the {\tt audioresample} element (which is
+proportional to the filter length used).  In both cases we have to compare the
+\SNR\ loss to the expected \SNR\ loss that arises from the discreteness of the
+template bank which is typically $\sim 3\%$.  We will consider a comparable
+\SNR\ loss to be tolerable, but ideally would like to have a factor of 10 lower
+loss from the \lloid\ implementation (i.e. no more than $\sim 0.3 \%$).  
+%
 \begin{figure}
 \includegraphics{resamp_mm.pdf}
-\caption{\label{fig:resamp_mm}}
+\caption{\label{fig:resamp_mm}Mis-match as a function of the {\tt
+audioresample} element's quality parameter.  Increasing the quality changes the
+length of the sinc function filter that is used to decimate and interpolate the
+data and filter output in our test pipeline.  Choosing a quality of 4
+corresponds to a filter length of 64 samples and results in an acceptable loss
+of .2 \% in \SNR\ for the chosen waveform.}
 \end{figure}
+
+
 
 \subsection{Measured latency}
 
