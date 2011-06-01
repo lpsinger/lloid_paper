@@ -12,8 +12,8 @@ inspiral_svd.pdf: $(PREREQS)
 figures/diagram.pdf: figures/diagram.tex
 	cd $(@D) && $(TEX) diagram
 
-#figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf: figures/diagram.pdf
-#	make -C $(@D) $(@F)
+figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf: figures/diagram.pdf
+	make -C $(@D) $(@F)
 
 flop_budget.tex: gstlal_flop_budget.py 0.xml
 	python $^ > $@
