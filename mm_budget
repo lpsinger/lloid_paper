@@ -4,7 +4,7 @@ import numpy
 import matplotlib
 matplotlib.use('TkAgg')
 matplotlib.rcParams.update({
-        "figure.figsize": (5.5,2.25),
+        "figure.figsize": (5.,2.0),
         "subplots.left": 0.1,
         "subplots.right": 0.75,
         "subplots.bottom": 0.25,
