@@ -95,11 +95,11 @@ lal\_firbank}, which produces N channels of filter output from an NxM matrix of
 \fir\ filter coefficients.  This element is used in parallel branches in the
 pipeline to implement the filtering of the SVD basis filters in each time
 slice.  Rather than implement the time sliced templates as zero padded \fir\
-filters as described in \eqref{FIXME} we instead implement them as shorter, but
-appropriately time advanced \fir\ filters that contain only the nonzero
-samples.  Adding the appropriate time offset to the filter output makes up for
-the lack of explicit zero padding.  The orthogonal filter outputs must be
-reconstructed into the filter output for the underlying physical filter ouputs. 
+filters as described in \eqref{FIXME} we instead implement them as shorter
+filters that contain only the nonzero samples.  Adding the appropriate time
+offset to the filter output later in the pipeline makes up for the lack of
+explicit zero padding.  The orthogonal filter outputs must be reconstructed
+into the filter output for the underlying physical filter ouputs. 
 
 \subsubsection{Reconstruction}
 
