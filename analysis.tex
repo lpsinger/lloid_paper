@@ -1,14 +1,14 @@
 \section{Implementation}
 
-In this section we describe an implementation of the method described in
-section \ref{label{sec:method}} suitable for rapid gravitational-wave searches
-for compact binary coalescence.  The previous method requires several
+In this section we describe an implementation of the \lloid\ method described
+in section \ref{label{sec:method}} suitable for rapid gravitational-wave
+searches for compact binary coalescence.  The \lloid\ method requires several
 computations that can be done before the analysis is actually underway.  Thus
 we divide the procedure into two stages 1) an offline planning stage and 2) an
-online, low latency filtering stage.  The offline stage can be done before the
-analysis is started and updated asychronously, whereas the online stage must keep
-up with the detector output and produce search results as rapidly as possible.
-In the next two subsections we describe what these stages entail.
+online, low-latency filtering stage.  The offline stage can be done before the
+analysis is started and updated asychronously, whereas the online stage must
+keep up with the detector output and produce search results as rapidly as
+possible.  In the next two subsections we describe what these stages entail.
 
 \subsection{Planning stage}
 
@@ -39,12 +39,13 @@ matrix, and the time slice boundaries are all saved to disk.
 
 \subsection{Filtering stage}
 
-The filtering algorithm described in the previous section could be used in a
-true sample-in-sample-out realtime system.  This would likely require a
-nontrivial integration directly into the data acquisition and storage system of
-the gravitational wave observatories.  A slightly more modest goal is to leverage
-existing low latency, but not realtime, signal processing infrastructure in
-order to implement the algorithm described in the previous section.   
+The \lloid\ algorithm could be used in a true sample-in-sample-out realtime
+system.  However, such a system would likely require integration directly into
+the data acquisition and storage system of the gravitational wave
+observatories.  A slightly more modest goal is to leverage existing low
+latency, but not realtime, signal processing infrastructure in order to
+implement the \lloid\ algorithm.  For the near-term this should be a viable 
+solution for ultra-low latency searches with $\sim 1s$ intrinsic latency.
 
 We have implemented a prototype of the low latency filtering stage using an
 open source signal processing environment called \gstreamer\ \cite{gstreamer}.
@@ -52,42 +53,78 @@ open source signal processing environment called \gstreamer\ \cite{gstreamer}.
 playback, authoring, and streaming on devices from cell phones to desktop
 computers to streaming media servers.  Given the similarities of gravitational
 wave detector data to audio data it is not surprising that \gstreamer\ is
-useful.  In our application, GStreamer excels at queueing, synchronizing,
-adding, and bookkeeping many different signals at different sample rates.  It
-also provides some useful signal processing elements such as decimators,
-\textsc{fir} filters, and interpolators.  
-
+useful for our purpose. \gstreamer\ also provides some useful stock signal
+processing elements such as decimators, filters, and interpolators.  
+We have extended the \gstreamer\ framework by developing custom elements
+that are available in the \gstlal\ library~\cite{gstlal}.
+Figure \ref{fig:pipeline} describes schematically how we implement the \lloid\
+algorithm using \gstlal\ and \gstreamer\ components.
+%
+%
 \begin{figure}[htbp]
 	\includegraphics{figures/lloid-diagram.pdf}
-	\caption{Schematic of LLOID pipeline illustrating signal flow.  Circles with arrows represent upsampling \protect\includegraphics{figures/upsample-symbol.pdf} or downsampling \protect\includegraphics{figures/downsample-symbol.pdf}.  Circles with plus signs represent summing junctions \protect\includegraphics{figures/adder-symbol.pdf}.  Squares \protect\includegraphics{figures/fir-symbol.pdf} stand for FIR filters.  Sample rate decreases from the top of the diagram to the bottom.}
+	\caption{\label{fig:pipeline} Schematic of LLOID pipeline illustrating
+signal flow.  Circles with arrows represent upsampling
+\protect\includegraphics{figures/upsample-symbol.pdf} or downsampling
+\protect\includegraphics{figures/downsample-symbol.pdf}.  Circles with plus
+signs represent summing junctions
+\protect\includegraphics{figures/adder-symbol.pdf}.  Squares
+\protect\includegraphics{figures/fir-symbol.pdf} stand for FIR filters.  Sample
+rate decreases from the top of the diagram to the bottom.}
 \end{figure}
 
-The filter pipeline consists of six distinct stages.  
+The filter pipeline drawn in figure \ref{fig:pipeline} consists of several
+distinct stages and parallel branches.  We outline the stages below. 
 
 \subsubsection{Decimation}
 
 First, the sample rate of the whitened detector data is reduced to successively
 lower sample rates by decimation.  Decimation involves applying an antialiasing
 filter to the data, and then downsampling by deleting samples.  We use a
-192-tap \textsc{fir} decimator provided by {\tt Gstreamer's audioresample} element.
-The detector data is provided at every power-of-two sample rate required by the 
-template time sliced described in \ref{FIXME}. 
-
-\subsubsection{Time delays}
-
-Rather than implement the time sliced templates as zero padded \fir\ filters as
-described in \eqref{FIXME} we instead implement them as shorter, but
-appropriately time delayed \fir\ filters that contain only the nonzero samples.
-In order to assure that we add the \SNR from the time slices adds appropriate
-
-
-Each decimated detector data stream becomes the input for one time slice, but
-it must be appropriately delayed.
+192-tap \textsc{fir} decimator provided by {\tt Gstreamer's audioresample}
+element.  The detector data is provided at every power-of-two sample rate
+required by the template time sliced described in \eqref{FIXME}.  These
+parallel decimated data streams are fed into parallel fir filter banks in the
+next stage.
 
 \subsubsection{Orthogonal \textsc{fir} filters}
 
+The \fir\ filter banks are implemented using a \gstlal\ element called {\tt
+lal\_firbank}, which produces N channels of filter output from an NxM matrix of
+\fir\ filter coefficients.  This element is used in parallel branches in the
+pipeline to implement the filtering of the SVD basis filters in each time
+slice.  Rather than implement the time sliced templates as zero padded \fir\
+filters as described in \eqref{FIXME} we instead implement them as shorter, but
+appropriately time advanced \fir\ filters that contain only the nonzero
+samples.  Adding the appropriate time offset to the filter output makes up for
+the lack of explicit zero padding.  The orthogonal filter outputs must be
+reconstructed into the filter output for the underlying physical filter ouputs. 
+
 \subsubsection{Reconstruction}
+
+The orthogonal filter output provided by the SVD must be used in linear
+combinations in order to obtain the physical filter output for the template
+waveforms.  This involves a matrix multiplication.  We use a \gstlal\ element
+called {\tt lal\_matrix\_mixer} on the output of each orthogonal filter bank in
+order to produce the filter output for the original waveforms in each time
+slice.  At this point the time slice filter outputs are not yet at the same
+sample rate.
 
 \subsubsection{Interpolation}
 
-\subsubsection{SNR accumulation}
+Before we can construct the final \SNR\, the individual time slice filter
+outputs must be brought to a common sample rate, or upsampled.  This is done
+using the same \gstreamer\ element as was used for decimation, {\tt
+audioresample}.  
+
+\subsubsection{\SNR accumulation}
+
+In order to accumulate \SNR\ for an early warning, the time slice filter
+output is upsampled to the next highest frequency time slice and summed. This
+process is iterated until the final \SNR is computed.  However at each stage
+of upsampling the summed filter outputs are related to the early warning \SNR
+by a simple normalization factor that can be computed in advance. Thus the
+\lloid\ algorithm and this implementation leads to a simple early warning
+pipeline with little additional work.
+
+
