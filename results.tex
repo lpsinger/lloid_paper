@@ -3,13 +3,15 @@
 
 In this section we test our implementation of the \lloid\ method using the
 pipeline described in the previous section.  We answer the following questions
-\begin{itemize}
-\item What is the measured loss of SNR due to the approximations used in the \lloid\ algorithm in a realistic analysis pipeline?
-\item What is the measured latency of the implementation described in section 
+%
+I) What is the measured loss of SNR due to the approximations used in the
+\lloid\ algorithm in a realistic analysis pipeline?
+%
+II) What is the measured latency of the implementation described in section
 \ref{sec:implementation}?
-\item What is the measured computational cost of the implementation described in section
-\ref{sec:implementation}?
-\end{itemize}  
+%
+III) What is the measured computational cost of the implementation described in
+section \ref{sec:implementation}?
 
 \subsection{Measured \SNR\ loss}
 
@@ -43,22 +45,22 @@ of .2 \% in \SNR\ for the chosen waveform.}
 
 \subsection{Measured computational cost}
 
-\FIXME{
-I would like to see this section changed to emphasize the low-latency time
-domain filtering 1. Use a live simulated white noise source (this ignores the
-latency of whitening, but that goes beyond the scope of this paper, and we
-mention this and perhaps suggest some exporation 2. Use TD filtering of N
-templates 3. Present the performance and latency and provide estimates for
-number of cores required for realtime ALIGO search based on current
-infrastructure 4. Compute the impulse responses of the templates and histogram
-the SNR loss for the SVD and time/slice/resampling 5. Put  a tee after some of
-the low frequency stages and perhaps test the possibility of predictive
-filtering (also with latency measurments) This will remove the complications of
-running a full pipeline.  We need to sort things out before we do that, and
-this paper should not be delayed any further.  The above tests will make the
-point we need to make
-}
+%\FIXME{
+%I would like to see this section changed to emphasize the low-latency time
+%domain filtering 1. Use a live simulated white noise source (this ignores the
+%latency of whitening, but that goes beyond the scope of this paper, and we
+%mention this and perhaps suggest some exporation 2. Use TD filtering of N
+%templates 3. Present the performance and latency and provide estimates for
+%number of cores required for realtime ALIGO search based on current
+%infrastructure 4. Compute the impulse responses of the templates and histogram
+%the SNR loss for the SVD and time/slice/resampling 5. Put  a tee after some of
+%the low frequency stages and perhaps test the possibility of predictive
+%filtering (also with latency measurments) This will remove the complications of
+%running a full pipeline.  We need to sort things out before we do that, and
+%this paper should not be delayed any further.  The above tests will make the
+%point we need to make
+%}
 
-\subsection{Detector noise characteristics}
+%\subsection{Detector noise characteristics}
 
-We tested the new detection method with mock Advanced \textsc{ligo} data having a power spectrum prescribed by the ``zero detuning, high power'' noise model in \cite{Shoemaker:2009p9770}.
+%We tested the new detection method with mock Advanced \textsc{ligo} data having a power spectrum prescribed by the ``zero detuning, high power'' noise model in \cite{Shoemaker:2009p9770}.
