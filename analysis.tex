@@ -1,4 +1,5 @@
 \section{Implementation}
+\label{sec:implementation}
 
 In this section we describe an implementation of the \lloid\ method described
 in section \ref{label{sec:method}} suitable for rapid gravitational-wave
@@ -117,12 +118,12 @@ outputs must be brought to a common sample rate, or upsampled.  This is done
 using the same \gstreamer\ element as was used for decimation, {\tt
 audioresample}.  
 
-\subsubsection{\SNR accumulation}
+\subsubsection{\SNR\ accumulation}
 
 In order to accumulate \SNR\ for an early warning, the time slice filter
 output is upsampled to the next highest frequency time slice and summed. This
-process is iterated until the final \SNR is computed.  However at each stage
-of upsampling the summed filter outputs are related to the early warning \SNR
+process is iterated until the final \SNR\ is computed.  However at each stage
+of upsampling the summed filter outputs are related to the early warning \SNR\
 by a simple normalization factor that can be computed in advance. Thus the
 \lloid\ algorithm and this implementation leads to a simple early warning
 pipeline with little additional work.
