@@ -6,7 +6,7 @@ for compact binary coalescence.  The previous method requires several
 computations that can be done before the analysis is actually underway.  Thus
 we divide the procedure into two stages 1) an offline planning stage and 2) an
 online, low latency filtering stage.  The offline stage can be done before the
-analysis is started an updated asychronously, whereas the online stage must keep
+analysis is started and updated asychronously, whereas the online stage must keep
 up with the detector output and produce search results as rapidly as possible.
 In the next two subsections we describe what these stages entail.
 
@@ -24,47 +24,62 @@ for signals that fall in-between the chosen templates.  Next, the templates are
 subdivided into groups of neighbors called ``sub-banks'' that are appropriately
 sized so that each bank can be efficiently handled by a single computer.
 Dividing the mass space into smaller sub-banks also aids in the computational
-cost of the singular value decomposition.  Using our understanding of the
-time-frequency evolution of the templates, we choose time slice boundaries as
-in \eqref{FIXME} such that all of the templates within a sub-bank are
-sub-critically sampled at progressively lower sample rates.  Next, the
-templates within the sub-bank are realized as \textsc{fir} filter coefficients.
-For each time slice, the templates are downsampled to the appropriate sample
-rate.  Finally, the \textsc{svd} is applied to each time slice in order to
-produce a set of orthogonal \textsc{fir} filters and a reconstruction matrix
-that maps them back to the original templates.  The downsampled orthogonal
-\textsc{fir} filter coefficients, the reconstruction matrix, and the time slice
-boundaries are all saved to disk.
+cost of the singular value decomposition and is the approach considered
+in~\cite{Cannon:2010p10398}.  Using our understanding of the time-frequency
+evolution of the templates, we choose time slice boundaries as in \eqref{FIXME}
+such that all of the templates within a sub-bank are sub-critically sampled at
+progressively lower sample rates.  Next, the templates within the sub-bank are
+realized as \textsc{fir} filter coefficients.  For each time slice, the
+templates are downsampled to the appropriate sample rate.  Finally, the
+\textsc{svd} is applied to each time slice in the sub-bank in order to produce
+a set of orthogonal \textsc{fir} filters and a reconstruction matrix that maps
+them back to the original templates as described in \eqref{FIXME}.  The
+downsampled orthogonal \textsc{fir} filter coefficients, the reconstruction
+matrix, and the time slice boundaries are all saved to disk.
 
 \subsection{Filtering stage}
 
+The filtering algorithm described in the previous section could be used in a
+true sample-in-sample-out realtime system.  This would likely require a
+nontrivial integration directly into the data acquisition and storage system of
+the gravitational wave observatories.  A slightly more modest goal is to leverage
+existing low latency, but not realtime, signal processing infrastructure in
+order to implement the algorithm described in the previous section.   
+
 We have implemented a prototype of the low latency filtering stage using an
-open source signal processing environment called GStreamer \cite{gstreamer}.
-GStreamer is a vital component of many Linux systems, providing media playback,
-authoring, and streaming on devices from cell phones to desktop computers to
-streaming media servers.  It turns out that it is also uniquely suited to
-gravitational wave data analysis.  In our application, GStreamer excels at
-queueing, synchronizing, adding, and bookkeeping many different signals at
-different sample rates.  It also provides some useful signal processing
-primitives such as decimators, \textsc{fir} filters, and interpolators.  Most
-importantly, it permits us to recruit all of the host system's \textsc{cpu}s
-without having to write complicated and error-prone multithreaded code.
+open source signal processing environment called \gstreamer\ \cite{gstreamer}.
+\gstreamer\ is a vital component of many Linux systems, providing media
+playback, authoring, and streaming on devices from cell phones to desktop
+computers to streaming media servers.  Given the similarities of gravitational
+wave detector data to audio data it is not surprising that \gstreamer\ is
+useful.  In our application, GStreamer excels at queueing, synchronizing,
+adding, and bookkeeping many different signals at different sample rates.  It
+also provides some useful signal processing elements such as decimators,
+\textsc{fir} filters, and interpolators.  
 
 \begin{figure}[htbp]
 	\includegraphics{figures/lloid-diagram.pdf}
 	\caption{Schematic of LLOID pipeline illustrating signal flow.  Circles with arrows represent upsampling \protect\includegraphics{figures/upsample-symbol.pdf} or downsampling \protect\includegraphics{figures/downsample-symbol.pdf}.  Circles with plus signs represent summing junctions \protect\includegraphics{figures/adder-symbol.pdf}.  Squares \protect\includegraphics{figures/fir-symbol.pdf} stand for FIR filters.  Sample rate decreases from the top of the diagram to the bottom.}
 \end{figure}
 
-The filter pipeline consists of six distinct stages.
+The filter pipeline consists of six distinct stages.  
 
 \subsubsection{Decimation}
 
 First, the sample rate of the whitened detector data is reduced to successively
 lower sample rates by decimation.  Decimation involves applying an antialiasing
 filter to the data, and then downsampling by deleting samples.  We use a
-192-tap \textsc{fir} decimator provided by GStreamer.
+192-tap \textsc{fir} decimator provided by {\tt Gstreamer's audioresample} element.
+The detector data is provided at every power-of-two sample rate required by the 
+template time sliced described in \ref{FIXME}. 
 
 \subsubsection{Time delays}
+
+Rather than implement the time sliced templates as zero padded \fir\ filters as
+described in \eqref{FIXME} we instead implement them as shorter, but
+appropriately time delayed \fir\ filters that contain only the nonzero samples.
+In order to assure that we add the \SNR from the time slices adds appropriate
+
 
 Each decimated detector data stream becomes the input for one time slice, but
 it must be appropriately delayed.
@@ -76,13 +91,3 @@ it must be appropriately delayed.
 \subsubsection{Interpolation}
 
 \subsubsection{SNR accumulation}
-
-%Our new method consists of six distinct stages:
-%\begin{enumerate}
-%\item\label{item:decimation} Decimation of the detector data to successively lower sample rates
-%\item\label{item:delay} Delay lines to appropriately synchronize of all of the time slices
-%\item\label{item:ortho} Application of orthogonal \textsc{fir} filters to the decimated detector data
-%\item\label{item:reconstruct} Mixing of orthogonal filter output using reconstruction matrices
-%\item\label{item:interpolation} Interpolation of reconstructed output to a common sample rate
-%\item\label{item:accumulation} Accumulation of \textsc{snr} from each time slice
-%\end{enumerate}
