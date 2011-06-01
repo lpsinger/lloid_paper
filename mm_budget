@@ -25,14 +25,14 @@ import pylab
 
 mm = [0.072113, 0.047881, 0.017763, 0.009618, 0.001118, 0.000777, 0.000127, 8.2e-05, 6.9e-05, 6.4e-05, 6.1e-05]
 
-qual = numpy.arange(11) + 1
+qual = [8,16,32, 48,64,80,96,128,160,192, 256]
 
-p = numpy.poly1d(numpy.polyfit(numpy.log(qual),numpy.log(mm),6))
+p = numpy.poly1d(numpy.polyfit(numpy.log(qual),numpy.log(mm),2))
 
-#f = pylab.semilogy(qual-1, mm)
-pylab.semilogy(qual-1, numpy.exp(p(numpy.log(qual))), 'ks-', lw=2)
+#f = pylab.semilogy(qual, mm)
+pylab.semilogy(qual, numpy.exp(p(numpy.log(qual))), 'ks-', lw=2)
 pylab.ylabel('mis-match')
-pylab.xlabel('resample quality')
+pylab.xlabel('filter length')
 matplotlib.pyplot.subplots_adjust(left=0.1, right=0.98, top=0.92, bottom=0.2) 
 pylab.grid()
 #pylab.show()
