@@ -34,7 +34,7 @@ slice boundaries as in \eqref{FIXME} such that all of the templates within a
 sub-bank are sub-critically sampled at progressively lower sample rates.  Next,
 the templates within the sub-bank are realized as \fir\ filter
 coefficients.  For each time slice, the templates are downsampled to the
-appropriate sample rate.  Finally, the \SVD\ is applied to each time
+appropriate sample rate.  Finally, the SVD is applied to each time
 slice in the sub-bank in order to produce a set of orthogonal \fir\
 filters and a reconstruction matrix that maps them back to the original
 templates as described in \eqref{FIXME}.  The downsampled orthogonal
@@ -137,6 +137,3 @@ of upsampling the summed filter outputs are related to the early warning \SNR\
 by a simple normalization factor that can be computed in advance. Thus the
 \lloid\ algorithm and this implementation leads to a simple early warning
 pipeline with little additional work.
-
-In the next section we present an end-to-end test of the \lloid\ algorithm
-implemented in \gstlal\.  
