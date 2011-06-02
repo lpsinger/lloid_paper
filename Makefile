@@ -9,12 +9,6 @@ inspiral_svd.pdf: $(PREREQS)
 	$(TEX) -draftmode inspiral_svd
 	$(TEX) inspiral_svd
 
-figures/diagram.pdf: figures/diagram.tex
-	cd $(@D) && $(TEX) diagram
-
-figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf: figures/diagram.pdf
-	make -C $(@D) $(@F)
-
 flop_budget.tex: gstlal_flop_budget.py 0.xml
 	python $^ > $@
 
@@ -32,4 +26,3 @@ N_before_Tc.pdf: snr_in_time.py matplotlibrc
 
 clean:
 	rm -f inspiral_svd.{aux,log,bbl,blg,pdf} time_slices.{tex,pdf} time_slice_latency.tex mock_psd.pdf flop_budget.tex
-	make -C figures $@
