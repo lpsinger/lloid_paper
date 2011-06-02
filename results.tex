@@ -32,42 +32,49 @@ loss from the \lloid\ implementation (i.e. no more than $\sim 0.3 \%$).
 \begin{figure}
 \includegraphics{resamp_mm.pdf}
 \caption{\label{fig:resamp_mm}Mis-match as a function of the {\tt
-audioresample} element's quality parameter.  Increasing the quality changes the
-length of the sinc function filter that is used to decimate and interpolate the
-data and filter output in our test pipeline.  Choosing a quality of 4
-corresponds to a filter length of 64 samples and results in an acceptable loss
-of .2 \% in \SNR\ for the chosen waveform.}
+audioresample} element's filter length.  Increasing the filter length changes
+the length of the sinc function filter that is used to decimate and interpolate
+the data and filtered time series in our test pipeline.  Choosing a filter
+length of 64 samples results in an acceptable loss of .2 \% in \SNR\ for the
+chosen waveform.}
 \end{figure}
 
 \begin{figure}
 	\label{fig:hist}
 	\begin{center}
 		\includegraphics{bw.pdf}
-		\caption{Box-and-whisker plot of mismatch between nominal template bank and \lloid\ measured impulse respones.  The \textsc{svd} tolerance is varied from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.  The whiskers denote the minimum and maximum mismatch over all templates.}
+		\caption{Box-and-whisker plot of mismatch between nominal
+template bank and \lloid\ measured impulse respones.  The \textsc{svd}
+tolerance is varied from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.
+The whiskers denote the minimum and maximum mismatch over all templates.  The
+diminishing improvement is caused by hitting the resampling match limit.}
 	\end{center}
 \end{figure}
 
 
 \subsection{Measured latency}
 
+In order to check the latency of our implementation of the \lloid\ algorithm we
+used the pipeline described in \ref{fig:pipeline} with a live source connected
+to the input.  We then measured the timestamp of the live source and the output
+of the final \SNR\ time series.  Since \gstreamer\ is not a
+sample-in-sample-out realtime infrastructure, it does work by passing small
+buffers of data and filtered data through the pipeline.  We set the buffer size
+on the input to be 1/4 s.  In an ideal case the latency should be nearly 1/4 s.
+However, it is necessary to queue things in the pipeline to assure that there
+are no issues with threading. Sometimes buffers get delayed.  We measured the
+average filtering latency to be \FIXME{1 s}.
+
 \subsection{Measured computational cost}
 
-%\FIXME{
-%I would like to see this section changed to emphasize the low-latency time
-%domain filtering 1. Use a live simulated white noise source (this ignores the
-%latency of whitening, but that goes beyond the scope of this paper, and we
-%mention this and perhaps suggest some exporation 2. Use TD filtering of N
-%templates 3. Present the performance and latency and provide estimates for
-%number of cores required for realtime ALIGO search based on current
-%infrastructure 4. Compute the impulse responses of the templates and histogram
-%the SNR loss for the SVD and time/slice/resampling 5. Put  a tee after some of
-%the low frequency stages and perhaps test the possibility of predictive
-%filtering (also with latency measurments) This will remove the complications of
-%running a full pipeline.  We need to sort things out before we do that, and
-%this paper should not be delayed any further.  The above tests will make the
-%point we need to make
-%}
+Using the pipeline described previously, we also measured the computational
+cost.  We used an 8 socket, quad core AMD\texttrademark\ machine operating at
+2.7 GHz per core.  We found that filtering \FIXME{657} templates in real time
+required about \FIXME{6} of the available cores.  We thus conclude that we
+require about 1 core for every \FIXME{100} templates.  We note that this is
+well within the computational limits of a modern, computing cluster assuming
+that the scaling holds for the entire mass range of interest, we would need
+about \FIXME{300} cores per detector.  This requirment should be even less of a
+burden in the advanced detecor era, when presumably clusters built in that era
+will have a factor of 4 or 8 more cores than the ones today. 
 
-%\subsection{Detector noise characteristics}
-
-%We tested the new detection method with mock Advanced \textsc{ligo} data having a power spectrum prescribed by the ``zero detuning, high power'' noise model in \cite{Shoemaker:2009p9770}.
