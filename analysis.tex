@@ -106,7 +106,7 @@ into the filter output for the underlying physical filter ouputs.
 The orthogonal filter output provided by the SVD must be used in linear
 combinations in order to obtain the physical filter output for the template
 waveforms.  This involves a matrix multiplication.  We use a \gstlal\ element
-called {\tt lal\_matrix\_mixer} on the output of each orthogonal filter bank in
+called {\tt lal\_matrixmixer} on the output of each orthogonal filter bank in
 order to produce the filter output for the original waveforms in each time
 slice.  At this point the time slice filter outputs are not yet at the same
 sample rate.
