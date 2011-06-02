@@ -1,7 +1,7 @@
 TEX = env TEXINPUTS=:$(CURDIR)/packages/iopart:$(CURDIR)/packages/signalflowlibrary:$(CURDIR)/packages: pdflatex -file-line-error -halt-on-error -shell-escape
 
 PREREQS = \
-	resamp_mm.pdf figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf flop_budget.tex flop_budget_example.tex inspiral_svd.tex introduction.tex analysis.tex conclusions.tex appendix.tex packages.tex macros.tex method.tex results.tex time_slices.pdf mock_psd.pdf time_slices.tex time_slice_latency.tex references.bib N_before_Tc.pdf
+	figures/bw.pdf resamp_mm.pdf figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf flop_budget.tex flop_budget_example.tex inspiral_svd.tex introduction.tex analysis.tex conclusions.tex appendix.tex packages.tex macros.tex method.tex results.tex time_slices.pdf mock_psd.pdf time_slices.tex time_slice_latency.tex references.bib N_before_Tc.pdf
 
 inspiral_svd.pdf: $(PREREQS)
 	$(TEX) -draftmode inspiral_svd
