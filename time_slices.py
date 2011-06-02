@@ -71,13 +71,11 @@ pylab.savefig('time_slices.pdf')
 
 print r"\begin{tabular}{lrr}"
 #FIXME change the symbol for the number of sample points per slice if the macro changes
-print r"$f_k$ (Hz) & $(t_{k+1}$,$t_k]$ (s) & $\slicessamps$ \\"
+print r"$f^s$ (Hz) & $\left(t^{s+1}, t^s\right]$ (s) & $\slicessamps$ \\"
 print r"\hline"
 for slice in slices:
 	begin = slice['begin']
-	if begin != 0.: # arrgh! floats have both negative and positive 0!
-		begin = -begin
-	print r"%(rate)d & $(%(end)g$,$%(begin)g]$ & %(samples)d \\" % {'begin': begin, 'end': -slice['end'], 'rate': slice['rate'], 'samples': int(round((slice['end'] - slice['begin']) * slice['rate']))}
+	print r"%(rate)d & $(%(end)g, %(begin)g]$ & %(samples)d \\" % {'begin': begin, 'end': slice['end'], 'rate': slice['rate'], 'samples': int(round((slice['end'] - slice['begin']) * slice['rate']))}
 print r"\end{tabular}"
 
 # Write latency

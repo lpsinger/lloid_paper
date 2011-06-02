@@ -9,22 +9,21 @@
 \newcommand{\Msun}{\ensuremath{M_{\odot}}}
 \newcommand{\eqref}[1]{(\ref{#1})}
 \newcommand{\order}[1]{\ensuremath{\mathcal{O}[#1]}}
-\newcommand{\tmpsamps}{\ensuremath{N_{x_i}}}
-\newcommand{\hoftsamps}{\ensuremath{N}}
-\newcommand{\numtmps}{\ensuremath{N_t}}
-\newcommand{\numslices}{\ensuremath{{N}_{\mathrm{ts}}}}
+\newcommand{\tmpsamps}{\ensuremath{N}}
+\newcommand{\numtmps}{\ensuremath{M}}
+\newcommand{\numslices}{\ensuremath{S}}
 % macros for number of svd basis functions
 \newcommand{\SVD}{\textsc{svd}}
-\newcommand{\svdtmps}[1]{\ensuremath{N_{\mathrm{u_j},#1}}}
+\newcommand{\svdtmps}[1]{\ensuremath{L^#1}}
 \newcommand{\numsvdtmps}{\svdtmps{k}}
 % macros for sample points in slices
-\newcommand{\slicesamps}[1]{\ensuremath{N_{\mathrm{ts},#1}}}
-\newcommand{\slicessamps}{\slicesamps{k}}
+\newcommand{\slicesamps}[1]{\ensuremath{N^#1}}
+\newcommand{\slicessamps}{\slicesamps{s}}
 \newcommand{\fftblock}{\ensuremath{D}}
-\newcommand{\resampsamps}{\ensuremath{N_{\mathrm{r}}}}
+\newcommand{\resampsamps}{\ensuremath{N^\shortdownarrow,\, N^\shortuparrow}}
 \newcommand{\fir}{\textsc{fir}}
 \newcommand{\fft}{\textsc{fft}}
-\newcommand{\fmax}{\ensuremath{f_{\mathrm{max}}}}
+\newcommand{\fmax}{\ensuremath{f^0}}
 \newcommand{\flops}{flop/s}
 \newcommand{\gstlal}{{\tt gstlal}}
 \newcommand{\gstreamer}{{\tt GStreamer}}
@@ -61,7 +60,7 @@
 %\renewcommand{\vec}[1]{\mbox{\boldmath$#1$}}
 
 % Graham's macros
-\renewcommand{\vec}[1]{\mathbf{#1}}
+%\renewcommand{\vec}[1]{\mathbf{#1}}     % obscures mathmode \vec
 \newcommand{\tran}[1]{ #1^{\rm T}}
 %\newcommand{\abs}[1]{\left\vert#1\right\vert}
 \newcommand{\fp}{F^+}
