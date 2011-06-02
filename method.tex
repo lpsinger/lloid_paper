@@ -150,19 +150,13 @@ rate of the time slice, $(t^{s+1}, t^s]$ are the boundaries in seconds
 preceeding coalescence and \slicessamps\ are the number of sample points in the
 $s^{\mathrm{th}}$ filter.}
 \end{table}
-%
 
-\editorial{Need to convert some continuous time notation to discrete time here.}Rather than applying a unique time-slice decomposition to each template
-waveform, we find a decomposition that is adequate for the entire set
-$\{x_i\}$.  This is facilated by choosing templates in the set $\{x_i\}$ with
-similar chirp masses, $\mathcal{M}$.  The time-slice decompositions of the
-filters $x_i(\tau)$ lead to new filters $y_{ik}(\tau)$ satisfying
-%
-\begin{equation}
-\label{eq:time_slices}
-x_i(\tau) \approx \sum_k^{\numslices} y_{ik}(\tau)
-\end{equation}
-where \numslices\ is the number of time slices required.  We note that
+Since waveforms with neighboring intrinsic source parameters $\vec\theta$ have similar
+time-frequency evolution, it is possible to design computationally efficient time slices
+for an extended region of parameter space rather than to design different time slices for
+each template.
+
+We note that
 the time slice decomposition in equation~(\ref{eq:time-slices}) is manifestly
 orthogonal since the time slices are disjoint in time.  In the next
 section we examine how to reduce the number of filters within each time slice via
