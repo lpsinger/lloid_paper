@@ -3,13 +3,56 @@
 \usepackage{amsmath}
 \usepackage{stmaryrd}  % gives \shortuparrow and \shortdownarrow
 
+\newcommand{\downsample}[1]{\ensuremath{\, \downarrow^{s-1} \star \,\, #1}}
+\newcommand{\upsample}[1]{\ensuremath{\, \uparrow^{s+1} \star \,\, #1}}
+
 \title{Notation proposal}
 \author{Leo and Nick}
 
 \begin{document}
 \maketitle
 
-Definition of matched filter:
+We define a general discrete time series $p[k]$ with k indicating the time
+samples at the maximum sample rate of the analysis.  We define a time series
+$p^{s}[k^{s}]$ as being the time series $p[k]$ at a different (and lower)
+sample rate $s$.  It is also necessary to thus define the operation that
+changes the sample rate.
+
+Decimation:
+\begin{equation}
+p^{s-1}[k^{s-1}] = \downsample{p^{s}[k^{s}]}
+\end{equation}
+
+Interpolation:
+\begin{equation}
+p^{s+1}[k^{s+1}] = \upsample{p^{s}[k^{s}]}
+\end{equation}
+
+In general downsampling and upsampling are a convolution of a antialiasing
+filter or an interpolation function, respectively.  In the special case of a
+band limited function, decimation may simply reduce to taking every nth sample
+point, depending on the relative sample rates.
+
+It is also necessary to introduce notation representing the time slices
+of a template $\tau$
+
+Definition of time sliced templates:
+\begin{align}
+h_{i}[k] &= \sum_{\tau} h_{i}^{\tau}[k] \\
+h_{i}^{\tau}[k] &= \left\{ \begin{aligned}
+    h_{i}[k] & \; \text{if } t^{\tau} < \frac{k}{f} \leq t^{\tau+1} \\
+    0 & \; \text{, otherwise }
+    \end{aligned} \right.
+\end{align}
+
+Since the templates are band limited an antialiasing filter is not required to
+downsample, we need only to remove certain sample points as long as the desired
+sample rate is at least twice the frequency content of the template in a time
+
+The index $\tau$ when present will be used to denote a quantity that pertains
+to a given time slice.
+
+Definition of matched filter at the full sample rate:
 \begin{equation}
 \rho_i [k] = \sum_{n=0}^{N-1} h_{i}[n] x [k-n]
 \end{equation}
@@ -17,49 +60,22 @@ where $h_i[k]$ denotes the $k^{\mathrm{th}}$ sample of the $i^{\mathrm{th}}$
 template waveform and $x[k-n]$ represents the $(k-n)^{\mathrm{th}}$ sample of
 the data.
 
-Definition of time slices:
-\begin{align}
-h_{i}[k] &= \sum_s h_{i}^{s}[k] \\
-h_{i}^{s}[k] &= \left\{ \begin{aligned}
-    h_{i}[k] & \; \text{if } t^{s+1} < \frac{k}{f} \leq t^{s} \\
-    0 & \; \text{, otherwise }
-    \end{aligned} \right. \\
-h_{i}^{s}[k^{s}] &\equiv h_{i}^{s}\!\left[k\frac{f}{f^{s}}\right]
-\end{align}
-
-Throughout, we will use the convention that $k$ indexes time-series sampled at
-the full sample rate $f$ and $k^s$ indexes time-series sampled at a reduced
-sample rate $f^s$, ($k^{s} \equiv k f / f^{s}$).  For the case of band limited
-functions it is sufficient to simply remove sample points to define the
-downsampled version as is shown in the previous equation.  
-
-In general one requiries an anti aliasing filter in order to decimate the data.
-The definition of decimation for a function $p$:
-\begin{equation}
-p[k^{s+1}] = \sum_{n=-N^\shortdownarrow/2}^{N^\shortdownarrow/2-1} b^\shortdownarrow[n] \, p\!\left[k^{s}-n\right]
-\end{equation}
-
-It is also necessary to increas the sample rate of a function.  Definition of
-interpolation for a function $p$:
-\begin{equation}
-p[k^{s}] = \sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] \, p\!\left[k^{s+1}-n\right]
-%p[k^{s}] = \sum_{n=k^{s}-N^\shortuparrow/2}^{k^{s} + N^\shortuparrow/2-1} b^\shortuparrow[k^{s} - n] \, p\!\left[\frac{n f^{s+1}}{f^{s}}\right]
-%f[k^{s}] = \sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] f\!\left[n \frac{f^{s}}{f^{s+1}}  \right]
-\end{equation}
+Quantities involving the SVD are at a given sample rate $s$ and in a time slice
+$\tau$
 
 \textsc{svd}:
 \begin{equation}
-h^{s}_{i}\!\left[k^{s}\right] = \sum_{m=0}^{M-1} v^{s}_{im} \sigma^{s}_m u^{s}_{m}[k^{s}] \approx \sum_{l=0}^{L^s-1} v^{s}_{il} \sigma^{s}_l u^{s}_{l}[k^{s}]
+h^{\tau s}_{i}\!\left[k^{s}\right] = \sum_{m=0}^{M-1} v^{\tau s}_{im} \sigma^{\tau s}_m u^{\tau s}_{m}[k^{s}] \approx \sum_{l=0}^{L^s-1} v^{\tau s}_{il} \sigma^{\tau s}_l u^{\tau s}_{l}[k^{s}]
 \end{equation}
 
 Early-warning \textsc{snr}:
 \newcommand{\mystrut}{\rule[-2em]{0pt}{0pt}}  % line up the underbraces
 \begin{equation}
-    \rho^{s}_i[k^{s}] = \underbrace{\mystrut\sum_{l=0}^{L^{s}-1} v^{s}_{il} \sigma^{s}_l}_{\substack{\text{Reconstruction}\\ \text{with {\sc SVD}}}}
-    \underbrace{\mystrut\sum_{n=0}^{N^{s} - 1} u^{s}_{l}[n] x[k^{s}-n]}_{\substack{\text{orthogonal}\\ \text{{\sc FIR} filter}}} + 
+    \rho^{\tau s}_i[k^{s}] = \underbrace{\mystrut\sum_{l=0}^{L^{s}-1} v^{\tau s}_{il} \sigma^{\tau s}_l}_{\substack{\text{Reconstruction}\\ \text{with {\sc SVD}}}}
+    \underbrace{\mystrut\sum_{n=0}^{N^{s} - 1} u^{\tau s}_{l}[n] x[k^{s}-n]}_{\substack{\text{orthogonal}\\ \text{{\sc FIR} filter}}} + 
     % + 
     % \underbrace{\mystrut\sum_{n=-N^\shortuparrow/2}^{N^\shortuparrow/2-1} b^\shortuparrow[n] \sum_{q \in \mathbb{Z}} \delta\!\left[k-n, q \frac{f^{s}}{f^{s+1}}\right]}_\text{interpolation filter} 
-    \underbrace{\mystrut\rho^{s+1}_i[k^{s}]}_{\substack{\text{accum.}\\ \text{prior {\sc snr}}}}
+    \underbrace{\mystrut\rho^{\tau - 1 s}_i[k^{s}]}_{\substack{\text{accum.}\\ \text{prior {\sc snr}}}}
 \end{equation}
 
 \begin{table}
