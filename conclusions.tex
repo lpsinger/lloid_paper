@@ -8,9 +8,14 @@ stars and stellar-mass black holes.  These sources are expected to produce
 prompt electromagnetic signals and may be the progenitors of some short hard
 gamma-ray bursts.  Rapid alerts to the broader astronomical community may
 improve the chances of detecting an electromagnetic counterpart in bands from
-X-ray down to radio.  We antipate requiring no more than \numcpus\ modern
+X-ray down to radio.  We anticipate requiring $\sim$\numcpus\ modern
 %
-\editorial{We need to do this calculation using the \flops\ counts and the number of templates.}%
+\editorial{We need to do this calculation using the \flops\ counts and the
+number of templates. CHAD: Agreed, but if you do it by the books it seems
+misleading.  I have adjusted it to 600.  This number is taken from assuming
+that 1 657 template sub-bank can be filtered on one core and dividing the total
+number of templates (10$^5$) by 657 which gives you 150 cores per detector. I
+put it in section 2. }%
 %
 computer cores to analyze a four-detector network of gravitational-wave data
 for binary neutron stars and stellar mass black holes.  This is within the
@@ -19,10 +24,7 @@ current computing capabilities of the \textsc{lsc} Data Grid~\cite{LDG}.
 The algorithm we described has no intrinsic latency.  However, there are
 fundamental and practical latencies associated with the analysis and detection
 procedure. For example, the \LIGO{} detectors, data acquisition is synchronized
-to a 1/(16~Hz) cadence introducing an up-front latency of 125~ms.  Data
-%
-\editorial{This is redundant: 1/(16~Hz) and 125~ms are just reciprocals of each other.}%
-%
+to a 1/(16~Hz) cadence introducing an up-front latency.  Data
 aggregation from the observatories will travel over various networks, each
 capable of high bandwith but perhaps only modest latency.  This could amount to
 a similar latency of $\sim$100 ms.  Lastly, unless a realtime infrastructure is
@@ -35,14 +37,14 @@ For example, a tighter integration of analysis and data acquisition would be
 beneficial.
 
 \editorial{The way this is worded, it sounds like a big omission.}%
-We have omitted discussion of source sky localization. Localization is known to
-be poor for signals of low \SNR~\cite{Fairhurst2009}.
-However, one should not immediately dismiss the practical usefulness of a
-poorly localized source. Even with poor localization, it should be possible to
-begin downselecting what observatories could view a potential signal and for
-such observatories to begin any necessary prerequisite activities. In future
-works we wil explore more rigorously the pointing prospects with realistic
-simulations using the infrastructure and techniques described in this work.
+We have omitted discussion of source localization though point
+the reader to some theoretical estimates \SNR~\cite{Fairhurst2009}.
+%However, one should not immediately dismiss the practical usefulness of a
+%poorly localized source. Even with poor localization, it should be possible to
+%begin downselecting what observatories could view a potential signal and for
+%such observatories to begin any necessary prerequisite activities. 
+In future works we will explore more rigorously the pointing prospects with
+realistic simulations using the infrastructure and techniques described here.
 \editorial{nvf: It's a bit pie-in-the-sky, but we could also mention reconfiguring
 the signal recycling mirror to optimize SNR at merger. There's a lot of science there.}
 
