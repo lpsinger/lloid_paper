@@ -1,13 +1,17 @@
 \section{Conclusions}
 \label{SECV}\label{sec:conclusions}
 
-We have demonstrated a computationally feasible procedure for the rapid
+\editorial{We should drive home the point that our method is as fast as the fft convolution but without any latency at all.}%
+We have demonstrated a computationally feasible procedure for the rapid and even advance
 detection of gravitational waves emitted during the coalescence of neutron
 stars and stellar-mass black holes.  These sources are expected to produce
 prompt electromagnetic signals and may be the progenitors of some short hard
 gamma-ray bursts.  Rapid alerts to the broader astronomical community may
 improve the chances of detecting an electromagnetic counterpart in bands from
 X-ray down to radio.  We antipate requiring no more than \numcpus\ modern
+%
+\editorial{We need to do this calculation using the \flops\ counts and the number of templates.}%
+%
 computer cores to analyze a four-detector network of gravitational-wave data
 for binary neutron stars and stellar mass black holes.  This is within the
 current computing capabilities of the \textsc{lsc} Data Grid~\cite{LDG}.
@@ -15,7 +19,10 @@ current computing capabilities of the \textsc{lsc} Data Grid~\cite{LDG}.
 The algorithm we described has no intrinsic latency.  However, there are
 fundamental and practical latencies associated with the analysis and detection
 procedure. For example, the \LIGO{} detectors, data acquisition is synchronized
-to a 1/16 Hz cadence introducing an up-front latency of 125 ms.  Data
+to a 1/(16~Hz) cadence introducing an up-front latency of 125~ms.  Data
+%
+\editorial{This is redundant: 1/(16~Hz) and 125~ms are just reciprocals of each other.}%
+%
 aggregation from the observatories will travel over various networks, each
 capable of high bandwith but perhaps only modest latency.  This could amount to
 a similar latency of $\sim$ 100 ms.  Lastly, unless a realtime infrastructure is
@@ -27,6 +34,7 @@ number. However, it should be considered for third generation detector design.
 For example, a tighter integration of analysis and data acquisition would be
 beneficial.
 
+\editorial{The way this is worded, it sounds like a big omission.}%
 We have omitted discussion of source localization. Localization is known to
 be poor for signals of low \SNR~\cite{Fairhurst2009}.
 However, one should not immediately dismiss the practical usefulness of a
