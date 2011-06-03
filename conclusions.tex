@@ -25,17 +25,17 @@ to a 1/(16~Hz) cadence introducing an up-front latency of 125~ms.  Data
 %
 aggregation from the observatories will travel over various networks, each
 capable of high bandwith but perhaps only modest latency.  This could amount to
-a similar latency of $\sim$ 100 ms.  Lastly, unless a realtime infrastructure is
+a similar latency of $\sim$100 ms.  Lastly, unless a realtime infrastructure is
 adopted post data acquisition, it is likely that there will be an inherent
 latency introduced by such infrastructure.  We have shown a prototype
 implementation using \gstlal\ that is capable of $\sim$1 s latency. In our
 opinion, significant work would have to be done in order to improve upon this
-number. However, it should be considered for third generation detector design.
+number. However, it should be considered for third-generation detector design.
 For example, a tighter integration of analysis and data acquisition would be
 beneficial.
 
 \editorial{The way this is worded, it sounds like a big omission.}%
-We have omitted discussion of source localization. Localization is known to
+We have omitted discussion of source sky localization. Localization is known to
 be poor for signals of low \SNR~\cite{Fairhurst2009}.
 However, one should not immediately dismiss the practical usefulness of a
 poorly localized source. Even with poor localization, it should be possible to
@@ -43,6 +43,8 @@ begin downselecting what observatories could view a potential signal and for
 such observatories to begin any necessary prerequisite activities. In future
 works we wil explore more rigorously the pointing prospects with realistic
 simulations using the infrastructure and techniques described in this work.
+\editorial{nvf: It's a bit pie-in-the-sky, but we could also mention reconfiguring
+the signal recycling mirror to optimize SNR at merger. There's a lot of science there.}
 
 %Latency budget, including `before' and `after' quotes for:
 

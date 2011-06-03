@@ -6,7 +6,7 @@ space that reduces low-latency filtering cost sufficiently to allow for the
 possibility of \earlywarning\ detection with modest computing requirements.  We
 expand on the ideas of~\cite{Marion2004, Buskulic2010} that describe a
 multiband decomposition of the compact binary parameter space that resulted in a
-search with minutes latency in \LIGO{}'s S6 and Virgo's VSR2 science runs.
+search with minutes latency in \LIGO{}'s S6 and Virgo's VSR3 science runs.
 We combine this with the orthogonal decomposition described
 in~\cite{Cannon:2010p10398} that exploits the redundancy of the template banks.
 
@@ -36,22 +36,22 @@ templates.  For a unit-normalized template $h_i[k]$ and whitened detector data $
 	\rho_i [k] = \sum_{n=0}^{N-1} h_{i}[n] x [k-n].
 \end{equation}
 
-Equation~(\ref{eq:SNRTD}) can be implemented in the time domain as an \textsc{fir} filter, requiring $\mathcal O(\numtmps \tmpsamps)$ floating point operations per sample.  However, it is typically much more computationally efficient to use the convolution theorem and the \textsc{fft} to implement fast convolution, requiring only $\mathcal O(\numtmps \lg \tmpsamps)$ operations per sample.
+Equation~(\ref{eq:SNRTD}) can be implemented in the time domain as an \fir{} filter, requiring $\mathcal O(\numtmps \tmpsamps)$ floating point operations per sample.  However, it is typically much more computationally efficient to use the convolution theorem and the \fft{} to implement fast convolution, requiring only $\mathcal O(\numtmps \lg \tmpsamps)$ operations per sample.
 
 
 \subsection{The \lloid\ method}
 
 In the remainder of this section we explore a method for reducing the
-computational cost of a time domain search for compact binary coalescence.  We
-will give a truly zero latency algorithm that competes in terms of floating point
-operations per second with the conventional frequency domain method, which requires a
+computational cost of a time-domain search for compact binary coalescence.  We
+will give a truly zero-latency algorithm that competes in terms of floating point
+operations per second with the conventional frequency-domain method, which requires a
 signficant latency in order to be computationally cheap. Our method, \lloid{},
 involves two transformations of the template waveforms that produce a set of orthogonal
 filters with far fewer coefficients than the original templates.  The reduction
 in the number of sample points in all of the filters required to search the entire
 parameter space is dramatic.  
 
-The first transformation is to chop the time domain templates up into time
+The first transformation is to chop the time-domain templates up into time
 slices.  Since each template piece is disjoint in time, the resulting set for a
 single template is orthogonal.  Given the chirp like structure of the
 templates, the early time slices have significantly lower bandwidth and can be
@@ -112,7 +112,7 @@ f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{t}
 Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G
 M_\odot / c^3 \approx 5 \umu\mathrm{s}$) and $t$ is the time relative to the
 coalescence of the binary~\cite{findchirppaper, kidder1992}.  Usually the
-template is truncated at some prescribed time $t^0$, or equivalently frequency $f_\textrm{hi}$.
+template is truncated at some prescribed time $t^0$, or equivalently frequency $f_\mathrm{hi}$.
 This is often chosen to correspond to the \ISCO. An inspiral signal
 will enter the detection band at a low frequency, $f = f_\mathrm{low}$,
 corresponding to a time $t_\mathrm{low}$.  The template is assumed to be zero
@@ -128,7 +128,7 @@ rate.  Specifically we consider here time slice boundaries with the smallest
 power-of-two sample rate that sub-critically samples the time sliced
 template.  The time slices consist of the $S$ intervals $\left(t^S,
 t^{S-1}\right],\, \dots,\, \left(t^2, t^1\right],\, \left(t^1, t^0\right]$ sampled at frequencies
-$f^\mathrm{S-1},\, \dots,\, f^1,\, f^0$ where $f^0 \geqslant 2 f_\mathrm{hi}$ and $f^{S-1} \geqslant 2 f_\mathrm{low}$.  The time sliced templates may be downsampled without aliasing, so we define them as
+$f^\mathrm{S-1},\, \dots,\, f^1,\, f^0$ where $f^0 \geqslant 2 f_\mathrm{hi}$ and $f^{S-1} \geqslant 2 f_\mathrm{low}$.  The time-sliced templates may be downsampled without aliasing, so we define them as
 %
 \begin{equation}
 \label{eq:time-sliced-templates}
@@ -153,8 +153,8 @@ An example time-slice design satisfying these constraints for a $1.4 - 1.4 \, M_
 \end{minipage}
 \caption{\label{table:time_slices} Example of nearly critically sampled,
 power-of-two time slices for a $1.4 - 1.4 \, M_{\odot}$ template extending from
-$f_\mathrm{low} = 10 \, \mathrm{Hz}$ to $f_\mathrm{ISCO} = 1571\, \mathrm{Hz}$
-with a time frequency structure given by ($\ref{eq:fgw})$. $f^s$ is the sample
+$f_\mathrm{low} = 10 \, \mathrm{Hz}$ to $f_\mathrm{hi} = f_\mathrm{ISCO} = 1571\, \mathrm{Hz}$
+with a time-frequency structure given by ($\ref{eq:fgw})$. $f^s$ is the sample
 rate of the time slice, $(t^{s+1}, t^s]$ are the boundaries in seconds
 preceeding coalescence and \slicessamps\ is the number of samples in the
 $s^{\mathrm{th}}$ filter.}
@@ -203,6 +203,7 @@ In the next section we describe how we form our novel detection statistic using 
 
 Definition of decimated detector data:
 \begin{equation}
+\label{eq:decomp}
 	x^{s+1}[k] = \left( H^\shortdownarrow x^s\right)[k]
 \end{equation}
 
@@ -243,17 +244,17 @@ cost of \eqref{eq:SNRTD} sufficiently to feasibly search for
 gravitational waves from compact binary coalescence in \realtime.  This
 requires 1) exploiting
 the time-frequency characteristics of the binary waveforms and 2) exploiting the redundancy of the template bank. We describe our
-procedure for producing the decompostion in \eqref{eq:decomp} in the remainder
+procedure for producing the decomposition in \eqref{eq:decomp} in the remainder
 of this section.
 
 In the next section we compute the expected computational cost scaling of this
-decomposition and compare it with the brute force time domain implementation of
-\eqref{eq:SNRTD} and higher latency frequency domain methods.
+decomposition and compare it with the brute-force time-domain implementation of
+\eqref{eq:SNRTD} and higher latency frequency-domain methods.
 
 \subsection{Comparison of computational costs}
 
 We now examine the computational cost scaling of the approximate implementation
-of a conventional time domain or frequency domain matched filter bank as compared
+of a conventional time-domain or frequency-domain matched filter bank as compared
 with \lloid{}.  For convenience, table~\ref{tab:recap} provides a review of the notation
 that we will need in this section.
 %
@@ -278,25 +279,25 @@ $N^\shortuparrow$ & number of coefficients in interpolation filter \\
 
 \editorial{This section's two tables are small.  Any way to put them side by side or next to another figure?}
 
-\Table{\label{table:flops}Minimum computational cost of the \textsc{fir} filter bank, \textsc{fft} convolution, and \lloid\ methods for a bank of 657 templates sampled at 4096 Hz.}
+\Table{\label{table:flops}Minimum computational cost of the \fir{} filter bank, \fft{} convolution, and \lloid\ methods for a bank of 657 templates sampled at 4096 Hz.}
 \br
 Method & \flops \\
 \mr
-\textsc{fir} & $2.4\times10^{13}$ \\
-\textsc{fft} convolution & $2.6\times10^8$ \\
+\fir{} & $2.4\times10^{13}$ \\
+\fft{} convolution & $2.6\times10^8$ \\
 \lloid & $4.7\times10^8$ \\
 \br
 \end{tabular}
 \end{indented}
 \end{table}
 
-\subsubsection{Conventional time domain method}
+\subsubsection{Conventional time-domain method}
 
-The conventional time domain method consists of a bank of \textsc{fir} filters, or sliding window dot products.  If there are $\numtmps$ templates, each $\tmpsamps$ samples in length, then each filter requires $M N$ multiplications and additions per sample, or $2 \numtmps \tmpsamps f^0$ floating point operations per second (\flops) at a sample rate $f^0$.
+The conventional time-domain method consists of a bank of \fir{} filters, or sliding-window dot products.  If there are $\numtmps$ templates, each $\tmpsamps$ samples in length, then each filter requires $M N$ multiplications and additions per sample, or $2 \numtmps \tmpsamps f^0$ floating point operations per second (\flops) at a sample rate $f^0$.
 
-\subsubsection{Conventional frequency domain method}
+\subsubsection{Conventional frequency-domain method}
 
-The most common frequency domain method is known as the \emph{overlap-save} algorithm, described in \cite{numerical-recipes-chapter-13}.  It entails splitting the input into blocks of $D$ samples, $D > \tmpsamps$, each block overlapping the previous one by $D - \tmpsamps$ samples.  For each block, the algorithm computes the forward \fft\ of the data and the templates, multiplies them, and then computes the reverse \fft.
+The most common frequency-domain method is known as the \emph{overlap-save} algorithm, described in \cite{numerical-recipes-chapter-13}.  It entails splitting the input into blocks of $D$ samples, $D > \tmpsamps$, each block overlapping the previous one by $D - \tmpsamps$ samples.  For each block, the algorithm computes the forward \fft\ of the data and the templates, multiplies them, and then computes the reverse \fft.
 
 Modern implementations of the \fft, such as the ubiquitous \texttt{fftw}, require about $2 \fftblock \lg \fftblock$ operations to evaluate a real transform of size $\fftblock$~\cite{Johnson:2007p9654}.  Including the forward transform of the data and $M$ reverse transforms for all of the templates, the \fft\ costs $2 (\numtmps + 1) \fftblock \lg \fftblock$ operations per block.  The multiplication of the transforms adds a further $2 \numtmps \fftblock$ operations per block.  Since each block produces $\fftblock - \tmpsamps$ usable samples of output, the overlap-save method requires
 $$
@@ -311,7 +312,7 @@ linear transformation from the $\numsvdtmps$ basis templates to the $\numtmps$ t
 
 The computational cost of the decimation of the detector data is a little bit more subtle.  Decimation is achieved by applying an \fir\ antialiasing filter and then downsampling, or deleting samples in order to reduce the sample rate from $f^{s-1}$ to $f^s$.  Naively, an antialiasing filter with $N^\shortdownarrow$ coefficients should demand $2 N^\shortdownarrow f^{s-1}$ \flops.  However, it is necessary to evaluate the antialiasing filter only for the fraction $f^s / f^{s-1}$ of the samples that will not be deleted.  Consequently, an efficient decimator that requires only $2 N^\shortdownarrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 N^\shortdownarrow f^s$ \flops\ is possible.
 
-The story is similar for the interpolation filters used to change the sample rates of the partial \textsc{snr} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a lowpass filter with $N^\shortdownarrow$ coefficients.  The lowpass filter requires $2 M N^\shortdownarrow f^{s-1}$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^{s-1}/f$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 M N^\shortuparrow f^s$ \flops.
+The story is similar for the interpolation filters used to change the sample rates of the partial \SNR{} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a low-pass filter with $N^\shortdownarrow$ coefficients.  The low-pass filter requires $2 M N^\shortdownarrow f^{s-1}$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^{s-1}/f$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 M N^\shortuparrow f^s$ \flops.
 
 Taking into account the decimation of the detector data, the orthogonal \fir\ filters, the reconstruction of the time sliced templates, the interpolation of \SNR\ from previous time slices, and the accumulation of \SNR, in total \lloid\ requires
 $$

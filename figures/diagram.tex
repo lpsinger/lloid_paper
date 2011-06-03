@@ -134,9 +134,9 @@
 	\draw[->] (x) -- (in0);
 
 	\draw[decorate, decoration={brace, amplitude=4pt}] ($(in)+(-4mm,0)$) -- ($(in)+(4mm,0)$) node[midway,above=2mm,align=center] {Decimation \\ of input};
-	\draw[decorate, decoration={brace, amplitude=4pt}] ($(intee)+(-2mm,0)$) -- ($(u)+(2mm,0)$) node[midway,above=2mm,align=center] {Orthogonal \\ FIR filters};
+	\draw[decorate, decoration={brace, amplitude=4pt}] ($(intee)+(-2mm,0)$) -- ($(u)+(2mm,0)$) node[midway,above=2mm,align=center] {Orthogonal \\ \textsc{fir} filters};
 	\draw[decorate, decoration={brace, amplitude=4pt}] ($(utee)+(-2mm,0)$) -- ($(v)+(2mm,0)$) node[midway,above=2mm,align=center] {Reconstruction \\ matrices};
-	\draw[decorate, decoration={brace, amplitude=4pt}] ($(add0)+(-2mm,0)$) -- ($(add3)+(2mm,0)$) node[midway,above=2mm,align=center] {Interpolation and \\ SNR accumulation};
+	\draw[decorate, decoration={brace, amplitude=4pt}] ($(add0)+(-2mm,0)$) -- ($(add3)+(2mm,0)$) node[midway,above=2mm,align=center] {Interpolation and \\ \textsc{snr} accumulation};
 \end{tikzpicture}
 
 
