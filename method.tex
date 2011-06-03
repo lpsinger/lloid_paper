@@ -276,7 +276,9 @@ $N^\shortuparrow$ & number of coefficients in interpolation filter \\
 \end{indented}
 \end{table}
 
-\Table{\label{table:flops}Minimum computational cost of the \textsc{fir}, \textsc{fft} convolution, and \lloid\ methods for a bank of 657 templates sampled at 4096 Hz.}
+\editorial{This section's two tables are small.  Any way to put them side by side or next to another figure?}
+
+\Table{\label{table:flops}Minimum computational cost of the \textsc{fir} filter bank, \textsc{fft} convolution, and \lloid\ methods for a bank of 657 templates sampled at 4096 Hz.}
 \br
 Method & \flops \\
 \mr
@@ -303,11 +305,13 @@ $$
 
 \subsubsection{\lloid\ method}
 
-For time slices $s$, the \lloid\ method requires $2 \slicessamps \numsvdtmps f^s$ for evaluating the orthogonal filters, $2 \numtmps \numsvdtmps f^s$ \flops\ for the linear transformation from the $\numsvdtmps$ basis templates to the $\numtmps$ time-sliced templates, and $\numtmps f^s$ \flops to accumulate the resultant partial \SNR\ stream.
+For time slices $s$, the \lloid\ method requires $2 \slicessamps \numsvdtmps f^s$ \flops\ 
+for evaluating the orthogonal filters, $2 \numtmps \numsvdtmps f^s$ \flops\ for the 
+linear transformation from the $\numsvdtmps$ basis templates to the $\numtmps$ time-sliced templates, and $\numtmps f^s$ \flops\ to add the resultant partial \SNR\ stream.
 
-The computational cost of the decimation of the detector data and the interpolation of the partial \SNR\ streams is a little bit more subtle.  Decimation is achieved by applying an \fir\ antialiasing filter and then downsampling, or deleting samples in order to reduce the sample rate from $f^{s-1}$ to $f^s$.  Naively, the antialiasing filter with $N^\shortdownarrow$ coefficients should demand $2 N^\shortdownarrow f^{s-1}$ \flops.  However, it is only necessary to evaluate the antialiasing filter for the fraction $f^s / f^{s-1}$ of the samples that will not be deleted.  Consequently, an efficient decimator that requires only $2 N^\shortdownarrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 N^\shortdownarrow f^s$ \flops\ is possible.
+The computational cost of the decimation of the detector data is a little bit more subtle.  Decimation is achieved by applying an \fir\ antialiasing filter and then downsampling, or deleting samples in order to reduce the sample rate from $f^{s-1}$ to $f^s$.  Naively, an antialiasing filter with $N^\shortdownarrow$ coefficients should demand $2 N^\shortdownarrow f^{s-1}$ \flops.  However, it is necessary to evaluate the antialiasing filter only for the fraction $f^s / f^{s-1}$ of the samples that will not be deleted.  Consequently, an efficient decimator that requires only $2 N^\shortdownarrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 N^\shortdownarrow f^s$ \flops\ is possible.
 
-The story is similar for the interpolation filters used to change the sample rates of the partial \textsc{snr} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a lowpass filter with $N^\shortdownarrow$.  The lowpass filter requires $2 M N^\shortdownarrow f^{s-1}$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^{s-1}/f$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 M N^\shortuparrow f^s$ \flops.
+The story is similar for the interpolation filters used to change the sample rates of the partial \textsc{snr} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a lowpass filter with $N^\shortdownarrow$ coefficients.  The lowpass filter requires $2 M N^\shortdownarrow f^{s-1}$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^{s-1}/f$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 M N^\shortuparrow f^s$ \flops.
 
 Taking into account the decimation of the detector data, the orthogonal \fir\ filters, the reconstruction of the time sliced templates, the interpolation of \SNR\ from previous time slices, and the accumulation of \SNR, in total \lloid\ requires
 $$
