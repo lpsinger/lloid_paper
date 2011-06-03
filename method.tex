@@ -38,6 +38,37 @@ template.  For a unit-normalized template $h_i[k]$ and whitened detector data $x
 
 Equation~(\ref{eq:SNRTD}) can be implemented in the time domain as an \textsc{fir} filter, requiring $\mathcal O(\numtmps \tmpsamps)$ floating point operations per sample.  However, it is typically much more computationally efficient to use the convolution theorem and the \textsc{fft} to implement fast convolution, requiring only $\mathcal O(\numtmps \lg \tmpsamps)$ operations per sample.
 
+
+\subsection{The \lloid\ method}
+
+In the remainder of this section we explore a method for reducing the
+computational cost of a time domain search for compact binary coalescence.  We
+will show that it is possible to have a theoretically zero latency algorithm
+that competes with the computational cost of the standard frequency domain
+matched filtering, which requires a signficant latency in order to be
+computationally cheap. Our method, \lloid\ involves two transformations to the
+template waveforms that produce a set of orthogonal filters with far fewer
+sample points than the original template waveforms.  The reduction in the
+number of sample points in all of the filters required to search the entire
+parameter space is dramatic.  
+
+The first transformation is to chop the time domain templates up into time
+slices.  Since each template piece is disjoint in time, the resulting set for a
+single template is orthogonal.  Given the chirp like structure of the
+templates, the early time slices have significantly lower bandwidth and can be
+safely downsampled.  The downsampling removes a factor of $\sim 10$ samples
+overall and also allows the filters to be evaluated at about a $\sim 10$ times
+lower rate.  This amounts to more than a factor of 100 in the floating point
+operations per second required.  However, the resulting filters are still not
+orthogonal across the mass parameter space, and are in fact highly redundant.
+We use the singular value decomposition to produce an orthogonal filter set
+from the time sliced templates~\cite{Cannon:2010p10398}.  We find that this
+reduces the number of sample points that need to be filtered by another factor
+of $\sim 100$.  The combined methods reduce the number of floating point
+operations to the level where they are competitive with the conventional
+matched filter approach.  In the remainder of this section we describe the
+\lloid\ algorithm in detail and provide some basic computational cost scaling.  
+
 \subsection{Selectively reducing the sample rate of the data and template waveforms}
 
 Our first innovation and the first step of our proposed method
