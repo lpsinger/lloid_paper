@@ -10,14 +10,13 @@
 %   - Mention S6 and VSR2, online running, EM followup
 % - Layout of paper: description of method, procedure followed 
 
-\editorial{Would the introduction be more effective without this paragraph?}
+\editorial{Would the introduction be more effective without this paragraph?, should we find whitepapers?}
+
 The coalescence of compact binary systems consisting of neutron stars (NS)
 and/or black holes (BH) is the most promising source of gravitational radiation
-for Advanced \LIGO~\cite{ALIGOWeb}, Virgo~\cite{AVirgoWeb}, \GEO~\cite{GEOWeb},%
-\editorial{Can we condense all of the detector citations into one -- perhaps find a whitepaper?}%
-and \LCGT~\cite{LCGTWeb}.  Tens of binary coalescence events are expected to be
-observed in the advanced detector era later this
-decade~\cite{Abadie:2010p10836}.
+for Advanced \LIGO, Virgo, \GEO\ and \LCGT~\cite{ALIGOWeb, AVirgoWeb, GEOWeb,
+LCGTWeb}.  Tens of binary coalescence events are expected to be observed in the
+advanced detector era later this decade~\cite{Abadie:2010p10836}.
 
 As a compact binary system loses energy to gravitational waves, its orbital
 separation decreases. This causes a run-away inspiral with the
@@ -99,7 +98,7 @@ have high throughput at the cost of high latency, or low latency at the cost of
 low throughput.  The former are epitomized by the overlap-save algorithm for
 \textsc{fft} convolution, currently the preferred method in gravitational wave
 searches.  The most obvious example of the latter is the time domain
-(\textsc{td}) convolution, which is has no latency at all.  However, its
+(\textsc{td}) convolution, which has no latency at all.  However, its
 computational complexity is quadratic in the length of the templates, so it is
 prohibitively expensive for long templates.
 
