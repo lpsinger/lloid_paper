@@ -1,7 +1,7 @@
 \section{Results}
 \label{SECIV}\label{sec:results}
 
-In this section we test our implementation of the \lloid\ method using the
+In this section we test our implementation of the \lloid\ method using the \gstreamer\
 pipeline described in the previous section.  We calculate the measured \SNR\
 loss due to the approximations of the \lloid\ method and our implementation of
 it.
@@ -21,26 +21,20 @@ it.
 
 We expect two known contributions to the \SNR\ loss to arise in our
 implementation of the \lloid\ algorithm.  The first is the \SNR\ loss due to
-the truncation of the \SVD\ basis, which is fundamental, and estimates for it
+the truncation of the \SVD\ basis and estimates for it
 exist~\cite{Cannon:2010p10398}.  The second comes from non ideal
-implementations of resampling that cause signal loss.  We have measured the
-effect of the resampling in the pipeline alone on a single waveform to gauge
-the magnitude of the loss.  It is shown in figure \ref{fig:hist-interpolate} as a
-function of the quality of the {\tt audioresample} element (which is
-proportional to the filter length used).  In both cases we have to compare the
-\SNR\ loss to the expected \SNR\ loss that arises from the discreteness of the
-template bank which is typically $\sim 3\%$.  We will consider a comparable
-\SNR\ loss to be tolerable, but ideally would like to have a factor of 10 lower
-loss from the \lloid\ implementation (i.e. no more than $\sim 0.3 \%$).
+implementations of resampling that cause signal loss.  The \SNR\ loss is to be compared
+with the mismatch of 0.03 that arises from the discreteness of the
+template bank which is typically.  We will consider an acceptable
+\SNR\ loss to be a factor of 10 smaller than this, i.e., no more than $\sim 0.003$.
 
 It is also within reason that some \SNR\ loss could arise from other suboptimal
 implementations of the \lloid\ algorithm in our test pipeline.  To gauge
 accurately how well the pipeline is performing we tested the response to a
-delta function.  This produces time reversed versions of the original template
-waveforms. By taking the inner product of the impulse response for each channel
-with the time reversed template, we can gauge very accurately the loss in
-expected \SNR\ due to the approximations we have made and any inadequacies in
-our implementation. 
+unit impulse.  By taking the inner product of the impulse response for each channel
+with the template, we can gauge very accurately the loss in
+\SNR\ due to the approximations we have made and any inadequacies in
+our implementation.
 
 \subsubsection{Checking the effect of the \SVD\ tolerance}
 
@@ -54,7 +48,7 @@ that the results are quite as expected.}  Figure \ref{fig:hist-svd-tolerance}
 demonstrates that it is possible to acheive typical \SNR\ losses of $\ll1\%$.
 However, we do notice that the mismatch saturates with respect to the tolerance.
 This could be the effect of the resampling, or another \SNR\ loss that we did
-not model or expect.  However the saturation is still an order of magnitude below our target mismatch of $\sim 0.3 \%$.  We find that an \SVD\ tolerance of
+not model or expect.  However the saturation is still an order of magnitude below our target mismatch of $\sim 0.003$.  We find that an \SVD\ tolerance of
 $\left(1-10^{-4}\right)$ is adequate. 
 %
 \begin{figure}
@@ -64,7 +58,11 @@ $\left(1-10^{-4}\right)$ is adequate.
 Box-and-whisker plot of mismatch between nominal
 template bank and \lloid\ measured impulse respones.  The \textsc{svd}
 tolerance is varied from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.
-The diminishing improvement is caused by some other limitation in the pipeline.}
+The diminishing improvement is caused by some other limitation in the pipeline.
+The lines in the
+center of the boxes denote the medians.  The upper and lower boundaries of the
+boxes show the upper and lower quartiles.  The whiskers denote the minimum and
+maximum mismatch over all templates.}
 	\end{center}
 \end{figure}
 
@@ -74,7 +72,7 @@ Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$, we checked 
 impact of changing the filter length used to interpolate the decimated data
 back up to the full sample rate.  The results are in figure
 \ref{fig:hist-interpolate}.  We find that a filter length of 16 is sufficient
-to produce mismatches at our target of $\sim 0.3 \%$.
+to produce mismatches at our target of $\sim 0.003$.
 %
 \begin{figure}
 	\begin{center}
@@ -82,10 +80,7 @@ to produce mismatches at our target of $\sim 0.3 \%$.
 		\caption{\label{fig:hist-interpolate} Box-and-whisker plot of
 mismatch between nominal template bank and \lloid\ measured impulse respones.
 The length $N^\uparrow$ of the interpolation filter is varied from 8 to 192.
-The \textsc{svd} tolerance is kept fixed at $(1-10^{-6})$.  The lines in the
-center of the boxes denote the medians.  The upper and lower boundaries of the
-boxes show the upper and lower quartiles.  The whiskers denote the minimum and
-maximum mismatch over all templates.}
+The \textsc{svd} tolerance is kept fixed at $(1-10^{-6})$.}
 	\end{center}
 \end{figure}
 
