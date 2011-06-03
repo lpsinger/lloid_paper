@@ -207,16 +207,15 @@ calculation.
 \begin{tabular}{rl}
 \bf{Symbol}	& \bf{Definition} \\
 \hline
-\tmpsamps	& The number of sample points in template $x_i$ \\
-\numtmps	& The number of templates in the set $\{x_i\}$ \\
+\tmpsamps	& The number of sample points per template \\
+\numtmps		& The number of templates \\
 \numslices	& The number of time slices \\
-\numsvdtmps	& The number of orthogonal filters in time slice $k$ \\
-\slicessamps	& The number of samples in time slice $k$ \\
-\fmax		& The maximum frequency of a filter \\
-$f^s$		& The sample frequency of the $k^{\mathrm{th}}$ filter \\
-\resampsamps	& The number of sample points in the resample filter
+\numsvdtmps	& The number of orthogonal templates in time slice $s$ \\
+\slicessamps	& The number of samples in time slice $s$ \\
+$f^s$		& The sample rate in time slice $s$ \\
+\resampsamps	& The number of coefficients in the decimation and interpolation filters
 \end{tabular}
-\caption{\label{tab:recap} Notation used to describe filtering.  This table
+\caption{\label{tab:recap} Notation used to describe filters.  This table
 provides a quick reference for symbols used.}
 \end{table}
 
