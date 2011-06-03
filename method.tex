@@ -38,33 +38,6 @@ template.  For a unit-normalized template $h_i[k]$ and whitened detector data $x
 
 Equation~(\ref{eq:SNRTD}) can be implemented in the time domain as an \textsc{fir} filter, requiring $\mathcal O(\numtmps \tmpsamps)$ floating point operations per sample.  However, it is typically much more computationally efficient to use the convolution theorem and the \textsc{fft} to implement fast convolution, requiring only $\mathcal O(\numtmps \lg \tmpsamps)$ operations per sample.
 
-\subsection{Proposed method}
-
-\editorial{This paragraph is hereby condemned!  It's too early to introduce this equation, and this should be more of a summary of our method.}In order to minimize latency we propose using the time-domain convolution
-presented in \eqref{eq:SNRTD}.  However, because the brute-force evaluation of
-\eqref{eq:SNRTD} is far too costly to be useful, we will consider an
-approximation to \eqref{eq:SNRTD} that can reduce substantially the cost of
-\realtime\ filtering. This approximation has the form
-%
-% orthogonal decomposition filtering
-%
-\begin{equation}
-\rho_i(t) \approx \sum_k^{\numslices} \sum_j^{\numsvdtmps} 
-	\int_{\tau_{k}}^{\tau_{k+1}} v_{ijk} \sigma_{jk} u_{jk}\,(\tau) \, h(t-\tau) \, d \tau \label{eq:decomp}
-\end{equation} 
-%
-%
-where $u_{jk}(\tau)$ is an orthogonal basis set of filters spanning the space
-of $\{x_i(\tau)\}$ and $\sigma_{jk} v_{ijk}$ is a tensor relating the filters
-$u_{jk}(\tau)$ to the original filter set $\{x_i(\tau)\}$.  We claim that with
-a suitable choice of filters $u_{jk}(\tau)$ one can reduce the computational
-cost of \eqref{eq:SNRTD} sufficiently to feasibly search for
-gravitational waves from compact binary coalescence in \realtime.  This
-requires 1) exploiting
-the time-frequency characteristics of the binary waveforms and 2) exploiting the redundancy of the template bank. We describe our
-procedure for producing the decompostion in \eqref{eq:decomp} in the remainder
-of this section.
-
 \subsection{Selectively reducing the sample rate of the data and template waveforms}
 
 Our first innovation and the first step of our proposed method
@@ -191,6 +164,33 @@ with \eqref{eq:time_slices} to arrive at \eqref{eq:decomp}.  In the next
 section we compute the expected computational cost scaling of this
 decomposition and compare it with the brute-force implementation in
 \eqref{eq:SNRTD} and higher latency \fft\ methods.
+
+\subsection{Proposed method}
+
+\editorial{This paragraph is hereby condemned!  It's too early to introduce this equation, and this should be more of a summary of our method.}In order to minimize latency we propose using the time-domain convolution
+presented in \eqref{eq:SNRTD}.  However, because the brute-force evaluation of
+\eqref{eq:SNRTD} is far too costly to be useful, we will consider an
+approximation to \eqref{eq:SNRTD} that can reduce substantially the cost of
+\realtime\ filtering. This approximation has the form
+%
+% orthogonal decomposition filtering
+%
+\begin{equation}
+\rho_i(t) \approx \sum_k^{\numslices} \sum_j^{\numsvdtmps} 
+	\int_{\tau_{k}}^{\tau_{k+1}} v_{ijk} \sigma_{jk} u_{jk}\,(\tau) \, h(t-\tau) \, d \tau \label{eq:decomp}
+\end{equation} 
+%
+%
+where $u_{jk}(\tau)$ is an orthogonal basis set of filters spanning the space
+of $\{x_i(\tau)\}$ and $\sigma_{jk} v_{ijk}$ is a tensor relating the filters
+$u_{jk}(\tau)$ to the original filter set $\{x_i(\tau)\}$.  We claim that with
+a suitable choice of filters $u_{jk}(\tau)$ one can reduce the computational
+cost of \eqref{eq:SNRTD} sufficiently to feasibly search for
+gravitational waves from compact binary coalescence in \realtime.  This
+requires 1) exploiting
+the time-frequency characteristics of the binary waveforms and 2) exploiting the redundancy of the template bank. We describe our
+procedure for producing the decompostion in \eqref{eq:decomp} in the remainder
+of this section.
 
 \subsection{Comparison of computational costs}
 
