@@ -361,17 +361,16 @@ $$
 $$
 The second sum is carried out over the set of sample rates of all of the time slices rather than over the time slices themselves because some time slices may have the same sample rates.
 
-\subsubsection{Extrapolation of the computational cost of the \lloid\ method to an Advanced LIGO search}
+\subsubsection{Extrapolation of the computational cost to an Advanced LIGO search}
 
-Table \ref{table:flops} shows that it requires about 0.5 GFLOPS to conduct the
-filtering, reconstruction and resampling stages of the \lloid\ method for 657
-templates chosen around typical NS--NS mass parameters.  Given the capability
-of modern CPUs it should be possible to filter that sub-bank on one CPU.
-Assuming that the cost holds for the other sub-banks we expect that the full
-parameter space should require $\sim 150$ CPUs for realtime filtering with the
-\lloid\ method per detector.  Even if real implementations fall short of these
-estimates by factors of several, there will still be ample computing resources
-for an early warning search in the advanced detector era.
+Table~\ref{table:flops} shows that the \lloid\ method requires $\sim 10^8$ \flops\
+to cover a sub-bank of comprising $\sim 10^2$ out of $\sim 10^5$ sets of intrinsic
+source parameters.  Given that modern (ca. 2011) workstations can sustain
+computation rates up to $\sim 10^{10}$ \flops{}, and assuming that other regions of the
+parameter space have similar computational scaling, an entire search could be implemented
+with $\gtrsim 10$ machines.
+
+By comparison, using the \TD\ method to achieve the same latency costs $\sim 10^{13}$ \flops\ for this particular sub-bank, and so it would require $\sim 10^6$ present-day machines.  Presently, the \LIGO\ data grid consists of only $\sim 10^4$ machines.
 
 \begin{comment}
 
