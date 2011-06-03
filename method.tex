@@ -177,38 +177,37 @@ decomposition}
 As described previously, the template banks are, by design, highly correlated.
 It is possible to greatly reduce the number of filters required to achieve a
 particular minimum match by designing an appropriate set of orthonormal {\em
-basis templates}.  A purely numerical technique based on the application of the
-singular value decomposition (\SVD) to inspiral waveforms is demonstrated
-in~\cite{Cannon:2010p10398}.  Using the results of ~\cite{Cannon:2010p10398} we
-establish that the time sliced templates of the previous section can be
-approximated to high accuracy by the expansion
+basis templates}.  A numerical technique based on the
+singular value decomposition (\SVD) of inspiral template banks is demonstrated
+in~\cite{Cannon:2010p10398}.  Similarly, the time sliced templates described above
+can be approximated to arbitrary accuracy by expansion into a set of orthonormal
+\emph{basis templates}, $u_l^s[k]$, related to the original time sliced templates
+through the \emph{reconstruction matrix}, $v_{il}^s\sigma_l^s$:
 %
 \begin{equation}
-h_i^s[k] = \sum_{\mathclap{l=0}}^{\mathclap{M-1}} v_{il}^s \sigma_l^s u_l^s[k] \approx \sum_{\mathclap{l=0}}^{\mathclap{L^s-1}} v_{il}^s \sigma_l^s u_l^s[k]
+h_i^s[k] = \sum_{\mathclap{l=0}}^{\mathclap{M-1}} v_{il}^s \sigma_l^s u_l^s[k] \approx \sum_{\mathclap{l=0}}^{\mathclap{L^s-1}} v_{il}^s \sigma_l^s u_l^s[k].
 \label{eq:svddecomp}
 \end{equation}
 %
-where $\sigma_l^s$ is the $l^{\mathrm{th}}$ singular value for the
-$s^{\mathrm{th}}$ time slice, $v_{il}^s$ is an orthogonal matrix for the
-$s^{\mathrm{th}}$ time slice, and $u_l^s[k]$ is a new set of orthogonal basis filters
-for the $s^{\mathrm{th}}$ time slice.  The authors of \cite{Cannon:2010p10398}
-showed that to high reconstruction accuracy far fewer filters are needed than
-were in the original template bank. We find that when combined with the
-time-slice decomposition, the number of \SVD\ filters, \numsvdtmps\ is much smaller
-than the original number of filters \numtmps.  We combine \eqref{eq:svddecomp}
-with \eqref{eq:time-slices} to arrive at \eqref{eq:decomp}.  In the next
-section we compute the expected computational cost scaling of this
-decomposition and compare it with the brute-force implementation in
-\eqref{eq:SNRTD} and higher latency \fft\ methods.
+\editorial{Say a word or two about \SVD\ tolerance?}%
+%
+The parameter $\numsvdtmps$ sets the number of basis templates that are kept in the
+approximation.  This determines the \SVD\ tolerance, which affects the \SNR\ loss due
+to the approximation.  The authors of \cite{Cannon:2010p10398} showed that high accuracy
+could be achieved with far fewer basis templates than templates in the original template
+bank.  We find that when combined with the time slice decomposition, the number of basis 
+templates \numsvdtmps\ is much smaller than the original number of templates \numtmps.
+In the next section we describe how we form our novel detection statistic using the time slice decomposition and the \SVD.
 
 \subsection{Proposed method}
 
-\editorial{I just dropped our new notation in here; I haven't edited the text yet.}%
 Definition of decimated detector data:
 \begin{equation}
 	x^{s+1}[k] = \left( H^\shortdownarrow x^s\right)[k]
 \end{equation}
 
+\editorial{Chad: This whole subsection needs a lot of work.
+I just dropped our new notation in here.}%
 In order to minimize latency we propose using the time-domain convolution
 presented in \eqref{eq:SNRTD}.  However, because the brute-force evaluation of
 \eqref{eq:SNRTD} is far too costly to be useful, we will consider an
@@ -247,11 +246,15 @@ the time-frequency characteristics of the binary waveforms and 2) exploiting the
 procedure for producing the decompostion in \eqref{eq:decomp} in the remainder
 of this section.
 
+In the next section we compute the expected computational cost scaling of this
+decomposition and compare it with the brute force time domain implementation of
+\eqref{eq:SNRTD} and higher latency frequency domain methods.
+
 \subsection{Comparison of computational costs}
 
 We now examine the computational cost scaling of the approximate implementation
 of a conventional time domain or frequency domain matched filter bank as compared
-with \lloid{}.  For convenience, \ref{tab:recap} provides a review of the notation
+with \lloid{}.  For convenience, table~\ref{tab:recap} provides a review of the notation
 that we will need in this section.
 %
 % symbols used in FLOPs calculations table
