@@ -46,13 +46,13 @@ def snr_to_num(fracsnr, number=40):
 # Start a new figure
 fig = pylab.figure(figsize=(5.5,2.3))
 
-markers = ['k-', 'k--', 'k-.']
+markers = ['k-', 'k--', 'k:']
 
 snrd = {}
 
 # loop over the noise curves
 # ZERO_DET_high_P.txt must be first since it normalizes the rate
-for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt', 'data/ZERO_DET_low_P.txt', 'data/BHBH_20deg.txt'], ['zero detuning, high power', 'zero detuning, low power', 'BHBH optimized'])):
+for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt', 'data/ZERO_DET_low_P.txt', 'data/BHBH_20deg.txt'], ['zero det., high power', 'zero det., low power', 'BHBH optimized'])):
 
 	# Load the data
 	A = numpy.loadtxt(cfile)
@@ -88,8 +88,10 @@ for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt', 'data/ZERO_D
 	# generate the figure
 	ax1 = fig.add_subplot(1,1,1, adjustable='box', aspect=0.5)
 	pylab.loglog(t, num, markers[i], lw=2, label=label)
+	pylab.loglog(t, numminus, markers[i], lw=0.5)
+	pylab.loglog(t, numplus, markers[i], lw=0.5)
 	#pylab.hold(1)
-	pylab.fill_between(t, numminus, numplus, color='k', alpha=0.15)
+	#pylab.fill_between(t, numminus, numplus, color='k', alpha=0.15)
 
 pylab.grid()
 pylab.legend(loc='lower left')
