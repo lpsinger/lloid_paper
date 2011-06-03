@@ -54,27 +54,28 @@ $f^s$ (Hz) & $(t^{s+1}$&$t^s]$ (s) & $N^s$ & $-1$ & $-2$ & $-3$ & $-4$ & $-5$ & 
 \end{indented}
 \end{table}
 
-The planning stage begins with choosing templates that cover the space of source
-parameters with a hexagonal grid~\cite{PhysRevD.76.102004} in order to satisfy
-a minimum match criterion.  This assures a prescribed maximum loss in \SNR\
-for signals that fall between the chosen templates.  Typically the minimum
-match is 0.97 corresponding to a maximum mismatch of 0.03.  Next, the templates
-are subdivided into groups of neighbors called \emph{sub-banks} that are
-appropriately sized so that each bank can be efficiently handled by a single
-computer.  The neighbors are chosen to have comparable chirp mass, which produces
-sub-banks with similar time-frequency evolution.  Dividing the source parameter space
-into smaller sub-banks reduces the computational cost of the singular value decomposition
-and is the approach considered in~\cite{Cannon:2010p10398}.  We choose time
-slice boundaries as in equation~\eqref{eq:time-sliced-templates} such that all of the templates within a
-sub-bank are sub-critically sampled at progressively lower sample rates.  Next,
-the templates within the sub-bank are realized as \fir\ filter
+The planning stage begins with choosing templates that cover the space of
+source parameters with a hexagonal grid~\cite{PhysRevD.76.102004} in order to
+satisfy a minimum match criterion.  This assures a prescribed maximum loss in
+\SNR\ for signals that fall between the chosen templates.  Typically the
+minimum match is 0.97 corresponding to a maximum mismatch of 0.03.  Next, the
+templates are subdivided into groups of neighbors called \emph{sub-banks} that
+are appropriately sized so that each bank can be efficiently handled by a
+single computer.  The neighbors are chosen to have comparable chirp mass, which
+produces sub-banks with similar time-frequency evolution.  Dividing the source
+parameter space into smaller sub-banks reduces the computational cost of the
+singular value decomposition and is the approach considered
+in~\cite{Cannon:2010p10398}.  We choose time slice boundaries as in
+equation~\eqref{eq:time-sliced-templates} such that all of the templates within
+a sub-bank are sub-critically sampled at progressively lower sample rates.
+Next, the templates within the sub-bank are realized as \fir\ filter
 coefficients.  For each time slice, the templates are down-sampled to the
-appropriate sample rate.  Finally, the \SVD\ is applied to each time
-slice in the sub-bank in order to produce a set of orthogonal \fir\
-filters and a reconstruction matrix that maps them back to the original
-templates as described in equation~\eqref{eq:svddecomp}.  The down-sampled orthogonal
-\fir\ filter coefficients, the reconstruction matrix, and the time slice
-boundaries are all saved to disk.
+appropriate sample rate.  Finally, the \SVD\ is applied to each time slice in
+the sub-bank in order to produce a set of orthogonal \fir\ filters and a
+reconstruction matrix that maps them back to the original templates as
+described in equation~\eqref{eq:svddecomp}.  The down-sampled orthogonal \fir\
+filter coefficients, the reconstruction matrix, and the time slice boundaries
+are all saved to disk.
 
 \subsection{Filtering stage}
 
@@ -115,7 +116,6 @@ time slice contains three \fir\ filters that are linearly combined to produce
 four output channels.  In a typical pipeline the number of \fir\ filters is
 much less than the number of output channels.}
 \end{figure}
-
 The signal flow diagram drawn in figure \ref{fig:pipeline} contains several
 distinct stages and parallel branches.  The stages are decimation, filtering
 the data against the orthogonal templates, reconstruction of the original template basis, interpolation
@@ -133,7 +133,7 @@ required by the template time slices described in \eqref{eq:time-slices}.  These
 parallel decimated data streams are fed into parallel \fir\ filter banks in the
 next stage.
 
-\subsubsection{Orthogonal \fir\ filters}
+\subsubsection{\fir\ filters}
 
 The \fir\ filter banks are implemented using a \gstlal\ element called {\tt
 lal\_firbank}, which produces $N$ channels of filter output from an $N\times M$ matrix of
@@ -167,4 +167,4 @@ The early-warning \SNR\ for each time slice is formed by accumulating interpolat
 warning \SNR\ from the subsequent time slice.  This process continuous until we have 
 worked our way to the \SNR\ of the original templates at the full sample rate $f^0$.  In 
 this way, the \lloid\ algorithm and this implementation leads to a simple early warning
-pipeline with little additional work.
+pipeline.
