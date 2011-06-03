@@ -63,7 +63,7 @@ pylab.xlim(-tmax, 0.)
 pylab.ylim(-.15, .15)
 pylab.xlabel('time relative to coalescence (s)')
 pylab.ylabel(r'gravitational wave strain amplitude')
-matplotlib.pyplot.subplots_adjust(left=0.06, right=0.88, top=0.95, bottom=0.12)
+matplotlib.pyplot.subplots_adjust(left=0.06, right=0.88, top=0.95, bottom=0.13)
 
 pylab.savefig('time_slices.pdf')
 
