@@ -19,7 +19,7 @@ intrinsic source parameters are the component masses of the binary, $\vec\theta 
 typically employ matched filter banks that discretely
 sample the possible intrinsic parameters~\cite{findchirppaper}.  For a given source, the strain observed by the detector is a linear combination of two waveforms corresponding to the `$+$' and `$\times$' gravitational wave polarizations, so for any value of $\vec\theta$ we must implement 2 filters.  The coefficients for the $M$ filters
 are known as templates, and are formed by discretizing and time reversing the waveforms and weighting them by the inverse amplitude spectral density of the detector's noise. To construct a template bank, templates are chosen with the $M/2$ discrete signal parameters $\vec\theta_0,\, \vec\theta_1,\, \dots,\, \vec\theta_{M/2-1}$ to assure a
-bounded loss of \SNR~\cite{Owen:1995tm,Owen:1998dk}. That is, any possible
+bounded loss of \SNR~\cite{Owen:1995tm,Owen:1998dk}\editorial{Can we cut this down to one citation?}. That is, any possible
 signal within the a given range of intrinsic source parameters will have an inner product that is $\geqslant 0.97$ with
 at least one template. Such a template bank is said to have a {\em
 minimum match} of 0.97. The data from the detector are whitened and convolved with each template to produce $2M$ \SNR\
@@ -27,7 +27,7 @@ time series. Local peak-finding across time and templates determines detection
 candidates.
 
 Filtering the detector data involves a convolution of the data with the
-template.  For a unit-normalized template $h_i[k]$ and whitened detector data $x[k]$, both sampled at a rate $f^0$, the result can be interpreted as the signal-to-noise ratio, $\rho_i[k]$ defined as
+templates.  For a unit-normalized template $h_i[k]$ and whitened detector data $x[k]$, both sampled at a rate $f^0$, the result can be interpreted as the signal-to-noise ratio, $\rho_i[k]$ defined as
 %
 % Filtering equations
 %
