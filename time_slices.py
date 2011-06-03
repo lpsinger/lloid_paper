@@ -15,6 +15,7 @@ matplotlib.rcParams.update({
         "subplots.right": 0.75,
         "subplots.bottom": 0.25,
         "subplots.top": 0.75,
+		"legend.fontsize": 8.0
 })
 
 # Command line interface
