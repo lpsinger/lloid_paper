@@ -201,7 +201,13 @@ decomposition and compare it with the brute-force implementation in
 
 \subsection{Proposed method}
 
-\editorial{This paragraph is hereby condemned!  It's too early to introduce this equation, and this should be more of a summary of our method.}In order to minimize latency we propose using the time-domain convolution
+\editorial{I just dropped our new notation in here; I haven't edited the text yet.}%
+Definition of decimated detector data:
+\begin{equation}
+	x^{s+1}[k] = \left( H^\shortdownarrow x^s\right)[k]
+\end{equation}
+
+In order to minimize latency we propose using the time-domain convolution
 presented in \eqref{eq:SNRTD}.  However, because the brute-force evaluation of
 \eqref{eq:SNRTD} is far too costly to be useful, we will consider an
 approximation to \eqref{eq:SNRTD} that can reduce substantially the cost of
@@ -210,9 +216,22 @@ approximation to \eqref{eq:SNRTD} that can reduce substantially the cost of
 % orthogonal decomposition filtering
 %
 \begin{equation}
-\rho_i(t) \approx \sum_k^{\numslices} \sum_j^{\numsvdtmps} 
-	\int_{\tau_{k}}^{\tau_{k+1}} v_{ijk} \sigma_{jk} u_{jk}\,(\tau) \, h(t-\tau) \, d \tau \label{eq:decomp}
-\end{equation} 
+	\rho_i^s [k] =%
+		% Reconstruction
+		\underbrace{
+			\sum_{\mathclap{l=0}}^{\mathclap{L^s-1}} v_{il}^s \sigma_l^s
+		}_\textrm{\clap{reconstruction}}
+		% Orthogonal FIR filter
+		\overbrace{
+			\sum_{\mathclap{n=0}}^{\mathclap{N^s-1}} u_l^s[n] x^s[k-n]
+		}^\textrm{\clap{orthogonal {\sc fir} filters}}
+		% Plus ...
+		+
+		% Interpolation SNR
+		\underbrace{
+			\left(H^\uparrow \rho_i^{s+1}\right)[k]
+		}_\textrm{\clap{{\sc snr} from previous time slices}}
+\end{equation}
 %
 %
 where $u_{jk}(\tau)$ is an orthogonal basis set of filters spanning the space
