@@ -267,9 +267,7 @@ the early warning filter output accumulated up to time slice $s$ as,
 %
 %
 \FIXME{This quantity is related to the early warning SNR by the normalization
-of the partial filter defined by the present time slice.}  Figure
-\ref{fig:pipeline} describes the computation of the \SNR\ and early warning
-\SNR\ schematically.
+of the partial filter defined by the present time slice.}
 %
 %
 \begin{figure}[htbp]
@@ -288,11 +286,9 @@ much less than the number of output channels.}
 \end{figure}
 %
 %
-The signal flow diagram drawn in figure \ref{fig:pipeline} contains several
-distinct stages and parallel branches.  The stages are decimation, filtering
-the data against the orthogonal templates, reconstruction of the original
-template basis, interpolation and accumulation of the early warning and final
-{\SNR}. 
+The signal flow diagram in figure~\ref{fig:pipeline} illustrates how this
+recursion relation can be realized as a multirate filter network with outputs for
+each of the early warning \SNR{}s.
 
 In the next section we compute the expected computational cost scaling of this
 decomposition and compare it with the brute-force time-domain implementation of
