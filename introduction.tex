@@ -96,9 +96,9 @@ cross-correlations between the data stream and a bank of nominal ``template''
 signals.  There are many different implementations of matched filters, but most
 have high throughput at the cost of high latency, or low latency at the cost of
 low throughput.  The former are epitomized by the overlap-save algorithm for
-\fft{} convolution, currently the preferred method in gravitational wave
+\fft\ convolution, currently the preferred method in gravitational wave
 searches.  The most obvious example of the latter is the time domain
-(\textsc{td}) convolution, which has no latency at all.  However, its
+(\TD) convolution, which has no latency at all.  However, its
 computational complexity is quadratic in the length of the templates, so it is
 prohibitively expensive for long templates.
 
