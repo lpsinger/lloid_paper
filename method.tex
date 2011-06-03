@@ -7,7 +7,7 @@ possibility of \earlywarning\ detection with modest computing requirements.  We
 expand on the ideas of~\cite{Marion2004, Buskulic2010} that describe a
 multiband decomposition of the compact binary parameter space that resulted in
 a search with minutes latency in \LIGO{}'s S6 and Virgo's VSR2 science runs.
-We combine this with the \SVD\ rank reduction method described
+We combine this with the \SVD\ rank-reduction method described
 in~\cite{Cannon:2010p10398} that exploits the redundancy of the template banks.
 
 \subsection{Conventional \CBC{} matched filter searches}
@@ -26,9 +26,8 @@ are known as templates, and are formed by discretizing and time reversing the
 waveforms and weighting them by the inverse amplitude spectral density of the
 detector's noise. To construct a template bank, templates are chosen with the
 $M/2$ discrete signal parameters $\vec\theta_0,\, \vec\theta_1,\, \dots,\,
-\vec\theta_{M/2-1}$ to assure a bounded loss of
-\SNR~\cite{Owen:1995tm,Owen:1998dk}\editorial{Can we cut this down to one
-citation?}. That is, any possible signal within a given range of intrinsic
+\vec\theta_{M/2-1}$ to assure a bounded loss of \SNR~\cite{Owen:1998dk}. That
+is, any possible signal within a given range of intrinsic
 source parameters will have an inner product that is $\geqslant 0.97$ with at
 least one template. Such a template bank is said to have a {\em minimum match}
 of 0.97. The data from the detector are whitened and convolved with each
@@ -60,7 +59,7 @@ convolution in the frequency domain (\FD), requiring only $\mathcal O(\numtmps
 
 In the remainder of this section we explore a method for reducing the
 computational cost of a \TD\ search for compact binary coalescence.  We will
-give a truly zero latency algorithm that competes in terms of floating point
+give a truly zero-latency algorithm that competes in terms of floating point
 operations per second with the conventional \FD\ method, which requires a
 signficant latency in order to be computationally cheap. Our method, \lloid{},
 involves two transformations of the template waveforms that produce a set of
@@ -70,7 +69,7 @@ entire parameter space is dramatic.
 
 The first transformation is to chop the time-domain templates up into time
 slices.  Since each template slice is disjoint in time, the resulting set for a
-single template is orthogonal.  Given the chirp like structure of the
+single template is orthogonal.  Given the chirp-like structure of the
 templates, the early time slices have significantly lower bandwidth and can be
 safely downsampled.  The downsampling removes a factor of $\sim 100$ samples
 from
@@ -79,14 +78,14 @@ from
 %
 the early part of the waveform and allows the filters to be evaluated at about
 $\sim 100$ times lower rate.  This amounts to more than a factor of 10000
-reduction in the floating point operations per second required to filter the
+reduction in the floating-point operations per second required to filter the
 early part of the waveform.  However, the resulting filters are still not
 orthogonal across the mass parameter space, and are in fact highly redundant.
 We use the singular value decomposition to produce an orthogonal filter set
-from the time sliced templates~\cite{Cannon:2010p10398}.  We find that this
+from the time-sliced templates~\cite{Cannon:2010p10398}.  We find that this
 reduces the number of sample points of the filters by another factor of $\sim
 100$.  The combined methods reduce the number of floating point operations to
-the level where they are competitive with the conventional high latency \FD\
+the level where they are competitive with the conventional high-latency \FD\
 matched filter approach.  In the remainder of this section we describe the
 \lloid\ algorithm in detail and provide some basic computational cost scaling.  
 
@@ -94,12 +93,11 @@ matched filter approach.  In the remainder of this section we describe the
 
 The first step of our proposed method is to divide the templates into
 \emph{time slices} in a time-domain analogue to the frequency-domain
-decomposition described in ~\cite{Marion2004, Buskulic2010, beauville2006,
-beauville2008}\editorial{Four citations is way too many!  We should pick just
-\emph{one} citation for \textsc{mbta}, and it should be the most recent and
-complete description of it.}.  A matched filter is constructed for each time
+decomposition described in ~\cite{Marion2004, Buskulic2010}.
+\editorial{nvf: I've picked the two most relevant; I think they are reasonably complementary.}%
+A matched filter is constructed for each time
 slice.  The outputs form an ensemble of partial \SNR{} streams.  By linearity,
-these partial \SNR\ streams can be suitably time delayed and summed to
+these partial \SNR\ streams can be suitably time-delayed and summed to
 reproduce the \SNR\ of the full template.  To wit,
 %
 \begin{equation}
@@ -219,31 +217,31 @@ the approximation.  This determines the \SVD\ tolerance, which affects the
 \SNR\ loss due to the approximation.  The authors of \cite{Cannon:2010p10398}
 showed that high accuracy could be achieved with far fewer basis templates than
 templates in the original template bank.  We find that when combined with the
-time slice decomposition, the number of basis templates \numsvdtmps\ is much
+time-slice decomposition, the number of basis templates \numsvdtmps\ is much
 smaller than the original number of templates \numtmps.  In the next section we
-describe how we form our novel detection statistic using the time slice
+describe how we form our novel detection statistic using the time-slice
 decomposition and the \SVD.
 
 \subsection{Early warning \SNR }
 
-In the previous two sections we have described two transformation that greatly
+In the previous two sections we have described two transformations that greatly
 reduce the burden of filtering the compact binary parameter space and make \TD\
 filtering of the data possible.  We are now prepared to define the early
 warning \SNR\ and to comment on the computational cost of evaluating it.  But
 first, we will introduce some notation refering to the decimation of data,
-which means reducing the sample rate after low pass filtering,
+which means reducing the sample rate after low-pass filtering,
 \begin{equation}
 \label{eq:decomp}
-	x^{s+1}[k] = \left( H^\shortdownarrow x^s\right)[k]
+	x^{s+1}[k] = \left( H^\shortdownarrow x^s\right)[k] \,,
 \end{equation}
 and notation refering to the interpolation of data to increase the sample rate,
 \begin{equation}
-	x^{s}[k] = \left( H^\shortuparrow x^{s+1}\right)[k]
+	x^{s}[k] = \left( H^\shortuparrow x^{s+1}\right)[k] \,.
 \end{equation}
 
 From the combination of transformations to the compact binary templates defined
 in equation \eqref{eq:time-sliced-templates} and \eqref{eq:svddecomp} we define
-the early warning filter output accumulated up to time slice $s$ as,
+the early-warning filter output accumulated up to time slice $s$ as,
 %
 % orthogonal decomposition filtering
 %
@@ -266,19 +264,19 @@ the early warning filter output accumulated up to time slice $s$ as,
 \end{equation}
 %
 %
-\FIXME{This quantity is related to the early warning SNR by the normalization
+\FIXME{This quantity is related to the early warning \SNR{} by the normalization
 of the partial filter defined by the present time slice.}
 %
 %
 \begin{figure}[htbp]
 	\includegraphics{figures/lloid-diagram.pdf}
-	\caption{\label{fig:pipeline} Schematic of LLOID pipeline illustrating
+	\caption{\label{fig:pipeline} Schematic of \lloid{} pipeline illustrating
 signal flow.  Circles with arrows represent interpolation
 \protect\includegraphics{figures/upsample-symbol.pdf} or decimation
 \protect\includegraphics{figures/downsample-symbol.pdf}.  Circles with plus
 signs represent summing junctions
 \protect\includegraphics{figures/adder-symbol.pdf}.  Squares
-\protect\includegraphics{figures/fir-symbol.pdf} stand for FIR filters.  Sample
+\protect\includegraphics{figures/fir-symbol.pdf} stand for \fir{} filters.  Sample
 rate decreases from the top of the diagram to the bottom.  In this diagram each
 time slice contains three \fir\ filters that are linearly combined to produce
 four output channels.  In a typical pipeline the number of \fir\ filters is
@@ -357,7 +355,7 @@ The computational cost of the decimation of the detector data is a little bit mo
 
 The story is similar for the interpolation filters used to change the sample rates of the partial \SNR{} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a low-pass filter with $N^\shortdownarrow$ coefficients.  The low-pass filter requires $2 M N^\shortdownarrow f^{s-1}$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^{s-1}/f$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 M N^\shortuparrow f^s$ \flops.
 
-Taking into account the decimation of the detector data, the orthogonal \fir\ filters, the reconstruction of the time sliced templates, the interpolation of \SNR\ from previous time slices, and the accumulation of \SNR, in total \lloid\ requires
+Taking into account the decimation of the detector data, the orthogonal \fir\ filters, the reconstruction of the time-sliced templates, the interpolation of \SNR\ from previous time slices, and the accumulation of \SNR, in total \lloid\ requires
 $$
 \sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s + 2\sum_{\mathclap{f \in \{f^s\}}} \left( N^\shortdownarrow + \numtmps N^\shortuparrow \right) f \textrm{ \flops.}
 $$
