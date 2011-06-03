@@ -33,9 +33,9 @@ for signals that fall in-between the chosen templates.  Typically the minimum
 match is 97\% corresponding to a maximum mismatch of 3\%.  Next, the templates
 are subdivided into groups of neighbors called ``sub-banks'' that are
 appropriately sized so that each bank can be efficiently handled by a single
-computer.  The neighbors are chosen to have similar chirp mass, which produces
+computer.  The neighbors are chosen to have comparable chirp mass, which produces
 sub-banks with very similar waveforms.  Dividing the mass space into smaller
-sub-banks aids in the computational cost of the singular value decomposition
+sub-banks reduces the computational cost of the singular value decomposition
 and is the approach considered in~\cite{Cannon:2010p10398}.  Using our
 understanding of the time-frequency evolution of the templates, we choose time
 slice boundaries as in \eqref{FIXME} such that all of the templates within a
@@ -91,7 +91,7 @@ much less than the number of output channels.}
 The filter pipeline drawn in figure \ref{fig:pipeline} consists of several
 distinct stages and parallel branches.  The stages are decimation, filtering
 the \SVD\ basis, reconstruction of the original template basis, interpolation
-and accumulation of the early warning and final \SNR\.  We outline the stages
+and accumulation of the early warning and final {\SNR}.  We outline the stages
 below. 
 
 \subsubsection{Decimation}
@@ -101,7 +101,7 @@ lower sample rates by decimation.  Decimation involves applying an anti-aliasing
 filter to the data, and then down-sampling by deleting samples.  We use a
 192-tap \fir\ decimator provided by {\tt Gstreamer's audioresample}
 element.  The detector data is provided at every power-of-two sample rate
-required by the template time slices described in \eqref{FIXME}.  These
+required by the template time slices described in \eqref{eq:time-slices}.  These
 parallel decimated data streams are fed into parallel fir filter banks in the
 next stage.
 
@@ -112,7 +112,7 @@ lal\_firbank}, which produces N channels of filter output from an NxM matrix of
 \fir\ filter coefficients.  This element is used in parallel branches in the
 pipeline to implement the filtering of the \SVD\ basis filters in each time
 slice.  Rather than implement the time sliced templates as zero padded \fir\
-filters as described in \eqref{FIXME} we instead implement them as shorter
+filters as described in \eqref{eq:time-slices} we instead implement them as shorter
 filters that contain only the nonzero samples.  Adding the appropriate time
 offset to the filter output later in the pipeline makes up for the lack of
 explicit zero padding.  The orthogonal filter outputs must be reconstructed
