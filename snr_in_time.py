@@ -52,7 +52,7 @@ snrd = {}
 
 # loop over the noise curves
 # ZERO_DET_high_P.txt must be first since it normalizes the rate
-for i, cfile in enumerate(['data/ZERO_DET_high_P.txt', 'data/ZERO_DET_low_P.txt', 'data/BHBH_20deg.txt']):
+for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt', 'data/ZERO_DET_low_P.txt', 'data/BHBH_20deg.txt'], ['zero detuning, high power', 'zero detuning, low power', 'BHBH optimized'])):
 
 	# Load the data
 	A = numpy.loadtxt(cfile)
@@ -87,15 +87,15 @@ for i, cfile in enumerate(['data/ZERO_DET_high_P.txt', 'data/ZERO_DET_low_P.txt'
 
 	# generate the figure
 	ax1 = fig.add_subplot(1,1,1, adjustable='box', aspect=0.5)
-	pylab.loglog(t, num, markers[i], lw=2, label=cfile.replace('.txt','').replace('data/','').replace('_', ' '))
+	pylab.loglog(t, num, markers[i], lw=2, label=label)
 	#pylab.hold(1)
 	pylab.fill_between(t, numminus, numplus, color='k', alpha=0.15)
 
 pylab.grid()
 pylab.legend(loc='lower left')
-pylab.ylabel(r'$\langle N \rangle$ yr$^{-1}$')
-pylab.xlabel(r'Time before coalescence, $T_\mathrm{bc}$')
+pylab.ylabel(r'$\dot N$ yr$^{-1}$')
+pylab.xlabel(r'Time before coalescence, $t$')
 pylab.subplots_adjust(bottom=0.2,top=0.95,left=0.08,right=0.95)
 pylab.xlim([0.01,1000])
 pylab.ylim([.1, 1000])
-pylab.savefig('N_before_Tc.pdf')
+pylab.savefig(sys.argv[1])
