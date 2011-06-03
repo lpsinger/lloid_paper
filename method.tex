@@ -248,143 +248,67 @@ of this section.
 \subsection{Comparison of computational costs}
 
 We now examine the computational cost scaling of the approximate implementation
-of \eqref{eq:SNRTD} as \eqref{eq:decomp}.  An actual implementation of this
-decomposition in a working analysis pipeline is discussed in the next section
-along with measured computational requirements.  For convenience, table
-\ref{tab:recap} is a recap of the meaning of various symbols used in this
-calculation.
+of a conventional time domain or frequency domain matched filter bank as compared
+with \lloid{}.  For convenience, \ref{tab:recap} provides a review of the notation
+that we will need in this section.
 %
 % symbols used in FLOPs calculations table
 %
-\begin{table}
-\begin{tabular}{rl}
-\bf{Symbol}	& \bf{Definition} \\
-\hline
-\tmpsamps	& The number of sample points per template \\
+\Table{\label{tab:recap} Notation used to describe filters.}
+\br
+Symbol	& Definition \\
+\mr
 \numtmps		& The number of templates \\
+\tmpsamps	& The number of samples per template \\
 \numslices	& The number of time slices \\
 \numsvdtmps	& The number of orthogonal templates in time slice $s$ \\
 \slicessamps	& The number of samples in time slice $s$ \\
 $f^s$		& The sample rate in time slice $s$ \\
-\resampsamps	& The number of coefficients in the decimation and interpolation filters
+$N^\shortdownarrow$ & The number of coefficients in the decimation filter \\
+$N^\shortuparrow$ & The number of coefficients in the interpolation filter \\
+\br
 \end{tabular}
-\caption{\label{tab:recap} Notation used to describe filters.  This table
-provides a quick reference for symbols used.}
+\end{indented}
 \end{table}
 
-In table \ref{table:flops} we present the computational cost scaling in
-floating point operations per sample for common tasks in the pipeline.  
-%
-% common tasks FLOPS table
-%
-\begin{table}[htdp]
-\begin{center}
-\begin{tabular}{l l}
-\bf{Process} & \bf{ops/sample} \\
-\hline
-% FIR
-\fir\ matched filter, \numtmps\ templates of length \tmpsamps\ & $2 \numtmps \tmpsamps$ \\
-% FFT
-\fft\ matched filter, \numtmps\ templates of length \tmpsamps\, & \multirow{2}{*}{$\mbox{\fontsize{14}{17}\selectfont $\frac{4 (\numtmps + 1) \lg \fftblock + 2 \numtmps}{1 - \tmpsamps/\fftblock}$}$} \\
-% FFT contd...
-$\,\,\,\,\,\,$ blocks of length \fftblock & \\
-% Resampling
-\fir\ resampling filter, length \resampsamps\ for each of \numtmps\ templates& \multirow{2}{*}{$2 \numtmps \resampsamps\ f_1 / f_2$} \\
-% Resampling contd...
-$\,\,\,\,\,\,$ and sample rates $f_1 < f_2$ & \\
-% Matrix multiply
-multiply $M \times L$ real matrix by $L\times1$ real vector & $2 M L$ \\
-%
+\Table{\label{table:flops}Minimum computational cost of the \textsc{fir}, \textsc{fft} convolution, and \lloid\ methods for a bank of 657 templates sampled at 4096 Hz.}
+\br
+Method & \flops \\
+\mr
+\textsc{fir} & $2.4\times10^{13}$ \\
+\textsc{fft} convolution & $2.6\times10^8$ \\
+\lloid & $4.7\times10^8$ \\
+\br
 \end{tabular}
-\end{center}
-\caption{Number of floating point operations per sample (multiplications and
-divisions) required for a selection of signal processing operations used in
-\textsc{lloid}.}
-\label{table:flops}
+\end{indented}
 \end{table}
 
-\begin{comment}
-The filter bank can be implemented using finite impulse response (\fir{}) filters,
-which are just sliding window dot products.  If there are \numtmps\ templates
-of length \tmpsamps\, and the data stream contains \hoftsamps\ samples, then
-applying the filter bank requires $2 \numtmps \tmpsamps \hoftsamps$ operations.
+\subsubsection{Conventional time domain method}
 
-More commonly, the matched filters are implemented using the \fft\ convolution.
-This entails applying {\fft}s to blocks of \fftblock\ samples, with $\tmpsamps
-\leq \fftblock$, each block overlapping the previous one by $ \fftblock -
-\tmpsamps $ samples.  There are $\hoftsamps/(\fftblock-\tmpsamps)$ such blocks
-required to filter \hoftsamps\ samples of data.  Modern implementations of the
-Cooley-Tukey \fft, such as the ubiquitous \texttt{fftw}, require about $4 N \lg
-N$ operations to evaluate a \textsc{dft} of size $N$~\cite{Johnson:2007p9654}.
-%
-%
-\editorial{This is more commonly known as ``overlap-save''.  We should find
-someone else's operation count and cite it.}  
-%
-%
-A \fftblock\ sample cross-correlation consists of a forward \fft, a \fftblock
-sample dot product, and an inverse \fft\, totaling $8 \fftblock \lg \fftblock +
-2 D$ operations per block.  Per sample, this is $(8 \lg \fftblock + 2) / (1 -
-\tmpsamps/\fftblock)$ operations.  As this expression indicates the number
-of operations increases as the block size \fftblock\ approaches the
-filter length \tmpsamps.
-%
-%
-\editorial{Drew: Why don't we change this to an overlap of $m$ samples so we
-can see what happens as we increase the overlap to reduce latency.}
+The conventional time domain method consists of a bank of \textsc{fir} filters, or sliding window dot products.  If there are $\numtmps$ templates, each $\tmpsamps$ samples in length, then each filter requires $M N$ multiplications and additions per sample, or $2 \numtmps \tmpsamps f^0$ floating point operations per second (\flops) at a sample rate $f^0$.
 
-The \fir\ filter implementation has the advantage that it has no intrinsic
-latency, whereas the \fft\ convolution has latency of $\fftblock-\tmpsamps$. 
-%
-%
-%For example, for a $1.4 -
-%1.4 \, M_\odot$ template with duration $\sim 1 \, \mathrm{ks}$, the
-%\textsc{fft} convolution has a latency $\geq 2 \, \mathrm{ks}$.  
-%
-However, the \fir\ filter implementation has the disadvantage of much greater
-overhead per sample than the \fft\ convolution.  For a $1\,\mathrm{ks}$
-template sampled at $4096\,\mathrm{Hz}$, the \textsc{fir} implementation
-requires about about $\tmpsamps / 8 \lg 2 \tmpsamps = 2.2 \times 10^4$ times
-more operations per sample than the \fft{} implementation.  We will now consider
-the computational cost of the \fir\ filter implementation described in the
-previous sections.
+\subsubsection{Conventional frequency domain method}
 
-It is convenient to express the computational cost of the entire filtering
-procedure in floating point operations per second {\flops}.  The cost will be
-the sum of the cost of the \fir\ filtering for the orthogonal filter in each
-time slice plus the cost of reconstructing the original waveforms with matrix
-operations and resampling.  Using the formulas in table \ref{table:flops} we
-arrive at
-%
-\begin{equation}
-%\mathrm{Computational\, cost} 
-\mathrm{C.C.} \propto 2 \sum_k^{\numslices} (\slicessamps + \numtmps) \numsvdtmps f_k \nonumber
-	r \sum_{k, f_k \neq f_{\fmax}}^{\numslices} \numtmps \resampsamps f_k 
-\label{eq:TDcost}
-\end{equation}
-%
-where the first sum is the total cost for filtering and reconstructing the
-orthogonal filters $u_{jk}$.  The second sum is the cost of resampling the
-reconstructed time-slice outputs to the original sample rate {\fmax}.  It
-assumes a \fir\ filter with \resampsamps\ sample points.  Note that the cost
-for resampling only occurs for the downsampled time slices. The resampling cost
-largely depends on {\resampsamps}.  The computational cost of \eqref{eq:TDcost}
-is dominated by the highest frequency terms in the sum.  Comparing just the
-highest frequency term of \eqref{eq:TDcost} with \eqref{eq:SNRTD} shows \order{
-(\slicesamps{\mathrm{max}} + \numtmps) \svdtmps{\mathrm{max}} \fmax} \flops{}
-versus \order{\numtmps \tmpsamps \fmax} {\flops}.  The full calculation for a
-particular patch of parameter space is shown in table \ref{table:comp_cost}.
-\hl{FIXME we need to actually say what went into this} 
+The most common frequency domain method is known as the \emph{overlap-save} algorithm, described in \cite{numerical-recipes-chapter-13}.  It entails splitting the input into blocks of $D$ samples, $D > \tmpsamps$, each block overlapping the previous one by $D - \tmpsamps$ samples.  For each block, the algorithm computes the forward \fft\ of the data and the templates, multiplies them, and then computes the reverse \fft.
 
+Modern implementations of the \fft, such as the ubiquitous \texttt{fftw}, require about $2 \fftblock \lg \fftblock$ operations to evaluate a real \textsc{dft} of size $\fftblock$~\cite{Johnson:2007p9654}.  Including the forward transform of the data and $M$ reverse transforms for all of the templates, the \fft\ costs $2 (\numtmps + 1) \fftblock \lg \fftblock$ operations per block.  The multiplication of the transforms adds a further $2 \numtmps \fftblock$ operations per block.  Since each block produces $\fftblock - \tmpsamps$ usable samples of output, the overlap-save method requires
+$$
+f^0 \cdot \frac{2 (\numtmps + 1) \lg \fftblock + 2 \numtmps}{1 - \tmpsamps/\fftblock} \; \mathrm{\flops}.
+$$
 
-\editorial{From here down introduce an example, but don't go through the FFT
-methods in lloid focus just on the comparison of the TD method without lloid
-tricks, the FD method without lloid tricks, and the TD lloid method (no comp
-detection statistic though), remember that the goal is near realtime detection
-not computational cost improvements on FD methods}
+\subsubsection{\lloid\ method}
 
-\end{comment}
+For time slices $s$, the \lloid\ method requires $2 \slicessamps \numsvdtmps f^s$ for evaluating the orthogonal filters, $2 \numtmps \numsvdtmps f^s$ \flops\ for the linear transformation from the $\numsvdtmps$ basis templates to the $\numtmps$ time-sliced templates, and $\numtmps f^s$ \flops to accumulate the resultant partial \SNR\ stream.
 
+The computational cost of the decimation of the detector data and the interpolation of the partial \SNR\ streams is a little bit more subtle.  Decimation is achieved by applying an \fir\ antialiasing filter and then downsampling, or deleting samples in order to reduce the sample rate from $f^{s-1}$ to $f^s$.  Naively, the antialiasing filter with $N^\shortdownarrow$ coefficients should demand $2 N^\shortdownarrow f^{s-1}$ \flops.  However, it is only necessary to evaluate the antialiasing filter for the fraction $f^s / f^{s-1}$ of the samples that will not be deleted.  Consequently, an efficient decimator that requires only $2 N^\shortdownarrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 N^\shortdownarrow f^s$ \flops\ is possible.
+
+The story is similar for the interpolation filters used to change the sample rates of the partial \textsc{snr} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a lowpass filter with $N^\shortdownarrow$.  The lowpass filter requires $2 M N^\shortdownarrow f^{s-1}$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^{s-1}/f$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 M N^\shortuparrow f^s$ \flops.
+
+Taking into account the decimation of the detector data, the orthogonal \fir\ filters, the reconstruction of the time sliced templates, the interpolation of \SNR\ from previous time slices, and the accumulation of \SNR, in total \lloid\ requires
+$$
+\sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s + 2\sum_{\mathclap{f \in \{f^s\}}} \left( N^\shortdownarrow + \numtmps N^\shortuparrow \right) f \textrm{ \flops.}
+$$
+The second sum is carried out over the set of sample rates of all of the time slices rather than over the time slices themselves because some time slices may have the same sample rates.
 
 \begin{comment}
 
