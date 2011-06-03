@@ -5,23 +5,25 @@ In this section we describe an implementation of the \lloid\ method described
 in section \ref{sec:method} suitable for rapid gravitational-wave
 searches for compact binary coalescence.  The \lloid\ method requires several
 computations that can be completed before the analysis is underway.  Thus
-we divide the procedure into two stages 1) an off-line planning stage and 2) an
-online, low-latency filtering stage.  The off-line stage can be done before the
+we divide the procedure into two stages 1) an offline planning stage and 2) an
+online, low-latency filtering stage.  The offline stage can be done before the
 analysis is started and updated asynchronously, whereas the online stage must
 keep up with the detector output and produce search results as rapidly as
 possible.  In the next two subsections we describe what these stages entail.
 
 \subsection{Planning stage}
 
-The choice of filter waveforms and singular value decomposition can be done in
+The choice of templates and the \SVD\ can be done in
 advance and will be valid as long as the detector noise spectrum remains
-roughly constant.  New filter waveforms can be computed asynchronously using
+roughly constant%
+\editorial{I'd rather not go into this.}%
+.  New templates and the \SVD\ can be computed asynchronously using
 updated spectrum estimates as they are available. 
 
 \begin{figure}[htbp]
 	\label{fig:tmpltbank}
 	\begin{center}
-		\includegraphics[scale=0.75]{figures/tmpltbank.png}
+		\includegraphics{figures/tmpltbank.png}
 		\caption{Placement of template parameters used in this paper.  The template bank consists of 98544 templates with component masses $m_1$, $m_2$, between 1~and~3~$M_\odot$.  We shall design a filter bank to search for a small subset of these template parameters with chirp masses $\mathcal M$ between 1.1955~and~1.2045~$M_\odot$.}
 	\end{center}
 \end{figure}
@@ -52,26 +54,25 @@ $f^s$ (Hz) & $(t^{s+1}$&$t^s]$ (s) & $N^s$ & -1 & -2 & -3 & -4 & -5 & -6 \\
 \end{indented}
 \end{table}
 
-The planning stage begins with choosing templates that cover the space of mass
+The planning stage begins with choosing templates that cover the space of source
 parameters with a hexagonal grid~\cite{PhysRevD.76.102004} in order to satisfy
-a minimum match criterion.  This assures a user-specified, maximum loss in \SNR\
-for signals that fall in-between the chosen templates.  Typically the minimum
-match is 97\% corresponding to a maximum mismatch of 3\%.  Next, the templates
-are subdivided into groups of neighbors called ``sub-banks'' that are
+a minimum match criterion.  This assures a prescribed maximum loss in \SNR\
+for signals that fall between the chosen templates.  Typically the minimum
+match is 0.97 corresponding to a maximum mismatch of 0.03.  Next, the templates
+are subdivided into groups of neighbors called \emph{sub-banks} that are
 appropriately sized so that each bank can be efficiently handled by a single
 computer.  The neighbors are chosen to have comparable chirp mass, which produces
-sub-banks with very similar waveforms.  Dividing the mass space into smaller
-sub-banks reduces the computational cost of the singular value decomposition
-and is the approach considered in~\cite{Cannon:2010p10398}.  Using our
-understanding of the time-frequency evolution of the templates, we choose time
-slice boundaries as in \eqref{FIXME} such that all of the templates within a
+sub-banks with similar time-frequency evolution.  Dividing the source parameter space
+into smaller sub-banks reduces the computational cost of the singular value decomposition
+and is the approach considered in~\cite{Cannon:2010p10398}.  We choose time
+slice boundaries as in equation~\eqref{eq:time-sliced-templates} such that all of the templates within a
 sub-bank are sub-critically sampled at progressively lower sample rates.  Next,
 the templates within the sub-bank are realized as \fir\ filter
 coefficients.  For each time slice, the templates are down-sampled to the
 appropriate sample rate.  Finally, the \SVD\ is applied to each time
 slice in the sub-bank in order to produce a set of orthogonal \fir\
 filters and a reconstruction matrix that maps them back to the original
-templates as described in \eqref{FIXME}.  The down-sampled orthogonal
+templates as described in equation~\eqref{eq:svddecomp}.  The down-sampled orthogonal
 \fir\ filter coefficients, the reconstruction matrix, and the time slice
 boundaries are all saved to disk.
 
