@@ -98,8 +98,9 @@ and throughput.  \CBC{} searches consist of banks of matched filters, or
 cross-correlations between the data stream and a bank of nominal ``template''
 signals.  There are many different implementations of matched filters, but most
 have high throughput at the cost of high latency, or low latency at the cost of
-low throughput.  The former are epitomized by the overlap-save algorithm for
-\fft\ convolution, currently the preferred method in gravitational wave
+low throughput.  The former are epitomized by the overlap-save algorithm
+\cite{numerical-recipes-chapter-13} for
+frequency domain (\FD) convolution, currently the preferred method in gravitational wave
 searches.  The most obvious example of the latter is the time domain
 (\TD) convolution, which has no latency at all.  However, its
 computational complexity is quadratic in the length of the templates, so it is
