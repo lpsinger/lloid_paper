@@ -129,11 +129,11 @@ Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G
 M_\odot / c^3 \approx 5 \umu\mathrm{s}$) and $t$ is the time relative to the
 coalescence of the binary~\cite{findchirppaper, kidder1992}.  Usually the
 template is truncated at some prescribed time $t^0$, or equivalently frequency
-$f_\textrm{hi}$.  This is often chosen to correspond to the \ISCO. An inspiral
+$f_\mathrm{hi}$.  This is often chosen to correspond to the \ISCO. An inspiral
 signal will enter the detection band at a low frequency, $f = f_\mathrm{low}$,
 corresponding to a time $t_\mathrm{low}$.  The template is assumed to be zero
-outside the interval $[t_\mathrm{low}, t^0)$ and is said to have  a duration of
-$t^0 - t_\mathrm{low}$. It is critically sampled at a rate of $2
+outside the interval $[t^0, t_\mathrm{low})$ and is said to have  a duration of
+$t_\mathrm{low} - t^0$. It is critically sampled at a rate of $2
 f_\mathrm{hi}$.
 
 The monotonic time-frequency relationship of equation~\eqref{eq:fgw} allows us
@@ -142,9 +142,9 @@ early times in the inspiral.  Our goal is to reduce the filtering cost of a
 large fraction of the waveform by computing part of the convolution at a lower
 sample rate.  Specifically we consider here time slice boundaries with the
 smallest power-of-two sample rate that sub-critically samples the time sliced
-template.  The time slices consist of the $S$ intervals $\left(t^S,
-t^{S-1}\right],\, \dots,\, \left(t^2, t^1\right],\, \left(t^1, t^0\right]$
-sampled at frequencies $f^\mathrm{S-1},\, \dots,\, f^1,\, f^0$ where $f^0
+template.  The time slices consist of the $S$ intervals
+$\left[t^0, t^1\right),\, \left[t^1, t^2\right),\, \dots,\, \left[t^{S-1}, t^S\right)$,
+sampled at frequencies $f^0,\, f^1,\, \dots,\, f^\mathrm{S-1}$ where $f^0
 \geqslant 2 f_\mathrm{hi}$ and $f^{S-1} \geqslant 2 f_\mathrm{low}$.  The time
 sliced templates may be downsampled without aliasing, so we define them as
 %
