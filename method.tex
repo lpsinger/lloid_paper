@@ -320,13 +320,13 @@ $N^\shortuparrow$ & number of coefficients in interpolation filter \\
 
 \editorial{This section's two tables are small.  Any way to put them side by side or next to another figure?}
 
-\Table{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the bank of $2 \times 657$ templates sampled at 4096 Hz for chirp masses $1.955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$.  A block size of $D = 2 N$ is used for the \fft{}s in the \FD\ method.}
+\Table{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the bank of $2 \times 657$ templates sampled at 4096 Hz for chirp masses $1.955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$.  A block size of $D = 2 N$ is used for the \fft{}s in the \FD\ method.  Both the \FD\ method and \lloid\ are five orders of magnitude faster than the conventional \TD\ method.  However, the \FD\ method has a latency of over half of an hour, whereas \lloid\ has no latency at all.}
 \br
-Method & \flops \\
+Method & \flops\ & latency (s) \\
 \mr
-\fir{} & $2.4\times10^{13}$ \\
-\fft{} convolution & $2.6\times10^8$ \\
-\lloid & $4.7\times10^8$ \\
+Time domain (\TD) convolution & $2.4\times10^{13}$ & 0 \\
+Frequency domain (\FD) convolution & $2.6\times10^8$ & 2201 \\
+\lloid\ (this work) & $4.7\times10^8$ & 0 \\
 \br
 \end{tabular}
 \end{indented}
