@@ -6,8 +6,8 @@ space that reduces low-latency filtering cost sufficiently to allow for the
 possibility of \earlywarning\ detection with modest computing requirements.  We
 expand on the ideas of~\cite{Marion2004, Buskulic2010} that describe a
 multiband decomposition of the compact binary parameter space that resulted in
-a search with minutes latency in \LIGO{}'s S6 and Virgo's VSR2 science runs.
-We combine this with the \SVD\ rank-reduction method described
+a search with minutes latency in \LIGO{}'s S6 and Virgo's VSR3 joint science
+runs.  We combine this with the \SVD\ rank-reduction method described
 in~\cite{Cannon:2010p10398} that exploits the redundancy of the template banks.
 
 \subsection{Conventional \CBC{} matched filter searches}
@@ -374,8 +374,8 @@ $$
 $$
 The second sum is carried out over the set of sample rates of all of the time slices rather than over the time slices themselves because some time slices may have the same sample rates.
 
-\subsubsection{Extrapolation of the computational cost to an Advanced LIGO search}
-\editorial{Drew: I think this section be the last section of the results section. Should we move it to be Sec. 4.2?}
+\subsubsection{Extrapolation of the computational cost to an Advanced \LIGO{} search}
+\editorial{Drew: I think this section be the last section of the results section. Should we move it to be Sec. 4.2? Nick: I'm inclined to agree with Drew, though I see that we want to make explicit that it's an analysis of the algorithm and not of the implementation and the current placement aids that. Also, the given FLOPS numbers correspond to what choice of \SVD{} tolerance and $N^\shortuparrow$?}
 
 Table~\ref{table:flops} shows that the \lloid\ method requires $\sim 10^8$ \flops\
 to cover a sub-bank of comprising $\sim 10^2$ out of $\sim 10^5$ sets of intrinsic
@@ -384,7 +384,7 @@ computation rates up to $\sim 10^{10}$ \flops{}, and assuming that other regions
 parameter space have similar computational scaling, an entire search could be implemented
 with $\gtrsim 10$ machines.
 
-By comparison, using the \TD\ method to achieve the same latency costs $\sim 10^{13}$ \flops\ for this particular sub-bank, and so it would require $\sim 10^6$ present-day machines.  Presently, the \LIGO\ data grid consists of only $\sim 10^4$ machines.
+By comparison, using the \TD\ method to achieve the same latency costs $\sim 10^{13}$ \flops\ for this particular sub-bank, and so it would require $\sim 10^6$ present-day machines.  Presently, the \LIGO{} Data Grid consists of only $\sim 10^4$ machines.
 
 \begin{comment}
 

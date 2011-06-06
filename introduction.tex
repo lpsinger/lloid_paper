@@ -10,53 +10,58 @@
 %   - Mention S6 and VSR2, online running, EM followup
 % - Layout of paper: description of method, procedure followed 
 
-\editorial{Would the introduction be more effective without this paragraph?, should we find whitepapers?}
-
-The coalescence of compact binary systems consisting of neutron stars (\textsc{ns})
-and/or black holes (\textsc{bh}) is the most promising source of gravitational radiation
-for Advanced \LIGO, Virgo, \GEO\ and \LCGT~\cite{ALIGOWeb, AVirgoWeb, GEOWeb,
-LCGTWeb}.  Tens of binary coalescence events are expected to be observed in the
-advanced detector era later this decade~\cite{Abadie:2010p10836}.
-
 As a compact binary system loses energy to gravitational waves, its orbital
-separation decreases. This causes a run-away inspiral with the
+separation decays, leading to a run-away inspiral with the
 gravitational-wave amplitude and frequency increasing until the system
-eventually merges near the innermost stable circular orbit (\ISCO).  If a
+eventually merges soon after the innermost stable circular orbit (\ISCO). If a
 neutron star is involved it may become tidally disrupted near the merger.  This
-disrupted matter can fuel a bright electromagnetic counterpart in the system's
-final moments as a binary~\cite{shibata:2007}.
+disrupted matter can fuel a bright electromagnetic counterpart in the merger's aftermath~\cite{shibata:2007}.
+The coalescence of compact binary systems consisting of neutron stars
+(\textsc{ns}) and/or black holes (\textsc{bh}) is the most promising source of
+gravitational radiation for Advanced \LIGO, Virgo, \GEO\, and
+\LCGT~\cite{ALIGOWeb, AVirgoWeb, GEOWeb, LCGTWeb}.  Tens of binary coalescence
+events are expected to be observed in the advanced detector era later this
+decade~\cite{Abadie:2010p10836}. In the era of first-generation
+detectors the gravitational-wave community
+initiated a project to send alerts when potential gravitational-wave transients
+were observed in order to trigger followup observations by optical telescopes.
+The best demonstrated latencies were 30--60 minutes~\cite{LOOCUP}, which was
+an important achievement, but far too late to catch prompt electromagnetic emission.
 
 Prompt electromagnetic emission can arise as shells of relativistically
 out-flowing matter collide in the inner shock. Such an inner shock from a
 compact binary coalescence is believed to be a mechanism for short gamma-ray
 bursts (short \GRB{}s)~\cite{Lee:2005, nakar07}. The same inner shocks, or
-potentially reverse shocks, can produce a bright accompanying optical flash~\cite{Sari99}. Prompt emission is a probe into the extreme
-initial conditions of the outflow, in contrast with afterglows, which are
-relatively insensitive to initial conditions. Optical flashes
-have only been observed for a handful of long
-\GRB{}s~\cite{2011CRPhy..12..255A}
-by telescopes with extremely rapid response or, in the case of \textsc{grb 080319b}, by
-pure serendipity, where several telescopes were observing a previous \GRB{} in the
-same field~\cite{2008Natur.455..183R}. Short \GRB{}s, on the other hand, typically
-fade too quickly to observe anything before the initial burst of gamma-rays and hard
-x-rays. Rapid gravitational-wave transient alerts could enable the observation
-of optical flashes from short \GRB{}s and perhaps even
-precursors~\cite{0004-637X-723-2-1711}. An electromagnetic counterpart would
-vastly boost
-confidence in the gravitational-wave detection and provide the tight sky
-localization necessary to allow determination of the source's host galaxy,
-which leads to a redshift measurement. With both redshift and a coincident
-gravitational-wave observation, we can produce precision measurements of the
-Hubble constant~\cite{2010ApJ...725..496N}.
+potentially reverse shocks, can produce a bright accompanying optical
+flash~\cite{Sari99}. Prompt emission is a probe into the extreme initial
+conditions of the outflow, in contrast with afterglows, which arise in the
+external shock with the local medium and are relatively
+insensitive to initial conditions. Optical flashes have only been observed to
+peak within tens of seconds for a handful of long
+\GRB{}s~\cite{2011CRPhy..12..255A} by telescopes with extremely rapid response
+or, in the case of \textsc{grb 080319b}, by pure serendipity, where several
+telescopes were observing a previous \GRB{} in the same
+field~\cite{2008Natur.455..183R}. Short \GRB{}s, on the other hand, typically
+fade too quickly to even catch the tails of the afterglows. Rapid
+gravitational-wave transient alerts could enable the first observation of
+prompt optical flashes and the rise of afterglows from short \GRB{}s, and, for
+an exceptional event, perhaps even a glimpse of a
+precursor~\cite{0004-637X-723-2-1711}. An electromagnetic counterpart would
+vastly boost confidence in the gravitational-wave detection and provide the
+tight sky localization necessary to allow determination of the source's host
+galaxy, which leads to a redshift measurement. A coincident gravitational-wave
+observation will provide a luminosity distance measurement. With these
+together, we can produce precision measurements of the Hubble
+constant~\cite{2010ApJ...725..496N}.
 
 To this end, we have the ambition of reporting gravitational-wave candidates
 not minutes \emph{after} the merger, as has already been accomplished, but
-seconds \emph{before}.  By looking for threshold crossings before the
-gravitational-wave signal leaves the detection band, it is possible to trade
-some signal to noise ratio (\SNR{}) and source localization
-accuracy~\cite{Fairhurst2009} for latency.  Figure \ref{fig:earlywarning} shows
-projected early trigger rates for \textsc{ns}--\textsc{ns} binaries in Advanced
-\LIGO\ assuming the event rate predictions in~\cite{Abadie:2010p10836}.
+seconds \emph{before}.  By examining the signal to noise ratio (\SNR{}) stream
+for threshold crossings before the gravitational-wave signal leaves the
+detection band, it is possible to trade some \SNR{}
+for latency.  Figure \ref{fig:earlywarning} shows projected early trigger rates
+for \textsc{ns}--\textsc{ns} binaries in Advanced \LIGO\ assuming the event rate predictions
+in~\cite{Abadie:2010p10836}.
 %
 \begin{figure}
 \begin{center}
@@ -76,21 +81,20 @@ but at the cost of fewer total detectable events above an \SNR\ of 8.}
 \end{center}
 \end{figure}
 
-\editorial{Citation needed for LOOC-UP} The gravitational-wave community
-initiated a project to send alerts when potential gravitational-wave transients
-are observed.  In October 2010, \LIGO{} completed its sixth science run
+In October 2010, \LIGO{} completed its sixth science run
 (S6) and Virgo completed its third science run (VSR3).  While both
 \LIGO{} detectors and Virgo were operating, several all-sky detection
-pipelines operated in a low-latency configuration, namely \textsc{mbta}, ihope,
+pipelines operated in a low-latency configuration to send astronomical alerts,
+namely \textsc{mbta}, ihope,
 Coherent WaveBurst, and Omega~\cite{HugheyGWPAW2011, S6lowlatency}.
 \editorial{Get references for these low-latency pipelines.} The S6 analyses
 achieved latencies of 30--60 minutes, which were dominated by a human vetting
 process. Candidates were sent for electromagnetic followup to several
 telescopes; Swift, \textsc{rotse}, \textsc{tarot}, and Zadko~\cite{kanner2008,
 HugheyGWPAW2011} took images of likely sky locations.  \textsc{mbta} achieved
-the best gravitational-wave trigger generation latencies of 2--5 minutes.  We
-assume that in the Advanced detector era the vetting process will be automated,
-so current gravitational wave search methodology and telescope actuation would
+the best gravitational-wave trigger-generation latencies of 2--5 minutes.  We
+assume that in the advanced detector era the vetting process will be automated,
+so current gravitational-wave search methodology and telescope actuation would
 dominate latency.
 
 Advance detection of compact binary coalescences (\CBC{}s) will require striking a balance between latency
@@ -99,10 +103,10 @@ cross-correlations between the data stream and a bank of nominal ``template''
 signals.  There are many different implementations of matched filters, but most
 have high throughput at the cost of high latency, or low latency at the cost of
 low throughput.  The former are epitomized by the overlap-save algorithm
-\cite{numerical-recipes-chapter-13} for
-frequency domain (\FD) convolution, currently the preferred method in gravitational-wave
+\cite{numerical-recipes-chapter-13} for frequency domain (\FD) convolution,
+currently the preferred method in gravitational-wave
 searches.  The most obvious example of the latter is the time domain
-(\TD) convolution, which has no latency at all.  However, its
+(\TD) convolution, which has no algorithmic latency.  However, its
 computational complexity is quadratic in the length of the templates, so it is
 prohibitively expensive for long templates.
 
@@ -123,5 +127,5 @@ The paper is organized as follows. First we provide an overview of our method
 for detecting compact binary coalescence signals in an \earlywarning\ analysis.
 We then describe the pipeline we have constructed that implements our method.
 To validate the approach we present results of simulations and conclude with
-some remarks on what remains to prepare for the Advanced detector era.
+some remarks on what remains to prepare for the advanced detector era.
 
