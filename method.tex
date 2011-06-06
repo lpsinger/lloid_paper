@@ -57,20 +57,16 @@ convolution in the frequency domain (\FD), requiring only $\mathcal O(\numtmps
 \editorial{if we are gonna stick with lloid we should define it}
 \subsection{The \lloid\ method}
 
-In the remainder of this section we explore a method for reducing the
+Here we explore a method for reducing the
 computational cost of a \TD\ search for compact binary coalescence.  We will
 give a truly zero-latency algorithm that competes in terms of floating point
 operations per second with the conventional \FD\ method, which requires a
 signficant latency in order to be computationally cheap. Our method, \lloid{},
 involves two transformations of the template waveforms that produce a set of
 orthogonal filters with far fewer coefficients than the original templates.
-The reduction in sample count for all of the filters required to search the
-entire parameter space is dramatic.
-%
-\editorial{Drew: is ``sample count" the correct wording?}
 
-The first transformation is to chop the time-domain templates up into time
-slices.  Since each template slice is disjoint in time, the resulting set for a
+The first transformation is to chop the time-domain templates up into \emph{time
+slices}.  Since each template slice is disjoint in time, the resulting set for a
 single template is orthogonal.  Given the chirp-like structure of the
 templates, the early time slices have significantly lower bandwidth and can be
 safely downsampled.  The downsampling removes a factor of $\sim$100 samples
@@ -88,23 +84,14 @@ from the time-sliced templates~\cite{Cannon:2010p10398}.  We find that this
 reduces the number of sample points of the filters by another factor of $\sim$100.
 The combined methods reduce the number of floating point operations to
 the level where they are competitive with the conventional high-latency \FD\
-matched filter approach.  In the remainder of this section 
-%
-\editorial{Drew: We used this wording at the beginning of this paragraph.}
-%
-we describe the
+matched filter approach.  In the remainder of this section we describe the
 \lloid\ algorithm in detail and provide some basic computational cost scaling.  
 
 \subsection{Selectively reducing the sample rate of the data and template waveforms}
 
 The first step of our proposed method is to divide the templates into
-\emph{time slices} 
-%
-\editorial{Drew: This was introduced in the previous section. It should be italicized there.}
-%
-in a time-domain analogue to the frequency-domain
+time slices in a time-domain analogue to the frequency-domain
 decomposition described in~\cite{Marion2004, Buskulic2010}.
-\editorial{nvf: I've picked the two most relevant; I think they are reasonably complementary.}%
 A matched filter is constructed for each time
 slice.  The outputs form an ensemble of partial \SNR{} streams.  By linearity,
 these partial \SNR\ streams can be suitably time-delayed and summed to
@@ -320,7 +307,7 @@ that we will need in this section.
 \tmpsamps	& number of samples per template \\
 \numslices	& number of time slices \\
 \numsvdtmps	& number of orthogonal templates in time slice $s$ \\
-\slicessamps	& number of samples in time slice $s$ \\
+\slicessamps	& number of samples in decimated time slice $s$\\
 $f^s$		& sample rate in time slice $s$ \\
 $N^\shortdownarrow$ & number of coefficients in decimation filter \\
 $N^\shortuparrow$ & number of coefficients in interpolation filter \\
@@ -328,11 +315,10 @@ $N^\shortuparrow$ & number of coefficients in interpolation filter \\
 \end{tabular}
 \end{indented}
 \end{table}
-\editorial{Drew: Is \slicessamps before or after decimation? We should clarify that here.}
 
 \editorial{This section's two tables are small.  Any way to put them side by side or next to another figure?}
 
-\Table{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the bank of $2 \times 657$ templates sampled at 4096 Hz for chirp masses $1.955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$.  A block size of $D = 2 N$ is used for the \fft{}s in the \FD\ method.  Both the \FD\ method and \lloid\ are five orders of magnitude faster than the conventional \TD\ method.  However, the \FD\ method has a latency of over half of an hour, whereas \lloid\ has no latency at all.}
+\Table{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the bank of $2 \times 657$ templates sampled at 4096 Hz for chirp masses $1.1955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$.  A block size of $D = 2 N$ is used for the \fft{}s in the \FD\ method.  Both the \FD\ method and \lloid\ are five orders of magnitude faster than the conventional \TD\ method.  However, the \FD\ method has a latency of over half of an hour, whereas \lloid\ has no latency at all.}
 \br
 Method & \flops\ & latency (s) \\
 \mr
@@ -343,7 +329,6 @@ Frequency domain (\FD) convolution & $2.6\times10^8$ & 2201 \\
 \end{tabular}
 \end{indented}
 \end{table}
-\editorial{Drew:``$1.955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$" can't be true. Should the signs be greater than signs?}
 
 \subsubsection{Conventional time-domain method}
 

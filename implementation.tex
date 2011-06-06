@@ -114,20 +114,15 @@ next stage.
 
 \subsubsection{\fir\ filters}
 
-The \fir\ filter banks are implemented using a \gstlal\ element called {\tt
+The \fir\ filtering is implemented using a \gstlal\ element called {\tt
 lal\_firbank}, which produces $N$ channels of filter output from an $N\times M$ matrix of
-\fir\ filter coefficients.  This element is used in parallel branches in the
+\fir\ filter coefficients, representing the \SVD{} basis filters in our application.  This element is used in parallel branches in the
 pipeline to implement the \SVD\ basis filters in each time
 slice.  Rather than implement the time-sliced templates as zero-padded \fir\
 filters as described in \eqref{eq:time-slices} we instead implement them as shorter
 filters that contain only the nonzero samples.  Adding the appropriate time
 offset to the filter output later in the pipeline makes up for the lack of
 explicit zero-padding.
-%
-\editorial{Drew: This final sentence should be removed. It belongs to the next section.}
-%
-The orthogonal filter outputs must next be reconstructed
-into the output of the underlying time-sliced templates. 
 
 \subsubsection{Reconstruction}
 
