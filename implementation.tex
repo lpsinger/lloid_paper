@@ -3,7 +3,7 @@
 
 In this section we describe an implementation of the \lloid\ method described
 in section \ref{sec:method} suitable for rapid gravitational-wave
-searches for compact binary coalescence.  The \lloid\ method requires several
+searches for \CBC{}s.  The \lloid\ method requires several
 computations that can be completed before the analysis is underway.  Thus
 we divide the procedure into two stages 1) an offline planning stage and 2) an
 online, low-latency filtering stage.  The offline stage can be done before the
@@ -122,7 +122,11 @@ slice.  Rather than implement the time-sliced templates as zero-padded \fir\
 filters as described in \eqref{eq:time-slices} we instead implement them as shorter
 filters that contain only the nonzero samples.  Adding the appropriate time
 offset to the filter output later in the pipeline makes up for the lack of
-explicit zero-padding.  The orthogonal filter outputs must next be reconstructed
+explicit zero-padding.
+%
+\editorial{Drew: This final sentence should be removed. It belongs to the next section.}
+%
+The orthogonal filter outputs must next be reconstructed
 into the output of the underlying time-sliced templates. 
 
 \subsubsection{Reconstruction}
@@ -143,7 +147,7 @@ used for decimation, {\tt audioresample}.
 \subsubsection{\SNR\ accumulation}
 
 The early-warning \SNR\ for each time slice is formed by accumulating interpolated early
-warning \SNR\ from the subsequent time slice.  This process continuous until we have 
+warning \SNR\ from the subsequent time slice.  This process continues until we have 
 worked our way to the \SNR\ of the original templates at the full sample rate $f^0$.  In 
 this way, the \lloid\ algorithm and this implementation leads to a simple early warning
 pipeline.

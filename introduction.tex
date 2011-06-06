@@ -51,12 +51,12 @@ Hubble constant~\cite{2010ApJ...725..496N}.
 
 To this end, we have the ambition of reporting gravitational-wave candidates
 not minutes \emph{after} the merger, as has already been accomplished, but
-seconds \emph{before}.  By
-looking for threshold crossings before the gravitational-wave signal leaves
-the detection band, it is possible to trade some signal to noise ratio (\SNR{})
-for latency.  Figure \ref{fig:earlywarning} shows projected early trigger rates
-for \textsc{ns}--\textsc{ns} binaries in Advanced \LIGO\ assuming the event rate predictions
-in~\cite{Abadie:2010p10836}.
+seconds \emph{before}.  By looking for threshold crossings before the
+gravitational-wave signal leaves the detection band, it is possible to trade
+some signal to noise ratio (\SNR{}) and source localization
+accuracy~\cite{Fairhurst2009} for latency.  Figure \ref{fig:earlywarning} shows
+projected early trigger rates for \textsc{ns}--\textsc{ns} binaries in Advanced
+\LIGO\ assuming the event rate predictions in~\cite{Abadie:2010p10836}.
 %
 \begin{figure}
 \begin{center}
@@ -89,7 +89,7 @@ process. Candidates were sent for electromagnetic followup to several
 telescopes; Swift, \textsc{rotse}, \textsc{tarot}, and Zadko~\cite{kanner2008,
 HugheyGWPAW2011} took images of likely sky locations.  \textsc{mbta} achieved
 the best gravitational-wave trigger generation latencies of 2--5 minutes.  We
-assume that in the advanced detector era the vetting process will be automated,
+assume that in the Advanced detector era the vetting process will be automated,
 so current gravitational wave search methodology and telescope actuation would
 dominate latency.
 
@@ -100,7 +100,7 @@ signals.  There are many different implementations of matched filters, but most
 have high throughput at the cost of high latency, or low latency at the cost of
 low throughput.  The former are epitomized by the overlap-save algorithm
 \cite{numerical-recipes-chapter-13} for
-frequency domain (\FD) convolution, currently the preferred method in gravitational wave
+frequency domain (\FD) convolution, currently the preferred method in gravitational-wave
 searches.  The most obvious example of the latter is the time domain
 (\TD) convolution, which has no latency at all.  However, its
 computational complexity is quadratic in the length of the templates, so it is

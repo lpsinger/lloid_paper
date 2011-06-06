@@ -26,7 +26,7 @@ exist~\cite{Cannon:2010p10398}.  The second comes from non ideal
 implementations of resampling that cause signal loss.  The \SNR\ loss is to be compared
 with the mismatch of 0.03 that arises from the discreteness of the
 template bank which is typically.  We will consider an acceptable
-\SNR\ loss to be a factor of 10 smaller than this, i.e., no more than $\sim 0.003$.
+\SNR\ loss to be a factor of 10 smaller than this, i.e., no more than $\sim$0.003.
 
 It is also within reason that some \SNR\ loss could arise from other suboptimal
 implementations of the \lloid\ algorithm in our test pipeline.  To gauge
@@ -38,8 +38,8 @@ our implementation.
 
 \subsubsection{Checking the effect of the \SVD\ tolerance}
 
-In this section we check the effect of the \SVD\ tolerance parameter defined in
-~\cite{Cannon:2010p10398}.  By changing the tolerance of the reconstruction of
+In this section we check the effect of the \SVD\ tolerance parameter defined
+in~\cite{Cannon:2010p10398}.  By changing the tolerance of the reconstruction of
 the physical waveforms one effects directly the mismatch that results from the
 truncation of the orthogonal filter matrix.  The conditions presented here are
 more complicated than in the original work~\cite{Cannon:2010p10398} due to the
@@ -48,7 +48,7 @@ that the results are quite as expected.}  Figure \ref{fig:hist-svd-tolerance}
 demonstrates that it is possible to acheive typical \SNR\ losses of $\ll1\%$.
 However, we do notice that the mismatch saturates with respect to the tolerance.
 This could be the effect of the resampling, or another \SNR\ loss that we did
-not model or expect.  However the saturation is still an order of magnitude below our target mismatch of $\sim 0.003$.  We find that an \SVD\ tolerance of
+not model or expect.  However the saturation is still an order of magnitude below our target mismatch of $\sim$0.003.  We find that an \SVD\ tolerance of
 $\left(1-10^{-4}\right)$ is adequate. 
 %
 \begin{figure}

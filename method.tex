@@ -1,7 +1,7 @@
 \section{Early warning searches for compact binary coalescence}
 \label{SECII}\label{sec:method}
 
-In this section we describe a decomposition of the compact binary parameter
+In this section we describe a decomposition of the \CBC{} waveform
 space that reduces low-latency filtering cost sufficiently to allow for the
 possibility of \earlywarning\ detection with modest computing requirements.  We
 expand on the ideas of~\cite{Marion2004, Buskulic2010} that describe a
@@ -20,7 +20,7 @@ binary, $\vec\theta = (m_1, m_2)$. Searches for inspiral signals typically
 employ matched filter banks that discretely sample the possible intrinsic
 parameters~\cite{findchirppaper}.  For a given source, the strain observed by
 the detector is a linear combination of two waveforms corresponding to the
-`$+$' and `$\times$' gravitational wave polarizations, so for any value of
+`$+$' and `$\times$' gravitational wave polarizations.  Thus, for any value of
 $\vec\theta$ we must implement 2 filters.  The coefficients for the $\numtmps$ filters
 are known as templates, and are formed by discretizing and time reversing the
 waveforms and weighting them by the inverse amplitude spectral density of the
@@ -51,7 +51,7 @@ Equation~(\ref{eq:SNRTD}) can be implemented in the time domain (\TD) as an
 operations per sample.  However, it is typically much more computationally
 efficient to use the convolution theorem and the \fft\ to implement fast
 convolution in the frequency domain (\FD), requiring only $\mathcal O(\numtmps
-\lg \tmpsamps)$ operations per sample.
+\lg \tmpsamps)$ operations per sample with increased latency.
 
 
 \editorial{if we are gonna stick with lloid we should define it}
@@ -66,34 +66,44 @@ involves two transformations of the template waveforms that produce a set of
 orthogonal filters with far fewer coefficients than the original templates.
 The reduction in sample count for all of the filters required to search the
 entire parameter space is dramatic.
+%
+\editorial{Drew: is ``sample count" the correct wording?}
 
 The first transformation is to chop the time-domain templates up into time
 slices.  Since each template slice is disjoint in time, the resulting set for a
 single template is orthogonal.  Given the chirp-like structure of the
 templates, the early time slices have significantly lower bandwidth and can be
-safely downsampled.  The downsampling removes a factor of $\sim 100$ samples
+safely downsampled.  The downsampling removes a factor of $\sim$100 samples
 from
 %
 \editorial{Where do these numbers come from? CHAD: I have actually changed the statement to 100 for the early time slices.}
 %
 the early part of the waveform and allows the filters to be evaluated at about
-$\sim 100$ times lower rate.  This amounts to more than a factor of 10000
+$\sim$100 times lower rate.  This amounts to more than a factor of 10000
 reduction in the floating-point operations per second required to filter the
 early part of the waveform.  However, the resulting filters are still not
 orthogonal across the mass parameter space, and are in fact highly redundant.
 We use the singular value decomposition to produce an orthogonal filter set
 from the time-sliced templates~\cite{Cannon:2010p10398}.  We find that this
-reduces the number of sample points of the filters by another factor of $\sim
-100$.  The combined methods reduce the number of floating point operations to
+reduces the number of sample points of the filters by another factor of $\sim$100.
+The combined methods reduce the number of floating point operations to
 the level where they are competitive with the conventional high-latency \FD\
-matched filter approach.  In the remainder of this section we describe the
+matched filter approach.  In the remainder of this section 
+%
+\editorial{Drew: We used this wording at the beginning of this paragraph.}
+%
+we describe the
 \lloid\ algorithm in detail and provide some basic computational cost scaling.  
 
 \subsection{Selectively reducing the sample rate of the data and template waveforms}
 
 The first step of our proposed method is to divide the templates into
-\emph{time slices} in a time-domain analogue to the frequency-domain
-decomposition described in ~\cite{Marion2004, Buskulic2010}.
+\emph{time slices} 
+%
+\editorial{Drew: This was introduced in the previous section. It should be italicized there.}
+%
+in a time-domain analogue to the frequency-domain
+decomposition described in~\cite{Marion2004, Buskulic2010}.
 \editorial{nvf: I've picked the two most relevant; I think they are reasonably complementary.}%
 A matched filter is constructed for each time
 slice.  The outputs form an ensemble of partial \SNR{} streams.  By linearity,
@@ -108,6 +118,7 @@ h_{i}[k] = \sum_{s=0}^{S-1}
 		0 & otherwise
 	}
 \end{equation}
+\editorial{Drew: Should this be $h_{i}[k]$ or $\rho_{i}[k]$?}
 %
 for $S$ integers $\{f^0 t^s\}$ such that $0  = f^0 t^0 < f^0 t^1 < \cdots < f^0 t^S = N$.
 We will show
@@ -212,7 +223,7 @@ h_i^s[k] = \sum_{\mathclap{l=0}}^{\mathclap{M-1}} v_{il}^s \sigma_l^s u_l^s[k] \
 %
 \editorial{Say a word or two about \SVD\ tolerance?}%
 %
-The parameter $\numsvdtmps$ sets the number of basis templates that are kept in
+The parameter $\numsvdtmps$ is the number of basis templates that are kept in
 the approximation.  This determines the \SVD\ tolerance, which affects the
 \SNR\ loss due to the approximation.  The authors of \cite{Cannon:2010p10398}
 showed that high accuracy could be achieved with far fewer basis templates than
@@ -225,7 +236,7 @@ decomposition and the \SVD.
 \subsection{Early warning \SNR }
 
 In the previous two sections we have described two transformations that greatly
-reduce the burden of filtering the compact binary parameter space and make \TD\
+reduce the burden of filtering waveforms from the the compact binary parameter space and make \TD\
 filtering of the data possible.  We are now prepared to define the early
 warning \SNR\ and to comment on the computational cost of evaluating it.  But
 first, we will introduce some notation refering to the decimation of data,
@@ -317,6 +328,7 @@ $N^\shortuparrow$ & number of coefficients in interpolation filter \\
 \end{tabular}
 \end{indented}
 \end{table}
+\editorial{Drew: Is \slicessamps before or after decimation? We should clarify that here.}
 
 \editorial{This section's two tables are small.  Any way to put them side by side or next to another figure?}
 
@@ -331,6 +343,7 @@ Frequency domain (\FD) convolution & $2.6\times10^8$ & 2201 \\
 \end{tabular}
 \end{indented}
 \end{table}
+\editorial{Drew:``$1.955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$" can't be true. Should the signs be greater than signs?}
 
 \subsubsection{Conventional time-domain method}
 
@@ -362,6 +375,7 @@ $$
 The second sum is carried out over the set of sample rates of all of the time slices rather than over the time slices themselves because some time slices may have the same sample rates.
 
 \subsubsection{Extrapolation of the computational cost to an Advanced LIGO search}
+\editorial{Drew: I think this section be the last section of the results section. Should we move it to be Sec. 4.2?}
 
 Table~\ref{table:flops} shows that the \lloid\ method requires $\sim 10^8$ \flops\
 to cover a sub-bank of comprising $\sim 10^2$ out of $\sim 10^5$ sets of intrinsic
