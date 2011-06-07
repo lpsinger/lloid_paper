@@ -1,14 +1,15 @@
 \section{Early warning searches for compact binary coalescence}
 \label{SECII}\label{sec:method}
 
-In this section we describe a decomposition of the \CBC{} waveform
-space that reduces time-domain (\TD) filtering cost sufficiently to allow for the
+In this section we describe a decomposition of the \CBC{} waveform space that
+reduces time-domain (\TD) filtering cost sufficiently to allow for the
 possibility of \earlywarning\ detection with modest computing requirements.  We
 expand on the ideas of~\cite{Marion2004, Buskulic2010} that describe a
 multiband decomposition of the compact binary parameter space that resulted in
 a search with minutes latency in \LIGO{}'s S6 and Virgo's VSR3 joint science
-runs.  We combine this with the \SVD\ rank-reduction method described
-in~\cite{Cannon:2010p10398} that exploits the redundancy of the template banks.
+runs~\cite{HugheyGWPAW2011}.  We combine this with the \SVD\ rank-reduction
+method described in~\cite{Cannon:2010p10398} that exploits the redundancy of
+the template banks.
 
 \subsection{Conventional \CBC{} matched filter searches}
 
@@ -217,7 +218,7 @@ templates in the original template bank.  We find that when combined with the
 time-slice decomposition, the number of basis templates \numsvdtmps\ is much
 smaller than the original number of templates \numtmps\ and improves on
 \cite{Cannon:2010p10398} by nearly an order of magnitude.  In the next section
-we describe how we form our novel detection statistic using the time-slice
+we describe how we form our early warning detection statistic using the time-slice
 decomposition and the \SVD.
 
 \subsection{Early warning \SNR }
@@ -262,8 +263,9 @@ the early-warning filter output accumulated up to time slice $s$ as,
 \end{equation}
 %
 %
-\FIXME{This quantity is related to the early warning \SNR{} by the normalization
-of the partial filter defined by the present time slice.}
+This quantity is related to the early warning \SNR{} by the normalization
+of the partial filter defined by the present time slice, which may be computed
+in advance. \editorial{Chad: are we happy with that statement?}
 %
 %
 \begin{figure}[htbp]
@@ -292,10 +294,10 @@ decomposition and compare it with the brute-force \TD{} implementation of
 
 \subsection{Comparison of computational costs}
 
-We now examine the computational cost scaling of the approximate implementation
-of a conventional \TD{} or \FD{} matched filter bank as compared
-with \lloid{}.  For convenience, table~\ref{tab:recap} provides a review of the notation
-that we will need in this section.
+We now examine the computational cost scaling of the conventional \TD{} or
+\FD{} matched filter procedure as compared with \lloid{}.  For convenience,
+table~\ref{tab:recap} provides a review of the notation that we will need in
+this section.
 %
 % symbols used in FLOPs calculations table
 %
