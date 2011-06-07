@@ -9,7 +9,7 @@ Our search targets are expected to
 produce prompt electromagnetic signals and may be the progenitors of some short
 hard gamma-ray bursts.  Rapid alerts to the broader astronomical community will
 improve the chances of detecting an electromagnetic counterpart in bands from
-gamma-rays down to radio.  We anticipate requiring $\sim$$10\times4$ modern
+gamma-rays down to radio.  We anticipate requiring $\sim100$ modern
 multi-core computers to analyze a four-detector network of gravitational-wave data
 for binary neutron stars and stellar-mass black holes.  This is well within the
 current computing capabilities of the \LIGO{} Data Grid~\cite{LDG}.
@@ -17,17 +17,16 @@ current computing capabilities of the \LIGO{} Data Grid~\cite{LDG}.
 The algorithm we described has no intrinsic latency.  However, there are
 fundamental and practical latencies associated with the analysis and detection
 procedure. For example, the \LIGO{} detectors, data acquisition is synchronized
-to a 1/(16~Hz) cadence introducing an up-front latency.  Data
-aggregation from the observatories will travel over various networks, each
-capable of high bandwith but perhaps only modest latency.  This could amount to
-a similar latency of $\sim$100 ms.  Lastly, unless a real-time infrastructure is
-adopted post data acquisition, it is likely that there will be an inherent
-latency introduced by such infrastructure.  We have shown a prototype
-implementation using \gstlal\ that is capable of $\sim$1 s latency. In our
-opinion, significant work would have to be done in order to improve upon this
-number. For example, a tighter integration of analysis and data acquisition
-would be beneficial. This should be considered for third-generation detector
-design.
+to a 1/(16~Hz) cadence introducing an up-front latency~\cite{CITE_CDS}.  Data aggregation from
+the observatories will travel over various networks, each capable of high
+bandwith but perhaps only modest latency.  This could amount to a similar
+latency of $\sim$100 ms.  Lastly, unless a real-time infrastructure is adopted
+post data acquisition, it is likely that there will be an inherent latency
+introduced by such infrastructure.  We have shown a prototype implementation
+using \gstlal\ that is capable of order seconds latency. In our opinion,
+significant work would have to be done in order to improve upon this number.
+For example, a tighter integration of analysis and data acquisition would be
+beneficial. This should be considered for third-generation detector design.
 
 Although we have demonstrated a feasible method for advance detection we have
 not explored the accuracy of sky localization that is possible before merger.
