@@ -2,7 +2,7 @@
 \label{SECII}\label{sec:method}
 
 In this section we describe a decomposition of the \CBC{} waveform
-space that reduces low-latency filtering cost sufficiently to allow for the
+space that reduces time-domain (\TD) filtering cost sufficiently to allow for the
 possibility of \earlywarning\ detection with modest computing requirements.  We
 expand on the ideas of~\cite{Marion2004, Buskulic2010} that describe a
 multiband decomposition of the compact binary parameter space that resulted in
@@ -46,44 +46,43 @@ $x[k]$, both sampled at a rate $f^0$, the result can be interpreted as the
 	\rho_i [k] = \sum_{n=0}^{N-1} h_{i}[n] x [k-n].
 \end{equation}
 
-Equation~(\ref{eq:SNRTD}) can be implemented in \TD as an
+Equation~(\ref{eq:SNRTD}) can be implemented in the time-domain as an
 \fir\ filter, requiring $\mathcal O(\numtmps \tmpsamps)$ floating point
 operations per sample.  However, it is typically much more computationally
 efficient to use the convolution theorem and the \fft\ to implement fast
-convolution in the \FD, requiring only $\mathcal O(\numtmps
+convolution in the frequency-domain, requiring only $\mathcal O(\numtmps
 \lg \tmpsamps)$ operations per sample with increased latency.
 
 
-\editorial{if we are gonna stick with lloid we should define it}
 \subsection{The \lloid\ method}
 
-Here we explore a method for reducing the
-computational cost of a \TD\ search for compact binary coalescence.  We will
-give a truly zero-latency algorithm that competes in terms of floating point
-operations per second with the conventional \FD\ method, which requires a
-signficant latency in order to be computationally cheap. Our method, \lloid{},
+Here we explore a method for reducing the computational cost of a \TD\ search
+for compact binary coalescence.  We will give a truly zero-latency algorithm
+that competes in terms of floating point operations per second with the
+conventional \FD\ method, which requires a signficant latency in order to be
+computationally cheap. Our method, \lloid\footnote{\lloid, The term strictly
+means \emph{Low Latency Online Inspiral Detection} and was a code name for
+this procedure as it was being developed. It is now known in some GW circles.
+We feel that although the name doesn't carry much specific information about
+the details of the algorithm it is far too late to do anything about it now.}
 involves two transformations of the template waveforms that produce a set of
 orthogonal filters with far fewer coefficients than the original templates.
 
 The first transformation is to chop the \TD{} templates up into \emph{time
-slices}.  Since each template slice is disjoint in time, the resulting set for a
-single template is orthogonal.  Given the chirp-like structure of the
+slices}.  Since each template slice is disjoint in time, the resulting set for
+a single template is orthogonal.  Given the chirp-like structure of the
 templates, the early time slices have significantly lower bandwidth and can be
 safely downsampled.  The downsampling removes a factor of $\sim$100 samples
-from
-%
-\editorial{Where do these numbers come from? CHAD: I have actually changed the statement to 100 for the early time slices.}
-%
-the early part of the waveform and allows the filters to be evaluated at about
-$\sim$100 times lower rate.  This amounts to more than a factor of 10000
+from the early part of the waveform and allows the filters to be evaluated at
+about $\sim$100 times lower rate.  This amounts to more than a factor of 10000
 reduction in the floating-point operations per second required to filter the
 early part of the waveform.  However, the resulting filters are still not
 orthogonal across the mass parameter space, and are in fact highly redundant.
 We use the singular value decomposition to produce an orthogonal filter set
 from the time-sliced templates~\cite{Cannon:2010p10398}.  We find that this
-reduces the number of sample points of the filters by another factor of $\sim$100.
-The combined methods reduce the number of floating point operations to
-the level where they are competitive with the conventional high-latency \FD\
+reduces the number of sample points of the filters by another factor of
+$\sim$100.  The combined methods reduce the number of floating point operations
+to the level where they are competitive with the conventional high-latency \FD\
 matched filter approach.  In the remainder of this section we describe the
 \lloid\ algorithm in detail and provide some basic computational cost scaling.  
 
@@ -216,8 +215,9 @@ the approximation.  This determines the \SVD\ tolerance, which affects the
 showed that high accuracy could be achieved with far fewer basis templates than
 templates in the original template bank.  We find that when combined with the
 time-slice decomposition, the number of basis templates \numsvdtmps\ is much
-smaller than the original number of templates \numtmps.  In the next section we
-describe how we form our novel detection statistic using the time-slice
+smaller than the original number of templates \numtmps\ and improves on
+\cite{Cannon:2010p10398} by nearly an order of magnitude.  In the next section
+we describe how we form our novel detection statistic using the time-slice
 decomposition and the \SVD.
 
 \subsection{Early warning \SNR }
@@ -318,17 +318,6 @@ $N^\shortuparrow$ & number of coefficients in interpolation filter \\
 
 \editorial{This section's two tables are small.  Any way to put them side by side or next to another figure?}
 
-\Table{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the bank of $2 \times 657$ templates sampled at 4096 Hz for chirp masses $1.1955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$.  A block size of $D = 2 N$ is used for the \fft{}s in the \FD\ method.  Both the \FD\ method and \lloid\ are five orders of magnitude faster than the conventional \TD\ method.  However, the \FD\ method has a latency of over half of an hour, whereas \lloid\ has no latency at all.}
-\br
-Method & \flops\ & latency (s) \\
-\mr
-Time-domain (\TD) convolution & $2.4\times10^{13}$ & 0 \\
-Frequency-domain (\FD) convolution & $2.6\times10^8$ & 2201 \\
-\lloid\ (this work) & $4.7\times10^8$ & 0 \\
-\br
-\end{tabular}
-\end{indented}
-\end{table}
 
 \subsubsection{Conventional \TD{} method}
 
@@ -353,102 +342,9 @@ The computational cost of the decimation of the detector data is a little bit mo
 
 The story is similar for the interpolation filters used to change the sample rates of the partial \SNR{} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a low-pass filter with $N^\shortdownarrow$ coefficients.  The low-pass filter requires $2 M N^\shortdownarrow f^{s-1}$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^{s-1}/f$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 M N^\shortuparrow f^s$ \flops.
 
-Taking into account the decimation of the detector data, the orthogonal \fir\ filters, the reconstruction of the time-sliced templates, the interpolation of \SNR\ from previous time slices, and the accumulation of \SNR, in total \lloid\ requires
+Taking into account the decimation of the detector data, the orthogonal \fir\ filters, the reconstruction of the time-sliced templates, the interpolation of \SNR\ from previous time slices, and the accumulation of \SNR, in total the \lloid\ algorithm requires
 $$
 \sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s + 2\sum_{\mathclap{f \in \{f^s\}}} \left( N^\shortdownarrow + \numtmps N^\shortuparrow \right) f \textrm{ \flops}\,.
 $$
 The second sum is carried out over the set of sample rates of all of the time slices rather than over the time slices themselves because some time slices may have the same sample rates.
 
-\subsubsection{Extrapolation of the computational cost to an Advanced \LIGO{} search}
-\editorial{Drew: I think this section be the last section of the results section. Should we move it to be Sec. 4.2? Nick: I'm inclined to agree with Drew, though I see that we want to make explicit that it's an analysis of the algorithm and not of the implementation and the current placement aids that. Also, the given FLOPS numbers correspond to what choice of \SVD{} tolerance and $N^\shortuparrow$?}
-
-Table~\ref{table:flops} shows that the \lloid\ method requires $\sim 10^8$ \flops\
-to cover a sub-bank of comprising $\sim 10^2$ out of $\sim 10^5$ sets of intrinsic
-source parameters.  Given that modern (ca. 2011) workstations can sustain
-computation rates up to $\sim 10^{10}$ \flops{}, and assuming that other regions of the
-parameter space have similar computational scaling, an entire search could be implemented
-with $\gtrsim 10$ machines.
-
-By comparison, using the \TD\ method to achieve the same latency costs $\sim 10^{13}$ \flops\ for this particular sub-bank, and so it would require $\sim 10^6$ present-day machines.  Presently, the \LIGO{} Data Grid consists of only $\sim 10^4$ machines.
-
-\begin{comment}
-
-% Do we want to spend this much copy on the whitener?
-% What matters is that we have picked a low-latency whitening procedure.
-
-\subsection{Data Whitening}
-Matched filtering the SVD basis vectors has motivated a decoupling of the
-whitening routine from the matched filtering engine. This was necessary in
-order weight templates appropriately by whitening them before the SVD
-calculation, and, as such, we have also moved the data whitening outside the
-match filter engine. We have chosen to whiten the data using a running
-geometric average of the PSD computed by Hann windowing 8 second buffers of
-data and using 50\% overlapping buffers. The running geometric average is
-updated once per buffer from a median of the recent PSDs. We find that this
-algorithm is extremely fast to converge to an accurate PSD and also very robust
-against glitches.
-
-An inspiral, to leading order, has gravitational-wave frequency evolution given
-by
-%
-\begin{equation}
-%
-f(t) = \frac{1}{8 \pi \mathcal{M}} \left( \frac{t_c - t}{5 \mathcal{M}}
-\right)^{-3/8}\;,
-%
-\end{equation}
-%
-whose time derivative is given by
-%
-\begin{equation}
-%
-\frac{df}{dt} = \frac{3}{320 \pi \mathcal{M}^2} \left( \frac{t_c - t}{5
-\mathcal{M}} \right)^{-11/8}\;.
-%
-\end{equation}
-%
-Combining these, we find the frequency evolution as a function of frequency to
-be
-%
-\begin{equation}
-%
-\frac{df}{dt}(f_0) = \frac{3}{320 \pi \mathcal{M}^2} \left( 8 \pi \mathcal{M}
-f_0 \right)^{3/11}\;,
-%
-\end{equation}
-%
-which can be inverted to get the minimum frequency which has a given frequency
-derivative,
-%
-\begin{equation}
-%
-f_0 = \frac{1}{8 \pi \mathcal{M}} \left( \frac{320 \pi \mathcal{M}^2}{3}
-\frac{df}{dt} \right)^{11/3}\;.
-%
-\end{equation}
-
-If we allow frequency bins to be affected by an injection only once within the
-median history, we need to calculate the corresponding $df/dt$ for our PSD
-calculation. An FFT of a buffer with length $T$ will have a frequency
-resolution $df = 1/(2T)$. Hann windowing the data and overlapping buffers by
-50\% introduces correlations in neighboring frequency bins of the FFT. This
-means that we actually want the frequency to change by $df = 3/(2T)$ before the
-next PSD calculation, which happens a $dt = T/2$ later, resulting in a minimum
-$df/dt = 3/T^2$.
-
-Combining these results we find the lower frequency bound for our injections,
-assuming a chirp mass for a binary with $m_1 = m_2 = 1 M_{\odot}$ and $T = 8$
-s, is 23 Hz.
-
-We want to compute the equivalent injection density which would be biased as
-much as lalapps\_inspiral's PSD estimator, which allows $\sim3$ injections per
-2048 seconds. It computes the PSD by breaking the segment up into 16 256 second
-chunks. These chunks are then combined into to sets of 8 chunks each. The
-median of each set is then averaged across the sets for each frequency bin to
-produce the PSD estimate for that 2048 second segment. This procedure results
-in an average injection density of 1.5 per 8 PSDs in the median history, which
-is comparable to LLOID's 1 per 7 PSDs in the median history. Since LLOID has an
-injection history of 7 PSDs which span 32 seconds, this means LLOID can perform
-one injection every 32 seconds, or 64 injections per 2048 second segment, more
-than an order of magnitude increase in density over lalapps\_inspiral.
-\end{comment}
