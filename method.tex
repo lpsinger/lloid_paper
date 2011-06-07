@@ -8,7 +8,7 @@ expand on the ideas of~\cite{Marion2004, Buskulic2010} that describe a
 multiband decomposition of the compact binary parameter space that resulted in
 a search with minutes latency in \LIGO{}'s S6 and Virgo's VSR3 joint science
 runs~\cite{HugheyGWPAW2011}.  We combine this with the \SVD\ rank-reduction
-method described in~\cite{Cannon:2010p10398} that exploits the redundancy of
+method of~\cite{Cannon:2010p10398} that exploits the redundancy of
 the template banks.
 
 \subsection{Conventional \CBC{} matched filter searches}
@@ -61,11 +61,11 @@ Here we explore a method for reducing the computational cost of a \TD\ search
 for compact binary coalescence.  We will give a truly zero-latency algorithm
 that competes in terms of floating point operations per second with the
 conventional \FD\ method, which requires a signficant latency in order to be
-computationally cheap. Our method, \lloid\footnote{\lloid, The term strictly
-means \emph{Low Latency Online Inspiral Detection} and was a code name for
-this procedure as it was being developed. It is now known in some GW circles.
-We feel that although the name doesn't carry much specific information about
-the details of the algorithm it is far too late to do anything about it now.}
+computationally cheap. Our method, \lloid\footnote{\lloid stands for \emph{Low
+Latency Online Inspiral Detection} and was a code name for this procedure
+throughout development. Although the name doesn't carry any specific
+information about the algorithm, it became known within the gravitational-wave
+community and has stuck.}%
 involves two transformations of the template waveforms that produce a set of
 orthogonal filters with far fewer coefficients than the original templates.
 
@@ -79,7 +79,7 @@ about $\sim$100 times lower rate.  This amounts to more than a factor of 10000
 reduction in the floating-point operations per second required to filter the
 early part of the waveform.  However, the resulting filters are still not
 orthogonal across the mass parameter space, and are in fact highly redundant.
-We use the singular value decomposition to produce an orthogonal filter set
+We use the \SVD{} to produce an orthogonal filter set
 from the time-sliced templates~\cite{Cannon:2010p10398}.  We find that this
 reduces the number of sample points of the filters by another factor of
 $\sim$100.  The combined methods reduce the number of floating point operations
@@ -109,7 +109,7 @@ h_{i}[k] = \sum_{s=0}^{S-1}
 %
 for $S$ integers $\{f^0 t^s\}$ such that $0  = f^0 t^0 < f^0 t^1 < \cdots < f^0 t^S = N$.
 We will show
-in the next section that this, combined with the singular value docomposition,
+in the next section that this, combined with the \SVD{},
 is sufficient to enable a computationally efficient \TD{} search and
 furthermore is an essential part of an \earlywarning\ detection scheme.
 
@@ -139,7 +139,7 @@ to choose time-slice boundaries that require substantially less bandwidth at
 early times in the inspiral.  Our goal is to reduce the filtering cost of a
 large fraction of the waveform by computing part of the convolution at a lower
 sample rate.  Specifically we consider here time slice boundaries with the
-smallest power-of-two sample rate that sub-critically samples the time sliced
+smallest power-of-two sample rate that sub-critically samples the time-sliced
 template.  The time slices consist of the $S$ intervals
 $\left[t^0, t^1\right),\, \left[t^1, t^2\right),\, \dots,\, \left[t^{S-1}, t^S\right)$,
 sampled at frequencies $f^0,\, f^1,\, \dots,\, f^\mathrm{S-1}$ where $f^0
@@ -184,20 +184,18 @@ similar time-frequency evolution, it is possible to design computationally
 efficient time slices for an extended region of parameter space rather than to
 design different time slices for each template.
 
-We note that the time slice decomposition in equation~(\ref{eq:time-slices}) is
+We note that the time-slice decomposition in equation~(\ref{eq:time-slices}) is
 manifestly orthogonal since the time slices are disjoint in time.  In the next
 section we examine how to reduce the number of filters within each time slice
-via singular value decomposition of the time sliced templates.
+via \SVD{} of the time-sliced templates.
 
-\subsection{Reducing the number of filters with the singular value
-decomposition}
+\subsection{Reducing the number of filters with the \SVD{}}
 
 As described previously, the template banks are, by design, highly correlated.
 It is possible to greatly reduce the number of filters required to achieve a
 particular minimum match by designing an appropriate set of \SVD\ {\em
-basis templates}.  A numerical technique based on the singular value
-decomposition (\SVD) of inspiral template banks is demonstrated
-in~\cite{Cannon:2010p10398}.  Similarly, the time sliced templates described
+basis templates}, previously demonstrated
+in~\cite{Cannon:2010p10398}.  Similarly, the time-sliced templates described
 above can be approximated to arbitrary accuracy by expansion into a set of
 \SVD\ \emph{basis templates}, $u_l^s[k]$, related to the original time
 sliced templates through the \emph{reconstruction matrix},
@@ -218,7 +216,7 @@ templates in the original template bank.  We find that when combined with the
 time-slice decomposition, the number of basis templates \numsvdtmps\ is much
 smaller than the original number of templates \numtmps\ and improves on
 \cite{Cannon:2010p10398} by nearly an order of magnitude.  In the next section
-we describe how we form our early warning detection statistic using the time-slice
+we describe how we form our early-warning detection statistic using the time-slice
 decomposition and the \SVD.
 
 \subsection{Early warning \SNR }
@@ -263,7 +261,7 @@ the early-warning filter output accumulated up to time slice $s$ as,
 \end{equation}
 %
 %
-This quantity is related to the early warning \SNR{} by the normalization
+This quantity is related to the early-warning \SNR{} by the normalization
 of the partial filter defined by the present time slice, which may be computed
 in advance. \editorial{Chad: are we happy with that statement?}
 %
@@ -286,7 +284,7 @@ much less than the number of output channels.}
 %
 The signal flow diagram in figure~\ref{fig:pipeline} illustrates how this
 recursion relation can be realized as a multirate filter network with outputs for
-each of the early warning \SNR{}s.
+each of the early-warning \SNR{}s.
 
 In the next section we compute the expected computational cost scaling of this
 decomposition and compare it with the brute-force \TD{} implementation of

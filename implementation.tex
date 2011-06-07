@@ -13,11 +13,6 @@ possible.  In the next two subsections we describe what these stages entail.
 
 \subsection{Planning stage}
 
-The choice of templates and the \SVD\ can be done in advance.  New templates
-and the \SVD\ can be computed asynchronously using updated spectrum estimates
-as they are available. 
-
-
 The planning stage begins with choosing templates that cover the space of
 source parameters with a hexagonal grid~\cite{PhysRevD.76.102004} in order to
 satisfy a minimum match criterion.  This assures a prescribed maximum loss in
@@ -46,10 +41,10 @@ are all saved to disk.
 The \lloid\ algorithm could be used in a true sample-in-sample-out real-time
 system.  However, such a system would likely require integration directly into
 the data acquisition and storage system of the gravitational-wave
-observatories.  A slightly more modest goal is to leverage existing low
+observatories.  A slightly more modest goal is to leverage existing low-%
 latency, but not real-time, signal processing infrastructure in order to
 implement the \lloid\ algorithm.  For the near-term this should be a viable 
-solution for ultra-low latency searches with order seconds of intrinsic latency.
+solution for searches with order seconds of intrinsic latency.
 
 We have implemented a prototype of the low-latency filtering stage using an
 open-source signal processing environment called \gstreamer\ \cite{gstreamer}.
@@ -70,7 +65,7 @@ lower sample rates by decimation.  Decimation involves applying an anti-aliasing
 filter to the data, and then down-sampling by deleting samples.  We use a
 192-tap \fir\ decimator provided by \gstreamer{}'s {\tt audioresample}
 element.  The detector data is provided at every power-of-two sample rate
-required by the template time slices described in \eqref{eq:time-slices}.  These
+required by the template time slices described in \eqref{eq:time-slices}. These
 parallel decimated data streams are fed into parallel \fir\ filter banks in the
 next stage.
 
@@ -103,8 +98,8 @@ used for decimation, {\tt audioresample}.
 
 \subsubsection{\SNR\ accumulation}
 
-The early-warning \SNR\ for each time slice is formed by accumulating interpolated early
-warning \SNR\ from the subsequent time slice.  This process continues until we have 
-worked our way to the \SNR\ of the original templates at the full sample rate $f^0$.  In 
-this way, the \lloid\ algorithm and this implementation leads to a simple early warning
-pipeline.
+The early-warning \SNR\ for each time slice is formed by accumulating
+interpolated early-warning \SNR\ from the subsequent time slice.  This process
+continues until we have worked our way to the \SNR\ of the original templates
+at the full sample rate $f^0$.  In this way, the \lloid\ algorithm and this
+implementation naturally leads to a simple early-warning pipeline.
