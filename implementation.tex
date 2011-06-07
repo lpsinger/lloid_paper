@@ -49,7 +49,7 @@ the data acquisition and storage system of the gravitational-wave
 observatories.  A slightly more modest goal is to leverage existing low
 latency, but not real-time, signal processing infrastructure in order to
 implement the \lloid\ algorithm.  For the near-term this should be a viable 
-solution for ultra-low latency searches with $\sim 1$s intrinsic latency.
+solution for ultra-low latency searches with order seconds of intrinsic latency.
 
 We have implemented a prototype of the low-latency filtering stage using an
 open-source signal processing environment called \gstreamer\ \cite{gstreamer}.
@@ -57,13 +57,11 @@ open-source signal processing environment called \gstreamer\ \cite{gstreamer}.
 playback, authoring, and streaming on devices from cell phones to desktop
 computers to streaming media servers.  Given the similarities of
 gravitational-wave detector data to audio data it is not surprising that
-\gstreamer\ is
-useful for our purpose. \gstreamer\ also provides some useful stock signal
-processing elements such as resamplers and filters.  We have extended the
-\gstreamer\ framework by developing a library called \gstlal{}~\cite{gstlal}
-that provides elements for gravitational-wave data analysis.
-Figure~\ref{fig:pipeline} describes schematically how we implement the \lloid\
-algorithm using \gstlal\ and \gstreamer\ components.
+\gstreamer\ is useful for our purpose. \gstreamer\ also provides some useful
+stock signal processing elements such as resamplers and filters.  We have
+extended the \gstreamer\ framework by developing a library called
+\gstlal{}~\cite{gstlal} that provides elements for gravitational-wave data
+analysis.
 
 \subsubsection{Decimation}
 
