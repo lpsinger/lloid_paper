@@ -11,7 +11,7 @@ it.
 We examine the performance of the \lloid\ algorithm on a small region of
 compact binary parameter space centered on typical NS-NS masses.  We begin by
 constructing a template bank that spans component masses between
-1~and~3~$M_\odot$ using a simulated advanced LIGO noise curve~\cite{lal}.  Then
+1~and~3~$M_\odot$ using a simulated Advanced LIGO noise curve~\cite{lal}.  Then
 we create sub banks based on chirp mass slices in that parameter space.
 Figure \ref{fig:tmpltbank} illustrates this procedure.
 \begin{figure}[htbp]
@@ -61,8 +61,8 @@ compared with the mismatch of 0.03 that arises from the discreteness of the
 template bank.  We will consider a target \SNR\ loss to be a factor of 10
 smaller than this, i.e., no more than $\sim$0.003.
 
-It is also within reason that some \SNR\ loss could arise from other suboptimal
-implementations of the \lloid\ algorithm in our test pipeline.  To gauge
+It is also within reason that some \SNR\ loss could arise from other
+suboptimalities of implementation in our test pipeline.  To gauge
 accurately how well the pipeline is performing we tested the response to a
 unit impulse.  By taking the inner product of the impulse response for each channel
 with the template, we can gauge very accurately the loss in
@@ -76,14 +76,14 @@ in~\cite{Cannon:2010p10398}.  By changing the tolerance of the reconstruction
 of the physical waveforms one effects directly the mismatch that results from
 the truncation of the orthogonal filter matrix.  The conditions presented here
 are more complicated than in the original work~\cite{Cannon:2010p10398} due to
-the inclusion of the time sliced templates and resampling.  Figure
+the inclusion of the time sliced templates and resampling.  Figure~%
 \ref{fig:hist-svd-tolerance} demonstrates that it is possible to acheive
 typical \SNR\ losses of $\ll1\%$.  However, we do notice that the mismatch
 saturates with respect to the tolerance.  This could be the effect of the
 resampling, or another \SNR\ loss that we did not model or expect.  However the
 saturation is still an order of magnitude below our target mismatch of
 $\sim$0.003.  We find that an \SVD\ tolerance of $\left(1-10^{-4}\right)$ is
-adequate to acheive our target SNR loss.
+adequate to acheive our target \SNR{} loss.
 %
 \begin{figure}
 	\begin{center}
@@ -110,14 +110,12 @@ to meet our target mismatch of 0.003.
 
 We are now prepared to offer the estimated computational cost of filtering this
 sub-bank of templates compared to other methods.  We used the results of the
-previous sub sections to set the \SVD\ tolerance to $1-10^{-4}$  and the
-interpolation filter length to 16.  We find that the \lloid\ method provides
-comparable performance to the standard \FD\ approach but with no intrinsic
-latency.  Table \ref{table:flops} lists the costs for filtering this sub-bank.
+previous subsections to set the \SVD\ tolerance to $1-10^{-4}$  and the
+interpolation filter length to 16. Table \ref{table:flops} lists the costs for filtering this sub-bank. Both the \FD\ method and \lloid\ are five orders of magnitude faster than the conventional \TD\ method.  However, the \FD\ method has a latency of over half of an hour, whereas \lloid\ has no latency at all.
 %
-\Table{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the bank of $2 \times 657$ templates sampled at 4096 Hz for chirp masses $1.1955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$.  A block size of $D = 2 N$ is used for the \fft{}s in the \FD\ method.  Both the \FD\ method and \lloid\ are five orders of magnitude faster than the conventional \TD\ method.  However, the \FD\ method has a latency of over half of an hour, whereas \lloid\ has no latency at all.}
+\Table{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the bank of $2 \times 657$ templates sampled at 4096 Hz for chirp masses $1.1955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$.  A block size of $D = 2 N$ is used for the \fft{}s in the \FD\ method.}
 \br
-Method & \flops\ & latency (s) \\
+Method & \flops\ & Latency (s) \\
 \mr
 Time-domain (\TD) convolution & $2.4\times10^{13}$ & 0 \\
 Frequency-domain (\FD) convolution & $2.6\times10^8$ & 2201 \\

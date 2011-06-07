@@ -74,9 +74,10 @@ The first transformation is to chop the \TD{} templates up into \emph{time
 slices}.  Since each template slice is disjoint in time, the resulting set for
 a single template is orthogonal.  Given the chirp-like structure of the
 templates, the early time slices have significantly lower bandwidth and can be
-safely downsampled.  The downsampling removes a factor of $\sim$100 samples
-from the early part of the waveform and allows the filters to be evaluated at
-about $\sim$100 times lower rate.  This amounts to more than a factor of 10000
+safely downsampled.  The downsampling reduces the number of data samples by a
+factor of $\sim$100 from the early part of the waveform and allows the filters
+to be evaluated at about $\sim$$1/100^\mathrm{th}$ the sample rate. This
+amounts to more than a factor of 10000
 reduction in the floating-point operations per second required to filter the
 early part of the waveform.  However, the resulting filters are still not
 orthogonal across the mass parameter space, and are in fact highly redundant.
@@ -347,5 +348,5 @@ Taking into account the decimation of the detector data, the orthogonal \fir\ fi
 $$
 \sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s + 2\sum_{\mathclap{f \in \{f^s\}}} \left( N^\shortdownarrow + \numtmps N^\shortuparrow \right) f \textrm{ \flops}\,.
 $$
-The second sum is carried out over the set of sample rates of all of the time slices rather than over the time slices themselves because some time slices may have the same sample rates.
+The second sum is carried out over the set of distinct sample rates rather than over the time slices themselves.
 
