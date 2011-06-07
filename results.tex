@@ -5,17 +5,51 @@ In this section we test our implementation of the \lloid\ method using the \gstr
 pipeline described in the previous section.  We calculate the measured \SNR\
 loss due to the approximations of the \lloid\ method and our implementation of
 it.
-%We answer the following questions:
-%
-%I) What is the measured loss of \SNR\ due to the approximations used in the
-%\lloid\ algorithm in a realistic analysis pipeline?
-%
-%II) What is the measured latency of the implementation described in section
-%\ref{sec:implementation}?
-%
-%III) What is the measured computational cost of the implementation described in
-%section \ref{sec:implementation}?
 
+\subsection{Setup}
+
+We examine the performance of the \lloid\ algorithm on a small region of
+compact binary parameter space centered on typical NS-NS masses.  We begin by
+constructing a template bank that spans component masses between
+1~and~3~$M_\odot$ using a simulated advanced LIGO noise curve~\cite{lal}.  Then
+we create sub banks based on chirp mass slices in that parameter space.
+Figure{fig:tmpltbank} illustrates this procedure.
+\begin{figure}[htbp]
+	\label{fig:tmpltbank}
+	\begin{center}
+		\includegraphics{figures/tmpltbank.png}
+		\caption{Placement of template parameters used in this paper.  The template bank consists of 98544 templates with component masses $m_1$, $m_2$, between 1~and~3~$M_\odot$.  We shall design a filter bank to search for a small subset of these template parameters with chirp masses $\mathcal M$ between 1.1955~and~1.2045~$M_\odot$.}
+	\end{center}
+\end{figure}
+The result is that we obtain 657 templates with chirpmasses between 1.1955~and~1.2045~$M_\odot$.  With this
+sub-bank we were able to construct an efficient time slice decomposition that consisted of 11 time slices
+with sample rates between 32 and 4096 Hz shown in table \ref{tab:time_slices}.
+\begin{table}
+\begin{indented}
+\caption{\label{tab:time_slices} Filter design for these 657 templates.  From left to right, this table shows the sample rate, time interval, number of samples, and number of orthogonal templates for each time slice.  The \SVD{} tolerance is varied from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.}
+\item[]\begin{tabular}{rr@{,}lc*{6}{r}}
+\br
+\multicolumn{4}{c}{} &\centre{6}{$\log_{10}$ (1 - \textsc{svd} tolerance)} \\
+\ns
+\multicolumn{4}{c}{} &\crule{6} \\
+$f^s$ (Hz) & $[t^s$&$t^{s+1})$ (s) & $N^s$ & -1 & -2 & -3 & -4 & -5 & -6 \\
+\mr
+4096 & [0&0.5) & 2048 & 1 & 4 & 6 & 8 & 10 & 14 \\
+512 & [0.5&4.5) & 2048 & 2 & 6 & 8 & 10 & 12 & 16 \\
+256 & [4.5&12.5) & 2048 & 2 & 6 & 8 & 10 & 12 & 15 \\
+128 & [12.5&76.5) & 8192 & 6 & 20 & 25 & 28 & 30 & 32 \\
+64 & [76.5&140.5) & 4096 & 1 & 8 & 15 & 18 & 20 & 22 \\
+64 & [140.5&268.5) & 8192 & 1 & 7 & 21 & 25 & 28 & 30 \\
+64 & [268.5&396.5) & 8192 & 1 & 1 & 15 & 20 & 23 & 25 \\
+32 & [396.5&460.5) & 2048 & 1 & 1 & 3 & 9 & 12 & 14 \\
+32 & [460.5&588.5) & 4096 & 1 & 1 & 7 & 16 & 18 & 21 \\
+32 & [588.5&844.5) & 8192 & 1 & 1 & 8 & 26 & 30 & 33 \\
+32 & [844.5&1100.5) & 8192 & 1 & 1 & 1 & 12 & 20 & 23 \\
+\br
+\end{tabular}
+\end{indented}
+\end{table}
+We use this template bank and decomposition for the remainder of this section.
 
 \subsection{Measured \SNR\ loss}
 
@@ -72,31 +106,30 @@ impact of the length $N^\shortuparrow$ of the interpolation filter.  The results
 figure \ref{fig:hist-interpolate}.  We find that a filter length of 16 is sufficient
 to meet our target mismatch of 0.003.
 
+\subsection{Lower bounds on computational cost compared to other methods}
 
+\Table{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the bank of $2 \times 657$ templates sampled at 4096 Hz for chirp masses $1.1955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$.  A block size of $D = 2 N$ is used for the \fft{}s in the \FD\ method.  Both the \FD\ method and \lloid\ are five orders of magnitude faster than the conventional \TD\ method.  However, the \FD\ method has a latency of over half of an hour, whereas \lloid\ has no latency at all.}
+\br
+Method & \flops\ & latency (s) \\
+\mr
+Time-domain (\TD) convolution & $2.4\times10^{13}$ & 0 \\
+Frequency-domain (\FD) convolution & $2.6\times10^8$ & 2201 \\
+\lloid\ (this work) & $4.7\times10^8$ & 0 \\
+\br
+\end{tabular}
+\end{indented}
+\end{table}
 
-%\subsection{Measured latency}
+\subsubsection{Extrapolation of the computational cost to an Advanced \LIGO{} search}
+\editorial{Drew: I think this section be the last section of the results section. Should we move it to be Sec. 4.2? Nick: I'm inclined to agree with Drew, though I see that we want to make explicit that it's an analysis of the algorithm and not of the implementation and the current placement aids that. Also, the given FLOPS numbers correspond to what choice of \SVD{} tolerance and $N^\shortuparrow$?}
 
-%In order to check the latency of our implementation of the \lloid\ algorithm we
-%used the pipeline described in \ref{fig:pipeline} with a live source connected
-%to the input.  We then measured the timestamp of the live source and the output
-%of the final \SNR\ time series.  Since \gstreamer\ is not a
-%sample-in-sample-out realtime infrastructure, it does work by passing small
-%buffers of data and filtered data through the pipeline.  We set the buffer size
-%on the input to be 1/4 s.  In an ideal case the latency should be nearly 1/4 s.
-%However, it is necessary to queue things in the pipeline to assure that there
-%are no issues with threading. Sometimes buffers get delayed.  We measured the
-%average filtering latency to be \FIXME{1 s}.
+Table~\ref{table:flops} shows that the \lloid\ method requires $\sim 10^8$ \flops\
+to cover a sub-bank of comprising $\sim 10^2$ out of $\sim 10^5$ sets of intrinsic
+source parameters.  Given that modern (ca. 2011) workstations can sustain
+computation rates up to $\sim 10^{10}$ \flops{}, and assuming that other regions of the
+parameter space have similar computational scaling, an entire search could be implemented
+with $\gtrsim 10$ machines.
 
-%\subsection{Measured computational cost}
+By comparison, using the \TD\ method to achieve the same latency costs $\sim 10^{13}$ \flops\ for this particular sub-bank, and so it would require $\sim 10^6$ present-day machines.  Presently, the \LIGO{} Data Grid consists of only $\sim 10^4$ machines.
 
-%Using the pipeline described previously, we also measured the computational
-%cost.  We used an 8 socket, quad core AMD\texttrademark\ machine operating at
-%2.7 GHz per core.  We found that filtering \FIXME{657} templates in real time
-%required about \FIXME{6} of the available cores.  We thus conclude that we
-%require about 1 core for every \FIXME{100} templates.  We note that this is
-%well within the computational limits of a modern, computing cluster assuming
-%that the scaling holds for the entire mass range of interest, we would need
-%about \FIXME{300} cores per detector.  This requirment should be even less of a
-%burden in the advanced detecor era, when presumably clusters built in that era
-%will have a factor of 4 or 8 more cores than the ones today. 
 
