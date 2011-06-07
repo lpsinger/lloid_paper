@@ -13,12 +13,11 @@ compact binary parameter space centered on typical NS-NS masses.  We begin by
 constructing a template bank that spans component masses between
 1~and~3~$M_\odot$ using a simulated advanced LIGO noise curve~\cite{lal}.  Then
 we create sub banks based on chirp mass slices in that parameter space.
-Figure{fig:tmpltbank} illustrates this procedure.
+Figure \ref{fig:tmpltbank} illustrates this procedure.
 \begin{figure}[htbp]
-	\label{fig:tmpltbank}
 	\begin{center}
 		\includegraphics{figures/tmpltbank.png}
-		\caption{Placement of template parameters used in this paper.  The template bank consists of 98544 templates with component masses $m_1$, $m_2$, between 1~and~3~$M_\odot$.  We shall design a filter bank to search for a small subset of these template parameters with chirp masses $\mathcal M$ between 1.1955~and~1.2045~$M_\odot$.}
+		\caption{\label{fig:tmpltbank}Placement of template parameters used in this paper.  The template bank consists of 98544 templates with component masses $m_1$, $m_2$, between 1~and~3~$M_\odot$.  We shall design a filter bank to search for a small subset of these template parameters with chirp masses $\mathcal M$ between 1.1955~and~1.2045~$M_\odot$.}
 	\end{center}
 \end{figure}
 The result is that we obtain 657 templates with chirpmasses between 1.1955~and~1.2045~$M_\odot$.  With this
@@ -57,10 +56,10 @@ We expect two known contributions to the \SNR\ loss to arise in our
 implementation of the \lloid\ algorithm.  The first is the \SNR\ loss due to
 the truncation of the \SVD\ basis and estimates for it
 exist~\cite{Cannon:2010p10398}.  The second comes from non ideal
-implementations of resampling that cause signal loss.  The \SNR\ loss is to be compared
-with the mismatch of 0.03 that arises from the discreteness of the
-template bank which is typically.  We will consider an acceptable
-\SNR\ loss to be a factor of 10 smaller than this, i.e., no more than $\sim$0.003.
+implementations of resampling that cause signal loss.  The \SNR\ loss is to be
+compared with the mismatch of 0.03 that arises from the discreteness of the
+template bank.  We will consider a target \SNR\ loss to be a factor of 10
+smaller than this, i.e., no more than $\sim$0.003.
 
 It is also within reason that some \SNR\ loss could arise from other suboptimal
 implementations of the \lloid\ algorithm in our test pipeline.  To gauge
@@ -73,17 +72,18 @@ our implementation.
 \subsubsection{Checking the effect of the \SVD\ tolerance}
 
 In this section we check the effect of the \SVD\ tolerance parameter defined
-in~\cite{Cannon:2010p10398}.  By changing the tolerance of the reconstruction of
-the physical waveforms one effects directly the mismatch that results from the
-truncation of the orthogonal filter matrix.  The conditions presented here are
-more complicated than in the original work~\cite{Cannon:2010p10398} due to the
-inclusion of the time sliced templates and resampling.  \FIXME{However, we find
-that the results are quite as expected.}  Figure \ref{fig:hist-svd-tolerance}
-demonstrates that it is possible to acheive typical \SNR\ losses of $\ll1\%$.
-However, we do notice that the mismatch saturates with respect to the tolerance.
-This could be the effect of the resampling, or another \SNR\ loss that we did
-not model or expect.  However the saturation is still an order of magnitude below our target mismatch of $\sim$0.003.  We find that an \SVD\ tolerance of
-$\left(1-10^{-4}\right)$ is adequate. 
+in~\cite{Cannon:2010p10398}.  By changing the tolerance of the reconstruction
+of the physical waveforms one effects directly the mismatch that results from
+the truncation of the orthogonal filter matrix.  The conditions presented here
+are more complicated than in the original work~\cite{Cannon:2010p10398} due to
+the inclusion of the time sliced templates and resampling.  Figure
+\ref{fig:hist-svd-tolerance} demonstrates that it is possible to acheive
+typical \SNR\ losses of $\ll1\%$.  However, we do notice that the mismatch
+saturates with respect to the tolerance.  This could be the effect of the
+resampling, or another \SNR\ loss that we did not model or expect.  However the
+saturation is still an order of magnitude below our target mismatch of
+$\sim$0.003.  We find that an \SVD\ tolerance of $\left(1-10^{-4}\right)$ is
+adequate to acheive our target SNR loss.
 %
 \begin{figure}
 	\begin{center}
@@ -108,6 +108,13 @@ to meet our target mismatch of 0.003.
 
 \subsection{Lower bounds on computational cost compared to other methods}
 
+We are now prepared to offer the estimated computational cost of filtering this
+sub-bank of templates compared to other methods.  We used the results of the
+previous sub sections to set the \SVD\ tolerance to $1-10^{-4}$  and the
+interpolation filter length to 16.  We find that the \lloid\ method provides
+comparable performance to the standard \FD\ approach but with no intrinsic
+latency.  Table \ref{table:flops} lists the costs for filtering this sub-bank.
+%
 \Table{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the bank of $2 \times 657$ templates sampled at 4096 Hz for chirp masses $1.1955 \leqslant \mathcal{M} / M_\odot \leqslant 1.2045$.  A block size of $D = 2 N$ is used for the \fft{}s in the \FD\ method.  Both the \FD\ method and \lloid\ are five orders of magnitude faster than the conventional \TD\ method.  However, the \FD\ method has a latency of over half of an hour, whereas \lloid\ has no latency at all.}
 \br
 Method & \flops\ & latency (s) \\
@@ -120,15 +127,18 @@ Frequency-domain (\FD) convolution & $2.6\times10^8$ & 2201 \\
 \end{indented}
 \end{table}
 
-\subsubsection{Extrapolation of the computational cost to an Advanced \LIGO{} search}
-\editorial{Drew: I think this section be the last section of the results section. Should we move it to be Sec. 4.2? Nick: I'm inclined to agree with Drew, though I see that we want to make explicit that it's an analysis of the algorithm and not of the implementation and the current placement aids that. Also, the given FLOPS numbers correspond to what choice of \SVD{} tolerance and $N^\shortuparrow$?}
+\subsection{Extrapolation of the computational cost to an Advanced \LIGO{} search}
 
-Table~\ref{table:flops} shows that the \lloid\ method requires $\sim 10^8$ \flops\
-to cover a sub-bank of comprising $\sim 10^2$ out of $\sim 10^5$ sets of intrinsic
-source parameters.  Given that modern (ca. 2011) workstations can sustain
-computation rates up to $\sim 10^{10}$ \flops{}, and assuming that other regions of the
-parameter space have similar computational scaling, an entire search could be implemented
-with $\gtrsim 10$ machines.
+Table~\ref{table:flops} shows that the \lloid\ method requires $\sim 10^8$
+\flops\ to cover a sub-bank comprising of $\sim 10^2$ out of the total $\sim
+10^5$ mass pairs.  Given that modern (ca. 2011) workstations can sustain
+computation rates up to $\sim 10^{10}$ \flops{}, and assuming that other
+regions of the parameter space have similar computational scaling\footnote{The
+length of templates varies over the parameter space.  Lower mass templates are
+longer and would require more computational cost, higher mass templates are
+shorter and would require less.  We consider the estimates based on this
+sub-bank to be a reasonable representation, however}, an entire search could be
+implemented with $\gtrsim 10$ machines.
 
 By comparison, using the \TD\ method to achieve the same latency costs $\sim 10^{13}$ \flops\ for this particular sub-bank, and so it would require $\sim 10^6$ present-day machines.  Presently, the \LIGO{} Data Grid consists of only $\sim 10^4$ machines.
 
