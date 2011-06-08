@@ -52,7 +52,8 @@ snrd = {}
 
 # loop over the noise curves
 # ZERO_DET_high_P.txt must be first since it normalizes the rate
-for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt', 'data/ZERO_DET_low_P.txt', 'data/BHBH_20deg.txt'], ['zero det., high power', 'zero det., low power', 'BHBH optimized'])):
+#for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt', 'data/ZERO_DET_low_P.txt', 'data/BHBH_20deg.txt'], ['zero det., high power', 'zero det., low power', 'BHBH optimized'])):
+for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt'], ['zero det'])):
 
 	# Load the data
 	A = numpy.loadtxt(cfile)
@@ -91,12 +92,12 @@ for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt', 'data/ZERO_D
 	pylab.loglog(t, numminus, markers[i], lw=0.5)
 	pylab.loglog(t, numplus, markers[i], lw=0.5)
 	#pylab.hold(1)
-	#pylab.fill_between(t, numminus, numplus, color='k', alpha=0.15)
+	pylab.fill_between(t, numminus, numplus, color='k', alpha=0.15)
 
 pylab.grid()
-pylab.legend(loc='lower left')
-pylab.ylabel(r'$\dot N$ yr$^{-1}$')
-pylab.xlabel(r'Time before coalescence, $t$')
+#pylab.legend(loc='lower left')
+pylab.ylabel(r'Observable NS-NS systems / yr')
+pylab.xlabel(r'Time before coalescence, $t$ (s)')
 pylab.subplots_adjust(bottom=0.2,top=0.95,left=0.08,right=0.95)
 pylab.xlim([0.01,1000])
 pylab.ylim([.1, 1000])
