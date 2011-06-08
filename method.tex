@@ -87,13 +87,9 @@ matched filter approach.  In the remainder of this section we describe the
 
 \subsection{Selectively reducing the sample rate of the data and template waveforms}
 
-The first step of our proposed method is to divide the templates into
-time slices in a \TD{} analogue to the \FD{}
-decomposition described in~\cite{Marion2004, Buskulic2010}.
-A matched filter is constructed for each time
-slice.  The outputs form an ensemble of partial \SNR{} streams.  By linearity,
-these partial \SNR\ streams can be suitably time-delayed and summed to
-reproduce the \SNR\ of the full template.  To wit,
+The first step of our proposed method is to divide the templates into time
+slices in a \TD{} analogue to the \FD{} decomposition described
+in~\cite{Marion2004, Buskulic2010}.  To wit,
 %
 \begin{equation}
 \label{eq:time-slices}
@@ -103,12 +99,13 @@ h_{i}[k] = \sum_{s=0}^{S-1}
 		0 & otherwise
 	}
 \end{equation}
-\editorial{Drew: Should this be $h_{i}[k]$ or $\rho_{i}[k]$?}
 %
-for $S$ integers $\{f^0 t^s\}$ such that $0  = f^0 t^0 < f^0 t^1 < \cdots < f^0 t^S = N$.
-We will show
-in the next section that this, combined with the \SVD{},
-is sufficient to enable a computationally efficient \TD{} search and
+for $S$ integers $\{f^0 t^s\}$ such that $0  = f^0 t^0 < f^0 t^1 < \cdots < f^0
+t^S = N$.  A matched filter is constructed for each time slice.  The outputs
+form an ensemble of partial \SNR{} streams.  By linearity, these partial \SNR\
+streams can be suitably time-delayed and summed to reproduce the \SNR\ of the
+full template.  We will show in the next section that this, combined with the
+\SVD{}, is sufficient to enable a computationally efficient \TD{} search and
 furthermore is an essential part of an \earlywarning\ detection scheme.
 
 For concreteness and simplicity, we will consider an inspiral waveform in the
@@ -203,8 +200,6 @@ $v_{il}^s\sigma_l^s$:
 h_i^s[k] = \sum_{\mathclap{l=0}}^{\mathclap{M-1}} v_{il}^s \sigma_l^s u_l^s[k] \approx \sum_{\mathclap{l=0}}^{\mathclap{L^s-1}} v_{il}^s \sigma_l^s u_l^s[k].
 \label{eq:svddecomp}
 \end{equation}
-%
-\editorial{Say a word or two about \SVD\ tolerance?}%
 %
 The parameter $\numsvdtmps$ is the number of basis templates that are kept in
 the approximation.  This determines the \SVD\ tolerance, which affects the
