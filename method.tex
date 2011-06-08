@@ -48,11 +48,12 @@ $x[k]$, both sampled at a rate $f^0$, the result can be interpreted as the
 \end{equation}
 
 Equation~(\ref{eq:SNRTD}) can be implemented in the time-domain as an
-\fir\ filter, requiring $\mathcal O(\numtmps \tmpsamps)$ floating point
-operations per sample.  However, it is typically much more computationally
-efficient to use the convolution theorem and the \fft\ to implement fast
-convolution in the frequency-domain, requiring only $\mathcal O(\numtmps
-\lg \tmpsamps)$ operations per sample with increased latency.
+finite impulse response (\fir) filter, requiring $\mathcal O(\numtmps
+\tmpsamps)$ floating point operations per sample.  However, it is typically
+much more computationally efficient to use the convolution theorem and the
+\fft\ to implement fast convolution in the frequency-domain, requiring only
+$\mathcal O(\numtmps \lg \tmpsamps)$ operations per sample with increased
+latency.
 
 
 \subsection{The \lloid\ method}
