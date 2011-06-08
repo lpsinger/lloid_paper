@@ -20,27 +20,28 @@ threshold~\cite{svd-compdetstat}.
 The algorithm we described has no intrinsic latency.  However, there are
 fundamental and practical latencies associated with the analysis and detection
 procedure. For example, the \LIGO{} detectors, data acquisition is synchronized
-to a 1/(16~Hz) cadence, introducing an up-front latency~\cite{CITE_CDS}. Data
-aggregation from
-the observatories will travel over various networks, each capable of high
-bandwith but perhaps only modest latency.  This could amount to a similar
-latency of $\sim$100 ms.  Lastly, unless a real-time infrastructure is adopted
-post data acquisition, it is likely that there will be an inherent latency
-introduced by such infrastructure.  We have shown a prototype implementation
-of \lloid{} using \gstlal\ that is capable of order seconds latency. Based
-on our experience, significant work would have to be done in order to improve
-upon this number, for example, more tightly integrating analysis and data
-acquisition. This should be considered for third-generation detector design.
+to a 1/(16~Hz) cadence, introducing an up-front latency~\cite{Bork2001}. Data
+aggregation from the observatories will travel over various networks, each
+capable of high bandwith but perhaps only modest latency.  This could amount to
+a similar latency of $\sim$100 ms.  Lastly, unless a real-time infrastructure
+is adopted post data acquisition, it is likely that there will be an inherent
+latency introduced by such infrastructure.  We have shown a prototype
+implementation of \lloid{} using the open source signal processing software
+\gstreamer\ and \gstlal. Significant work would have to be done in order to
+improve upon the latency capability of our implementation, for example, more
+tightly integrating analysis and data acquisition. This should be considered
+for third-generation detector design.
 
 Although we have demonstrated a feasible method for advance detection we have
 not explored the accuracy of sky localization that is possible before merger.
-Ref.~\cite{Fairhurst2009} discusses some of the theoretical prospects for early sky
-localization.  Our future work will explore the prospects of early-warning
+Ref.~\cite{Fairhurst2009} discusses some of the theoretical prospects for early
+sky localization.  Our future work will explore the prospects of early-warning
 detection with realistic simulations of binary mergers using the infrastructure
 and techniques described here. 
 
-\editorial{nvf: It's a bit pie-in-the-sky, but we could also mention reconfiguring
-the signal recycling mirror to optimize SNR at merger. There's a lot of science there.}
+\editorial{nvf: It's a bit pie-in-the-sky, but we could also mention
+reconfiguring the signal recycling mirror to optimize SNR at merger. There's a
+lot of science there.}
 
 %Latency budget, including `before' and `after' quotes for:
 
