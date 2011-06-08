@@ -10,23 +10,23 @@
 %   - Mention S6 and VSR2, online running, EM followup
 % - Layout of paper: description of method, procedure followed 
 
-As a compact binary system loses energy to gravitational waves, its orbital
-separation decays, leading to a run-away inspiral with the gravitational-wave
+As a compact binary system loses energy to gravitational waves (\GW{}s), its
+orbital separation decays, leading to a run-away inspiral with the \GW{}
 amplitude and frequency increasing until the system eventually merges soon
 after the innermost stable circular orbit (\ISCO). If a neutron star is
 involved it may become tidally disrupted near the merger.  This disrupted
 matter can fuel a bright electromagnetic counterpart in the merger's
 aftermath~\cite{shibata:2007}.
 
-Gravitational-wave detectors are sensitive the to these gravitational-wave
+\GW{} detectors are sensitive the to these \GW{}
 signals.  Indeed, the coalescence of compact binary systems consisting of
 neutron stars (\textsc{ns}) and/or black holes (\textsc{bh}) is the most
 promising source of gravitational radiation for Advanced \LIGO, Virgo, \GEO\,
 and \LCGT~\cite{ALIGOWeb, AVirgoWeb, GEOWeb, LCGTWeb}.  Tens of binary
 coalescence events per year are expected to be observed in the advanced
 detector era later this decade~\cite{Abadie:2010p10836}. In the era of
-first-generation detectors the gravitational-wave community initiated a project
-to send alerts when potential gravitational-wave transients were observed in
+first-generation detectors the \GW{} community initiated a project
+to send alerts when potential \GW{} transients were observed in
 order to trigger followup observations by optical telescopes.  The best
 demonstrated latencies were 30--60 minutes~\cite{HugheyGWPAW2011}, which was an
 important achievement, but far too late to catch prompt electromagnetic
@@ -47,21 +47,21 @@ or, in the case of \textsc{grb 080319b}, by pure serendipity, where several
 telescopes were observing a previous \GRB{} in the same
 field~\cite{2008Natur.455..183R}. Short \GRB{}s, on the other hand, typically
 fade too quickly to even catch the tails of the afterglows. Rapid
-gravitational-wave transient alerts could enable the first observation of
+\GW{} transient alerts could enable the first observation of
 prompt optical flashes and the rise of afterglows from short \GRB{}s, and, for
 an exceptional event, perhaps even a glimpse of a
 precursor~\cite{0004-637X-723-2-1711}. An electromagnetic counterpart would
-vastly boost confidence in the gravitational-wave detection and provide the
+vastly boost confidence in the \GW{} detection and provide the
 tight sky localization necessary to allow determination of the source's host
-galaxy, which leads to a redshift measurement. A coincident gravitational-wave
+galaxy, which leads to a redshift measurement. A coincident \GW{}
 observation will provide a luminosity distance measurement. With these
 together, we can produce precision measurements of the Hubble
 constant~\cite{2010ApJ...725..496N}.
 
-To this end, we have the ambition of reporting gravitational-wave candidates
+To this end, we have the ambition of reporting \GW{} candidates
 not minutes \emph{after} the merger, as has already been accomplished, but
 seconds \emph{before}.  By examining the signal to noise ratio (\SNR{}) stream
-for threshold crossings before the gravitational-wave signal leaves the
+for threshold crossings before the \GW{} signal leaves the
 detection band, it is possible to trade some \SNR{} and sky localization
 accuracy~\cite{Fairhurst2009} for latency.  Figure \ref{fig:earlywarning} shows
 projected early trigger rates for \textsc{ns}--\textsc{ns} binaries in Advanced
@@ -96,9 +96,9 @@ achieved latencies of 30--60 minutes, which were dominated by a human vetting
 process. Candidates were sent for electromagnetic followup to several
 telescopes; Swift, \textsc{rotse}, \textsc{tarot}, and Zadko~\cite{kanner2008,
 HugheyGWPAW2011} took images of likely sky locations.  \textsc{mbta} achieved
-the best gravitational-wave trigger-generation latencies of 2--5 minutes.  We
+the best \GW{} trigger-generation latencies of 2--5 minutes.  We
 assume that in the advanced detector era the vetting process will be automated,
-so current gravitational-wave search methodology and telescope actuation would
+so current \GW{} search methodology and telescope actuation would
 dominate latency.
 
 Advance detection of compact binary coalescences (\CBC{}s) will require striking a balance between latency
@@ -108,7 +108,7 @@ signals.  There are many different implementations of matched filters, but most
 have high throughput at the cost of high latency, or low latency at the cost of
 low throughput.  The former are epitomized by the overlap-save algorithm
 \cite{numerical-recipes-chapter-13} for frequency domain (\FD) convolution,
-currently the preferred method in gravitational-wave
+currently the preferred method in \GW{}
 searches.  The most obvious example of the latter is the time domain
 (\TD) convolution, which has no algorithmic latency.  However, its
 computational complexity is quadratic in the length of the templates, so it is
