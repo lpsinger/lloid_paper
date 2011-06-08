@@ -56,7 +56,7 @@ We expect two known contributions to the \SNR\ loss to arise in our
 implementation of the \lloid\ algorithm.  The first is the \SNR\ loss due to
 the truncation of the \SVD\ basis and estimates for it
 exist~\cite{Cannon:2010p10398}.  The second comes from non ideal
-implementations of resampling that cause signal loss.  The \SNR\ loss is to be
+implementations of re-sampling that cause signal loss.  The \SNR\ loss is to be
 compared with the mismatch of 0.03 that arises from the discreteness of the
 template bank.  We will consider a target \SNR\ loss to be a factor of 10
 smaller than this, i.e., no more than $\sim$0.003.
@@ -76,21 +76,21 @@ in~\cite{Cannon:2010p10398}.  By changing the tolerance of the reconstruction
 of the physical waveforms one directly affects the mismatch that results from
 the truncation of the orthogonal filter matrix.  The conditions presented here
 are more complicated than in the original work~\cite{Cannon:2010p10398} due to
-the inclusion of the time-sliced templates and resampling.  Figure~%
+the inclusion of the time-sliced templates and re-sampling.  Figure~%
 \ref{fig:hist-svd-tolerance} demonstrates that it is possible to achieve
 typical \SNR\ losses of $\ll1\%$.  However, we do notice that the mismatch
 saturates with respect to the tolerance.  This could be the effect of the
-resampling, or another \SNR\ loss that we did not model or expect.  However the
+re-sampling, or another \SNR\ loss that we did not model or expect.  However the
 saturation is still an order of magnitude below our target mismatch of
 $\sim$0.003.  We find that an \SVD\ tolerance of $\left(1-10^{-4}\right)$ is
-adequate to acheive our target \SNR{} loss.
+adequate to achieve our target \SNR{} loss.
 %
 \begin{figure}
 	\begin{center}
 		\subfloat[Mismatch versus \textsc{svd} tolerance]{\label{fig:hist-svd-tolerance}\includegraphics{bw.pdf}}
 		\subfloat[Mismatch versus $N^\shortuparrow$]{\label{fig:hist-interpolate}\includegraphics{bw_resample.pdf}}
 		\caption{Box-and-whisker plot of mismatch between nominal
-template bank and \lloid\ measured impulse respones.  The upper and lower boundaries of
+template bank and \lloid\ measured impulse responses.  The upper and lower boundaries of
 the boxes show the upper and lower quartiles; the lines in the center denote the medians.
 The whiskers represent the minimum and maximum mismatch over all templates.  In 
 \subref{fig:hist-svd-tolerance} the interpolation filter length is held fixed
