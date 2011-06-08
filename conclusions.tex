@@ -14,7 +14,7 @@ analyze a four-detector network of \GW{} data for binary neutron
 stars and stellar-mass black holes.  This is well within the current computing
 capabilities of the \LIGO{} Data Grid~\cite{LDG}. In the future, this could be
 improved upon further by conditionally reconstructing the \SNR{} time-series
-only during times when a composite dection statistic crosses a
+only during times when a composite detection statistic crosses a
 threshold~\cite{svd-compdetstat}.
 
 The algorithm we described has no intrinsic latency.  However, there are
@@ -22,7 +22,7 @@ fundamental and practical latencies associated with the analysis and detection
 procedure. For example, the \LIGO{} detectors, data acquisition is synchronized
 to a 1/(16~Hz) cadence, introducing an up-front latency~\cite{Bork2001}. Data
 aggregation from the observatories will travel over various networks, each
-capable of high bandwith but perhaps only modest latency.  This could amount to
+capable of high bandwidth but perhaps only modest latency.  This could amount to
 a similar latency of $\sim$100 ms.  Lastly, unless a real-time infrastructure
 is adopted post data acquisition, it is likely that there will be an inherent
 latency introduced by such infrastructure.  We have shown a prototype
