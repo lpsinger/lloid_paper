@@ -47,7 +47,8 @@ implement the \lloid\ algorithm.  For the near-term this should be a viable
 solution for searches with order seconds of intrinsic latency.
 
 We have implemented a prototype of the low-latency filtering stage using an
-open-source signal processing environment called \gstreamer\ \cite{gstreamer}.
+open-source signal processing environment called
+\gstreamer\footnote{\url{http://gstreamer.net/}}.
 \gstreamer\ is a vital component of many Linux systems, providing media
 playback, authoring, and streaming on devices from cell phones to desktop
 computers to streaming media servers.  Given the similarities of
@@ -55,8 +56,8 @@ computers to streaming media servers.  Given the similarities of
 \gstreamer\ is useful for our purpose. \gstreamer\ also provides some useful
 stock signal processing elements such as re-samplers and filters.  We have
 extended the \gstreamer\ framework by developing a library called
-\gstlal{}~\cite{gstlal} that provides elements for \GW{} data
-analysis.
+\gstlal\footnote{\url{https://www.lsc-group.phys.uwm.edu/daswg/projects/gstlal.html}}
+that provides elements for \GW{} data analysis.
 
 \subsubsection{Decimation}
 
