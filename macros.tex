@@ -1,22 +1,22 @@
 \newcommand{\earlywarning}{early-warning}
-\newcommand{\GW}{\textsc{gw}}
-\newcommand{\EM}{\textsc{em}}
-\newcommand{\GRB}{\textsc{grb}}
-\newcommand{\CBC}{\textsc{cbc}}
-\newcommand{\LIGO}{\textsc{ligo}}
-\newcommand{\LCGT}{\textsc{lcgt}}
-\newcommand{\GEO}{\textsc{geo600}}
-\newcommand{\ISCO}{\textsc{isco}}
-\newcommand{\SNR}{\textsc{snr}}
+\newcommand{\GW}{{\sc gw}}
+\newcommand{\EM}{{\sc em}}
+\newcommand{\GRB}{{\sc grb}}
+\newcommand{\CBC}{{\sc cbc}}
+\newcommand{\LIGO}{{\sc ligo}}
+\newcommand{\LCGT}{{\sc lcgt}}
+\newcommand{\GEO}{{\sc geo600}}
+\newcommand{\ISCO}{{\sc isco}}
+\newcommand{\SNR}{{\sc snr}}
 \newcommand{\realtime}{real-time}
 \newcommand{\Msun}{\ensuremath{M_{\odot}}}
-\newcommand{\eqref}[1]{(\ref{#1})}
+%\newcommand{\eqref}[1]{(\ref{#1})}
 \newcommand{\order}[1]{\ensuremath{\mathcal{O}[#1]}}
 \newcommand{\tmpsamps}{\ensuremath{N}}
 \newcommand{\numtmps}{\ensuremath{M}}
 \newcommand{\numslices}{\ensuremath{S}}
 % macros for number of svd basis functions
-\newcommand{\SVD}{\textsc{svd}}
+\newcommand{\SVD}{{\sc svd}}
 \newcommand{\svdtmps}[1]{\ensuremath{L^#1}}
 \newcommand{\numsvdtmps}{\svdtmps{s}}
 % macros for sample points in slices
@@ -24,68 +24,22 @@
 \newcommand{\slicessamps}{\slicesamps{s}}
 \newcommand{\fftblock}{\ensuremath{D}}
 \newcommand{\resampsamps}{\ensuremath{N^\shortdownarrow,\, N^\shortuparrow}}
-\newcommand{\fir}{\textsc{fir}}
-\newcommand{\fft}{\textsc{fft}}
+\newcommand{\fir}{{\sc fir}}
+\newcommand{\fft}{{\sc fft}}
 \newcommand{\fmax}{\ensuremath{f^0}}
 \newcommand{\flops}{flop/s}
 \newcommand{\gstlal}{{\tt gstlal}}
 \newcommand{\gstreamer}{{\tt GStreamer}}
 \newcommand{\numcpus}{{600}}
-\newcommand{\lloid}{{\textsc{lloid}}}
-\newcommand{\TD}{\textsc{td}}
-\newcommand{\FD}{\textsc{fd}}
-% Editing macros
+\newcommand{\lloid}{{\sc lloid}}
+\newcommand{\TD}{{\sc td}}
+\newcommand{\FD}{{\sc fd}}
 
+% Editing macros
 \newcommand\citeneeded{\textsc{\color{blue}[citation needed]}}
 % Borrowed from http://albert.rierol.net/latex_tips.html
 \newcommand\editorial[1]{\mbox{}\marginpar{\footnotesize\raggedright\hspace{0pt}\color{blue}\emph{#1}}}
 \newcommand\FIXME[1]{\hl{[\emph{#1}]}}
-
-\newcommand{\be}{\begin{equation}}
-\newcommand{\ee}{\end{equation}}
-\newcommand{\ben}{$$}
-\newcommand{\een}{$$}
-\newcommand{\bea}{\begin{eqnarray}}
-\newcommand{\eea}{\end{eqnarray}}
-\newcommand{\bean}{\begin{eqnarray*}}
-\newcommand{\eean}{\end{eqnarray*}}
-%\newcommand{\e}{{\rm e}} % breaks my build
-%\newcommand{\tr}{{\rm tr}} % breaks my build
-\newcommand{\erf}{{\rm erf}}
-\newcommand{\ie}{{\rm i.e.}}
-\newcommand{\n}[1]{\label{#1}}
-\newcommand{\ind}[1]{\mbox{\tiny{#1}}}
-\newcommand{\nn}{\nonumber \\ \nonumber \\}
-\newcommand{\Fp}{{\vec{F}}^{+}}
-\newcommand{\Fc}{{\vec{F}}^{\times}}
-\newcommand{\Vp}{{\vec{V}}^{+}}
-\newcommand{\Vc}{{\vec{V}}^{\times}}
-\newcommand{\abs}[1]{\lvert#1\rvert}
-\newcommand{\norm}[1]{\lVert#1\rVert}
-%\renewcommand{\vec}[1]{\mbox{\boldmath$#1$}}
-
-% Graham's macros
-%\renewcommand{\vec}[1]{\mathbf{#1}}     % obscures mathmode \vec
-\newcommand{\tran}[1]{ #1^{\rm T}}
-%\newcommand{\abs}[1]{\left\vert#1\right\vert}
-\newcommand{\fp}{F^+}
-\newcommand{\fc}{F^\times}
-\newcommand{\vfp}{\vec{F}^+}
-\newcommand{\vfc}{\vec{F}^\times}
-\newcommand{\vfph}{\hat{\vec{F}}^+}
-\newcommand{\vfch}{\hat{\vec{F}}^\times}
-\newcommand{\fps}{F^{+2}}
-\newcommand{\fcs}{F^{\times2}}
-\newcommand{\hp}{h_+}
-\newcommand{\hc}{h_\times}
-\newcommand{\sh}{\sigma_h}
-\newcommand{\sn}{\sigma_n}
-\newcommand{\shs}{\sigma_h^2}
-\newcommand{\sns}{\sigma_n^2}
-\newcommand{\vkh}{\hat{\vec{k}}}
-\newcommand{\C}{\vec{C}}
-\newcommand{\CI}{\vec{C}^{-1}}
-\newcommand{\dC}{\text{det}\,\C}
 
 % Macros for collapsing sizes of things
 % From TUGboat, Volume 22 (2001), No. 4

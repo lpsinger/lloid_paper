@@ -1,23 +1,7 @@
-\usepackage{multirow}
-\usepackage{iopams}
-\usepackage{subfig}
 \usepackage{hyperref}
-% \usepackage{amsmath} % Incompatible with iopart
-\usepackage{amssymb}
-\usepackage{stmaryrd}  % gives \shortuparrow and \shortdownarrow
-\usepackage{array}
-\usepackage{verbatim}
-\usepackage{graphicx}
-\graphicspath{{figures/}}
+\usepackage{amsmath}
 \usepackage{subfig}
+\usepackage{stmaryrd} % For \shortuparrow and \shortdownarrow
 \usepackage[usenames,dvipsnames]{color}
-\usepackage[normalem]{ulem}
 \usepackage{soul}
-%\usepackage[bookmarksnumbered, bookmarksopen, breaklinks, colorlinks]{hyperref} % Breaks my build - Antony
-
-% provide upright Greek characters
-\DeclareFontFamily{U}{euc}{}% I chose euc because the chart is called Euler cursive 
-\DeclareFontShape{U}{euc}{m}{n}{<-6>eurm5<6-8>eurm7<8->eurm10}{}% 
-\DeclareSymbolFont{AMSc}{U}{euc}{m}{n} % I chose AMSc because AMSa and AMSb are defined in the amsfonts-package 
-\DeclareMathSymbol{\umu}{\mathord}{AMSc}{"16} 
-
+\usepackage{upgreek} % For \upmu, upright mu

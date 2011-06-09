@@ -1,33 +1,33 @@
 \section{Early warning searches for compact binary coalescence}
-\label{SECII}\label{sec:method}
+\label{sec:method}
 
 In this section we describe a decomposition of the \CBC{} waveform space that
 reduces time-domain (\TD) filtering cost sufficiently to allow for the
 possibility of \earlywarning\ detection with modest computing requirements.  We
-expand on the ideas of~\cite{Marion2004, Buskulic2010} that describe a
+expand on the ideas of~\citep{Marion2004, Buskulic2010} that describe a
 multi-band decomposition of the compact binary parameter space that resulted in
 a search with minutes latency in \LIGO{}'s S6 and Virgo's VSR3 joint science
-runs~\cite{HugheyGWPAW2011}.  We combine this with the \SVD\ rank-reduction
-method of~\cite{Cannon:2010p10398} that exploits the redundancy of
+runs~\citep{HugheyGWPAW2011}.  We combine this with the \SVD\ rank-reduction
+method of~\citep{Cannon:2010p10398} that exploits the redundancy of
 the template banks.
 
 \subsection{Conventional \CBC{} matched filter searches}
 
 Inspiral signals are continuously parameterized by a set of intrinsic source
-parameters $\vec\theta$ that determine the amplitude and phase evolution of the
+parameters $\mathbf\Theta$ that determine the amplitude and phase evolution of the
 \GW{} strain. For systems where the effects of spin can be
 ignored, the intrinsic source parameters are the component masses of the
-binary, $\vec\theta = (m_1, m_2)$. Searches for inspiral signals typically
+binary, $\mathbf\Theta = (m_1, m_2)$. Searches for inspiral signals typically
 employ matched filter banks that discretely sample the possible intrinsic
-parameters~\cite{findchirppaper}.  For a given source, the strain observed by
+parameters~\citep{findchirppaper}.  For a given source, the strain observed by
 the detector is a linear combination of two waveforms corresponding to the
 `$+$' and `$\times$' \GW{} polarizations.  Thus, for any value of
-$\vec\theta$ we must implement 2 filters.  The coefficients for the $\numtmps$ filters
+$\mathbf\Theta$ we must implement 2 filters.  The coefficients for the $\numtmps$ filters
 are known as templates, and are formed by discretizing and time reversing the
 waveforms and weighting them by the inverse amplitude spectral density of the
 detector's noise. To construct a template bank, templates are chosen with the
-$\numtmps/2$ discrete signal parameters $\vec\theta_0,\, \vec\theta_1,\, \dots,\,
-\vec\theta_{\numtmps/2-1}$ to assure a bounded loss of \SNR~\cite{Owen:1998dk}. That
+$\numtmps/2$ discrete signal parameters $\mathbf\Theta_0,\, \mathbf\Theta_1,\, \dots,\,
+\mathbf\Theta_{\numtmps/2-1}$ to assure a bounded loss of \SNR~\citep{Owen:1998dk}. That
 is, any possible signal within a given range of intrinsic
 source parameters will have an inner product that is $\geqslant 0.97$ with at
 least one template. Such a template bank is said to have a {\em minimum match}
@@ -79,7 +79,7 @@ reduction in the floating-point operations per second required to filter the
 early part of the waveform.  However, the resulting filters are still not
 orthogonal across the mass parameter space, and are in fact highly redundant.
 We use the \SVD{} to produce an orthogonal filter set
-from the time-sliced templates~\cite{Cannon:2010p10398}.  We find that this
+from the time-sliced templates~\citep{Cannon:2010p10398}.  We find that this
 reduces the number of sample points of the filters by another factor of
 $\sim$100.  The combined methods reduce the number of floating point operations
 to the level where they are competitive with the conventional high-latency \FD\
@@ -90,15 +90,15 @@ matched filter approach.  In the remainder of this section we describe the
 
 The first step of our proposed method is to divide the templates into time
 slices in a \TD{} analogue to the \FD{} decomposition described
-in~\cite{Marion2004, Buskulic2010}.  To wit,
+in~\citep{Marion2004, Buskulic2010}.  To wit,
 %
 \begin{equation}
 \label{eq:time-slices}
 h_{i}[k] = \sum_{s=0}^{S-1}
-	\cases{%
-		h_i^s[k] & for $t^s \leqslant k / f^0 < t^{s+1}$ \\
-		0 & otherwise
-	}
+	\begin{cases}
+		h_i^s[k] & \textrm{if } t^s \leqslant k / f^0 < t^{s+1} \\
+		0 & \textrm{otherwise}
+	\end{cases}
 \end{equation}
 %
 for $S$ integers $\{f^0 t^s\}$ such that $0  = f^0 t^0 < f^0 t^1 < \cdots < f^0
@@ -120,8 +120,8 @@ f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{t}
 \end{equation}
 %
 Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G
-M_\odot / c^3 \approx 5 \umu\mathrm{s}$) and $t$ is the time relative to the
-coalescence of the binary~\cite{findchirppaper, kidder1992}.  Usually the
+M_\odot / c^3 \approx 5 \upmu\mathrm{s}$) and $t$ is the time relative to the
+coalescence of the binary~\citep{findchirppaper, kidder1992}.  Usually the
 template is truncated at some prescribed time $t^0$, or equivalently frequency
 $f_\mathrm{hi}$.  This is often chosen to correspond to the \ISCO. An inspiral
 signal will enter the detection band at a low frequency, $f = f_\mathrm{low}$,
@@ -145,10 +145,10 @@ sliced templates may be down-sampled without aliasing, so we define them as
 \begin{equation}
 \label{eq:time-sliced-templates}
 h_{i}^{s}[k] \equiv
-	\cases{
-		h_{i}\!\left[k\frac{f}{f^s}\right] & if $t^s \leqslant k/f^s < t^{s+1}$ \\
-		0 & otherwise.
-	}
+	\begin{cases}
+		h_{i}\!\left[k\frac{f}{f^s}\right] & \textrm{if } t^s \leqslant k/f^s < t^{s+1} \\
+		0 & \textrm{otherwise.}
+	\end{cases}
 \end{equation}
 %
 \begin{comment}
@@ -175,7 +175,7 @@ $s^{\mathrm{th}}$ filter.}
 \end{table}
 \end{comment}
 
-Since waveforms with neighboring intrinsic source parameters $\vec\theta$ have
+Since waveforms with neighboring intrinsic source parameters $\mathbf\Theta$ have
 similar time-frequency evolution, it is possible to design computationally
 efficient time slices for an extended region of parameter space rather than to
 design different time slices for each template.
@@ -191,7 +191,7 @@ As described previously, the template banks are, by design, highly correlated.
 It is possible to greatly reduce the number of filters required to achieve a
 particular minimum match by designing an appropriate set of \SVD\ {\em
 basis templates}, previously demonstrated
-in~\cite{Cannon:2010p10398}.  Similarly, the time-sliced templates described
+in~\citep{Cannon:2010p10398}.  Similarly, the time-sliced templates described
 above can be approximated to arbitrary accuracy by expansion into a set of
 \SVD\ \emph{basis templates}, $u_l^s[k]$, related to the original time
 sliced templates through the \emph{reconstruction matrix},
@@ -204,12 +204,12 @@ h_i^s[k] = \sum_{\mathclap{l=0}}^{\mathclap{M-1}} v_{il}^s \sigma_l^s u_l^s[k] \
 %
 The parameter $\numsvdtmps$ is the number of basis templates that are kept in
 the approximation.  This determines the \SVD\ tolerance, which affects the
-\SNR\ loss due to the approximation.  The authors of \cite{Cannon:2010p10398}
+\SNR\ loss due to the approximation.  The authors of \citep{Cannon:2010p10398}
 showed that high accuracy could be achieved with far fewer basis templates than
 templates in the original template bank.  We find that when combined with the
 time-slice decomposition, the number of basis templates \numsvdtmps\ is much
 smaller than the original number of templates \numtmps\ and improves on
-\cite{Cannon:2010p10398} by nearly an order of magnitude.  In the next section
+\citep{Cannon:2010p10398} by nearly an order of magnitude.  In the next section
 we describe how we form our early-warning detection statistic using the time-slice
 decomposition and the \SVD.
 
@@ -221,14 +221,14 @@ filtering of the data possible.  We are now prepared to define the early
 warning \SNR\ and to comment on the computational cost of evaluating it.  But
 first, we will introduce some notation referring to the decimation of data,
 which means reducing the sample rate after low-pass filtering,
-\begin{equation}
+\begin{equation*}
 \label{eq:decomp}
 	x^{s+1}[k] = \left( H^\shortdownarrow x^s\right)[k] \,,
-\end{equation}
+\end{equation*}
 and notation referring to the interpolation of data to increase the sample rate,
-\begin{equation}
+\begin{equation*}
 	x^{s}[k] = \left( H^\shortuparrow x^{s+1}\right)[k] \,.
-\end{equation}
+\end{equation*}
 
 From the combination of transformations to the compact binary templates defined
 in equation \eqref{eq:time-sliced-templates} and \eqref{eq:svddecomp} we define
@@ -260,8 +260,8 @@ of the partial filter defined by the present time slice, which may be computed
 in advance. \editorial{Chad: are we happy with that statement?}
 %
 %
-\begin{figure}[htbp]
-	\includegraphics{figures/lloid-diagram.pdf}
+\begin{figure}[h]
+	\plotone{figures/lloid-diagram.pdf}
 	\caption{\label{fig:pipeline} Schematic of \lloid{} pipeline illustrating
 signal flow.  Circles with arrows represent interpolation
 \protect\includegraphics{figures/upsample-symbol.pdf} or decimation
@@ -293,10 +293,12 @@ this section.
 %
 % symbols used in FLOPs calculations table
 %
-\Table{\label{tab:recap} Notation used to describe filters.}
-\br
-	& Definition \\
-\mr
+\begin{table}
+\caption{\label{tab:recap}Notation used to describe filters.}
+\begin{tabular}{ll}
+\tableline\tableline
+& Definition \\
+\tableline
 \numtmps		& number of templates \\
 \tmpsamps	& number of samples per template \\
 \numslices	& number of time slices \\
@@ -305,12 +307,9 @@ this section.
 $f^s$		& sample rate in time slice $s$ \\
 $N^\shortdownarrow$ & number of coefficients in decimation filter \\
 $N^\shortuparrow$ & number of coefficients in interpolation filter \\
-\br
+\tableline
 \end{tabular}
-\end{indented}
 \end{table}
-
-\editorial{This section's two tables are small.  Any way to put them side by side or next to another figure?}
 
 
 \subsubsection{Conventional \TD{} method}
@@ -319,9 +318,9 @@ The conventional \TD{} method consists of a bank of \fir{} filters, or sliding-w
 
 \subsubsection{Conventional \FD{} method}
 
-The most common \FD{} method is known as the \emph{overlap-save} algorithm, described in \cite{numerical-recipes-chapter-13}.  It entails splitting the input into blocks of $D$ samples, $D > \tmpsamps$, each block overlapping the previous one by $D - \tmpsamps$ samples.  For each block, the algorithm computes the forward \fft\ of the data and the templates, multiplies them, and then computes the reverse \fft.
+The most common \FD{} method is known as the \emph{overlap-save} algorithm, described in \citep{numerical-recipes-chapter-13}.  It entails splitting the input into blocks of $D$ samples, $D > \tmpsamps$, each block overlapping the previous one by $D - \tmpsamps$ samples.  For each block, the algorithm computes the forward \fft\ of the data and the templates, multiplies them, and then computes the reverse \fft.
 
-Modern implementations of the \fft, such as the ubiquitous \texttt{fftw}, require about $2 \fftblock \lg \fftblock$ operations to evaluate a real transform of size $\fftblock$~\cite{Johnson:2007p9654}.  Including the forward transform of the data and $M$ reverse transforms for all of the templates, the \fft\ costs $2 (\numtmps + 1) \fftblock \lg \fftblock$ operations per block.  The multiplication of the transforms adds a further $2 \numtmps \fftblock$ operations per block.  Since each block produces $\fftblock - \tmpsamps$ usable samples of output, the overlap-save method requires
+Modern implementations of the \fft, such as the ubiquitous \texttt{fftw}, require about $2 \fftblock \lg \fftblock$ operations to evaluate a real transform of size $\fftblock$~\citep{Johnson:2007p9654}.  Including the forward transform of the data and $M$ reverse transforms for all of the templates, the \fft\ costs $2 (\numtmps + 1) \fftblock \lg \fftblock$ operations per block.  The multiplication of the transforms adds a further $2 \numtmps \fftblock$ operations per block.  Since each block produces $\fftblock - \tmpsamps$ usable samples of output, the overlap-save method requires
 $$
 f^0 \cdot \frac{2 (\numtmps + 1) \lg \fftblock + 2 \numtmps}{1 - \tmpsamps/\fftblock} \; \mathrm{\flops} \,.
 $$

@@ -44,7 +44,7 @@ def snr_to_num(fracsnr, number=40):
 	return number * (fracsnr)**3
 
 # Start a new figure
-fig = pylab.figure(figsize=(5.5,2.3))
+fig = pylab.figure(figsize=(3,2.5))
 
 markers = ['k-', 'k--', 'k:']
 
@@ -98,7 +98,7 @@ pylab.grid()
 #pylab.legend(loc='lower left')
 pylab.ylabel(r'Observable NS-NS systems / yr')
 pylab.xlabel(r'Time before coalescence, $t$ (s)')
-pylab.subplots_adjust(bottom=0.2,top=0.95,left=0.08,right=0.95)
+pylab.subplots_adjust(bottom=0.05,top=0.95,left=0.1,right=0.95)
 pylab.xlim([0.01,1000])
 pylab.ylim([.1, 1000])
 pylab.savefig(sys.argv[1])

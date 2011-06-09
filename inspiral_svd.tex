@@ -1,36 +1,43 @@
-\documentclass{iopart}
+\documentclass[preprint2]{aastex}
 \input{packages}
 \input{macros}
-\renewcommand{\arraystretch}{1.2}
 
 \begin{document}
 
-\title[Early-warning detection of compact binary coalescence]{Technique for \earlywarning\ detection of compact binary
-coalescence and its implications for multi-messenger astronomy}
+\title{Technique for \earlywarning\ detection of compact binary coalescence
+and its implications for multi-messenger astronomy}
 
-\date{\today}
+\shorttitle{Early-warning of compact binary coalescence}
 
-\author{Kipp Cannon$^{1}$, Romain Cariou$^{2}$, Adrian Chapman$^3$, Mireia
-Crisp\'{i}n-Ortuzar$^4$, Nickolas Fotopoulos$^3$, Melissa Frei $^5$, Chad
-Hanna$^{6}$, Erin Kara$^{7}$, Drew Keppel$^{8,9}$, Laura Liao$^{10}$, Stephen
-Privitera $^3$, Antony C Searle$^3$, Leo Singer$^3$ and Alan J  Weinstein$^3$}
+\author{
+	Kipp Cannon\altaffilmark{1},
+	Romain Cariou\altaffilmark{2},
+	Adrian Chapman\altaffilmark{3},
+	Mireia Crisp\'{i}n-Ortuzar\altaffilmark{4},
+	Nickolas Fotopoulos\altaffilmark{3},
+	Melissa Frei\altaffilmark{5},
+	Chad Hanna\altaffilmark{6},
+	Erin Kara\altaffilmark{7},
+	Drew Keppel\altaffilmark{8,9},
+	Laura Liao\altaffilmark{10},
+	Stephen Privitera\altaffilmark{3},
+	Antony Searle\altaffilmark{3},
+	Leo Singer\altaffilmark{3}, and
+	Alan Weinstein\altaffilmark{3}
+}
 
-\address{$^1$ Canadian Institute for Theoretical Astrophysics, Toronto, ON,
-Canada}
-\address{$^2$  D\'{e}partement de physique, \'{E}cole Normale Sup\'{e}rieure de Cachan, Cachan, France}
-\address{$^3$ LIGO Laboratory - California Institute of Technology, Pasadena,
-CA, USA} 
-\address{$^4$ Facultat de F\'{i}sica, Universitat de Val\`{e}ncia, Burjassot,
-Spain} 
-\address{$^5$ The University of Texas at Austin, Austin, TX, USA}
-\address{$^6$ Perimeter Institute for Theoretical Physics, Waterloo, ON,
-Canada} 
-\address{$^7$ Department of Physics and Astronomy, Barnard College, Columbia
-University, New York, NY, USA} 
-\address{$^8$ Albert-Einstein-Institut, Max-Planck-Institut f\"{u}r
-Gravitationphysik, Hannover, Germany} 
-\address{$^9$ Leibniz Universit\"{a}t Hannover, Hannover, Germany}
-\address{$^{10}$ Ryerson University, Toronto, ON, Canada}
+\altaffiltext{1}{Canadian Institute for Theoretical Astrophysics, Toronto, ON, Canada}
+\altaffiltext{2}{D\'{e}partement de physique, \'{E}cole Normale Sup\'{e}rieure de Cachan, Cachan, France}
+\altaffiltext{3}{LIGO Laboratory - California Institute of Technology, Pasadena, CA, USA} 
+\altaffiltext{4}{Facultat de F\'{i}sica, Universitat de Val\`{e}ncia, Burjassot, Spain} 
+\altaffiltext{5}{University of Texas at Austin, Austin, TX, USA}
+\altaffiltext{6}{Perimeter Institute for Theoretical Physics, Waterloo, ON, Canada}
+\altaffiltext{7}{Department of Physics and Astronomy, Barnard College, Columbia University, New York, NY, USA}
+\altaffiltext{8}{Albert-Einstein-Institut, Max-Planck-Institut f\"{u}r Gravitationphysik, Hannover, Germany}
+\altaffiltext{9}{Leibniz Universit\"{a}t Hannover, Hannover, Germany}
+\altaffiltext{10}{Ryerson University, Toronto, ON, Canada}
+
+\keywords{gamma ray burst: general --- gravitational waves --- methods: data analysis --- methods: numerical}
 
 \begin{abstract}
 The rapid detection of compact binary coalescence with a network of advanced
@@ -45,20 +52,15 @@ should be possible to detect $\sim$10 such sources earlier than 10 seconds
 before merger in 1 year of live time using the method we describe.
 \end{abstract}
 
-\pacs{04.30.-w, 07.05.Kf}
-
-%\preprint{}
 \input{introduction}
-
 \input{method}
-
 \input{implementation}
-
 \input{results}
-
 \input{conclusions}
 
-\ack{\LIGO\ was constructed by the California Institute of Technology and
+\acknowledgements
+
+\LIGO\ was constructed by the California Institute of Technology and
 Massachusetts Institute of Technology with funding from the National Science
 Foundation and operates under cooperative agreement
 \textsc{phy}-\oldstylenums{0107417}.  CH would like to thank Ilya Mandel for
@@ -67,18 +69,12 @@ would also like to thank Patrick Brady for countless fruitful conversations
 about low latency analysis methods.  NF would like to thank Alessandra Corsi
 for illuminating discussions on astronomical motivations.  DK was supported
 from the Max Planck Gesellschaft. This research is supported by the National
-Science Foundation through a Graduate Research Fellowship to LS. This research
-is supported by a fellowship from The Perimeter Institute for Theoretical
-Physics to CH.
+Science Foundation through a Graduate Research Fellowship to LS and by a
+fellowship from The Perimeter Institute for Theoretical Physics to CH.
 
-This paper has \LIGO\ Document Number \LIGO-\textsc{p}\oldstylenums{0900004}.}
+This paper has \LIGO\ Document Number \LIGO-\textsc{p}\oldstylenums{0900004}.
 
-%\appendix
-%\input{appendix}
-
-\section*{References}
-
-\bibliographystyle{iopart-num}
+\bibliographystyle{apj}
 \bibliography{references}
 
 \end{document}
