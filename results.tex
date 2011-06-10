@@ -82,18 +82,6 @@ re-sampling, or another \SNR\ loss that we did not model or expect.  However the
 saturation is still an order of magnitude below our target mismatch of
 $\sim$0.003.  We find that an \SVD\ tolerance of $\left(1-10^{-4}\right)$ is
 adequate to achieve our target \SNR{} loss.
-%
-\begin{figure}
-		\subfloat[Mismatch versus \textsc{svd} tolerance]{\label{fig:hist-svd-tolerance}\includegraphics{figures/bw.pdf}}
-		\subfloat[Mismatch versus $N^\shortuparrow$]{\label{fig:hist-interpolate}\includegraphics{figures/bw_resample.pdf}}
-		\caption{Box-and-whisker plot of mismatch between nominal
-template bank and \lloid\ measured impulse responses.  The upper and lower boundaries of
-the boxes show the upper and lower quartiles; the lines in the center denote the medians.
-The whiskers represent the minimum and maximum mismatch over all templates.  In 
-\subref{fig:hist-svd-tolerance} the interpolation filter length is held fixed
-at $N^\shortuparrow = 192$, while the \SVD\ tolerance is varied from
-$\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.  In \subref{fig:hist-interpolate}, the \SVD\ tolerance is fixed at $\left(1-10^{-6}\right)$ while $N^\shortuparrow$ is varied from 8 to 192 coefficients.}
-\end{figure}
 
 \subsubsection{Effect of the interpolation filter length}
 
@@ -101,6 +89,18 @@ Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$, we studied 
 impact of the length $N^\shortuparrow$ of the interpolation filter.  The results are in
 figure \ref{fig:hist-interpolate}.  We find that a filter length of 16 is sufficient
 to meet our target mismatch of 0.003.
+
+\begin{figure*}[b]
+	\subfloat[Mismatch versus \textsc{svd} tolerance]{\label{fig:hist-svd-tolerance}\includegraphics{figures/bw.pdf}}
+	\subfloat[Mismatch versus $N^\shortuparrow$]{\label{fig:hist-interpolate}\includegraphics{figures/bw_resample.pdf}}
+	\caption{Box-and-whisker plot of mismatch between nominal
+template bank and \lloid\ measured impulse responses.  The upper and lower boundaries of
+the boxes show the upper and lower quartiles; the lines in the center denote the medians.
+The whiskers represent the minimum and maximum mismatch over all templates.  In 
+\subref{fig:hist-svd-tolerance} the interpolation filter length is held fixed
+at $N^\shortuparrow = 192$, while the \SVD\ tolerance is varied from
+$\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.  In \subref{fig:hist-interpolate}, the \SVD\ tolerance is fixed at $\left(1-10^{-6}\right)$ while $N^\shortuparrow$ is varied from 8 to 192 coefficients.}
+\end{figure*}
 
 \subsection{Lower bounds on computational cost compared to other methods}
 
