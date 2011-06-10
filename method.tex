@@ -260,9 +260,10 @@ of the partial filter defined by the present time slice, which may be computed
 in advance. \editorial{Chad: are we happy with that statement?}
 %
 %
-\begin{figure}[h]
-	\plotone{figures/lloid-diagram.pdf}
-	\caption{\label{fig:pipeline} Schematic of \lloid{} pipeline illustrating
+\begin{figure*}[h!]
+	\begin{center}
+		\includegraphics{figures/lloid-diagram.pdf}
+		\caption{\label{fig:pipeline} Schematic of \lloid{} pipeline illustrating
 signal flow.  Circles with arrows represent interpolation
 \protect\includegraphics{figures/upsample-symbol.pdf} or decimation
 \protect\includegraphics{figures/downsample-symbol.pdf}.  Circles with plus
@@ -273,7 +274,8 @@ rate decreases from the top of the diagram to the bottom.  In this diagram each
 time slice contains three \fir\ filters that are linearly combined to produce
 four output channels.  In a typical pipeline the number of \fir\ filters is
 much less than the number of output channels.}
-\end{figure}
+	\end{center}
+\end{figure*}
 %
 %
 The signal flow diagram in figure~\ref{fig:pipeline} illustrates how this
