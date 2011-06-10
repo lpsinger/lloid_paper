@@ -236,8 +236,14 @@ the early-warning filter output accumulated up to time slice $s$ as,
 %
 % orthogonal decomposition filtering
 %
-\begin{equation}
+\begin{multline}
 	\rho_i^s [k] =%
+		% Interpolation SNR
+		\overbrace{
+			\left(H^\uparrow \rho_i^{s+1}\right)[k]
+		}^\textrm{\clap{{\sc snr} from previous time slices}} \\
+		% Plus ...
+		+
 		% Reconstruction
 		\underbrace{
 			\sum_{\mathclap{l=0}}^{\mathclap{L^s-1}} v_{il}^s \sigma_l^s
@@ -245,14 +251,8 @@ the early-warning filter output accumulated up to time slice $s$ as,
 		% Orthogonal FIR filter
 		\overbrace{
 			\sum_{\mathclap{n=0}}^{\mathclap{N^s-1}} u_l^s[n] x^s[k-n]
-		}^\textrm{\clap{orthogonal {\sc fir} filters}}
-		% Plus ...
-		+
-		% Interpolation SNR
-		\underbrace{
-			\left(H^\uparrow \rho_i^{s+1}\right)[k]
-		}_\textrm{\clap{{\sc snr} from previous time slices}}
-\end{equation}
+		}^\textrm{\clap{orthogonal {\sc fir} filters}} .
+\end{multline}
 %
 %
 This quantity is related to the early-warning \SNR{} by the normalization
