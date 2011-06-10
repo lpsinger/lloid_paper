@@ -97,7 +97,8 @@ matched filter approach.  In the remainder of this section we describe the
 
 The first step of our proposed method is to divide the templates into time
 slices in a \TD{} analogue to the \FD{} decomposition described
-in~\citep{Marion2004, Buskulic2010}.  To wit,
+in~\citep{Marion2004, Buskulic2010}.  To wit, we decompose each template
+$h_{i}[k]$ into a sum of $S$ non-overlapping filters
 %
 \begin{equation}
 \label{eq:time-slices}
@@ -110,13 +111,15 @@ h_{i}[k] = \sum_{s=0}^{S-1}
 %
 for $S$ integers $\{f^0 t^s\}$ such that $0  = f^0 t^0 < f^0 t^1 < \cdots < f^0
 t^S = N$.  A matched filter is constructed for each time slice.  The outputs
-form an ensemble of partial \SNR{} streams.  By linearity, these partial \SNR\
-streams can be suitably time-delayed and summed to reproduce the \SNR\ of the
-full template.  We will show in the next section that this, combined with the
-\SVD{}, is sufficient to enable a computationally efficient \TD{} search and
-furthermore is an essential part of an \earlywarning\ detection scheme.
+form an ensemble of partial \SNR{} streams.  By linearity of the filtering
+process, these partial \SNR\ streams can be suitably time-delayed and summed to
+ reproduce the \SNR\ of the full template.
 
-For concreteness and simplicity, we will consider an inspiral waveform in the
+Since waveforms with neighboring intrinsic source parameters $\mathbf\Theta$
+ have similar time-frequency evolution, it is possible to design computationally
+efficient time slices for an extended region of parameter space rather than to
+design different time slices for each template.
+For concreteness and simplicity, consider an inspiral waveform in the
 quadrapole approximation, for which the time-frequency relation is
 %
 \begin{equation} \label{eq:fgw}
@@ -128,26 +131,34 @@ f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{t}
 %
 Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G
 M_\odot / c^3 \approx 5 \upmu\mathrm{s}$) and $t$ is the time relative to the
-coalescence of the binary~\citep{findchirppaper, kidder1992}.  Usually the
-template is truncated at some prescribed time $t^0$, or equivalently frequency
-$f_\mathrm{hi}$.  This is often chosen to correspond to the \ISCO. An inspiral
-signal will enter the detection band at a low frequency, $f = f_\mathrm{low}$,
-corresponding to a time $t_\mathrm{low}$.  The template is assumed to be zero
-outside the interval $[t^0, t_\mathrm{low})$ and is said to have  a duration of
-$t_\mathrm{low} - t^0$. It is critically sampled at a rate of $2
-f_\mathrm{hi}$.
-
+coalescence of the binary~\citep{findchirppaper, kidder1992}.
 The monotonic time-frequency relationship of equation~\eqref{eq:fgw} allows us
 to choose time-slice boundaries that require substantially less bandwidth at
-early times in the inspiral.  Our goal is to reduce the filtering cost of a
+early times in the inspiral.
+
+In any given interval of time, the filters are band-limited across the enitre
+template bank. Usually the template is truncated at some prescribed time $t^0$,
+or equivalently frequency $f_\mathrm{hi}$, often chosen to correspond to the
+\ISCO. An inspiral signal will enter the detection band at some low frequency,
+$f = f_\mathrm{low}$, corresponding to a time $t_\mathrm{low}$.  The end of the
+template is then critically sampled at a rate of $2 f_\mathrm{hi}$ but the 
+beginning of the template is critically sampled at $2 f_\mathrm{lo}$. In any
+time interval smaller than the duration of the template, the bandwidth of the
+filters across the entire template bank may be significantly less and
+a lower sampling rate may be used for all filters without aliasing.
+
+Our goal is to reduce the filtering cost of a
 large fraction of the waveform by computing part of the convolution at a lower
 sample rate.  Specifically we consider here time slice boundaries with the
 smallest power-of-two sample rate that sub-critically samples the time-sliced
 template.  The time slices consist of the $S$ intervals
 $\left[t^0, t^1\right),\, \left[t^1, t^2\right),\, \dots,\, \left[t^{S-1}, t^S\right)$,
-sampled at frequencies $f^0,\, f^1,\, \dots,\, f^\mathrm{S-1}$ where $f^0
-\geqslant 2 f_\mathrm{hi}$ and $f^{S-1} \geqslant 2 f_\mathrm{low}$.  The time
-sliced templates may be down-sampled without aliasing, so we define them as
+sampled at frequencies $f^0,\, f^1,\, \dots,\, f^\mathrm{S-1}$ where $f^j$ is at
+least twice the highest frequency component of any filter in the bank for the $j$th
+time slice.
+
+The time sliced templates may then be down-sampled in each interval without
+aliasing, so we define them as
 %
 \begin{equation}
 \label{eq:time-sliced-templates}
@@ -158,6 +169,11 @@ h_{i}^{s}[k] \equiv
 	\end{cases}
 \end{equation}
 %
+We note that the time-slice decomposition in equation~(\ref{eq:time-slices}) is
+manifestly orthogonal since the time slices are disjoint in time.  In the next
+section we examine how to reduce the number of filters within each time slice
+via \SVD{} of the time-sliced templates.
+
 \begin{comment}
 An example time-slice design satisfying these constraints for a $1.4 - 1.4 \,
 M_{\odot}$ binary is shown in table~\ref{table:time_slices}.
@@ -181,16 +197,6 @@ preceding coalescence and \slicessamps\ is the number of samples in the
 $s^{\mathrm{th}}$ filter.}
 \end{table}
 \end{comment}
-
-Since waveforms with neighboring intrinsic source parameters $\mathbf\Theta$ have
-similar time-frequency evolution, it is possible to design computationally
-efficient time slices for an extended region of parameter space rather than to
-design different time slices for each template.
-
-We note that the time-slice decomposition in equation~(\ref{eq:time-slices}) is
-manifestly orthogonal since the time slices are disjoint in time.  In the next
-section we examine how to reduce the number of filters within each time slice
-via \SVD{} of the time-sliced templates.
 
 \subsection{Reducing the number of filters with the \SVD{}}
 
