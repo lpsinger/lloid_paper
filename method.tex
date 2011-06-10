@@ -62,14 +62,15 @@ latency.
 
 \subsection{The \lloid\ method}
 
-Here we explore a method for reducing the computational cost of a \TD\ search
-for compact binary coalescence.  We will give a truly zero-latency algorithm
+Here we describe a method for reducing the computational cost of a \TD\ search
+for compact binary coalescence.  We give a truly zero-latency algorithm
 that competes in terms of floating point operations per second with the
 conventional \FD\ method, which requires a significant latency in order to be
 computationally cheap. Our method, called \lloid{} (a backronym for
 Low Latency Online Inspiral Detection),
-involves two transformations of the template waveforms that produce a set of
-orthogonal filters with far fewer coefficients than the original templates.
+involves two transformations of the template waveforms that produce a
+smaller set of \emph{orthogonal} filters with far fewer coefficients than
+ the original templates.
 
 The first transformation is to chop the \TD{} templates up into \emph{time
 slices}.  Since each template slice is disjoint in time, the resulting set for
@@ -77,18 +78,20 @@ a single template is orthogonal.  Given the chirp-like structure of the
 templates, the early time slices have significantly lower bandwidth and can be
 safely down-sampled.  The down-sampling reduces the number of data samples by a
 factor of $\sim$100 from the early part of the waveform and allows the filters
-to be evaluated at about $\sim$$1/100^\mathrm{th}$ the sample rate. This
-amounts to more than a factor of 10000
-reduction in the floating-point operations per second required to filter the
-early part of the waveform.  However, the resulting filters are still not
+to be evaluated at about $\sim$$1/100^\mathrm{th}$ the sample rate. Since the
+computational cost of \TD\ filtering is quadratic in the filter length, this
+mounts to more than a factor of $10^4$ reduction in the floating-point operations
+ per second required to filter the early part of the waveform.
+
+However, the resulting filters are still not
 orthogonal across the mass parameter space, and are in fact highly redundant.
-We use the \SVD{} to produce an orthogonal filter set
-from the time-sliced templates~\citep{Cannon:2010p10398}.  We find that this
-reduces the number of sample points of the filters by another factor of
+We use the \SVD{} to approximate the template bank by a set of orthogonal filters
+~\citep{Cannon:2010p10398}.  We find that this approximation
+reduces the number of filters needed by another factor of
 $\sim$100.  The combined methods reduce the number of floating point operations
 to the level where they are competitive with the conventional high-latency \FD\
 matched filter approach.  In the remainder of this section we describe the
-\lloid\ algorithm in detail and provide some basic computational cost scaling.  
+\lloid\ algorithm in detail and provide some basic computational cost scaling.
 
 \subsection{Selectively reducing the sample rate of the data and template waveforms}
 
