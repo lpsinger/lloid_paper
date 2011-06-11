@@ -65,7 +65,7 @@ that competes in terms of floating point operations per second with the
 conventional \FD\ method, which by contrast requires a significant latency due to the
 inherent acausality of the Fourier transform.  Our method, called \lloid{}
 (a backronym for Low Latency Online Inspiral Detection),
-involves two transformations of the template waveforms that produce a
+involves two transformations of the templates that produce a
 network of orthogonal filters that is far more computationally
 efficient than the original bank of matched filters.
 
@@ -90,7 +90,7 @@ to the level where they are competitive with the conventional high-latency \FD\
 matched filter approach.  In the remainder of this section we describe the
 \lloid\ algorithm in detail and provide some basic computational cost scaling.
 
-\subsection{Selectively reducing the sample rate of the data and template waveforms}
+\subsection{Selectively reducing the sample rate of the data and templates}
 
 The first step of our proposed method is to divide the templates into time
 slices in a \TD{} analogue to the \FD{} decomposition described
