@@ -62,12 +62,12 @@ latency.
 Here we describe a method for reducing the computational cost of a \TD\ search
 for compact binary coalescence.  We give a truly zero-latency algorithm
 that competes in terms of floating point operations per second with the
-conventional \FD\ method, which requires a significant latency in order to be
-computationally cheap. Our method, called \lloid{} (a backronym for
-Low Latency Online Inspiral Detection),
+conventional \FD\ method, which by contrast requires a significant latency due to the
+inherent acausality of the Fourier transform.  Our method, called \lloid{}
+(a backronym for Low Latency Online Inspiral Detection),
 involves two transformations of the template waveforms that produce a
-smaller set of \emph{orthogonal} filters with far fewer coefficients than
- the original templates.
+network of orthogonal filters that is far more computationally
+efficient than the original bank of matched filters.
 
 The first transformation is to chop the \TD{} templates up into \emph{time
 slices}.  Since each template slice is disjoint in time, the resulting set for
