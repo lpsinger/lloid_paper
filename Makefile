@@ -23,4 +23,4 @@ mock_psd.pdf: mock_psd.py
 	python $<
 
 clean:
-	rm -f inspiral_svd.{aux,log,bbl,blg,pdf} time_slices.{tex,pdf} figures/snr_in_time.pdf time_slice_latency.tex mock_psd.pdf
+	rm -f inspiral_svd.{aux,out,log,bbl,blg,pdf} time_slices.{tex,pdf} figures/snr_in_time.pdf time_slice_latency.tex mock_psd.pdf
