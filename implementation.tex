@@ -28,11 +28,11 @@ in \citet{Cannon:2010p10398}.  We choose time-slice boundaries as in
 equation~\eqref{eq:time-sliced-templates} such that all of the templates within
 a sub-bank are sub-critically sampled at progressively lower sample rates.
 Next, the templates within the sub-bank are realized as \fir\ filter
-coefficients.  For each time slice, the templates are down-sampled to the
+coefficients.  For each time slice, the templates are downsampled to the
 appropriate sample rate.  Finally, the \SVD\ is applied to each time slice in
 the sub-bank in order to produce a set of orthogonal \fir\ filters and a
 reconstruction matrix that maps them back to the original templates as
-described in equation~\eqref{eq:svddecomp}.  The down-sampled orthogonal \fir\
+described in equation~\eqref{eq:svddecomp}.  The downsampled orthogonal \fir\
 filter coefficients, the reconstruction matrix, and the time-slice boundaries
 are all saved to disk.
 
@@ -54,7 +54,7 @@ playback, authoring, and streaming on devices from cell phones to desktop
 computers to streaming media servers.  Given the similarities of
 \GW{} detector data to audio data it is not surprising that
 \gstreamer\ is useful for our purpose. \gstreamer\ also provides some useful
-stock signal processing elements such as re-samplers and filters.  We have
+stock signal processing elements such as resamplers and filters.  We have
 extended the \gstreamer\ framework by developing a library called
 \gstlal\footnote{\url{https://www.lsc-group.phys.uwm.edu/daswg/projects/gstlal.html}}
 that provides elements for \GW{} data analysis.
