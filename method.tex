@@ -94,8 +94,8 @@ matched filter approach.  In the remainder of this section we describe the
 
 The first step of our proposed method is to divide the templates into time
 slices in a \TD{} analogue to the \FD{} decomposition described
-in \citet{Marion2004, Buskulic2010}.  To wit, we decompose each template
-$h_{i}[k]$ into a sum of $S$ non-overlapping filters
+in \citet{Marion2004, Buskulic2010}.  We decompose each template
+$h_{i}[k]$ into a sum of $S$ non-overlapping templates
 %
 \begin{equation}
 \label{eq:time-slices}
@@ -107,15 +107,16 @@ h_{i}[k] = \sum_{s=0}^{S-1}
 \end{equation}
 %
 for $S$ integers $\{f^0 t^s\}$ such that $0  = f^0 t^0 < f^0 t^1 < \cdots < f^0
-t^S = N$.  A matched filter is constructed for each time slice.  The outputs
+t^S = N$.  The outputs of these new time-slice filters
 form an ensemble of partial \SNR{} streams.  By linearity of the filtering
-process, these partial \SNR\ streams can be suitably time-delayed and summed to
- reproduce the \SNR\ of the full template.
+process, these partial \SNR\ streams can be suitably summed to reproduce the
+\SNR\ of the full template.
 
 Since waveforms with neighboring intrinsic source parameters $\mathbf\Theta$
  have similar time-frequency evolution, it is possible to design computationally
 efficient time slices for an extended region of parameter space rather than to
 design different time slices for each template.
+
 For concreteness and simplicity, consider an inspiral waveform in the
 quadrapole approximation, for which the time-frequency relation is
 %
@@ -129,7 +130,7 @@ f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{t}
 Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G
 M_\odot / c^3 \approx 5 \upmu\mathrm{s}$) and $t$ is the time relative to the
 coalescence of the binary~\citep{findchirppaper, kidder1992}.
-The monotonic time-frequency relationship of equation~\eqref{eq:fgw} allows us
+This monotonic time-frequency relationship allows us
 to choose time-slice boundaries that require substantially less bandwidth at
 early times in the inspiral.
 
@@ -139,7 +140,7 @@ or equivalently frequency $f_\mathrm{hi}$, often chosen to correspond to the
 \ISCO. An inspiral signal will enter the detection band at some low frequency,
 $f = f_\mathrm{low}$, corresponding to a time $t_\mathrm{low}$.  The end of the
 template is then critically sampled at a rate of $2 f_\mathrm{hi}$ but the 
-beginning of the template is critically sampled at $2 f_\mathrm{lo}$. In any
+beginning of the template is critically sampled at $2 f_\mathrm{low}$. In any
 time interval smaller than the duration of the template, the bandwidth of the
 filters across the entire template bank may be significantly less and
 a lower sampling rate may be used for all filters without aliasing.
