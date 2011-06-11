@@ -2,7 +2,7 @@ TEX = env TEXINPUTS=:$(CURDIR)/packages/aastex52:$(CURDIR)/packages/astronat/apj
 BIBTEX = env BSTINPUTS=:$(CURDIR)/packages/astronat/apj: TEXINPUTS=:$(CURDIR)/packages/aastex52:$(CURDIR)/packages/astronat/apj: bibtex
 
 PREREQS = \
-	figures/snr_in_time.pdf figures/tmpltbank.png figures/bw.pdf figures/bw_resample.pdf figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf inspiral_svd.tex introduction.tex implementation.tex conclusions.tex appendix.tex packages.tex macros.tex method.tex results.tex time_slices.pdf time_slices.tex time_slice_latency.tex references.bib
+	figures/snr_in_time.pdf figures/tmpltbank.png figures/bw.pdf figures/bw_resample.pdf figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf inspiral_svd.tex introduction.tex implementation.tex conclusions.tex appendix.tex packages.tex macros.tex method.tex results.tex references.bib
 
 inspiral_svd.pdf: $(PREREQS)
 	$(TEX) -draftmode inspiral_svd
@@ -12,15 +12,6 @@ inspiral_svd.pdf: $(PREREQS)
 
 figures/snr_in_time.pdf: snr_in_time.py
 	python $^ $@
-
-time_slices.tex: time_slices.py matplotlibrc
-	python $< --mass1 1.4 --mass2 1.4 --flow 10 > $@
-
-time_slices.pdf time_slice_latency.tex: time_slices.tex
-	true # noop, built along with time_slices.tex
-
-mock_psd.pdf: mock_psd.py
-	python $<
 
 clean:
 	rm -f inspiral_svd.{aux,out,log,bbl,blg,pdf} time_slices.{tex,pdf} figures/snr_in_time.pdf time_slice_latency.tex mock_psd.pdf
