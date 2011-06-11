@@ -24,14 +24,15 @@ for each $\mathbf\Theta$.
 
 Searches for inspiral signals typically employ matched filter
 banks that discretely sample the possible intrinsic parameters~\citep{findchirppaper}.
+The coefficients for the $\numtmps$ filters are known as templates, 
+and are formed by discretizing and time reversing the
+waveforms and weighting them by the inverse amplitude spectral density of the
+detector's noise.
 To construct a template bank, templates are chosen with
 $\numtmps/2$ discrete signal parameters $\mathbf\Theta_0,\, \mathbf\Theta_1,\, \dots,\,
-\mathbf\Theta_{\numtmps/2-1}$ to assure a bounded loss of \SNR\ for signals given by
-intermediate values of the intrinsic parameters~\citep{Owen:1998dk}. That
-is, any possible signal within a given range of intrinsic
-source parameters will have an inner product that is $\geqslant 0.97$ with at
-least one template. Such a template bank is said to have a {\em minimum match}
-of 0.97.
+\mathbf\Theta_{\numtmps/2-1}$. These are chosen such that any possible signal
+will have an inner product $\geqslant 0.97$ with at least one template.
+Such a template bank is said to have a {\em minimum match} of 0.97~\citep{Owen:1998dk}.
 
 Filtering the detector data involves a convolution of the data with the
 templates.  For a unit-normalized template $h_i[k]$ and whitened detector data
@@ -44,11 +45,7 @@ $x[k]$, both sampled at a rate $f^0$, the result can be interpreted as the
 	\label{eq:SNRTD}
 	\rho_i [k] = \sum_{n=0}^{N-1} h_{i}[n] x [k-n].
 \end{equation}
-The coefficients for the $\numtmps$ filters are known as templates, 
-and are formed by discretizing and time reversing the
-waveforms and weighting them by the inverse amplitude spectral density of the
-detector's noise. The data from the detector are whitened and convolved with each
-template to produce $\numtmps$ \SNR\ time series. Local peak-finding across time and
+This results in $\numtmps$ \SNR\ time series. Local peak-finding across time and
 templates determines detection candidates.
 
 Equation~(\ref{eq:SNRTD}) can be implemented in the time-domain as an
