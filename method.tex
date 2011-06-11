@@ -1,11 +1,11 @@
 \section{Early warning searches for compact binary coalescence}
 \label{sec:method}
 
-In this section we describe a decomposition of the \CBC{} waveform space that
+In this section we describe a decomposition of the \CBC{} signal space that
 reduces time-domain (\TD) filtering cost sufficiently to allow for the
 possibility of \earlywarning\ detection with modest computing requirements.  We
 expand on the ideas of \citet{Marion2004, Buskulic2010} that describe a
-multi-band decomposition of the compact binary parameter space that resulted in
+multi-band decomposition of the compact binary signal space that resulted in
 a search with minutes latency in \LIGO{}'s S6 and Virgo's VSR3 joint science
 runs~\citep{HugheyGWPAW2011}.  We combine this with the \SVD\ rank-reduction
 method of \citet{Cannon:2010p10398} that exploits the redundancy of
@@ -26,7 +26,7 @@ Searches for inspiral signals typically employ matched filter
 banks that discretely sample the possible intrinsic parameters~\citep{findchirppaper}.
 To construct a template bank, templates are chosen with
 $\numtmps/2$ discrete signal parameters $\mathbf\Theta_0,\, \mathbf\Theta_1,\, \dots,\,
-\mathbf\Theta_{\numtmps/2-1}$ to assure a bounded loss of \SNR~ for signals given by
+\mathbf\Theta_{\numtmps/2-1}$ to assure a bounded loss of \SNR\ for signals given by
 intermediate values of the intrinsic parameters~\citep{Owen:1998dk}. That
 is, any possible signal within a given range of intrinsic
 source parameters will have an inner product that is $\geqslant 0.97$ with at
