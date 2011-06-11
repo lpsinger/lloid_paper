@@ -73,9 +73,9 @@ The first transformation is to chop the \TD{} templates up into \emph{time
 slices}.  Since each template slice is disjoint in time, the resulting set for
 a single template is orthogonal.  Given the chirp-like structure of the
 templates, the early time slices have significantly lower bandwidth and can be
-safely downsampled.  The downsampling reduces the number of data samples by a
-factor of $\sim$100 from the early part of the waveform and allows the filters
-to be evaluated at about $\sim$$1/100^\mathrm{th}$ the sample rate. Since the
+safely downsampled.  Downsampling reduces the total number of filter coefficients
+by a factor of $\sim$100 by treating the earliest part of the waveform
+at $\sim$$1/100$ of the full sample rate. Since the
 computational cost of \TD\ filtering is quadratic in the filter length, this
 amounts to more than a factor of $10^4$ reduction in the floating-point operations
  per second required to filter the early part of the waveform.
