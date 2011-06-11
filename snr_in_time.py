@@ -44,7 +44,7 @@ def snr_to_num(fracsnr, number=40):
 	return number * (fracsnr)**3
 
 # Start a new figure
-fig = pylab.figure(figsize=(3,2.5))
+fig = pylab.figure(figsize=(3,2))
 
 markers = ['k-', 'k--', 'k:']
 
@@ -87,7 +87,7 @@ for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt'], ['zero det'
 	numminus = snr_to_num(snr1, number=.4)
 
 	# generate the figure
-	ax1 = fig.add_subplot(1,1,1, adjustable='box', aspect=0.5)
+	ax1 = fig.add_subplot(1,1,1, adjustable='box')
 	pylab.loglog(t, num, markers[i], lw=2, label=label)
 	pylab.loglog(t, numminus, markers[i], lw=0.5)
 	pylab.loglog(t, numplus, markers[i], lw=0.5)
@@ -96,9 +96,9 @@ for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt'], ['zero det'
 
 pylab.grid()
 #pylab.legend(loc='lower left')
-pylab.ylabel(r'Observable NS-NS systems / yr')
-pylab.xlabel(r'Time before coalescence, $t$ (s)')
-pylab.subplots_adjust(bottom=0.05,top=0.95,left=0.1,right=0.95)
+pylab.ylabel(r'detections yr$^{-1}$')
+pylab.xlabel(r'time before coalescence, $t$ (s)')
+pylab.subplots_adjust(bottom=0.2,top=0.95,left=0.2,right=0.95)
 pylab.xlim([0.01,1000])
 pylab.ylim([.1, 1000])
 pylab.savefig(sys.argv[1])
