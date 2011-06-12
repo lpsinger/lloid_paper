@@ -53,44 +53,40 @@ extended the \gstreamer\ framework by developing a library called
 \gstlal\footnote{\url{https://www.lsc-group.phys.uwm.edu/daswg/projects/gstlal.html}}
 that provides elements for \GW{} data analysis.
 
-\subsubsection{Decimation}
+\paragraph{Decimation}
 
 The whitened detector data is reduced to successively
 lower sample rates by decimation. Decimation involves applying an anti-aliasing
 filter to the data, and then down-sampling by deleting samples.  We use a
 192-tap \fir\ decimator provided by \gstreamer{}'s {\tt audioresample}
 element.  The detector data is provided at every power-of-two sample rate
-required by the time slices described in \eqref{eq:time-slices}. Next,
-these decimated data streams are fed into parallel \fir\ filter banks.
+required by the time slices described in \eqref{eq:time-slices}.  At this point,
+the \gstreamer\ pipeline splits into several parallel branches to handle each
+time slice.  Next, these decimated data streams are fed into parallel \fir\ filter banks.
 
-\subsubsection{\fir\ filters}
+\paragraph{Basis filters}
 
-The \fir\ filtering is implemented using a \gstlal\ element called {\tt
-lal\_firbank}, which produces $N$ channels of filter output from an $N\times M$ matrix of
-\fir\ filter coefficients, representing the \SVD{} basis filters in our application.  This element is used in parallel branches in the
-pipeline to implement the \SVD\ basis filters in each time
-slice.  Rather than implement the time-sliced templates as zero-padded \fir\
-filters as described in \eqref{eq:time-slices} we instead implement them as shorter
-filters that contain only the nonzero samples.  Adding the appropriate time
-offset to the filter output later in the pipeline makes up for the lack of
-explicit zero-padding.
+The basis filters are implemented using a \gstlal\ element called {\tt
+lal\_firbank}, which provides a single input, multiple output bank of \fir\ filters
+from a matrix of filter coefficients.  Several instances of {\tt lal\_firbank}
+execute in parallel to handle each of the time slices.  Filter coefficients are taken
+from the nonzero samples of the time slices in equation~\eqref{eq:time-sliced-templates},
+with the zero-padding effectively accomplished by appropriate delays.
 
-\subsubsection{Reconstruction}
+\paragraph{Reconstruction}
 
-From the outputs of the \SVD\ basis filters, we form the partial \SNR{}s for each time 
-slice by multiplying by the reconstruction matrices.  This is accomplished by connecting 
-the \texttt{gstlal} element \texttt{lal\_matrixmixer} to the output of
-\texttt{lal\_firbank}.
+From the outputs of the \SVD\ basis filters, we form the partial \SNR streams for
+each time  slice by multiplying by the reconstruction matrices.  This is accomplished
+with the \texttt{gstlal} element \texttt{lal\_matrixmixer}.
 
-\subsubsection{Interpolation}
+\paragraph{Interpolation}
 
 In order to form the early-warning output from each time slice, we have to add
 the partial \SNR\ to the early-warning output from the subsequent time slices.
 If the next time slice does not have the same sample rate, its output must
-first be interpolated.  This is done using the same \gstreamer\ element as was
-used for decimation, {\tt audioresample}.  
+first be interpolated.  The \gstreamer\ element {\tt audioresample} is used here.  
 
-\subsubsection{\SNR\ accumulation}
+\paragraph{\SNR\ accumulation}
 
 The early-warning output for each time slice is formed by accumulating
 interpolated early-warning output from the subsequent time slice.  This process
