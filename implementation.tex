@@ -90,16 +90,16 @@ the \texttt{gstlal} element \texttt{lal\_matrixmixer} to the output of
 
 \subsubsection{Interpolation}
 
-In order to form the early-warning \SNR\ from each time slice, we have to add
-the partial \SNR\ to the early-warning \SNR\ from the subsequent time slices.
+In order to form the early-warning output from each time slice, we have to add
+the partial \SNR\ to the early-warning output from the subsequent time slices.
 If the next time slice does not have the same sample rate, its output must
 first be interpolated.  This is done using the same \gstreamer\ element as was
 used for decimation, {\tt audioresample}.  
 
 \subsubsection{\SNR\ accumulation}
 
-The early-warning \SNR\ for each time slice is formed by accumulating
-interpolated early-warning \SNR\ from the subsequent time slice.  This process
+The early-warning output for each time slice is formed by accumulating
+interpolated early-warning output from the subsequent time slice.  This process
 continues until we have worked our way to the \SNR\ of the original templates
 at the full sample rate $f^0$.  In this way, the \lloid\ algorithm and this
 implementation naturally leads to a simple early-warning pipeline.

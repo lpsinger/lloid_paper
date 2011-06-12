@@ -228,26 +228,30 @@ rank reduction demonstrated in \citep{Cannon:2010p10398} by nearly an order
 of magnitude.  In the next section we describe how we form our early-warning
 detection statistic using the time slice decomposition and the \SVD.
 
-\subsection{Early warning \SNR }
+\subsection{Early-warning output}
 
 In the previous two sections we have described two transformations that greatly
-reduce the burden of filtering waveforms from the the compact binary parameter space and make \TD\
-filtering of the data possible.  We are now prepared to define the early
-warning \SNR\ and to comment on the computational cost of evaluating it.  But
-first, we will introduce some notation referring to the decimation of data,
-which means reducing the sample rate after low-pass filtering,
+reduce the computational burden of \TD\ filtering.  We are now prepared to define
+our detection statistic, the early-warning output, and to comment on the computational
+cost of evaluating it.
+
+First, the sample rate of the detector data must be decimated to match sample rates
+with each of the time slices.  We will denote the decimated detector data streams using
+a superscript $^s$ to indicate the time slices to which they correspond, and the
+operator $H^\shortdownarrow$ will represent the appropriate decimation filter:
 \begin{equation*}
 \label{eq:decomp}
-	x^{s+1}[k] = \left( H^\shortdownarrow x^s\right)[k] \,,
+	x^{s+1}[k] = \left( H^\shortdownarrow x^s\right)[k].
 \end{equation*}
-and notation referring to the interpolation of data to increase the sample rate,
+We shall use the symbol $H^\shortuparrow$ to represent an interpolation filter,
 \begin{equation*}
-	x^{s}[k] = \left( H^\shortuparrow x^{s+1}\right)[k] \,.
+	x^{s}[k] = \left( H^\shortuparrow x^{s+1}\right)[k].
 \end{equation*}
 
-From the combination of transformations to the compact binary templates defined
-in equation \eqref{eq:time-sliced-templates} and \eqref{eq:svddecomp} we define
-the early-warning filter output accumulated up to time slice $s$ as,
+From the combination of the time slice decomposition in
+equation~(\ref{eq:time-sliced-templates}) and the \SVD\ defined in
+equation~(\ref{eq:svddecomp}), we define the early-warning output accumulated
+up to time slice $s$ using the recursion relation,
 %
 % orthogonal decomposition filtering
 %
@@ -270,9 +274,8 @@ the early-warning filter output accumulated up to time slice $s$ as,
 \end{multline}
 %
 %
-This quantity is related to the early-warning \SNR{} by the normalization
-of the partial filter defined by the present time slice, which may be computed
-in advance. \editorial{Chad: are we happy with that statement?}
+Observe that the early-warning output for time slice 0, $\rho_i^0[k]$,
+approximates the \SNR\ of the original templates.
 %
 %
 \begin{figure*}[h!]
@@ -293,9 +296,8 @@ much less than the number of output channels.}
 \end{figure*}
 %
 %
-The signal flow diagram in figure~\ref{fig:pipeline} illustrates how this
-recursion relation can be realized as a multi-rate filter network with outputs for
-each of the early-warning \SNR{}s.
+The signal flow diagram in figure~\ref{fig:pipeline} illustrates this
+recursion relation as a multirate filter network with a number of early-warning outputs.
 
 In the next section we compute the expected computational cost scaling of this
 decomposition and compare it with the brute-force \TD{} implementation of
