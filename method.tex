@@ -69,21 +69,22 @@ involves two transformations of the templates that produce a
 network of orthogonal filters that is far more computationally
 efficient than the original bank of matched filters.
 
-The first transformation is to chop the \TD{} templates up into \emph{time
-slices}.  Since each template slice is disjoint in time, the resulting set for
-a single template is orthogonal.  Given the chirp-like structure of the
-templates, the early time slices have significantly lower bandwidth and can be
-safely downsampled.  Downsampling reduces the total number of filter coefficients
-by a factor of $\sim$100 by treating the earliest part of the waveform
-at $\sim$$1/100$ of the full sample rate. Since the
-computational cost of \TD\ filtering is quadratic in the filter length, this
-amounts to more than a factor of $10^4$ reduction in the floating-point operations
- per second required to filter the early part of the waveform.
+The first transformation is to chop the templates into disjointly supported
+intervals, or \emph{time slices}.  Since the time slices of a given template
+are disjoint in time, they are orthogonal with respect to time.  Given the
+chirp-like structure of the templates, the ``early'' (lowest frequency) time
+slices have significantly lower bandwidth and can be safely downsampled.
+Downsampling reduces the total number of filter coefficients by a factor of
+$\sim$100 by treating the earliest part of the waveform at $\sim$$1/100$ of
+the full sample rate.  Together, the factor of 100 reduction in the number of
+filter coefficients and the factor of 100 reduction in the sample rate save a
+factor of $\sim 10^4$ floating point operations per second (\flops) over the
+original (full sample rate) templates.
 
 However, the resulting filters are still not
-orthogonal across the mass parameter space, and are in fact highly redundant.
-We use the \SVD{} to approximate the template bank by a set of orthogonal filters
-~\citep{Cannon:2010p10398}.  We find that this approximation
+orthogonal across the parameter space, and are in fact highly redundant.
+We use the \SVD{} to approximate the template bank by a set of orthogonal
+\emph{basis filters}~\citep{Cannon:2010p10398}.  We find that this approximation
 reduces the number of filters needed by another factor of
 $\sim$100.  The combined methods reduce the number of floating point operations
 to the level where they are competitive with the conventional high-latency \FD\
