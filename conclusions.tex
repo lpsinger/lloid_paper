@@ -2,35 +2,34 @@
 \label{sec:conclusions}
 
 We have demonstrated a computationally feasible procedure for the rapid and
-even preemptive detection of \GW{}s emitted during the coalescence
+even early-warning detection of \GW{}s emitted during the coalescence
 of neutron stars and stellar-mass black holes. Our method is as fast as
-standard \fft{} convolutions but allows for zero latency, sample-in-sample-out
+standard \fft{} convolutions but allows for latency-free, realtime
 operation.  Our search targets are expected to produce prompt electromagnetic
 signals and may be the progenitors of some short hard gamma-ray bursts.  Rapid
 alerts to the broader astronomical community will improve the chances of
 detecting an electromagnetic counterpart in bands from gamma-rays down to
-radio.  We anticipate requiring $\sim$100 modern multi-core computers to
-analyze a four-detector network of \GW{} data for binary neutron
-stars and stellar-mass black holes.  This is well within the current computing
-capabilities of the \LIGO{} Data Grid~\citep{LDG}. In the future, this could be
-improved upon further by conditionally reconstructing the \SNR{} time-series
+radio.  We anticipate requiring $\sim 4 \times 10 = 40$ modern multi-core computers to
+search for binary neutron stars using coincident \GW\ data from a four-detector network.
+This is well within the current computing capabilities of the \LIGO{} Data Grid%
+\footnote{\url{https://www.lsc-group.phys.uwm.edu/lscdatagrid/}}. In the future, this
+could be improved upon further by conditionally reconstructing the \SNR{} time-series
 only during times when a composite detection statistic crosses a
 threshold~\citep{svd-compdetstat}.
 
 The algorithm we described has no intrinsic latency.  However, there are
 fundamental and practical latencies associated with the analysis and detection
-procedure. For example, the \LIGO{} detectors, data acquisition is synchronized
-to a 1/(16~Hz) cadence, introducing an up-front latency~\citep{Bork2001}. Data
-aggregation from the observatories will travel over various networks, each
-capable of high bandwidth but perhaps only modest latency.  This could amount to
-a similar latency of $\sim$100 ms.  Lastly, unless a real-time infrastructure
-is adopted post data acquisition, it is likely that there will be an inherent
-latency introduced by such infrastructure.  We have shown a prototype
-implementation of \lloid{} using the open source signal processing software
+procedure. For example, the \LIGO{} data acquisition records science data in 1/16~s
+blocks~\citep{Bork2001}. Data must also be aggregated from all of the \GW\
+observatories using global computer networks capable of high bandwidth but perhaps only
+modest latency.  This could introduce a latency of $\sim$100~ms.  Lastly, unless a
+realtime infrastructure is adopted post data acquisition, it is likely that there will be 
+an inherent latency introduced by the software architecture itself.  We have shown 
+prototype implementation of \lloid{} using the open source signal processing software
 \gstreamer\ and \gstlal. Significant work would have to be done in order to
-improve upon the latency capability of our implementation, for example, more
-tightly integrating analysis and data acquisition. This should be considered
-for third-generation detector design.
+improve upon the latency of our implementation, including tighter integration between
+data acquisition and analysis. This should be considered for third-generation detector
+design.
 
 Although we have demonstrated a feasible method for advance detection we have
 not explored the accuracy of sky localization that is possible before merger.
