@@ -92,6 +92,7 @@ matched filter approach.  In the remainder of this section we describe the
 \lloid\ algorithm in detail and provide some basic computational cost scaling.
 
 \subsubsection{Selectively reducing the sample rate of the data and templates}
+\label{sec:time-slices}
 
 The first step of our proposed method is to divide the templates into time
 slices in a \TD{} analogue to the \FD{} decomposition described
@@ -198,6 +199,7 @@ $s^{\mathrm{th}}$ filter.}
 \end{comment}
 
 \subsubsection{Reducing the number of filters with the \SVD{}}
+\label{sec:svd}
 
 As noted previously, the template banks used in inspiral searches are by design
 highly correlated.  \citet{Cannon:2010p10398} showed that applying the \SVD\

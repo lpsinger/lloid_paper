@@ -57,22 +57,31 @@ We use this template bank and decomposition for the remainder of this section.
 
 \subsection{Measured \SNR\ loss}
 
-We expect two known contributions to the \SNR\ loss to arise in our
-implementation of the \lloid\ algorithm.  The first is the \SNR\ loss due to
-the truncation of the \SVD\ basis and estimates for it
-exist~\citep{Cannon:2010p10398}.  The second comes from non ideal
-implementations of re-sampling that cause signal loss.  The \SNR\ loss is to be
-compared with the mismatch of 0.03 that arises from the discreteness of the
-template bank.  We will consider a target \SNR\ loss to be a factor of 10
-smaller than this, i.e., no more than $\sim$0.003.
+The \SNR\ loss is to be compared with the mismatch of 0.03 that arises from the
+discreteness of template bank designed for a minimum match of 0.97.  We will consider
+an acceptable \SNR\ loss to be a factor of 10 smaller than this, that is, no more
+than 0.003.
 
-It is also within reason that some \SNR\ loss could arise from other
-suboptimalities of implementation in our test pipeline.  To gauge
-accurately how well the pipeline is performing we tested the response to a
-unit impulse.  By taking the inner product of the impulse response for each channel
-with the template, we can gauge very accurately the loss in
-\SNR\ due to the approximations we have made and any inadequacies in
-our implementation.
+We expect two main contributions to the \SNR\ loss to arise in our
+implementation of the \lloid\ algorithm.  The first is the \SNR\ loss due to
+the truncation of the \SVD\ at $L^s < M$ basis templates.  As remarked upon in
+section~\ref{sec:svd} and \citet{Cannon:2010p10398}, this effect is measured by
+the \SVD\ tolerance.  The second comes from the limited bandwidth of the
+interpolation filters used to match the sample rates of the partial \SNR\ streams.
+\SNR\ loss could also arise if the series rather than parallel connection of the
+decimation and interpolation filters reduces their bandwidth measurably,
+if the decimation and interpolation filters do not have perfectly uniform phase
+response, or if there is an unintended subsample time delay at any stage.
+
+To measure the accuracy of our \gstreamer\ implemention of \lloid\ including all of
+the above potential sources of \SNR\ loss, we conducted impulse response tests.  The
+\gstreamer\ pipeline was presented with an input consisting of a unit impulse.  By
+recording the outputs, we can effectively ``play back'' the templates.  These impulse
+responses will be similar, but not identical, to the original, nominal templates.  By
+taking the inner product between the impulses responses for each output 
+channel with the corresponding nominal template, we can gauge exactly how much \SNR\
+is lost due to the approximations in the \lloid\ algorithm and any of the technical
+imperfections mentioned above.
 
 \subsubsection{Effect of the \SVD\ tolerance}
 
