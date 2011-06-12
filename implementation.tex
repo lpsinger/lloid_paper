@@ -34,13 +34,11 @@ the reconstruction matrix, and the time-slice boundaries are all saved to disk.
 
 \subsection{Filtering stage}
 
-The \lloid\ algorithm could be used in a true sample-in-sample-out real-time
-system.  However, such a system would likely require integration directly into
-the data acquisition and storage system of the \GW{}
-observatories.  A slightly more modest goal is to leverage existing low-%
-latency, but not real-time, signal processing infrastructure in order to
-implement the \lloid\ algorithm.  For the near-term this should be a viable 
-solution for searches with order seconds of intrinsic latency.
+The \lloid\ algorithm is amenable to truly latency free, realtime implementation.
+However, such a realtime search pipeline would likely require integration directly into
+the data acquisition and storage system of the \LIGO\ observatories.  A slightly more 
+modest goal is to leverage existing low-latency, but not real-time, signal processing
+software in order to implement the \lloid\ algorithm.
 
 We have implemented a prototype of the low-latency filtering stage using an
 open-source signal processing environment called
