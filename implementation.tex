@@ -60,7 +60,7 @@ lower sample rates by decimation. Decimation involves applying an anti-aliasing
 filter to the data, and then down-sampling by deleting samples.  We use a
 192-tap \fir\ decimator provided by \gstreamer{}'s {\tt audioresample}
 element.  The detector data is provided at every power-of-two sample rate
-required by the template time slices described in \eqref{eq:time-slices}. Next,
+required by the time slices described in \eqref{eq:time-slices}. Next,
 these decimated data streams are fed into parallel \fir\ filter banks.
 
 \subsubsection{\fir\ filters}
