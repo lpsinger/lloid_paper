@@ -54,7 +54,7 @@ finite impulse response (\fir) filter, requiring $\mathcal O(\numtmps
 much more computationally efficient to use the convolution theorem and the
 \fft\ to implement fast convolution in the frequency domain, requiring only
 $\mathcal O(\numtmps \lg \tmpsamps)$ operations per sample but incurring
-a latency comparable to the length of the templates.
+a latency of $\gtrsim \tmpsamps$ samples.
 
 
 \subsection{The \lloid\ method}
