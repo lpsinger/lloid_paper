@@ -318,14 +318,14 @@ this section.
 \tableline\tableline
 & Definition \\
 \tableline
-\numtmps		& num. of templates \\
-\tmpsamps	& num. of samples per template \\
-\numslices	& num. of time slices \\
-\numsvdtmps	& num. of orthogonal templates in time slice $s$ \\
-\slicessamps	& num. of samples in decimated time slice $s$\\
 $f^s$		& sample rate in time slice $s$ \\
-$N^\shortdownarrow$ & num. of coefficients in decimation filter \\
-$N^\shortuparrow$ & num. of coefficients in interpolation filter \\
+\numtmps		& num. templates \\
+\tmpsamps	& num. samples per template \\
+\numslices	& num. time slices \\
+\numsvdtmps	& num. basis templates in time slice $s$ \\
+\slicessamps	& num. samples in decimated time slice $s$\\
+$N^\shortdownarrow$ & num. coefficients in decimation filter \\
+$N^\shortuparrow$ & num. coefficients in interpolation filter \\
 \tableline
 \end{tabular}
 \end{table}
@@ -337,9 +337,19 @@ The conventional \TD{} method consists of a bank of \fir{} filters, or sliding-w
 
 \subsubsection{Conventional \FD{} method}
 
-The most common \FD{} method is known as the \emph{overlap-save} algorithm, described in \citet{numerical-recipes-chapter-13}.  It entails splitting the input into blocks of $D$ samples, $D > \tmpsamps$, each block overlapping the previous one by $D - \tmpsamps$ samples.  For each block, the algorithm computes the forward \fft\ of the data and the templates, multiplies them, and then computes the reverse \fft.
+The most common \FD{} method is known as the \emph{overlap-save} algorithm, described in
+\citet{numerical-recipes-chapter-13}.  It entails splitting the input into blocks of $D$
+samples, $D > \tmpsamps$, each block overlapping the previous one by $D - \tmpsamps$
+samples.  For each block, the algorithm computes the forward \fft\ of the data and
+each of the templates, multiplies them, and then computes the reverse \fft.
 
-Modern implementations of the \fft, such as the ubiquitous \texttt{fftw}, require about $2 \fftblock \lg \fftblock$ operations to evaluate a real transform of size $\fftblock$~\citep{Johnson:2007p9654}.  Including the forward transform of the data and $M$ reverse transforms for all of the templates, the \fft\ costs $2 (\numtmps + 1) \fftblock \lg \fftblock$ operations per block.  The multiplication of the transforms adds a further $2 \numtmps \fftblock$ operations per block.  Since each block produces $\fftblock - \tmpsamps$ usable samples of output, the overlap-save method requires
+Modern implementations of the \fft, such as the ubiquitous \texttt{fftw}, require about
+$2 \fftblock \lg \fftblock$ operations to evaluate a real transform of size
+$\fftblock$~\citep{Johnson:2007p9654}.  Including the forward transform of the data and
+$M$ reverse transforms for each of the templates, the \fft\ costs $2 (\numtmps + 1)
+\fftblock \lg \fftblock$ operations per block.  The multiplication of the transforms adds
+a further $2 \numtmps \fftblock$ operations per block.  Since each block produces
+$\fftblock - \tmpsamps$ usable samples of output, the overlap-save method requires
 $$
 f^0 \cdot \frac{2 (\numtmps + 1) \lg \fftblock + 2 \numtmps}{1 - \tmpsamps/\fftblock} \; \mathrm{\flops} \,.
 $$
@@ -352,11 +362,11 @@ linear transformation from the $\numsvdtmps$ basis templates to the $\numtmps$ t
 
 The computational cost of the decimation of the detector data is a little bit more subtle.  Decimation is achieved by applying an \fir\ anti-aliasing filter and then downsampling, or deleting samples in order to reduce the sample rate from $f^{s-1}$ to $f^s$.  Naively, an anti-aliasing filter with $N^\shortdownarrow$ coefficients should demand $2 N^\shortdownarrow f^{s-1}$ \flops.  However, it is necessary to evaluate the anti-aliasing filter only for the fraction $f^s / f^{s-1}$ of the samples that will not be deleted.  Consequently, an efficient decimator that requires only $2 N^\shortdownarrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 N^\shortdownarrow f^s$ \flops\ is possible.
 
-The story is similar for the interpolation filters used to change the sample rates of the partial \SNR{} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a low-pass filter with $N^\shortdownarrow$ coefficients.  The low-pass filter requires $2 M N^\shortdownarrow f^{s-1}$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^{s-1}/f$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 M N^\shortuparrow f^s$ \flops.
+The story is similar for the interpolation filters used to match the sample rates of the partial \SNR{} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a low-pass filter with $N^\shortdownarrow$ coefficients.  The low-pass filter requires $2 M N^\shortdownarrow f^{s-1}$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^{s-1}/f$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 M N^\shortuparrow f^s$ \flops.
 
 Taking into account the decimation of the detector data, the orthogonal \fir\ filters, the reconstruction of the time-sliced templates, the interpolation of \SNR\ from previous time slices, and the accumulation of \SNR, in total the \lloid\ algorithm requires
-$$
-\sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s + 2\sum_{\mathclap{f \in \{f^s\}}} \left( N^\shortdownarrow + \numtmps N^\shortuparrow \right)
-$$
+\begin{multline*}
+\sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s \\ + 2\sum_{\mathclap{f \in \{f^s\}}} \left( N^\shortdownarrow + \numtmps N^\shortuparrow \right) f^s
+\end{multline*}
 \flops.  The second sum is carried out over the set of distinct sample rates rather than over the time slices themselves.
 
