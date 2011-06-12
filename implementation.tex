@@ -5,8 +5,8 @@ In this section we describe an implementation of the \lloid\ method described
 in section \ref{sec:method} suitable for rapid \GW{}
 searches for \CBC{}s.  The \lloid\ method requires several
 computations that can be completed before the analysis is underway.  Thus
-we divide the procedure into two stages 1) an off-line planning stage and 2) an
-online, low-latency filtering stage.  The off-line stage can be done before the
+we divide the procedure into an offline planning stage and an
+online, low-latency filtering stage.  The offline stage can be done before the
 analysis is started and updated asynchronously, whereas the online stage must
 keep up with the detector output and produce search results as rapidly as
 possible.  In the next two subsections we describe what these stages entail.
