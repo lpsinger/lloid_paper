@@ -91,7 +91,7 @@ to the level where they are competitive with the conventional high-latency \FD\
 matched filter approach.  In the remainder of this section we describe the
 \lloid\ algorithm in detail and provide some basic computational cost scaling.
 
-\subsection{Selectively reducing the sample rate of the data and templates}
+\subsubsection{Selectively reducing the sample rate of the data and templates}
 
 The first step of our proposed method is to divide the templates into time
 slices in a \TD{} analogue to the \FD{} decomposition described
@@ -197,7 +197,7 @@ $s^{\mathrm{th}}$ filter.}
 \end{table}
 \end{comment}
 
-\subsection{Reducing the number of filters with the \SVD{}}
+\subsubsection{Reducing the number of filters with the \SVD{}}
 
 As noted previously, the template banks used in inspiral searches are by design
 highly correlated.  \citet{Cannon:2010p10398} showed that applying the \SVD\
@@ -228,7 +228,7 @@ rank reduction demonstrated in \citep{Cannon:2010p10398} by nearly an order
 of magnitude.  In the next section we describe how we form our early-warning
 detection statistic using the time slice decomposition and the \SVD.
 
-\subsection{Early-warning output}
+\subsubsection{Early-warning output}
 
 In the previous two sections we have described two transformations that greatly
 reduce the computational burden of \TD\ filtering.  We are now prepared to define
