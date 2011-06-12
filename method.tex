@@ -108,7 +108,7 @@ h_{i}[k] = \sum_{s=0}^{S-1}
 \end{equation}
 %
 for $S$ integers $\{f^0 t^s\}$ such that $0  = f^0 t^0 < f^0 t^1 < \cdots < f^0
-t^S = N$.  The outputs of these new time-slice filters
+t^S = N$.  The outputs of these new time-sliced filters
 form an ensemble of partial \SNR{} streams.  By linearity of the filtering
 process, these partial \SNR\ streams can be suitably summed to reproduce the
 \SNR\ of the full template.
@@ -132,7 +132,7 @@ Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G
 M_\odot / c^3 \approx 5 \upmu\mathrm{s}$) and $t$ is the time relative to the
 coalescence of the binary~\citep{findchirppaper, kidder1992}.
 This monotonic time-frequency relationship allows us
-to choose time-slice boundaries that require substantially less bandwidth at
+to choose time slice boundaries that require substantially less bandwidth at
 early times in the inspiral.
 
 In any given interval of time, the filters are band-limited across the enitre
@@ -168,13 +168,13 @@ h_{i}^{s}[k] \equiv
 	\end{cases}
 \end{equation}
 %
-We note that the time-slice decomposition in equation~(\ref{eq:time-slices}) is
+We note that the time slice decomposition in equation~(\ref{eq:time-slices}) is
 manifestly orthogonal since the time slices are disjoint in time.  In the next
 section we examine how to reduce the number of filters within each time slice
 via \SVD{} of the time-sliced templates.
 
 \begin{comment}
-An example time-slice design satisfying these constraints for a $1.4 - 1.4 \,
+An example time slice design satisfying these constraints for a $1.4 - 1.4 \,
 M_{\odot}$ binary is shown in table~\ref{table:time_slices}.
 %
 \begin{table}[h!]
@@ -199,31 +199,34 @@ $s^{\mathrm{th}}$ filter.}
 
 \subsection{Reducing the number of filters with the \SVD{}}
 
-As described previously, the template banks are, by design, highly correlated.
-It is possible to greatly reduce the number of filters required to achieve a
-particular minimum match by designing an appropriate set of \SVD\ {\em
-basis templates}, previously demonstrated
-in \citet{Cannon:2010p10398}.  Similarly, the time-sliced templates described
-above can be approximated to arbitrary accuracy by expansion into a set of
-\SVD\ \emph{basis templates}, $u_l^s[k]$, related to the original time
-sliced templates through the \emph{reconstruction matrix},
-$v_{il}^s\sigma_l^s$:
+As noted previously, the template banks used in inspiral searches are by design
+highly correlated.  \citet{Cannon:2010p10398} showed that applying the \SVD\
+to inspiral template banks greatly reduces the number of filters required to achieve a
+particular minimum match.  A similar technique can be applied to the time-sliced
+templates as defined in equation~\ref{eq:time-sliced-templates} above.  The \SVD\
+is a matrix factorization that takes the form
 %
 \begin{equation}
 h_i^s[k] = \sum_{\mathclap{l=0}}^{\mathclap{M-1}} v_{il}^s \sigma_l^s u_l^s[k] \approx \sum_{\mathclap{l=0}}^{\mathclap{L^s-1}} v_{il}^s \sigma_l^s u_l^s[k].
 \label{eq:svddecomp}
 \end{equation}
+where $u_l^s[k]$ are orthonormal \emph{basis templates} related to the original
+time-sliced templates through the \emph{reconstruction matrix}, $v_{il}^s\sigma_l^s$.
+The expectation value of the fractional loss in \SNR\ is the \SVD\ tolerance, given by
 %
-The parameter $\numsvdtmps$ is the number of basis templates that are kept in
-the approximation.  This determines the \SVD\ tolerance, which affects the
-\SNR\ loss due to the approximation.  The authors of \citet{Cannon:2010p10398}
-showed that high accuracy could be achieved with far fewer basis templates than
-templates in the original template bank.  We find that when combined with the
-time-slice decomposition, the number of basis templates \numsvdtmps\ is much
-smaller than the original number of templates \numtmps\ and improves on
-\citep{Cannon:2010p10398} by nearly an order of magnitude.  In the next section
-we describe how we form our early-warning detection statistic using the time-slice
-decomposition and the \SVD.
+\begin{equation*}
+\left[ \sum_{\mathclap{l=0}}^{\mathclap{L^s-1}} \left( \sigma_l^s \right)^2 \right]\left[ \sum_{\mathclap{l=0}}^{\mathclap{M-1}} \left( \sigma_l^s \right)^2 \right]^{-1},
+\end{equation*}
+%
+determined by the number $\numsvdtmps$ of basis templates that are kept in
+the approximation.  The authors of \citet{Cannon:2010p10398}
+showed that highly accurate approximations of inspiral template banks could be
+achieved with $L^s \ll M$.  We find that when combined with the
+time slice decomposition, the number of basis templates \numsvdtmps\ is much
+smaller than the original number of templates \numtmps\ and improves on the
+rank reduction demonstrated in \citep{Cannon:2010p10398} by nearly an order
+of magnitude.  In the next section we describe how we form our early-warning
+detection statistic using the time slice decomposition and the \SVD.
 
 \subsection{Early warning \SNR }
 
