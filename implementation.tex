@@ -16,25 +16,21 @@ possible.  In the next two subsections we describe what these stages entail.
 The planning stage begins with choosing templates that cover the space of
 source parameters with a hexagonal grid~\citep{PhysRevD.76.102004} in order to
 satisfy a minimum match criterion.  This assures a prescribed maximum loss in
-\SNR\ for signals that fall between the chosen templates.  Typically the
-minimum match is 0.97 corresponding to a maximum mismatch of 0.03.  Next, the
-templates are subdivided into groups of neighbors called \emph{sub-banks} that
-are appropriately sized so that each bank can be efficiently handled by a
-single computer.  The neighbors are chosen to have comparable chirp mass, which
-produces sub-banks with similar time-frequency evolution.  Dividing the source
-parameter space into smaller sub-banks reduces the computational cost of the
-\SVD{} and is the approach considered
-in \citet{Cannon:2010p10398}.  We choose time-slice boundaries as in
-equation~\eqref{eq:time-sliced-templates} such that all of the templates within
-a sub-bank are sub-critically sampled at progressively lower sample rates.
-Next, the templates within the sub-bank are realized as \fir\ filter
-coefficients.  For each time slice, the templates are downsampled to the
+\SNR\ for signals whose parameters do not lie on the hexagonal grid.  Next, the
+grid is partitioned into groups of neighbors called \emph{sub-banks} that
+are appropriately sized so that each sub-bank can be efficiently handled by a
+single computer.  The sub-banks are chosen to have comparable chirp mass, which
+groups together templates with similar time-frequency evolution.  Dividing the source
+parameter space into smaller sub-banks also reduces the offline cost of the
+\SVD{} and is the approach considered in \citet{Cannon:2010p10398}.  Next, we choose
+time-slice boundaries as in equation~\eqref{eq:time-sliced-templates} such that all
+of the templates within a sub-bank are sub-critically sampled at progressively lower
+sample rates.  For each time slice, the templates are downsampled to the
 appropriate sample rate.  Finally, the \SVD\ is applied to each time slice in
-the sub-bank in order to produce a set of orthogonal \fir\ filters and a
+the sub-bank in order to produce a set of orthonormal basis templates and a
 reconstruction matrix that maps them back to the original templates as
-described in equation~\eqref{eq:svddecomp}.  The downsampled orthogonal \fir\
-filter coefficients, the reconstruction matrix, and the time-slice boundaries
-are all saved to disk.
+described in equation~\eqref{eq:svddecomp}.  The downsampled basis templates,
+the reconstruction matrix, and the time-slice boundaries are all saved to disk.
 
 \subsection{Filtering stage}
 
