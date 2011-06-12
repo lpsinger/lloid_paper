@@ -107,9 +107,10 @@ target \SNR{} loss.
 \subsubsection{Effect of interpolation filter length}
 
 Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$, we studied the
-impact of the length $N^\shortuparrow$ of the interpolation filter.  The results are in
-figure \ref{fig:hist-interpolate}.  We find that a filter length of 16 is sufficient
-to meet our target mismatch of 0.003.
+impact of the length $N^\shortuparrow$ of the interpolation filter.  The mismatch as
+a function of $N^\shortuparrow$ is shown in figure~\ref{fig:hist-interpolate}.  The
+mismatch saturates at $\sim 2 \times 10^{-4}$ with $N^\shortuparrow = 64$.  We find
+that a filter length of 16 is sufficient to meet our target mismatch of 0.003.
 
 \begin{figure*}[b]
 	\subfloat[Mismatch versus \textsc{svd} tolerance]{\label{fig:hist-svd-tolerance}\includegraphics{figures/bw.pdf}}
