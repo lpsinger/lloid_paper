@@ -59,19 +59,20 @@ We use this template bank and decomposition for the remainder of this section.
 
 The \SNR\ loss is to be compared with the mismatch of 0.03 that arises from the
 discreteness of template bank designed for a minimum match of 0.97.  We will consider
-an acceptable \SNR\ loss to be a factor of 10 smaller than this, that is, no more
+an acceptable target \SNR\ loss to be a factor of 10 smaller than this, that is, no more
 than 0.003.
 
 We expect two main contributions to the \SNR\ loss to arise in our
 implementation of the \lloid\ algorithm.  The first is the \SNR\ loss due to
 the truncation of the \SVD\ at $L^s < M$ basis templates.  As remarked upon in
-section~\ref{sec:svd} and \citet{Cannon:2010p10398}, this effect is measured by
+\citet{Cannon:2010p10398} and section~\ref{sec:svd}, this effect is measured by
 the \SVD\ tolerance.  The second comes from the limited bandwidth of the
 interpolation filters used to match the sample rates of the partial \SNR\ streams.
-\SNR\ loss could also arise if the series rather than parallel connection of the
-decimation and interpolation filters reduces their bandwidth measurably,
-if the decimation and interpolation filters do not have perfectly uniform phase
-response, or if there is an unintended subsample time delay at any stage.
+The maximum possible bandwidth is determined by the length of the filter,
+$N^\shortuparrow$.  \SNR\ loss could also arise if the series rather than parallel
+connection of the decimation and interpolation filters reduces their bandwidth
+measurably, if the decimation and interpolation filters do not have perfectly uniform
+phase response, or if there is an unintended subsample time delay at any stage.
 
 To measure the accuracy of our \gstreamer\ implemention of \lloid\ including all of
 the above potential sources of \SNR\ loss, we conducted impulse response tests.  The
@@ -81,23 +82,27 @@ responses will be similar, but not identical, to the original, nominal templates
 taking the inner product between the impulses responses for each output 
 channel with the corresponding nominal template, we can gauge exactly how much \SNR\
 is lost due to the approximations in the \lloid\ algorithm and any of the technical
-imperfections mentioned above.
+imperfections mentioned above.  We call one minus this dot product the \emph{mismatch}
+relative to the nominal template.
 
 \subsubsection{Effect of \SVD\ tolerance}
 
-In this section we check the effect of the \SVD\ tolerance parameter defined
-in \citet{Cannon:2010p10398}.  By changing the tolerance of the reconstruction
-of the physical waveforms one directly affects the mismatch that results from
-the truncation of the orthogonal filter matrix.  The conditions presented here
-are more complicated than in the original work~\citep{Cannon:2010p10398} due to
-the inclusion of the time-sliced templates and re-sampling.  Figure~%
-\ref{fig:hist-svd-tolerance} demonstrates that it is possible to achieve
-typical \SNR\ losses of $\ll1\%$.  However, we do notice that the mismatch
-saturates with respect to the tolerance.  This could be the effect of the
-re-sampling, or another \SNR\ loss that we did not model or expect.  However the
-saturation is still an order of magnitude below our target mismatch of
-$\sim$0.003.  We find that an \SVD\ tolerance of $\left(1-10^{-4}\right)$ is
-adequate to achieve our target \SNR{} loss.
+We studied how the \SVD\ tolerance affected \SNR\ loss by holding
+$N^\shortuparrow = 192$ fixed as we vaired the \SVD\ tolerance from
+$\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.  The minimum, maximum, and median
+mismatch is shown as a function of \SVD\ tolerance in
+figure~\ref{fig:hist-svd-tolerance}.  As the \SVD\ tolerance increases toward 1, the
+\SVD\ becomes an exact matrix factorization, but the computational cost increases as
+the number of basis filters increases.  The conditions presented here are more
+complicated than in the original work~\citep{Cannon:2010p10398} due to the inclusion
+of the time-sliced templates and interpolation, though we still see that the average
+mismatch is approximately proportional to the \SVD\ tolerance down to
+$\left(1-10^{-4}\right)$.  However, as the \SVD\ tolerance becomes even higher, the
+mismatch seems to saturate around $2 \times 10^{-4}$.  This could be the effect of the
+interpolation, or an unintended technical imperfection that we did not model or expect.
+However, this is still an order of magnitude below our target mismatch of 0.003.  We
+find that an \SVD\ tolerance of $\left(1-10^{-4}\right)$ is adequate to achieve our
+target \SNR{} loss.
 
 \subsubsection{Effect of interpolation filter length}
 
