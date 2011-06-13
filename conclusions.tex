@@ -8,10 +8,7 @@ standard \fft{} convolutions but allows for latency-free, real-time
 operation.  We anticipate requiring $\sim 4 \times 10 = 40$ modern multi-core computers to
 search for binary neutron stars using coincident \GW\ data from a four-detector network.
 This is well within the current computing capabilities of the \LIGO{} Data Grid%
-\footnote{\url{https://www.lsc-group.phys.uwm.edu/lscdatagrid/}}. In the future, this
-could be improved upon further by conditionally reconstructing the \SNR{} time-series
-only during times when a composite detection statistic crosses a
-threshold~\citep{svd-compdetstat}.
+\footnote{\url{https://www.lsc-group.phys.uwm.edu/lscdatagrid/}}.
 
 \CBC\ events may be the progenitors of some short hard gamma-ray bursts and are
 expected to be accompanied prompt electromagnetic signals.  Rapid
@@ -30,6 +27,14 @@ prototype implementation of \lloid{} using the open source signal processing sof
 improve upon the latency of our implementation, including tighter integration between
 data acquisition and analysis. This should be considered for third-generation detector
 design.
+
+% This passage goes in the 'future work' part, but I am having trouble working it in.
+\begin{comment}
+In the future, this
+could be improved upon further by conditionally reconstructing the \SNR{} time-series
+only during times when a composite detection statistic crosses a
+threshold~\citep{svd-compdetstat}.
+\end{comment}
 
 Although we have demonstrated a feasible method for advance detection we have
 not yet explored triggering, coincidence, and ranking of gravitational wave
