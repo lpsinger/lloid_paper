@@ -32,11 +32,22 @@ data acquisition and analysis. This should be considered for third-generation de
 design.
 
 Although we have demonstrated a feasible method for advance detection we have
-not explored the accuracy of sky localization that is possible before merger.
-\citet{Fairhurst2009} discusses some of the theoretical prospects for early
-sky localization.  Our future work will explore the prospects of early-warning
-detection with realistic simulations of binary mergers using the infrastructure
-and techniques described here. 
+not yet explored triggering, coincidence, and ranking of gravitational wave
+candidates in a framework that supports early \EM\ followup.  If adjacent time slices
+have non-negligible cross-correlation with each other, then there may be some
+subtleties in the design of these postprocessing stages that we must address in order
+to translate the early-warning outputs into candidate events.
+
+Our future work must also address sky localization accuracy prior to merger as well as
+observing strategies.  \citep{Fairhurst2009} derives the area of 90\% localization
+confidence in terms of timing uncertainties, but it would be advantageous to use
+a galaxy catalog to inform the telescope tiling \citep{galaxy-catalog}.  Because
+early detection is likely to be especially effective for nearby sources, the galaxy
+catalog technique might be an important ingredient in reducing the fraction of
+sky that must be imaged.  Extensive injection campaigns and simulations
+incorporating realistic binary merger rates will be necessary in order to fully
+understand the prospects for early-warning detection, localization, and \EM\ folluwup
+using the techniques we have described.
 
 \editorial{nvf: It's a bit pie-in-the-sky, but we could also mention
 reconfiguring the signal recycling mirror to optimize SNR at merger. There's a
@@ -53,11 +64,4 @@ lot of science there.}
 %\item Alert
 %\item Telescope actuation
 %\item Total
-%\end{itemize}
-
-%Future work:
-
-%\begin{itemize}
-%\item Sub-solar mass search
-%\item Hierarchical detection
 %\end{itemize}
