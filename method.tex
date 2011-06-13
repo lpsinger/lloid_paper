@@ -4,7 +4,7 @@
 In this section we describe a decomposition of the \CBC{} signal space that
 reduces \TD\ filtering cost sufficiently to allow for the
 possibility of \earlywarning\ detection with modest computing requirements.  We
-expand on the ideas of \citet{Marion2004, Buskulic2010} that describe a
+expand on the ideas of \citet{Marion2004} and \citet{Buskulic2010} that describe a
 multi-band decomposition of the compact binary signal space that resulted in
 a search with minutes latency in \LIGO{}'s S6 and Virgo's VSR3 joint science
 runs~\citep{HugheyGWPAW2011}.  We combine this with the \SVD\ rank-reduction
@@ -31,7 +31,7 @@ detector's noise.
 To construct a template bank, templates are chosen with
 $\numtmps/2$ discrete signal parameters $\mathbf\Theta_0,\, \mathbf\Theta_1,\, \dots,\,
 \mathbf\Theta_{\numtmps/2-1}$. These are chosen such that any possible signal
-will have an inner product $\geqslant 0.97$ with at least one template.
+will have an inner product $\geqslant$0.97 with at least one template.
 Such a template bank is said to have a {\em minimal match} of 0.97~\citep{Owen:1998dk}.
 
 Filtering the detector data involves a convolution of the data with the
