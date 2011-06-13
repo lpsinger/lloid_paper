@@ -2,7 +2,7 @@ TEX = env TEXINPUTS=:$(CURDIR)/packages/aastex52:$(CURDIR)/packages/astronat/apj
 BIBTEX = env BSTINPUTS=:$(CURDIR)/packages/astronat/apj: TEXINPUTS=:$(CURDIR)/packages/aastex52:$(CURDIR)/packages/astronat/apj: bibtex
 
 PREREQS = \
-	figures/snr_in_time.pdf figures/tmpltbank.png figures/bw.pdf figures/bw_resample.pdf figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf figures/tmpltbank.pdf inspiral_svd.tex introduction.tex implementation.tex conclusions.tex appendix.tex packages.tex macros.tex method.tex results.tex references.bib
+	figures/snr_in_time.pdf figures/tmpltbank.pdf figures/bw.pdf figures/bw_resample.pdf figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf inspiral_svd.tex introduction.tex implementation.tex conclusions.tex appendix.tex packages.tex macros.tex method.tex results.tex references.bib
 
 inspiral_svd.pdf: $(PREREQS)
 	$(TEX) -draftmode inspiral_svd
