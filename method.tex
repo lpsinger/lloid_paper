@@ -54,7 +54,7 @@ finite impulse response (\fir) filter, requiring $\mathcal O(\numtmps
 much more computationally efficient to use the convolution theorem and the
 \fft\ to implement fast convolution in the frequency domain, requiring only
 $\mathcal O(\numtmps \lg \tmpsamps)$ operations per sample but incurring
-a latency of $\gtrsim \tmpsamps$ samples.
+a latency of $\mathcal O(\tmpsamps)$ samples.
 
 
 \subsection{The \lloid\ method}
@@ -64,7 +64,7 @@ for compact binary coalescence.  We give a truly zero-latency algorithm
 that competes in terms of floating point operations per second with the
 conventional \FD\ method, which by contrast requires a significant latency due to the
 inherent acausality of the Fourier transform.  Our method, called \lloid{}
-(a backronym for Low Latency Online Inspiral Detection),
+(Low Latency Online Inspiral Detection),
 involves two transformations of the templates that produce a
 network of orthogonal filters that is far more computationally
 efficient than the original bank of matched filters.
