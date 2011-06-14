@@ -39,6 +39,8 @@ achievement, but far too late to catch prompt \EM{} emission. We have the
 ambition of reporting \GW{} candidates not minutes \emph{after} the merger, as
 has already been accomplished, but seconds \emph{before}.
 
+\subsection{\EM{} counterparts}
+
 Though compact binary coalescence (\CBC{}) events may be responsible for several
 classes of \EM{} transients, \CBC{}s are in particular believed to be a
 mechanism for short gamma-ray bursts (short \GRB{}s)~\citep{Lee:2005, nakar07}.
@@ -63,27 +65,7 @@ prompt optical flashes and the rise of afterglows from short \GRB{}s, and, for
 an exceptional event, perhaps even a glimpse of a
 precursor~\citep{0004-637X-723-2-1711}.
 
-We show that by examining the signal to noise ratio (\SNR{}) stream for
-threshold crossings before the \GW{} signal leaves the detection band, it is
-possible to trade some \SNR{} and sky localization accuracy for pre-merger
-detection.  Figure~\ref{fig:earlywarning} shows projected early detection rates
-for \textsc{ns}--\textsc{ns} binaries in Advanced \LIGO\ assuming event rates
-predicted in \citet{Abadie:2010p10836} and anticipated detector sensitivity for
-the `zero detuning, high power' configuration described in \citet{ALIGONoise}.
-The most realistic estimates indicate that at an \SNR\ threshold of 8, we will
-observe a total of 40~events~yr$^{-1}$, but $\sim$10~yr$^{-1}$ will be
-detectable within 10~s of merger and $\sim$1~yr$^{-1}$ will be detectable
-within 100~s of merger.  These rates are uncertain and the 5 to 95\% confidence
-interval is shown in figure \ref{fig:earlywarning}.
-%
-\begin{figure}[h]
-\plotone{figures/snr_in_time.pdf}
-\caption{\label{fig:earlywarning}Expected number of \textsc{ns}--\textsc{ns}
-sources that will be detectable by Advanced \LIGO\ $t$ seconds before coalescence.
-The heavy solid line is the most realistic yearly rate estimate.  The shaded
-region represents the 5 to 95\% confidence interval arising from uncertainty
-in predicted event rates \citep{Abadie:2010p10836}.}
-\end{figure}
+\subsection{Rapid \EM{} followup}
 
 In October 2010, \LIGO{} completed its sixth science run
 (S6) and Virgo completed its third science run (VSR3).  While both
@@ -100,7 +82,54 @@ assume that in the advanced detector era the vetting process will be automated,
 so current \GW{} search methodology and telescope actuation would
 dominate latency.
 
-Realizing advance detection of compact binary coalescences (\CBC{}s) will
+It has been observed that by examining the signal to noise ratio (\SNR{}) stream for
+threshold crossings before the \GW{} signal leaves the detection band, it is
+possible to trade some \SNR{} and sky localization accuracy for pre-merger
+detection. Figure~\ref{fig:earlywarning} shows projected early detection rates
+for \textsc{ns}--\textsc{ns} binaries in Advanced \LIGO\ assuming event rates
+predicted in \citet{Abadie:2010p10836} and anticipated detector sensitivity for
+the `zero detuning, high power' configuration described in \citet{ALIGONoise}.
+The most realistic estimates indicate that at an \SNR\ threshold of 8, we will
+observe a total of 40~events~yr$^{-1}$, but $\sim$10~yr$^{-1}$ will be
+detectable within 10~s of merger and $\sim$1~yr$^{-1}$ will be detectable
+within 100~s of merger. These rates are shown with their substantial uncertainties in figure~\ref{fig:earlywarning}.
+%
+\begin{figure}[h]
+\plotone{figures/snr_in_time.pdf}
+\caption{\label{fig:earlywarning}Expected number of \textsc{ns}--\textsc{ns}
+sources that will be detectable by Advanced \LIGO\ $t$ seconds before coalescence.
+The heavy solid line is the most realistic yearly rate estimate.  The shaded
+region represents the 5 to 95\% confidence interval arising from uncertainty
+in predicted event rates \citep{Abadie:2010p10836}.}
+\end{figure}
+
+Telescopic followup requires estimating the location of the \GW{} source. The
+localization uncertainty is dominated by uncertainty in the time of arrival of
+the \GW{}s, which is determined by the signal's effective bandwidth and \SNR{}
+\citep{Fairhurst2009}. Unfortunately, for a \GW{} signal with an \SNR{} of
+blah, the 90\% confidence area is at least blah deg$^2$ (blah\% of the sky) at
+10~s before merger and blah deg$^2$ (blah\% of the sky) at 1~s before merger.
+If we can take galactic luminosities to accurately trace mass and thus proxy
+for the \CBC{} event rate, it is possible to reduce the localization
+uncertainty using a galaxy catalog as a prior probability distribution
+\citep{galaxy-catalog}, along with the sky location and luminosity distance
+estimate from the \GW{} signal, as was done in S6/VSR3. At Advanced \LIGO{}
+\textsc{ns}--\textsc{ns} horizon distances of $\sim$400~Mpc, the galaxy catalog
+is fairly isotropic and thus not as useful for downselecting pointings, but
+sources that are detectable before merger are likely to be exceptionally
+nearby. Thus there will be relatively few galaxies to consider for a given
+candidate and the galaxy catalog is likely to be sufficiently complete. This
+may allow us to shrink the 90\% confidence area substantially. Even so, it will
+be desirable to mobilize a large number of heterogeneous telescopes in order to
+guarantee imaging the source at the instant of merger. Because the sky
+localization will improve rapidly down to blah deg$^2$ at merger, by the time
+that the entire \CBC{} event is over it will be possible to downselect the
+images that have already been taken as well as repoint telescopes to more
+likely locations.
+
+\subsection{Low-latency \CBC{} search algorithms}
+
+Realizing advance detection of \CBC{}s will
 require striking a balance between latency and throughput. \CBC{} searches
 consist of banks of matched filters, or
 cross-correlations between the data stream and a bank of nominal ``template''
