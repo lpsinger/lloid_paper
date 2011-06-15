@@ -28,7 +28,7 @@ def freq_to_time(Mc,f):
 	return 5. * Mc / 256. * (pi * Mc * f) ** (-8./3.)
 
 # Frequency step in Hz
-df = 0.1
+df = 0.01
 
 # Frequency grid
 f = numpy.arange(fLOW, fISCO + df, df)
@@ -41,11 +41,12 @@ invS_ligo = numpy.interp(f, f_ligo, a_ligo) ** -2
 invS_virgo = numpy.interp(f, f_virgo, a_virgo) ** -2
 
 # SNR
+rho_threshold = 8
 rho_ligo = numpy.cumsum(f0_weights * invS_ligo)
 rho_virgo = numpy.cumsum(f0_weights * invS_virgo)
 
 # Scale everything for an SNR of 10 in LIGO detectors
-factor = 10 / rho_ligo[-1]
+factor = 1 / rho_ligo[-1]
 rho_ligo *= factor
 rho_virgo *= factor
 f2_weights *= factor
@@ -58,8 +59,8 @@ sigmaf_ligo = numpy.sqrt(numpy.cumsum(f2_weights * invS_ligo) / rho_ligo - (nump
 sigmaf_virgo = numpy.sqrt(numpy.cumsum(f2_weights * invS_virgo) / rho_virgo - (numpy.cumsum(f1_weights * invS_virgo) / rho_virgo)**2)
 
 # Timing uncertainty
-sigmat_ligo = 1. / (2 * pi * rho_ligo * sigmaf_ligo)
-sigmat_virgo = 1. / (2 * pi * rho_virgo * sigmaf_virgo)
+sigmat_ligo = 1. / (2 * pi * rho_threshold * sigmaf_ligo)
+sigmat_virgo = 1. / (2 * pi * rho_virgo * (rho_threshold/rho_ligo) * sigmaf_virgo)
 
 # Uncertainty in direction cosines in plane of detector
 sigmax = sigmat_ligo / 7e-3
@@ -73,6 +74,7 @@ t = freq_to_time(mchirp, f)
 
 print '  t   deg^2   %'
 print '-----------------'
-for t_before_merger in [10, 1, 0.1]:
-	a = a90best[t <= t_before_merger][0]
+for t_before_merger in [10, 1, 0.1, 0]:
+	rho = rho_ligo[t >= t_before_merger][-1]
+	a = a90best[t >= t_before_merger][-1]
 	print '%4.1f %6.1f %5.2f' % (t_before_merger, a * (180 / pi) ** 2, a / (4*pi) * 100)
