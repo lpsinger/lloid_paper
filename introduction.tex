@@ -91,8 +91,26 @@ predicted in \citet{Abadie:2010p10836} and anticipated detector sensitivity for
 the `zero detuning, high power' configuration described in \citet{ALIGONoise}.
 The most realistic estimates indicate that at an \SNR\ threshold of 8, we will
 observe a total of 40~events~yr$^{-1}$, but $\sim$10~yr$^{-1}$ will be
-detectable within 10~s of merger and $\sim$1~yr$^{-1}$ will be detectable
-within 100~s of merger. These rates are shown with their substantial uncertainties in figure~\ref{fig:earlywarning}.
+detectable within 10~s of merger and $\sim$5~yr$^{-1}$ will be detectable
+within 25~s of merger. These rates are shown with their substantial uncertainties in figure~\ref{fig:earlywarning}.
+%
+\begin{table}
+\caption{\label{table:sky-localization-accuracy}Horizon distance, most likely yearly detection rate, and \SNR\ at merger for a source that produces an \SNR\ of 8 in all three detectors at $t$~s before merger.  The fifth and sixth columns show the minimum area of the 90\% confidence region on the sky before merger and at merger.}
+\begin{tabular}{rrrrrr}
+\tableline\tableline
+& horiz. & rate & final & \multicolumn{2}{c}{$A$(90\%) (deg$^2$)} \\
+\cline{5-6}
+$t$ (s) & (Mpc) & (yr$^{-1}$) & \SNR\ & early & final \\
+\tableline
+25.0 & 203 & 5 & 15.8 & 2893.2 & 1.8 \\
+10.0 & 269 & 12 & 11.9 & 1150.6 & 3.6 \\
+5.0 & 307 & 18 & 10.4 & 594.6 & 5.1 \\
+1.0 & 360 & 29 & 8.9 & 153.9 & 7.5 \\
+0.1 & 391 & 37 & 8.2 & 32.5 & 9.1 \\
+0.0 & 400 & 40 & 8.0 & 9.6 & 9.6 \\
+\tableline
+\end{tabular}
+\end{table}
 %
 \begin{figure}[h]
 \plotone{figures/snr_in_time.pdf}
@@ -106,15 +124,21 @@ in predicted event rates \citep{Abadie:2010p10836}.}
 Telescopic followup requires estimating the location of the \GW{} source. The
 localization uncertainty is dominated by uncertainty in the time of arrival of
 the \GW{}s, which is determined by the signal's effective bandwidth and \SNR{}
-\citep{Fairhurst2009}. Unfortunately, for a \GW{} signal with an \SNR{} of
-10, the 90\% confidence area is at least $2 \times 10^3$~deg$^2$ (4.8\% of the sky) at
-10~s before merger and $10^2$~deg$^2$ (0.3\% of the sky) at 1~s before merger.
+\citep{Fairhurst2009}.  Table~\ref{table:sky-localization-accuracy} shows the
+minimum 90\% confidence area for a source that produces an \SNR\ of 8 in the
+\LIGO\ detectors in Hanford, Washington, and Livingston, Louisiana, and, the
+Virgo detector in Cascina, Italy, at a time $t$ before merger.  Also shown are
+the final \SNR\ and 90\% confidence area at merger for the same source.
+At 10~s before merger, the pre-merger 90\% confidence area is about $1150.6$~deg$^2$
+(2.8\% of the sky) and at 1~s before merger is 153.9~deg$^2$ (0.37\% of the sky).
+The confidence region shrinks quadratically in area as the overall amplitude of the
+signal increases.
+
 It is infeasible to search this large an area for a prompt counterpart. For
 reference, \textsc{lsst} should see first light around the same time as
 Advanced \LIGO{} and will have an unparalleled field of view of 9.6 deg$^2$
-\citep{2008arXiv0805.2366I}.
-
-If we can take galactic luminosities to accurately trace mass and thus proxy
+\citep{2008arXiv0805.2366I}.  However, if we can take galactic luminosities
+to accurately trace mass and thus proxy
 for the \CBC{} event rate, it is possible to reduce the localization
 uncertainty using a galaxy catalog as a prior probability distribution
 \citep{galaxy-catalog}, along with the sky location and luminosity distance
@@ -127,8 +151,8 @@ early-warning candidate and the galaxy catalog is likely to be sufficiently
 complete. This should allow us to shrink the 90\% confidence area substantially.
 Even so, it will be desirable to mobilize a large number of heterogeneous
 telescopes in order to guarantee imaging this exceptional event at the instant
-of merger. Because the sky localization will improve rapidly down to blah
-deg$^2$ at merger, by the time that the entire \CBC{} event is over it will be
+of merger. Because the sky localization will improve rapidly until merger,
+by the time that the entire \CBC{} event is over it will be
 possible to send a second alert to downselect the images that have already been
 taken as well as repoint telescopes to more likely locations.
 
