@@ -30,8 +30,8 @@ With this sub-bank we were able to construct an efficient time-slice decompositi
 that consisted of 11 time slices with sample rates between 32 and 4096 Hz summarized
 in table \ref{tab:time_slices}.
 \begin{table*}
-\begin{center}
 \caption{\label{tab:time_slices} Filter design for these 657 templates.  From left to right, this table shows the sample rate, time interval, number of samples, and number of orthogonal templates for each time slice.  We vary \SVD{} tolerance from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.}
+\begin{center}
 \begin{tabular}{rr@{,\,}lc*{6}{r}}
 \tableline\tableline
 \\ [-1.5ex]
@@ -92,7 +92,7 @@ We studied how the \SVD\ tolerance affected \SNR\ loss by holding
 $N^\shortuparrow = 192$ fixed as we vaired the \SVD\ tolerance from
 $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.  The minimum, maximum, and median
 mismatch is shown as a function of \SVD\ tolerance in
-figure~\ref{fig:hist-svd-tolerance}.  As the \SVD\ tolerance increases toward 1, the
+figure~\ref{fig:bw}a.  As the \SVD\ tolerance increases toward 1, the
 \SVD\ becomes an exact matrix factorization, but the computational cost increases as
 the number of basis filters increases.  The conditions presented here are more
 complicated than in the original work~\citep{Cannon:2010p10398} due to the inclusion
@@ -109,20 +109,31 @@ target \SNR{} loss.
 
 Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$, we studied the
 impact of the length $N^\shortuparrow$ of the interpolation filter.  The mismatch as
-a function of $N^\shortuparrow$ is shown in figure~\ref{fig:hist-interpolate}.  The
+a function of $N^\shortuparrow$ is shown in figure~\ref{fig:bw}b.  The
 mismatch saturates at $\sim 2 \times 10^{-4}$ with $N^\shortuparrow = 64$.  We find
 that a filter length of 16 is sufficient to meet our target mismatch of 0.003.
 
 \begin{figure*}[b]
-	\subfloat[Mismatch versus \textsc{svd} tolerance]{\label{fig:hist-svd-tolerance}\includegraphics{figures/bw.pdf}}
-	\subfloat[Mismatch versus $N^\shortuparrow$]{\label{fig:hist-interpolate}\includegraphics{figures/bw_resample.pdf}}
-	\caption{Box-and-whisker plot of mismatch between nominal
+	\begin{minipage}[t]{0.5\textwidth}
+		\begin{center}
+			\includegraphics{figures/bw.pdf}
+			(a) Mismatch versus \SVD\ tolerance
+		\end{center}
+	\end{minipage}
+	\begin{minipage}[t]{0.5\textwidth}
+		\begin{center}
+			\includegraphics{figures/bw_resample.pdf}
+			(b) Mismatch versus $N^\shortuparrow$
+		\end{center}
+	\end{minipage}
+	\caption{\label{fig:bw}Box-and-whisker plot of mismatch between nominal
 template bank and \lloid\ measured impulse responses.  The upper and lower boundaries of
 the boxes show the upper and lower quartiles; the lines in the center denote the medians.
 The whiskers represent the minimum and maximum mismatch over all templates.  In 
-\subref{fig:hist-svd-tolerance} the interpolation filter length is held fixed
-at $N^\shortuparrow = 192$, while the \SVD\ tolerance is varied from
-$\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.  In \subref{fig:hist-interpolate}, the \SVD\ tolerance is fixed at $\left(1-10^{-6}\right)$ while $N^\shortuparrow$ is varied from 8 to 192 coefficients.}
+(a) the interpolation filter length is held fixed at $N^\shortuparrow = 192$, while
+the \SVD\ tolerance is varied from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.
+In (b), the \SVD\ tolerance is fixed at $\left(1-10^{-6}\right)$ while $N^\shortuparrow$
+is varied from 8 to 192 coefficients.}
 \end{figure*}
 
 \subsection{Lower bounds on computational cost compared to other methods}
@@ -138,7 +149,8 @@ the conventional \TD\ method.  However, the \FD\ method has a latency of over ha
 hour, whereas \lloid\ has no latency at all.
 %
 \begin{table}
-\caption{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the sub-bank described in section~\ref{sec:bank-setup}.}
+\caption{Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the sub-bank described in section~\ref{sec:bank-setup}.}
+\begin{center}
 \begin{tabular}{lll}
 \tableline\tableline
 method & \flops\ & latency (s) \\
@@ -148,6 +160,7 @@ frequency domain & $2.6\times10^8$ & 2201 \\
 \lloid\ (this work) & $4.7\times10^8$ & 0 \\
 \tableline
 \end{tabular}
+\end{center}
 \end{table}
 
 \subsection{Extrapolation of the computational cost to an Advanced \LIGO{} search}
