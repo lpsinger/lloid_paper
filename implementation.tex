@@ -62,10 +62,11 @@ filter to the data, and then down-sampling by deleting samples.  We use a
 element.  The detector data is provided at every power-of-two sample rate
 required by the time slices described in \eqref{eq:time-slices}.  At this point,
 the \gstreamer\ pipeline splits into several parallel branches to handle each
-time slice.  Next, these decimated data streams are fed into parallel \fir\ filter banks.
+time slice.
 
 \paragraph{Basis filters}
 
+Next, these decimated data streams are fed into parallel \fir\ filter banks.
 The basis filters are implemented using a \gstlal\ element called {\tt
 lal\_firbank}, which provides a single input, multiple output bank of \fir\ filters
 from a matrix of filter coefficients.  Several instances of {\tt lal\_firbank}
