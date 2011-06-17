@@ -62,6 +62,19 @@ rho_threshold = 8
 rho2_ligo = numpy.cumsum(f0_weights * invS_ligo)
 rho2_virgo = numpy.cumsum(f0_weights * invS_virgo)
 
+def horizon(Mc, rho2):
+	LAL_C = 299792458.
+	LAL_PI = 3.1415926535897932384626433832795029
+	LAL_MTSUN_SI = 4.9254909500000001e-06
+	LAL_PC_SI = 3.0856775807e16
+	Mc = Mc * LAL_MTSUN_SI	
+	D = 2. * LAL_C * (5./96.)**.5 * Mc**(5./6.) * LAL_PI**(-2./3.) * rho2**.5 / 8.
+	return D / 1e6 / LAL_PC_SI
+
+# Horizon
+H_ligo = horizon(mchirp, rho2_ligo[-1])
+H_virgo = horizon(mchirp, rho2_virgo[-1])
+
 # Scale everything for an SNR of 10 in LIGO detectors
 #factor = 1 / rho_ligo[-1]
 invS_ligo *= 1 / rho2_ligo[-1]
@@ -108,8 +121,8 @@ for t_before_merger in [25., 10, 5., 1., 0.1, 0]:
 
 	a = a90best[t >= t_before_merger][-1] * (180 / pi) ** 2
 
-	horizon = 400. * (8. / rho_final_ligo)
-	rate = 40. * (horizon / 400.) ** 3
+	horizon = H_ligo * (8. / rho_final_ligo)
+	rate = 40. * (horizon / H_ligo) ** 3
 	print r"%.1f & %.0f & %d & %.1f & %.1f & %.1f \\" % (t_before_merger, horizon, round(rate), rho_final_ligo, a, a_final)
 print r"\tableline"
 print r"\end{tabular}"
