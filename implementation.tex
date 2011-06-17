@@ -72,7 +72,7 @@ lal\_firbank}, which provides a single input, multiple output bank of \fir\ filt
 from a matrix of filter coefficients.  Several instances of {\tt lal\_firbank}
 execute in parallel to handle each of the time slices.  Filter coefficients are taken
 from the nonzero samples of the time slices in equation~\eqref{eq:time-sliced-templates},
-with the zero-padding effectively accomplished by appropriate delays.
+with the zero-padding effectively accomplished by appropriate queues, or delay lines.
 
 \paragraph{Reconstruction}
 
