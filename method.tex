@@ -50,7 +50,7 @@ template indices results in single-detector triggers.  Coincidences are sought
 between triggers in different \GW\ detectors in order to form detection candidates.
 
 Equation~(\ref{eq:SNRTD}) can be implemented in the time-domain as bank of
-finite impulse response (\fir) filter, requiring $\mathcal O(\numtmps
+finite impulse response (\fir) filters, requiring $\mathcal O(\numtmps
 \tmpsamps)$ floating point operations per sample.  However, it is typically
 much more computationally efficient to use the convolution theorem and the
 \fft\ to implement fast convolution in the frequency domain, requiring only
