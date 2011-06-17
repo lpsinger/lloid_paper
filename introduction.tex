@@ -82,6 +82,15 @@ assume that in the advanced detector era the vetting process will be automated,
 so current \GW{} search methodology and telescope actuation would
 dominate latency.
 
+\begin{figure}[h]
+\plotone{figures/snr_in_time.pdf}
+\caption{\label{fig:earlywarning}Expected number of \textsc{ns}--\textsc{ns}
+sources that will be detectable by Advanced \LIGO\ $t$ seconds before coalescence.
+The heavy solid line is the most realistic yearly rate estimate.  The shaded
+region represents the 5 to 95\% confidence interval arising from uncertainty
+in predicted event rates \citep{Abadie:2010p10836}.}
+\end{figure}
+%
 It has been observed that by examining the signal to noise ratio (\SNR{}) stream for
 threshold crossings before the \GW{} signal leaves the detection band, it is
 possible to trade some \SNR{} and sky localization accuracy for pre-merger
@@ -93,8 +102,8 @@ The most realistic estimates indicate that at an \SNR\ threshold of 8, we will
 observe a total of 40~events~yr$^{-1}$, but $\sim$10~yr$^{-1}$ will be
 detectable within 10~s of merger and $\sim$5~yr$^{-1}$ will be detectable
 within 25~s of merger. These rates are shown with their substantial uncertainties in figure~\ref{fig:earlywarning}.
-%
-\begin{table}
+
+\begin{table}[h]
 \caption{\label{table:sky-localization-accuracy}Horizon distance, expected detection rate, and \SNR\ at merger for a source that produces an \SNR\ of 8 in all three detectors at time $t$ before merger.  The fifth and sixth columns show the minimum area of the 90\% confidence region before merger and at merger.}
 \begin{center}
 \begin{tabular}{rrrrrr}
@@ -114,15 +123,6 @@ $t$ (s) & (Mpc) & (yr$^{-1}$) & \SNR\ & early & final \\
 \end{center}
 \end{table}
 %
-\begin{figure}[h]
-\plotone{figures/snr_in_time.pdf}
-\caption{\label{fig:earlywarning}Expected number of \textsc{ns}--\textsc{ns}
-sources that will be detectable by Advanced \LIGO\ $t$ seconds before coalescence.
-The heavy solid line is the most realistic yearly rate estimate.  The shaded
-region represents the 5 to 95\% confidence interval arising from uncertainty
-in predicted event rates \citep{Abadie:2010p10836}.}
-\end{figure}
-
 Telescopic followup requires estimating the location of the \GW{} source. The
 localization uncertainty is dominated by uncertainty in the time of arrival of
 the \GW{}s, which is determined by the signal's effective bandwidth and \SNR{}
