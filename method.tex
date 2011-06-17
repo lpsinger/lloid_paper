@@ -357,6 +357,12 @@ $$
 f^0 \cdot \frac{2 (\numtmps + 1) \lg \fftblock + 2 \numtmps}{1 - \tmpsamps/\fftblock} \; \mathrm{\flops} \,.
 $$
 
+In the limit of many templates, $M \gg 1$, we may neglect the cost of the forward
+transform of the data and of the multiplication of the transforms.  By making the common
+choice of an \fft\ block size of twice the length of the filter,
+$\fftblock = 2 \tmpsamps$, this simplifies to $\approx 4 f^0 \numtmps \lg \fftblock$
+\flops.
+
 \subsubsection{\lloid\ method}
 
 For time slices $s$, the \lloid\ method requires $2 \slicessamps \numsvdtmps f^s$ \flops\ 
