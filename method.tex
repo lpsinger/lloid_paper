@@ -137,16 +137,14 @@ This monotonic time-frequency relationship allows us
 to choose time slice boundaries that require substantially less bandwidth at
 early times in the inspiral.
 
-In any given interval of time, the filters are band-limited across the entire
-template bank. Usually the template is truncated at some prescribed time $t^0$,
-or equivalently frequency $f_\mathrm{hi}$, often chosen to correspond to the
-\ISCO. An inspiral signal will enter the detection band at some low frequency,
-$f = f_\mathrm{low}$, corresponding to a time $t_\mathrm{low}$.  The end of the
-template is then critically sampled at a rate of $2 f_\mathrm{hi}$ but the 
-beginning of the template is critically sampled at $2 f_\mathrm{low}$. In any
-time interval smaller than the duration of the template, the bandwidth of the
-filters across the entire template bank may be significantly less and
-a lower sampling rate may be used for all filters without aliasing.
+An inspiral signal will enter the detection band at some low frequency
+$f_\mathrm{low}$, at a time $t_\mathrm{low}$ before merger.  Usually the template
+is truncated at some prescribed time $t^0$, or equivalent frequency $f_\mathrm{hi}$,
+often chosen to correspond to the \ISCO. The beginning of the template is critically
+sampled at $2 f_\mathrm{low}$, but the end of the template is critically sampled at a
+rate of $2 f_\mathrm{hi}$. In any time interval smaller than the duration of the template,
+the bandwidth of the filters across the entire template bank may be significantly less
+than the full sample rate at which data is acquired.
 
 Our goal is to reduce the filtering cost of a
 large fraction of the waveform by computing part of the convolution at a lower
