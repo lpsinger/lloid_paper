@@ -46,7 +46,8 @@ $x[k]$, both sampled at a rate $f^0$, the result can be interpreted as the
 	\rho_i [k] = \sum_{n=0}^{N-1} h_{i}[n] x [k-n].
 \end{equation}
 This results in $\numtmps$ \SNR\ time series. Local peak-finding across time and
-templates determines detection candidates.
+template indices results in single-detector triggers.  Coincidences are sought
+between triggers in different \GW\ detectors in order to form detection candidates.
 
 Equation~(\ref{eq:SNRTD}) can be implemented in the time-domain as bank of
 finite impulse response (\fir) filter, requiring $\mathcal O(\numtmps
