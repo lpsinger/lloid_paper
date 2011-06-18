@@ -125,7 +125,7 @@ quadrapole approximation, for which the time-frequency relation~\citep{kidder199
 %
 \begin{equation} \label{eq:fgw}
 %
-f = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{t}
+f(t) = \frac{1}{\mathcal{\pi M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{t}
 \right]^{3/8}.
 %
 \end{equation}
@@ -380,3 +380,14 @@ Taking into account the decimation of the detector data, the orthogonal \fir\ fi
 \flops.  The second sum is carried out over the set of distinct sample rates rather than over the time slices themselves.
 
 We can simplify this expression quite a bit by taking some limits that arise from sensible filter design.  In the limit of many templates, the cost of the decimation filters is negligible as compared to the cost of the interpolation filters.  Typically, we will design the interpolation filters with $N^\shortuparrow \lesssim \numsvdtmps$ so that the interpolation cost itself is negligible compared with the reconstruction cost.  Finally, if the number of basis templates per time slices $\numsvdtmps$ is not too small, the reconstruction cost dominates over the cost of accumulating the partial \SNR.  In these limits, the cost of \lloid\ is dominated by the basis filters themselves and the reconstruction, totaling $2 \sum_{s=0}^{S-1} f^s \numsvdtmps \left( \slicessamps + \numtmps \right)$ \flops.
+
+If the cost of the basis filters dominates, and the frequency of the templates evolves slowly enough in time, then we can use the time-frequency relationship of equation~(\ref{eq:fgw}) to estimate the speedup relative to the conventional \TD\ method.  The reduction in \flops\ is approximately
+%
+\begin{multline}
+\label{eq:speedup}
+\frac{2 \sum_{s=0}^{S-1} f^s \numsvdtmps \slicessamps}{2 \numtmps \tmpsamps f^0} \\
+\approx \frac{\alpha}{\left(t_\mathrm{low} - t_\mathrm{hi}\right) \left(f^0\right)^2} \int_{t_\mathrm{low}}^{t_\mathrm{hi}} \left(2 f(t) \right)^2 \, \mathrm{d} t \\
+= \frac{16 \alpha \left(t_\mathrm{low} f^2 (t_\mathrm{low}^2) - t_\mathrm{hi} f^2 (t_\mathrm{hi}) \right)}{\left(f^0\right)^2 \left(t_\mathrm{low} - t_\mathrm{hi}\right)}
+\end{multline}
+%
+where $\alpha \approx \numsvdtmps / \numtmps$ is the rank reduction factor, or ratio between the number of basis templates and the number of templates.  This approximation assumes that the frequency of the signal is evolving very slowly so that we can approximate the time slice sample rate as twice the instantaneous gravitational wave frequency, $f^s \approx 2 f(t)$, and the number of samples in the decimated time slice as the sample rate times an infinitesimally short time interval, $\slicessamps \approx 2 f(t) \, \mathrm{d}t$.  Substituting approximate values for a template bank designed for component masses around (1.4, 1.4) $M_\odot$, $\alpha \approx 10^{-2}$, $t_\mathrm{low} = 1000$~s, $f_\mathrm{low} = 10$~Hz, $t_\mathrm{hi} = 1/1570$~s $f_\mathrm{hi} = 1570$~Hz, and $f^0 = (2)(1570)$~Hz, we find from equation~(\ref{eq:speedup}) that the \lloid\ method requires a factor $\sim 10^{-6}$ fewer \flops\ than the conventional \TD\ method.
