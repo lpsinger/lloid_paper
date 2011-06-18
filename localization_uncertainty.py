@@ -151,12 +151,13 @@ a90best = 2 * pi * numpy.log(10) * sigmax * sigmay * (180 / pi) ** 2
 
 fig = pylab.figure(figsize=(3,2))
 ax = fig.add_subplot(1,1,1, adjustable='box')
-ax.loglog(t[rho_ligo >= 8. / rho_threshold], a90best[rho_ligo >= 8. / rho_threshold], 'k')
+ax.semilogy(t[rho_ligo >= 8. / rho_threshold], a90best[rho_ligo >= 8. / rho_threshold], 'k')
 for rho in [8., 12., 16., 20.]:
-	ax.loglog(t[rho_ligo >= rho / rho_threshold][0], a90best[rho_ligo >= rho / rho_threshold][0], 'k+')
-ax.set_xlim(1e-1, 1e2)
+	ax.semilogy(t[rho_ligo >= rho / rho_threshold][0], a90best[rho_ligo >= rho / rho_threshold][0], 'k+')
 ax.axhline(a90best[-1], color='k', linestyle='--')
+pylab.xlim(0, t[rho_ligo >= 8 / rho_threshold][0])
 ax.invert_xaxis()
+pylab.grid()
 pylab.ylabel(r'$A$(90%) (deg$^2$)')
 pylab.xlabel(r'time before coalescence, $t$ (s)')
 pylab.subplots_adjust(bottom=0.2,top=0.95,left=0.2,right=0.95)
