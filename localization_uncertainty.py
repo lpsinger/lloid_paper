@@ -2,6 +2,8 @@
 
 import numpy
 from numpy import pi
+import pylab
+import sys
 
 def float_as_string(num, sigfigs = 2):
 	"""Convert a floating point number to a string in scientific notation,
@@ -20,8 +22,8 @@ def float_as_string(num, sigfigs = 2):
 				sci_str_parts[1].lstrip('+'))
 
 
-f_ligo, a_ligo = numpy.loadtxt('ZERO_DET_high_P.txt').T
-f_virgo, a_virgo = numpy.loadtxt('AdV_baseline_sensitivity_12May09.txt').T
+f_ligo, a_ligo = numpy.loadtxt('data/ZERO_DET_high_P.txt').T
+f_virgo, a_virgo = numpy.loadtxt('data/AdV_baseline_sensitivity_12May09.txt').T
 
 # Component masses (in M_sun)
 m1 = 1.4
@@ -126,3 +128,37 @@ for t_before_merger in [25., 10, 5., 1., 0.1, 0]:
 	print r"%.1f & %.0f & %d & %.1f & %.1f & %.1f \\" % (t_before_merger, horizon, round(rate), rho_final_ligo, a, a_final)
 print r"\tableline"
 print r"\end{tabular}"
+
+
+# exceptional event is 1 per year
+horizon = H_ligo / 40. ** (1./3.)
+rho_threshold = H_ligo * (8. / horizon)
+
+# SNR
+rho_ligo = rho2_ligo ** .5
+rho_virgo = rho2_virgo ** .5
+
+# Timing uncertainty
+sigmat_ligo = 1. / (2 * pi * rho_threshold * rho_ligo * sigmaf_ligo)
+sigmat_virgo = 1. / (2 * pi * rho_threshold * rho_virgo * sigmaf_virgo)
+
+# Uncertainty in direction cosines in plane of detector
+sigmax = sigmat_ligo / 7e-3
+sigmay = numpy.sqrt((2 * sigmat_virgo ** 2 + sigmat_ligo ** 2) / 3.) / 22e-3
+
+# Minimum area of 90% confidence region
+a90best = 2 * pi * numpy.log(10) * sigmax * sigmay * (180 / pi) ** 2
+
+fig = pylab.figure(figsize=(3,2))
+ax = fig.add_subplot(1,1,1, adjustable='box')
+ax.loglog(t[rho_ligo >= 8. / rho_threshold], a90best[rho_ligo >= 8. / rho_threshold], 'k')
+for rho in [8., 12., 16., 20.]:
+	ax.loglog(t[rho_ligo >= rho / rho_threshold][0], a90best[rho_ligo >= rho / rho_threshold][0], 'k+')
+ax.set_xlim(1e-1, 1e2)
+ax.axhline(a90best[-1], color='k', linestyle='--')
+ax.invert_xaxis()
+pylab.ylabel(r'$A$(90%) (deg$^2$)')
+pylab.xlabel(r'time before coalescence, $t$ (s)')
+pylab.subplots_adjust(bottom=0.2,top=0.95,left=0.2,right=0.95)
+pylab.savefig(sys.argv[1])
+
