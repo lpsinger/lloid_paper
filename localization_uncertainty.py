@@ -151,7 +151,7 @@ a90best = 2 * pi * numpy.log(10) * sigmax * sigmay * (180 / pi) ** 2
 
 fig = pylab.figure(figsize=(3,2))
 ax = fig.add_subplot(1,1,1, adjustable='box')
-ax.semilogy(t[rho_ligo >= 8. / rho_threshold], a90best[rho_ligo >= 8. / rho_threshold], 'k')
+ax.semilogy(t[rho_ligo >= 8. / rho_threshold], a90best[rho_ligo >= 8. / rho_threshold], 'k', linewidth=2)
 for rho in [8., 12., 16., 20.]:
 	ax.semilogy(t[rho_ligo >= rho / rho_threshold][0], a90best[rho_ligo >= rho / rho_threshold][0], 'k+')
 ax.axhline(a90best[-1], color='k', linestyle='--')
