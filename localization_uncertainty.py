@@ -24,7 +24,7 @@ def float_as_string(num, sigfigs = 2):
 
 f_ligo, a_ligo = numpy.loadtxt('data/ZERO_DET_high_P.txt').T
 f_virgo, a_virgo = numpy.loadtxt('data/AdV_baseline_sensitivity_12May09.txt').T
-f_ET, a_ET = numpy.loadtxt('data/ET_D_data.txt', usecols=(0,3)).T
+# f_ET, a_ET = numpy.loadtxt('data/ET_D_data.txt', usecols=(0,3)).T # not checked in
 
 # Some constants
 LAL_C = 299792458.
