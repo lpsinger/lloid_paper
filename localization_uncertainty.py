@@ -24,6 +24,7 @@ def float_as_string(num, sigfigs = 2):
 
 f_ligo, a_ligo = numpy.loadtxt('data/ZERO_DET_high_P.txt').T
 f_virgo, a_virgo = numpy.loadtxt('data/AdV_baseline_sensitivity_12May09.txt').T
+f_ET, a_ET = numpy.loadtxt('data/ET_D_data.txt', usecols=(0,3)).T
 
 # Some constants
 LAL_C = 299792458.
@@ -43,7 +44,7 @@ M = m1 + m2
 mchirp = (m1 * m2)**.6 / (m1+m2)**.2
 
 # Low frequency cutoff
-fLOW = 10
+fLOW = 2
 
 # ISCO frequency (equation 3.6, FINDCHIRP paper)
 fISCO = 4400 / M
@@ -148,7 +149,7 @@ for rate in (10., 1., 0.1):
 	pylab.loglog(t[pred], a90[pred], 'k')
 	pylab.text(.8*t[-1], a90[-1], r"%g yr$^{-1}$" % rate, {"size": 8.}, horizontalalignment='left', verticalalignment='center')
 pylab.xlim(0., 1000.)
-pylab.ylim(1e-1, 1e6)
+pylab.ylim(1e-1, 41253)
 ax.invert_xaxis()
 pylab.grid()
 pylab.ylabel(r'$A$(90%) (deg$^2$)')
