@@ -64,13 +64,13 @@ rho_threshold = 8
 rho2_ligo = numpy.cumsum(f0_weights * invS_ligo)
 rho2_virgo = numpy.cumsum(f0_weights * invS_virgo)
 
-def horizon(Mc, rho2):
+def horizon(Mc, hdoth):
 	LAL_C = 299792458.
 	LAL_PI = 3.1415926535897932384626433832795029
 	LAL_MTSUN_SI = 4.9254909500000001e-06
 	LAL_PC_SI = 3.0856775807e16
 	Mc = Mc * LAL_MTSUN_SI	
-	D = 2. * LAL_C * (5./96.)**.5 * Mc**(5./6.) * LAL_PI**(-2./3.) * rho2**.5 / 8.
+	D = 2. * LAL_C * (5./96.)**.5 * Mc**(5./6.) * LAL_PI**(-2./3.) * hdoth**.5 / 8.
 	return D / 1e6 / LAL_PC_SI
 
 # Horizon
