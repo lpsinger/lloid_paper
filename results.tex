@@ -181,4 +181,12 @@ $\sim$$10^{13}$ \flops\ for this particular sub-bank, and so it would require
 $\sim$$10^6$ present-day machines to search the full parameter space.
 Presently, the \LIGO{} Data Grid consists of only $\sim$$10^4$ machines.
 
+\subsection{Measured latency and overhead}
 
+Our \gstreamer\ pipeline for measuring impulse responses contained instrumentation that would not be necessary for an actual search, including additional interpolation filters to bring the early-warning outputs back to the full sample rate and additional outputs for recording signals to disk.
+
+We wrote a second, stripped pipeline to evaluate the actual latency and computational overhead.  We executed this pipeline on one of the submit machines of the \LIGO-Caltech cluster, a Sun Microsystems Sun Fire\texttrademark\ X4600~M2 server with eight quad-core 2.7~GHz AMD Opteron\texttrademark\ 8384 processors.  This test consumed 78\% of the capacity of just one out of the 32 cores, maintaining a constant latency of 5~s.
+
+The measured overhead is consistent to within an order of magnitude with the lower bound from the \flops\ budget.  The additional overhead is probably dominated by thread synchronization.  A carefully optimized \gstreamer\ pipeline or a hand-tuned C implementation of the pipeline might reduce overhead further.
+
+The 5~s latency is probably due to buffering and synchronization.  The latency could probably be reduced by carefully tuning buffer lengths at every stage in the pipeline.

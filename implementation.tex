@@ -53,6 +53,8 @@ extended the \gstreamer\ framework by developing a library called
 \gstlal\footnote{\url{https://www.lsc-group.phys.uwm.edu/daswg/projects/gstlal.html}}
 that provides elements for \GW{} data analysis.
 
+\gstreamer\ pipelines typically operate with very low (in some consumer applications, imperceptibly low) latency rather than in true real-time because signals are partitioned into blocks of samples, or \emph{buffers}.  This affords a number of advantages, including amortizing the overhead of passing signals between elements and grouping together sequences of similar operations.  However, buffering a signal incurs a latency of up to one buffer length.  This latency can be made small at the cost of some additional overhead by making the buffers sufficiently small.
+
 \paragraph{Decimation}
 
 The whitened detector data is reduced to successively
