@@ -381,6 +381,8 @@ Taking into account the decimation of the detector data, the orthogonal \fir\ fi
 
 We can simplify this expression quite a bit by taking some limits that arise from sensible filter design.  In the limit of many templates, the cost of the decimation filters is negligible as compared to the cost of the interpolation filters.  Typically, we will design the interpolation filters with $N^\shortuparrow \lesssim \numsvdtmps$ so that the interpolation cost itself is negligible compared with the reconstruction cost.  Finally, if the number of basis templates per time slices $\numsvdtmps$ is not too small, the reconstruction cost dominates over the cost of accumulating the partial \SNR.  In these limits, the cost of \lloid\ is dominated by the basis filters themselves and the reconstruction, totaling $2 \sum_{s=0}^{S-1} f^s \numsvdtmps \left( \slicessamps + \numtmps \right)$ \flops.
 
+\subsubsection{Speedup of \lloid\ relative to \TD\ method}
+
 If the cost of the basis filters dominates, and the frequency of the templates evolves slowly enough in time, then we can use the time-frequency relationship of equation~(\ref{eq:fgw}) to estimate the speedup relative to the conventional \TD\ method.  The reduction in \flops\ is approximately
 %
 \begin{multline}
