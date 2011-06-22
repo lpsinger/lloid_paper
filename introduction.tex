@@ -1,40 +1,19 @@
 \section{Introduction}
 \label{sec:introduction}
 
-% Outline:
-%  - Low-mass inspirals are the most promising source of gravitational radiation for advanced \textsc{ligo}
-% - Motivation for high throughput
-%   - Point out challenges of advanced detectors: more templates, longer templates
-% - Motivation for low latency
-%   - Observational applications of near-real-time detection
-%   - Mention S6 and VSR2, online running, EM followup
-% - Layout of paper: description of method, procedure followed 
-
-The coalescence of compact binary systems consisting of neutron stars
- (\textsc{ns}) and/or black holes (\textsc{bh}) is presently the best
-understood and most actively pursued potential source of gravitational
-radiation for ground-based gravitational-wave (\GW{}) detectors.
 As a compact binary system loses energy to \GW{}s, its
 orbital separation decays, leading to a runaway inspiral with the \GW{}
 amplitude and frequency increasing until the system eventually merges.  It is
 thought that if a \textsc{ns} is involved, it may become tidally disrupted near
 the merger and fuel a bright electromagnetic (\EM{})
-counterpart~\citep{shibata:2007}. Observation of an \EM{} counterpart to a
-candidate \GW{} event will vastly boost confidence in the \GW{} detection and
-will often provide sufficient sky localization to determine
-the source's host galaxy and therefore measure the source's redshift. The
-\GW{} observation of this event will also provide a luminosity
-distance measurement. With both quantities, we can
-immediately measure the Hubble constant with unprecedented
-accuracy and without systematics dependent on the standard cosmic distance
-ladder~\citep{2010ApJ...725..496N}. The most efficient means of obtaining
-such joint observations is through the rapid identification and dissemination
-of candidate \GW{} events.
+counterpart \citep{shibata:2007}. One way of obtaining such joint observations
+is through the rapid identification and dissemination of candidate \GW{} events
+for \EM{} followup.
 
 In the era of first-generation detectors, the \GW{} community initiated a
 project to send alerts when potential \GW{} transients were observed in order
 to trigger followup observations by \EM{} telescopes.  The typical latencies
-were 30--60 minutes ~\citep{HugheyGWPAW2011}, which was an important
+were 30--60 minutes \citep{HugheyGWPAW2011}, which was an important
 achievement, but far too late to catch prompt \EM{} emission. We have the
 ambition of reporting \GW{} candidates not minutes \emph{after} the merger, as
 has already been accomplished, but seconds \emph{before}.
@@ -43,27 +22,27 @@ has already been accomplished, but seconds \emph{before}.
 
 Though compact binary coalescence (\CBC{}) events may be responsible for several
 classes of \EM{} transients, \CBC{}s are in particular believed to be a
-mechanism for short gamma-ray bursts (short \GRB{}s)~\citep{Lee:2005, nakar07}.
+mechanism for short gamma-ray bursts (short \GRB{}s) \citep{Lee:2005, nakar07}.
 In this scenario, prompt \EM{} emission arises as shells of
 relativistically out-flowing matter collide in the inner shock.
 The same inner shocks, or potentially reverse shocks, can produce a bright
-accompanying optical flash~\citep{Sari99}. Prompt emission is a probe into
+accompanying optical flash \citep{Sari99}. Prompt emission is a probe into
 the extreme initial conditions of the outflow, in contrast with afterglows,
 which arise in the external shock with the local medium and are relatively
 insensitive to initial conditions.
 
 Optical flashes have only been observed for a handful of long
-\GRB{}s~\citep{2011CRPhy..12..255A} by telescopes with extremely rapid response
+\GRB{}s \citep{2011CRPhy..12..255A} by telescopes with extremely rapid response
 or, in the case of \textsc{grb 080319b}, by pure serendipity, where several
 telescopes were observing a previous \GRB{} in the same
-field~\citep{2008Natur.455..183R}. The observed optical flashes peaked
+field \citep{2008Natur.455..183R}. The observed optical flashes peaked
 within tens of seconds and decayed quickly.
 Short \GRB{}s, on the other hand, typically
 fade too quickly to even catch the tails of the afterglows in any band. Rapid
 \GW{} transient alerts could enable the first observation of
 prompt optical flashes and the rise of afterglows from short \GRB{}s, and, for
-an exceptional event, perhaps even a glimpse of a
-precursor~\citep{0004-637X-723-2-1711}.
+a truly exceptional event, perhaps even a glimpse of a
+precursor \citep{0004-637X-723-2-1711}.
 
 \subsection{Early-warning \EM{} followup}
 
@@ -72,10 +51,10 @@ In October 2010, \LIGO{} completed its sixth science run
 \LIGO{} detectors and Virgo were operating, several all-sky detection
 pipelines operated in a low-latency configuration to send astronomical alerts,
 namely \textsc{mbta}, Coherent WaveBurst, and
-Omega~\citep{HugheyGWPAW2011, S6lowlatency}. The S6 analyses
+Omega \citep{HugheyGWPAW2011, S6lowlatency}. The S6 analyses
 achieved latencies of 30--60 minutes, which were dominated by a human vetting
 process. Candidates were sent for \EM{} followup to several
-telescopes; Swift, \textsc{rotse}, \textsc{tarot}, and Zadko~\citep{kanner2008,
+telescopes; Swift, \textsc{rotse}, \textsc{tarot}, and Zadko \citep{kanner2008,
 HugheyGWPAW2011} took images of likely sky locations.  \textsc{mbta} achieved
 the best \GW{} trigger-generation latencies of 2--5 minutes.  We
 assume that in the advanced detector era the vetting process will be automated,
@@ -132,14 +111,14 @@ time at which the accumulated \SNR\ exceeds a threshold of 8.}
 \EM{} followup requires estimating the location of the \GW{} source. The
 localization uncertainty is dominated by uncertainty in the time of arrival of
 the \GW{}s, which is determined by the signal's effective bandwidth and \SNR{}
-\citep{Fairhurst2009}. Figure~\ref{fig:sky-localization-accuracy} estimates the
-minimum 90\% confidence area versus time for a few exceptionally loud
+\citep{Fairhurst2009}. Table~\ref{fig:earlywarning} and Fig.~\ref{fig:sky-localization-accuracy} estimate the
+minimum 90\% confidence area versus time for a few rare, loud
 coalescence events detectable by Advanced \LIGO{} and Advanced Virgo. A
-once-per-year event would have minimum 90\% confidence areas of $2250$~deg$^2$
-($X$\% of the sky) and $270$~deg$^2$ ($Y$\% of the sky) at times 30~s and 10~s
-before coalescence, respectively. The confidence region shrinks quadratically in
-area as the overall amplitude of the signal increases. By the time of merger,
-the minimum 90\% confidence area shrinks to $0.82$~deg$^2$.
+once-per-year event would have minimum 90\% confidence areas of $1300$~deg$^2$
+($3.1$\% of the sky) and $260$~deg$^2$ ($0.63$\% of the sky) at times 25~s and
+10~s before coalescence, respectively. The confidence region shrinks
+quadratically in area as the overall amplitude of the signal increases. By the
+time of merger, the minimum 90\% confidence area shrinks to $0.82$~deg$^2$.
 
 It is infeasible to search hundreds of square degrees for a prompt
 counterpart. For

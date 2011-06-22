@@ -10,11 +10,13 @@ search for binary neutron stars using coincident \GW\ data from a four-detector 
 This is well within the current computing capabilities of the \LIGO{} Data Grid%
 \footnote{\url{https://www.lsc-group.phys.uwm.edu/lscdatagrid/}}.
 
-\CBC\ events may be the progenitors of some short hard gamma-ray bursts and are
-expected to be accompanied prompt electromagnetic signals.  Rapid
+\CBC\ events may be the progenitors of some short hard \GRB{}s and are
+expected to be accompanied prompt \EM{} signals.  Rapid
 alerts to the broader astronomical community will improve the chances of
-detecting an electromagnetic counterpart in bands from gamma-rays down to
-radio.  The detection algorithm we described has no intrinsic latency.  However, there are
+detecting an \EM{} counterpart in bands from gamma-rays down to
+radio.
+
+The detection algorithm we described has no intrinsic latency.  However, there are
 fundamental and practical latencies associated with the analysis and detection
 procedure. For example, the \LIGO{} data acquisition records science data in 1/16~s
 blocks~\citep{Bork2001}. Data must also be aggregated from all of the \GW\
@@ -27,6 +29,12 @@ prototype implementation of \lloid{} using the open source signal processing pla
 improve upon the latency of our implementation, including tighter integration between
 data acquisition and analysis. This could be considered for third-generation detector
 design.
+Also possible for third-generation instruments, the \lloid{} method could
+provide the input for a dynamic tuning of detector response via the signal
+recycling mirror to match the frequency of maximum sensitivity to the
+instantaneous frequency of the \GW{} waveform; this challenging technique has
+the potential for vast gains in \SNR{} and timing uncertainty
+\citep{PhysRevD.47.2184}.
 
 % This passage goes in the 'future work' part, but I am having trouble working it in.
 \begin{comment}
@@ -42,23 +50,21 @@ candidates in a framework that supports early \EM\ followup.  If adjacent time s
 have non-negligible cross-correlation with each other, then there may be some
 subtleties in the design of these postprocessing stages that we must address in order
 to translate the early-warning outputs into candidate events.  The time-slice
-decomposition and the \SVD\ will help us form low-latency signal based vetoes
+decomposition and the \SVD\ will help us form low-latency signal-based vetoes
 (for example, a $\chi^2$ statistic) that will help us here.
 
-Our future work must also address sky localization accuracy prior to merger as well as
-observing strategies.  \citet{Fairhurst2009} derives the area of 90\% localization
-confidence in terms of timing uncertainties, but it would be advantageous to use
-a galaxy catalog to inform the telescope tiling \citep{galaxy-catalog}.  Because
-early detection is likely to be especially effective for nearby sources, the galaxy
-catalog technique might be an important ingredient in reducing the fraction of
-sky that must be imaged.  Extensive injection campaigns and simulations
-incorporating realistic binary merger rates will be necessary in order to fully
-understand the prospects for early-warning detection, localization, and \EM\ folluwup
-using the techniques we have described.
+Our future work must more deeply address sky localization accuracy prior to
+merger as well as observing strategies. Here, we have followed
+\citet{Fairhurst2009} in estimating the area of 90\% localization confidence in
+terms of timing uncertainties alone, but it would be advantageous to use a
+galaxy catalog to inform the telescope tiling \citep{galaxy-catalog}. Because
+early detections will arise from nearby sources, the galaxy catalog technique
+might be an important ingredient in reducing the fraction of sky that must be
+imaged.  Extensive simulation campaigns incorporating realistic binary merger
+rates and detector networks will be necessary in order to fully understand the
+prospects for early-warning detection, localization, and \EM\ folluwup using
+the techniques we have described.
 
-\editorial{nvf: It's a bit pie-in-the-sky, but we could also mention
-reconfiguring the signal recycling mirror to optimize SNR at merger. There's a
-lot of science there.}
 
 %Latency budget, including `before' and `after' quotes for:
 
