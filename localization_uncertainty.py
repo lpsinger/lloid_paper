@@ -73,8 +73,12 @@ rho2_virgo = numpy.cumsum(f0_weights * invS_virgo)
 
 def horizon(Mc, hdoth):
 	Mc = Mc * LAL_MTSUN_SI	
-	D = 2. * LAL_C * (5./96.)**.5 * Mc**(5./6.) * LAL_PI**(-2./3.) * hdoth**.5 / 8.
+	D = 2. * LAL_C * (5./96.)**.5 * Mc**(5./6.) * LAL_PI**(-2./3.) * hdoth**.5 / 8
 	return D / 1e6 / LAL_PC_SI
+
+# Horizon
+H_ligo = horizon(mchirp, rho2_ligo[-1])
+# H_virgo = horizon(mchirp, rho2_virgo[-1]) # not used
 
 # Scale everything for an SNR of 1 in each detector (just to prevent floating point overflow)
 invS_ligo *= 1 / rho2_ligo[-1]
@@ -85,10 +89,6 @@ rho2_virgo *= 1 / rho2_virgo[-1]
 # SNR
 rho_ligo = numpy.sqrt(rho2_ligo)
 rho_virgo = numpy.sqrt(rho2_virgo)
-
-# Horizon
-H_ligo = horizon(mchirp, 1.) # not used
-# H_virgo = horizon(mchirp, rho2_virgo[-1]) # not used
 
 # Effective bandwidth.
 # Note an omission in Fairhurst (2009): the frequency moments have to be
@@ -110,37 +110,41 @@ a90best = 2 * pi * numpy.log(10) * sigmax * sigmay
 # time
 t = freq_to_time(mchirp, f)
 
-if 0:
-	print r"\begin{tabular}{rrrrrr}"
-	print r"\tableline\tableline"
-	print r"& horiz. & rate & final & \multicolumn{2}{c}{$A$(90\%) (deg$^2$)} \\"
-	print r"\cline{5-6}"
-	print r"$t$ (s) & (Mpc) & (yr$^{-1}$) & \SNR\ & early & final \\"
-	print r"\tableline"
-	for t_before_merger in [25., 10, 5., 1., 0.1, 0]:
-		rho_final_ligo = rho_threshold / numpy.sqrt(rho2_ligo[t >= t_before_merger][-1])
-		rho_final_virgo = rho_threshold / numpy.sqrt(rho2_virgo[t >= t_before_merger][-1])
+def localization_uncertainty_as_str(a90):
+	if a90 >= 4 * 180**2 / numpy.pi:
+		return "-"
+	elif a90 < 10:
+		return "%.1f" % a90
+	elif a90 < 100:
+		return "%d" % round(a90)
+	elif a90 < 1000:
+		return "%d" % (round(a90/10) * 10)
+	else:
+		return "%d" % (round(a90/100) * 100)
 
-		sigmat_final_ligo = 1. / (2 * pi * rho_final_ligo * sigmaf_ligo[-1])
-		sigmat_final_virgo = 1. / (2 * pi * rho_final_virgo * sigmaf_virgo[-1])
-
-		sigmax_final = sigmat_final_ligo / 7e-3
-		sigmay_final = numpy.sqrt((2 * sigmat_final_virgo ** 2 + sigmat_final_ligo ** 2) / 3.) / 22e-3
-		a_final = 2 * pi * numpy.log(10) * sigmax_final * sigmay_final * (180 / pi) ** 2
-
-		a = a90best[t >= t_before_merger][-1] * (180 / pi) ** 2
-
-		horizon = H_ligo * (8. / rho_final_ligo)
-		rate = 40. * (horizon / H_ligo) ** 3
-		print r"%.1f & %.0f & %d & %.1f & %.1f & %.1f \\" % (t_before_merger, horizon, round(rate), rho_final_ligo, a, a_final)
-	print r"\tableline"
-	print r"\end{tabular}"
+print r"\begin{tabular}{rrrrrrr}"
+print r"\tableline\tableline"
+print r"rate & horiz. & final & \multicolumn{4}{c}{$A$(90\%) (deg$^2$)} \\"
+print r"\cline{4-7}"
+print r"yr$^{-1}$ & (Mpc) & \SNR\ & 25 s & 10 s & 1 s & 0 s \\"
+print r"\tableline"
+for rate in (40., 10., 1., 0.1):
+	final_snr = rho_threshold * (40. / rate) ** (1./3)
+	a90 = a90best / final_snr ** 2 * (180. / pi) ** 2
+	a90_25 = localization_uncertainty_as_str(a90[t >= 25][-1])
+	a90_10 = localization_uncertainty_as_str(a90[t >= 10][-1])
+	a90_1 = localization_uncertainty_as_str(a90[t >= 1][-1])
+	a90_0 = localization_uncertainty_as_str(a90[t >= 0][-1])
+	horizon = H_ligo * (8. / final_snr)
+	print r"%g & %d & %.1f & %s & %s & %s & %s \\" % (rate, round(horizon), final_snr, a90_25, a90_10, a90_1, a90_0)
+print r"\tableline"
+print r"\end{tabular}"
 
 
 fig = pylab.figure(figsize=(3,2))
 ax = fig.add_subplot(1,1,1, adjustable='box')
 
-for rate in (10., 1., 0.1):
+for rate in (40., 10., 1., 0.1):
 	final_snr = rho_threshold * (40. / rate) ** (1./3)
 	pred = rho_ligo * final_snr >= rho_threshold
 	a90 = a90best / final_snr ** 2 * (180. / pi) ** 2
