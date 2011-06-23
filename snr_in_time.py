@@ -97,7 +97,7 @@ for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt'], ['zero det'
 pylab.grid()
 #pylab.legend(loc='lower left')
 pylab.ylabel(r'detections yr$^{-1}$')
-pylab.xlabel(r'time before coalescence, $t$ (s)')
+pylab.xlabel(r'time before coalescence (s)')
 pylab.subplots_adjust(bottom=0.2,top=0.95,left=0.2,right=0.95)
 pylab.xlim([0.01,1000])
 pylab.ylim([.1, 1000])
