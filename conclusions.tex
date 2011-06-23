@@ -37,25 +37,21 @@ the frequency of maximum sensitivity to the instantaneous frequency of the
 \GW{} waveform.  This is a challenging technique, but it has the potential for
 vast gains in \SNR{} and timing accuracy \citep{PhysRevD.47.2184}.
 
-Although we have demonstrated a feasible method for advance detection
-\emph{filtering}, we have not yet explored data whitening, triggering,
+Although we have demonstrated a computationally feasible detection statistic for
+advance detection, we have not yet explored data whitening, triggering,
 coincidence, and ranking of gravitational wave candidates in a framework that
-supports early \EM\ followup.
-% Drew: I don't understand what is trying to be said here.  Time-slices have no
-% cross-correlation with eachother since they are orthogonal.
-\begin{comment}If adjacent time slices have non-negligible cross-correlation
-with each other, then there may be some subtleties in the design of these
-postprocessing stages that we must address in order to translate the
-early-warning outputs into candidate events.\end{comment}
-%
-However, we believe these obstacles are surmountable.
-% Drew: Do we really want to say this. It doesn't really address any of the
-% issues above.
-\begin{comment}For an example of how the last obstacle could be approached, the
-time-slice decomposition and the \SVD\ will help us form low-latency
-signal-based vetoes (for example, a $\chi^2$ statistic) that have been
-essential for glitch rejection used in previous \GW{} \CBC{}
-searches.\end{comment}
+supports early \EM\ followup.  One complication in deploying a low-latency or
+early-warning search is that whitening the detector data involves estimating the
+noise power spectrum, which is often done in acausally.  We will have to look into
+causal or low latency alternatives to conventional spectral estimation techniques.
+Another potential complication is that if adjacent time slices have non-negligible
+cross-correlation with each other, then there may be some subtleties in the design
+of the triggering and coincidence stages that we must address in order to translate
+the early-warning outputs into candidate events.  The time-slice decomposition and
+the \SVD\ may also be beneficial for the postprocessing stage because they will
+help us form low-latency signal-based vetoes (e.g. $\chi^2$ statistics)
+that have been essential for glitch rejection used in previous \GW{} \CBC{}
+searches.
 
 Our future work must more deeply address sky localization accuracy prior to
 merger as well as observing strategies. Here, we have followed
