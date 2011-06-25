@@ -28,7 +28,7 @@ chirp masses $\mathcal{M}$ between 1.1955 and 1.2045~$M_\odot$.}
 \end{figure}
 With this sub-bank we were able to construct an efficient time-slice decomposition
 that consisted of 11 time slices with sample rates between 32 and 4096 Hz summarized
-in table \ref{tab:time_slices}.
+in Table \ref{tab:time_slices}.
 \begin{table*}
 \caption{\label{tab:time_slices} Filter design for these 657 templates.  From left to right, this table shows the sample rate, time interval, number of samples, and number of orthogonal templates for each time slice.  We vary \SVD{} tolerance from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.}
 \begin{center}
@@ -92,7 +92,7 @@ We studied how the \SVD\ tolerance affected \SNR\ loss by holding
 $N^\shortuparrow = 192$ fixed as we vaired the \SVD\ tolerance from
 $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.  The minimum, maximum, and median
 mismatch are shown as functions of \SVD\ tolerance in
-figure~\ref{fig:bw}a.  As the \SVD\ tolerance increases toward 1, the
+Figure~\ref{fig:bw}a.  As the \SVD\ tolerance increases toward 1, the
 \SVD\ becomes an exact matrix factorization, but the computational cost increases as
 the number of basis filters increases.  The conditions presented here are more
 complicated than in the original work~\citep{Cannon:2010p10398} due to the inclusion
@@ -109,7 +109,7 @@ target \SNR{} loss.
 
 Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$, we studied the
 impact of the length $N^\shortuparrow$ of the interpolation filter.  The mismatch as
-a function of $N^\shortuparrow$ is shown in figure~\ref{fig:bw}b.  The
+a function of $N^\shortuparrow$ is shown in Figure~\ref{fig:bw}b.  The
 mismatch saturates at $\sim 2 \times 10^{-4}$ with $N^\shortuparrow = 64$.  We find
 that a filter length of 16 is sufficient to meet our target mismatch of 0.003.
 
@@ -141,7 +141,7 @@ is varied from 8 to 192 coefficients.}
 We are now prepared to offer the estimated computational cost of filtering this
 sub-bank of templates compared to other methods.  We used the results of the
 previous subsections to set the \SVD\ tolerance at $\left(1-10^{-4}\right)$ and the
-interpolation filter length to 16. Table \ref{table:flops} shows the computational cost
+interpolation filter length to 16. Table~\ref{table:flops} shows the computational cost
 in \flops\ for this sub-bank.  For the \FD\ method, an \fft\ block size of $\fftblock = 
 2 \tmpsamps$ is assumed, resulting in a latency of $\left(\tmpsamps f^0\right)$
 seconds.  Both the \FD\ method and \lloid\ are five orders of magnitude faster than
