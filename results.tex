@@ -28,9 +28,9 @@ chirp masses $\mathcal{M}$ between 1.1955 and 1.2045~$M_\odot$.}
 \end{figure}
 With this sub-bank we were able to construct an efficient time-slice decomposition
 that consisted of 11 time slices with sample rates between 32 and 4096 Hz summarized
-in Table \ref{tab:time_slices}.
+in Table~\ref{tab:time_slices} and Figure~\ref{fig:envelope}.
 \begin{table*}
-\caption{\label{tab:time_slices} Filter design for these 657 templates.  From left to right, this table shows the sample rate, time interval, number of samples, and number of orthogonal templates for each time slice.  We vary \SVD{} tolerance from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.}
+\caption{\label{tab:time_slices} Filter design sub-bank of 657 templates.  From left to right, this table shows the sample rate, time interval, number of samples, and number of orthogonal templates for each time slice.  We vary \SVD{} tolerance from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.}
 \begin{center}
 \begin{tabular}{rr@{,\,}lc*{6}{r}}
 \tableline\tableline
@@ -54,7 +54,13 @@ $f^s$ (Hz) & $[t^s$&$t^{s+1})$ (s) & $N^s$ & $-1$ & $-2$ & $-3$ & $-4$ & $-5$ & 
 \end{tabular}
 \end{center}
 \end{table*}
-We use this template bank and decomposition for the remainder of this section.
+%
+\begin{figure}[h]
+	\plotone{figures/envelope.pdf}
+	\caption{\label{fig:envelope}Amplitude envelope, time slices boundaries, and sample rates for sub-bank used for impulse response test.}
+\end{figure}
+%
+We use this sub-bank and decomposition for the remainder of this section.
 
 \subsection{Measured \SNR\ loss}
 
