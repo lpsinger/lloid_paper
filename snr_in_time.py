@@ -92,7 +92,7 @@ for i, (cfile, label) in enumerate(zip(['data/ZERO_DET_high_P.txt'], ['zero det'
 	pylab.loglog(t, numminus, markers[i], lw=0.5)
 	pylab.loglog(t, numplus, markers[i], lw=0.5)
 	#pylab.hold(1)
-	pylab.fill_between(t, numminus, numplus, color='k', alpha=0.15)
+	pylab.fill_between(t, numminus, numplus, color='0.85')
 
 pylab.grid()
 #pylab.legend(loc='lower left')
