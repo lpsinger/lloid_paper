@@ -2,7 +2,7 @@ TEX = env TEXINPUTS=:$(CURDIR)/packages/aastex52:$(CURDIR)/packages/astronat/apj
 BIBTEX = env BSTINPUTS=:$(CURDIR)/packages/astronat/apj: TEXINPUTS=:$(CURDIR)/packages/aastex52:$(CURDIR)/packages/astronat/apj: bibtex
 
 PREREQS = \
-	figures/envelope.pdf figures/snr_in_time.pdf figures/loc_in_time.pdf figures/tmpltbank.pdf figures/bw.pdf figures/bw_resample.pdf figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf inspiral_svd.tex introduction.tex implementation.tex conclusions.tex appendix.tex packages.tex macros.tex method.tex results.tex references.bib
+	figures/envelope.eps figures/snr_in_time.eps figures/loc_in_time.eps figures/tmpltbank.pdf figures/bw.pdf figures/bw_resample.pdf figures/lloid-diagram.pdf figures/upsample-symbol.pdf figures/downsample-symbol.pdf figures/adder-symbol.pdf figures/fir-symbol.pdf inspiral_svd.tex introduction.tex implementation.tex conclusions.tex appendix.tex packages.tex macros.tex method.tex results.tex references.bib
 
 inspiral_svd.pdf: $(PREREQS)
 	$(TEX) -draftmode inspiral_svd
@@ -10,14 +10,14 @@ inspiral_svd.pdf: $(PREREQS)
 	$(TEX) -draftmode inspiral_svd
 	$(TEX) inspiral_svd
 
-figures/envelope.pdf: envelope.py
+figures/envelope.eps: envelope.py
 	python $^ $@
 
-figures/snr_in_time.pdf: snr_in_time.py
+figures/snr_in_time.eps: snr_in_time.py
 	python $^ $@
 
-figures/loc_in_time.pdf: localization_uncertainty.py
+figures/loc_in_time.eps: localization_uncertainty.py
 	python $^ $@
 
 clean:
-	rm -f inspiral_svd.{aux,out,log,bbl,blg,pdf} time_slices.{tex,pdf} figures/envelope.pdf figures/loc_in_time.pdf figures/snr_in_time.pdf
+	rm -f inspiral_svd.{aux,out,log,bbl,blg,pdf} time_slices.{tex,pdf} figures/envelope.eps figures/loc_in_time.eps figures/snr_in_time.eps
