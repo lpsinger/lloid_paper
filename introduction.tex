@@ -4,24 +4,22 @@
 As a compact binary system loses energy to gravitational waves (\GW{}s), its
 orbital separation decays, leading to a runaway inspiral with the \GW{}
 amplitude and frequency increasing until the system eventually merges.  It is
-thought that if a \textsc{ns} is involved, it may become tidally disrupted near
+thought that if a neutron star (\textsc{ns}) is involved, it may become tidally disrupted near
 the merger and fuel a bright electromagnetic (\EM{}) counterpart
-\citep{shibata:2007}.  The gravitational wave signal is in principle detectable
+\citep{shibata:2007}.  The gravitational-wave signal is in principle detectable
 before merger.  Effort from both the \GW{} and astronomy communities may make
 it possible to use \GW{} observations as an early warning trigger for \EM{}
-followup.  We have the ambition of reporting GW candidates not minutes after
+followup. In the first generation of ground-based laser interferometers, the \GW{}
+community initiated a project to send alerts when potential \GW{} transients
+were observed in order to trigger followup observations by \EM{} telescopes.
+The typical latencies were 30 minutes \citep{HugheyGWPAW2011}, which was an
+important achievement, but too late to catch the potential prompt \EM{}
+emission. We have the ambition of reporting GW candidates not minutes after
 the merger, as has already been accomplished, but seconds before.  We discuss
 one essential ingredient in this effort, a computationally inexpensive
 real-time filtering algorithm for detecting inspiral signals in gravitational
 wave data.  We also present the prospects for advanced \GW\ detectors and
-discuss other areas of work that would be required for rapid analysis.  
-
-In the first generation of ground-based laser interferometers, the \GW{}
-community initiated a project to send alerts when potential \GW{} transients
-were observed in order to trigger followup observations by \EM{} telescopes.
-The typical latencies were 30 minutes \citep{HugheyGWPAW2011}, which was an
-important achievement, but probably too late to catch the potential prompt
-\EM{} emission. 
+discuss other areas of work that would be required for rapid analysis.
 
 \subsection{\EM{} counterparts}
 
@@ -30,25 +28,24 @@ several classes of \EM{} transients, \CBC{}s are in particular believed to be a
 mechanism for short gamma-ray bursts (short \GRB{}s) \citep{Lee:2005, nakar07}.
 In this scenario, prompt gamma-ray emission arises on the accretion timescale
 of a central compact object formed after the merger, 0.1--1.0\,s
-\citep{Janka1999}.  Interestingly, roughly 1/4 -- 1/2 of observed short \GRB{}s
-also exhibit extended emission $\sim100$\,s.  Potential explanations for the
+\citep{Janka1999}.  Interestingly, roughly a quarter to half of observed short
+\GRB{}s
+also exhibit extended emission $\sim$$100$\,s.  Potential explanations for the
 emission are delayed fall-back accretion \citep{Metzger2010} caused by
 $r$-process heating or the formation of a proto-magnetar that interacts with
 ejecta \citep{Bucciantini2011}.  In the case of the proto-magnetar, it might be
-formed from accretion induced collapse, or the merger of two neutron stars.  An
+formed from accretion induced collapse, or the merger of two \textsc{ns}s.  An
 accompanying \GW{} observation would confirm the latter.
 
 Optical flashes have only been observed for a handful of long \GRB{}s
 \citep{2011CRPhy..12..255A} by telescopes with extremely rapid response or, in
 the case of \textsc{grb 080319b}, by pure serendipity, where several telescopes
 were already observing the afterglow of another \GRB{} in the same field of
-view~\citep{2008Natur.455..183R}. The observed optical flashes peaked within
+view \citep{2008Natur.455..183R}. The observed optical flashes peaked within
 tens of seconds and decayed quickly.  Short \GRB{}s, on the other hand,
 typically fade too quickly to even catch the tails of the afterglows in any
 band. Rapid \GW{} transient alerts could enable the first observation of prompt
-optical flashes and the rise of afterglows from short \GRB{}s, and, for a truly
-exceptional event, perhaps even a glimpse of a precursor
-\citep{0004-637X-723-2-1711}.
+optical flashes and the rise of afterglows from short \GRB{}s.
 
 \subsection{Early-warning \EM{} followup}
 
@@ -84,8 +81,8 @@ Figure~\ref{fig:earlywarning} shows projected early detectability rates for
 predicted in \citet{Abadie:2010p10836} and anticipated detector sensitivity for
 the `zero detuning, high power' configuration described in \citet{ALIGONoise}.
 The most realistic estimates indicate that at an \SNR\ threshold of 8, we will
-observe a total of 40~events~yr$^{-1}$. $\sim$10~yr$^{-1}$ will be detectable
-within 10~s of merger and $\sim$5~yr$^{-1}$ will be detectable within 25~s of
+observe a total of 40\,events\,yr$^{-1}$. $\sim$10\,yr$^{-1}$ will be detectable
+within 10\,s of merger and $\sim$5\,yr$^{-1}$ will be detectable within 25\,s of
 merger if analysis can proceed with near zero latency. These rates are shown
 with their substantial uncertainties in Figure~\ref{fig:earlywarning}.
 
@@ -99,7 +96,7 @@ occur with some delay.
 \begin{table}[h]
 \caption{\label{table:sky-localization-accuracy}Horizon distance, \SNR\ at
 merger, and area of 90\% confidence at selected times before merger for sources
-with expected detectability rates of 40, 10, 1, and 0.1~yr$^{-1}$.}
+with expected detectability rates of 40, 10, 1, and 0.1\,yr$^{-1}$.}
 \begin{center}
 \begin{tabular}{rrrrrrr}
 \tableline\tableline
@@ -120,7 +117,7 @@ yr$^{-1}$ & (Mpc) & \SNR\ & 25 s & 10 s & 1 s & 0 s \\
 \plotone{figures/loc_in_time}
 \caption{\label{fig:sky-localization-accuracy}Area of the 90\% confidence
 region as a function of time before coalescence for sources with anticipated
-detectability rates of 40, 10, 1, and 0.1~yr$^{-1}$. The heavy dot indicates
+detectability rates of 40, 10, 1, and 0.1\,yr$^{-1}$. The heavy dot indicates
 the time at which the accumulated \SNR\ exceeds a threshold of 8.}
 \end{figure}
 
@@ -133,9 +130,9 @@ Figure~\ref{fig:sky-localization-accuracy} show the estimated minimum 90\%
 confidence area versus time of the loudest coalescence events detectable by
 Advanced \LIGO{} and Advanced Virgo.  Once per year, we expect to observe an
 event with a final \SNR\ of $\sim 27$ whose location can be constrained to about
-1300~deg$^2$ (3.1\% of the sky) using only the waveform 25~s before merger,
-260~deg$^2$ (0.63\% of the sky) using the waveform 10~s before merger, and
-0.82~deg$^2$ (0.0020\% of the sky) using the full \GW\ waveform.
+1300\,deg$^2$ (3.1\% of the sky) using only the waveform 25\,s before merger,
+260\,deg$^2$ (0.63\% of the sky) using the waveform 10\,s before merger, and
+0.82\,deg$^2$ (0.0020\% of the sky) using the full \GW\ waveform.
 
 It is infeasible to search hundreds of square degrees for a prompt counterpart.
 For reference, \textsc{lsst} should see first light around the same time as
@@ -158,55 +155,58 @@ likewise the error box.
 
 \subsection{Latency in \CBC{} searches}
 
-Here we provide a brief list of technical latencies associated with \CBC\
-analysis in S6, VSR3 in chronological order \citep{HugheyGWPAW2011}.
+There were a number of sources of latency associated with \CBC{}
+analysis in S6/VSR3 \citep{HugheyGWPAW2011}, listed here in chronological order.
 %
 \begin{itemize}
 %
-\item {\it raw data aggregation and broadcasting ($sim 0.25$\,s):}  There are
-fundamental latencies associated with data acquisition and broadcasting that
-cannot be overcome.  For example, the \LIGO{} data acquisition records science
-data in 1/16~s blocks~\citep{Bork2001}. Data must also be aggregated from all
+\item {\it Data aggregation and broadcasting ($\sim$$0.25$\,s):}
+The \LIGO{} data acquisition system records science
+data in 1/16\,s blocks \citep{Bork2001}. Data must also be aggregated from all
 of the \GW\ observatories using global computer networks capable of high
 bandwidth but perhaps only modest latency.  This could introduce an additional
-latency of $\sim$100~ms.  These latencies are microscopic compared with the
-other technical sources of latency below. 
+latency of $\sim$100\,ms.  These latencies are much smaller than the
+other sources of latency below and would require significant reengineering and
+capital investments to overcome.
 %
-\item {\it Data calibration, quality control and distribution ($\sim
-2$\,minutes):}  This is the time it took to calibrate the detector data, assess
-its quality and distribute it to a central location for analysis.  Improvements
-in other areas could make this the dominating source of latency. If possible
-work should be done to improve this.
+\item {\it Data calibration, quality control, and distribution
+($\sim$$2$\,min):} There is technical latency in calibrating the detector data,
+assessing its quality, and distributing it to a central location for analysis.
+None of this latency is fundamental and improvements in other areas could make
+this the dominating source of latency, so work should be done to improve this.
 %
-\item {\it Trigger production ($2-5$\,minutes):} This was an impressive latency
-and was certainly sub-dominant in the S6, VSR3 analysis.  However, even if no
-other sources of latency exist it is too long to catch prompt or extended
-emission.  It is also more challenging for searches with advanced detectors
-because the templates needed to filter the data are about 10 times longer.  We
-will focus on reducing the latency of the trigger production step in this work.
+\item {\it Trigger production ($2$--$5$\,min):} This was an impressive latency
+and was certainly sub-dominant in the S6/VSR3 analysis.  However, even if no
+other sources of latency exist, triggering latency is too long to catch prompt
+or extended
+emission. It is also more challenging for searches with advanced detectors
+because the templates needed to filter the data are about ten times longer.  We
+will focus on reducing the latency of trigger production in this work.
 %
-\item {\it Event gathering, downselection and pointing calculations ($2-3$\,
-minutes):} This was the time required to gather the event parameters and sky
-localization from the various online analyses, downselect the events and
-calculate pointings.  If other sources of latency were improved this could
-dominate.  If possible work should be done to improve this.
+\item {\it Event gathering, downselection, and pointing calculations
+($2$--$3$\,min):} S6/VSR3 saw the introduction of low-latency astronomical
+alerts, which required gathering event parameters and sky localization from the
+various online analyses, downselecting the events, and calculating pointings.
+If other sources of latency improve, this could dominate, so work should be
+done to improve this.
 %
-\item {\it Human vetting of the trigger quality ($10-20$\,minutes):}  This was
-by far the largest latency during the S6, VSR3 low latency analysis and will
-hopefully be automated by the advanced detector era.  We therefore give it no
-more consideration here.
+\item {\it Human vetting of the trigger quality ($10$--$20$\,min):} In
+commissioning the new alert system in S6/VSR3, humans manually examined each
+candidate for obvious flaws before publishing an alert. This was by far the
+largest latency during S6/VSR3 and hopefully confidence will grow to the
+point where human operators are satisfied with checks after alerts have been
+transmitted. We give it no further consideration here.
 %
 \end{itemize}
-%
 
 This work will focus on reducing the latency of trigger production.  Realizing
 advance detection of \CBC{}s will require striking a balance between latency
-and throughput of filtering \GW\ wave data. \CBC{} searches consist of banks of
+and throughput of filtering \GW\ data. \CBC{} searches consist of banks of
 matched filters, or cross-correlations between the data stream and a bank of
 nominal ``template'' signals.  There are many different implementations of
 matched filters, but most have high throughput at the cost of high latency, or
 low latency at the cost of low throughput.  The former are epitomized by the
-overlap-save algorithm~% \citep{numerical-recipes-chapter-13}
+overlap-save algorithm % \citep{numerical-recipes-chapter-13}
 for frequency domain (\FD) convolution, currently the preferred method in \GW{}
 searches.  The most obvious example of the latter is the time domain (\TD)
 convolution, which is latency-free.  However, its computational complexity is
