@@ -2,23 +2,37 @@
 \label{sec:conclusions}
 
 We have demonstrated a computationally feasible procedure for the rapid and
-even early-warning detection of \GW{}s emitted during the coalescence of
-neutron stars and stellar-mass black holes. Our method is as fast as standard
-\fft{} convolutions but allows for latency-free, real-time operation.  We
-anticipate requiring $\sim 4 \times 10 = 40$ modern multi-core computers to
-search for binary neutron stars using coincident \GW\ data from a four-detector
-network.  In the future, additional computational savings could be acheived by
-conditionally reconstructing the \SNR{} time-series only during times when a
-composite detection statistic crosses a threshold~\citep{svd-compdetstat}.
-However, the anticipated required number of computers is well within the
-current computing capabilities of the \LIGO{} Data
+even early-warning filtering of data for \GW{}s emitted during the coalescence
+of neutron stars and stellar-mass black holes.  It is one part of a complicated
+analysis and observation strategy that will unfortunately have other sources of
+latency.  However, we hope that it will motivate further work to reduce such
+technical sources of \GW{} observation latency and encourage the possibility of
+even more rapid \EM\ followup observations to catch prompt emission in the
+advanced detector era.  
+
+The \lloid{} method is as fast as standard \fft{} convolutions but allows for a
+technically latency-free, real-time operation.  We anticipate requiring
+$\gtrsim 4 \times 10 = 40$ modern multi-core computers to search for binary
+neutron stars using coincident \GW\ data from a four-detector network.  In the
+future, additional computational savings could be acheived by conditionally
+reconstructing the \SNR{} time-series only during times when a composite
+detection statistic crosses a threshold~\citep{svd-compdetstat}.  However, the
+anticipated required number of computers is well within the current computing
+capabilities of the \LIGO{} Data
 Grid\footnote{\url{https://www.lsc-group.phys.uwm.edu/lscdatagrid/}}.
 
 \CBC\ events may be the progenitors of some short hard \GRB{}s and are expected
-to be accompanied prompt \EM{} signals.  Rapid alerts to the broader
+to be accompanied by prompt \EM{} signals.  Rapid alerts to the broader
 astronomical community will improve the chances of detecting an \EM{}
-counterpart in bands from gamma-rays down to radio.
+counterpart in bands from gamma-rays down to radio.  It will be extremely
+challenging for all but the rarest events to localize the source well enough in
+advance to detect the onset of prompt emission, however localization prior to
+the onset of extended emission on the 10--100\,s time-scale is more easily
+achieved and will benefit from the full bandwidth and \SNR\ of the \GW{} event
+at merger.  Probing even the extended emission timescale requires very low
+latency filtering schemes such as the one described here.
 
+\begin{comment}
 The detection algorithm we described has no intrinsic latency.  However, there
 are fundamental and practical latencies associated with the analysis and
 detection procedure. For example, the \LIGO{} data acquisition records science
@@ -26,24 +40,37 @@ data in 1/16~s blocks~\citep{Bork2001}. Data must also be aggregated from all
 of the \GW\ observatories using global computer networks capable of high
 bandwidth but perhaps only modest latency.  This could introduce a latency of
 $\sim$100~ms.  Lastly, the software implementation of the algorithm itself may
-introduce latency.  We have shown a prototype implementation of \lloid{} using
-\gstreamer, an open source signal processing platform. Some work could
-be done in order to improve upon the latency of our implementation,
-including tighter integration between data acquisition and analysis. This could
-be considered for third-generation detector design.  Also possible for
+introduce latency.  
+\end{comment}
+
+We have shown a prototype implementation of the \lloid{} algorithm using
+\gstreamer, an open source signal processing platform.  Work will be done in
+order to improve upon the latency of our implementation.  Ultimately the best
+possible latency would be achieved by tighter integration between data
+acquisition and analysis with dedicated hardware and software. This could be
+considered for third-generation detector design.  Also possible for
 third-generation instruments, the \lloid{} method could provide the input for a
 dynamic tuning of detector response via the signal recycling mirror to match
 the frequency of maximum sensitivity to the instantaneous frequency of the
 \GW{} waveform.  This is a challenging technique, but it has the potential for
 vast gains in \SNR{} and timing accuracy \citep{PhysRevD.47.2184}.
 
-Although we have demonstrated a computationally feasible detection statistic for
-advance detection, we have not yet explored data whitening, triggering,
-coincidence, and ranking of gravitational wave candidates in a framework that
-supports early \EM\ followup.  One complication in deploying a low-latency or
-early-warning search is that whitening the detector data involves estimating the
-noise power spectrum, which is often done in acausally.  We will have to look into
-causal or low latency alternatives to conventional spectral estimation techniques.
+Although we have demonstrated a computationally feasible detection statistic
+for advance detection, we have not yet explored data calibration and whitening,
+triggering, coincidence, and ranking of gravitational wave candidates in a
+framework that supports early \EM\ followup.
+\begin{comment}
+One complication in deploying a
+low-latency or early-warning search is that whitening the detector data
+involves estimating the noise power spectrum, which is often done acausally.
+We will have to look into causal or low latency alternatives to conventional
+spectral estimation techniques.  
+\end{comment}
+We will explore these and also using the time-slice decomposition and the \SVD\
+to form low-latency signal-based vetoes (e.g.  $\chi^2$ statistics) that have
+been essential for glitch rejection used in previous \GW{} \CBC{} searches.
+
+\begin{comment}
 Another potential complication is that if adjacent time slices have non-negligible
 cross-correlation with each other, then there may be some subtleties in the design
 of the triggering and coincidence stages that we must address in order to translate
@@ -52,9 +79,10 @@ decomposition and the \SVD\ may be beneficial for the postprocessing stage
 because they will help us form low-latency signal-based vetoes (e.g. $\chi^2$ statistics)
 that have been essential for glitch rejection used in previous \GW{} \CBC{}
 searches.
+\end{comment}
 
-Our future work must more deeply address sky localization accuracy prior to
-merger as well as observing strategies. Here, we have followed
+Our future work must more deeply address sky localization accuracy in a
+realistic setting as well as observing strategies. Here, we have followed
 \citet{Fairhurst2009} in estimating the area of 90\% localization confidence in
 terms of timing uncertainties alone, but it would be advantageous to use a
 galaxy catalog to inform the telescope tiling \citep{galaxy-catalog}. Because
@@ -62,7 +90,7 @@ early detections will arise from nearby sources, the galaxy catalog technique
 might be an important ingredient in reducing the fraction of sky that must be
 imaged.  Extensive simulation campaigns incorporating realistic binary merger
 rates and detector networks will be necessary in order to fully understand the
-prospects for early-warning detection, localization, and \EM\ folluwup using
+prospects for early-warning detection, localization, and \EM\ followup using
 the techniques we have described.
 
 
