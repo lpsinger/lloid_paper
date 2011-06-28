@@ -4,7 +4,7 @@
 
 \begin{document}
 
-\title{Technique for \earlywarning\ detection of compact binary coalescence
+\title{Technique for \earlywarning\ filtering for compact binary coalescence
 and its implications for multi-messenger astronomy}
 
 \shorttitle{Early-warning of compact binary coalescence}
@@ -25,7 +25,8 @@ and its implications for multi-messenger astronomy}
 	Leo Singer\altaffilmark{3}, and
 	Alan Weinstein\altaffilmark{3}
 }
-\email{leo.singer@ligo.org}
+% we either need to include all of our emails, or none.
+%\email{leo.singer@ligo.org}
 
 \altaffiltext{1}{Canadian Institute for Theoretical Astrophysics, Toronto, ON, Canada}
 \altaffiltext{2}{D\'{e}partement de physique, \'{E}cole Normale Sup\'{e}rieure de Cachan, Cachan, France}
@@ -46,11 +47,8 @@ gravitational-wave detectors will offer a unique opportunity for
 multi-messenger astronomy.  Prompt detection alerts to the astronomical
 community may make it possible to observe the onset of electromagnetic emission
 from compact binary coalescence.  We demonstrate a computationally practical
-analysis strategy that produces early-warning triggers even before
+filtering strategy that could produce early-warning triggers before
 gravitational radiation from the final merger has arrived at the detectors.
-With current rate estimates for the Advanced \LIGO{} design configuration, it
-should be possible to detect $\sim$10 such sources earlier than 10 seconds
-before merger in 1 year of live time using the method we describe.
 \end{abstract}
 
 \input{introduction}
@@ -66,12 +64,13 @@ Massachusetts Institute of Technology with funding from the National Science
 Foundation and operates under cooperative agreement
 \textsc{phy}-\oldstylenums{0107417}.  CH would like to thank Ilya Mandel for
 many discussions about rate estimates and the prospects of early detection.  CH
-would also like to thank Patrick Brady for countless fruitful conversations
-about low latency analysis methods.  NF would like to thank Alessandra Corsi
-for illuminating discussions on astronomical motivations.  This research is
-supported by the National Science Foundation through a Graduate Research
-Fellowship to LS and by the Perimeter Institute for Theoretical Physics
-through a fellowship to CH. DK is supported from the Max Planck Gesellschaft. 
+would like to thank Patrick Brady for countless fruitful conversations about
+low latency analysis methods.  CH would like to thank John Zweizig for
+disscussions about \LIGO\ data acquisition.  NF would like to thank Alessandra
+Corsi for illuminating discussions on astronomical motivations.  This research
+is supported by the National Science Foundation through a Graduate Research
+Fellowship to LS and by the Perimeter Institute for Theoretical Physics through
+a fellowship to CH. DK is supported from the Max Planck Gesellschaft. 
 
 This paper has \LIGO\ Document Number \LIGO-\textsc{p}\oldstylenums{0900004}-v\oldstylenums{21}.
 
