@@ -56,7 +56,7 @@ $f^s$ (Hz) & $[t^s$&$t^{s+1})$ (s) & $N^s$ & $-1$ & $-2$ & $-3$ & $-4$ & $-5$ & 
 \end{table*}
 %
 \begin{figure}[h]
-	\plotone{figures/envelope.eps}
+	\plotone{figures/envelope}
 	\caption{\label{fig:envelope}Amplitude envelope, time slices boundaries, and sample rates for sub-bank used for impulse response test.}
 \end{figure}
 %
@@ -142,17 +142,19 @@ In (b), the \SVD\ tolerance is fixed at $\left(1-10^{-6}\right)$ while $N^\short
 is varied from 8 to 192 coefficients.}
 \end{figure*}
 
-\subsection{Lower bounds on computational cost compared to other methods}
+\subsection{Lower bounds on computational cost and latency compared to other
+methods}
 
 We are now prepared to offer the estimated computational cost of filtering this
 sub-bank of templates compared to other methods.  We used the results of the
-previous subsections to set the \SVD\ tolerance at $\left(1-10^{-4}\right)$ and the
-interpolation filter length to 16. Table~\ref{table:flops} shows the computational cost
-in \flops\ for this sub-bank.  For the \FD\ method, an \fft\ block size of $\fftblock = 
-2 \tmpsamps$ is assumed, resulting in a latency of $\left(\tmpsamps f^0\right)$
-seconds.  Both the \FD\ method and \lloid\ are five orders of magnitude faster than
-the conventional \TD\ method.  However, the \FD\ method has a latency of over half of an
-hour, whereas \lloid\ has no latency at all.
+previous subsections to set the \SVD\ tolerance at $\left(1-10^{-4}\right)$ and
+the interpolation filter length to 16. Table~\ref{table:flops} shows the
+computational cost in \flops\ for this sub-bank.  For the \FD\ method, an \fft\
+block size of $\fftblock = 2 \tmpsamps$ is assumed, resulting in a latency of
+$\left(\tmpsamps f^0\right)$ seconds.  Both the \FD\ method and \lloid\ are
+five orders of magnitude faster than the conventional \TD\ method.  However,
+the \FD\ method has a latency of over half of an hour, whereas \lloid\ has no
+latency at all.
 %
 \begin{table}
 \caption{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the sub-bank described in section~\ref{sec:bank-setup}.}
@@ -189,10 +191,29 @@ Presently, the \LIGO{} Data Grid consists of only $\sim$$10^4$ machines.
 
 \subsection{Measured latency and overhead}
 
-Our \gstreamer\ pipeline for measuring impulse responses contained instrumentation that would not be necessary for an actual search, including additional interpolation filters to bring the early-warning outputs back to the full sample rate and additional outputs for recording signals to disk.
+Our \gstreamer\ pipeline for measuring impulse responses contained
+instrumentation that would not be necessary for an actual search, including
+additional interpolation filters to bring the early-warning outputs back to the
+full sample rate and additional outputs for recording signals to disk.
 
-We wrote a second, stripped pipeline to evaluate the actual latency and computational overhead.  We executed this pipeline on one of the submit machines of the \LIGO-Caltech cluster, a Sun Microsystems Sun Fire\texttrademark\ X4600~M2 server with eight quad-core 2.7~GHz AMD Opteron\texttrademark\ 8384 processors.  This test consumed 78\% of the capacity of just one out of the 32 cores, maintaining a constant latency of 5~s.
+We wrote a second, stripped pipeline to evaluate the actual latency and
+computational overhead.  We executed this pipeline on one of the submit
+machines of the \LIGO-Caltech cluster, a Sun Microsystems Sun
+Fire\texttrademark\ X4600~M2 server with eight quad-core 2.7~GHz AMD
+Opteron\texttrademark\ 8384 processors.  This test consumed 78\% of the
+capacity of just one out of the 32 cores, maintaining a constant latency of
+5~s.
 
-The measured overhead is consistent to within an order of magnitude with the lower bound from the \flops\ budget.  The additional overhead is probably dominated by thread synchronization.  A carefully optimized \gstreamer\ pipeline or a hand-tuned C implementation of the pipeline might reduce overhead further.
+The measured overhead is consistent to within an order of magnitude with the
+lower bound from the \flops\ budget.  The additional overhead is probably
+dominated by thread synchronization.  A carefully optimized \gstreamer\
+pipeline or a hand-tuned C implementation of the pipeline might reduce overhead
+further.
 
-The 5~s latency is probably due to buffering and synchronization.  The latency could probably be reduced by carefully tuning buffer lengths at every stage in the pipeline.
+The 5~s latency is probably due to buffering and synchronization.  The latency
+might be reduced by carefully tuning buffer lengths at every stage in
+the pipeline.
+
+Even without further refinements, our implementation of the \lloid\ algorithm
+achieves latencies that would make other aspects of the analysis the limiting
+steps assuming that the human vetting process is removed.  
