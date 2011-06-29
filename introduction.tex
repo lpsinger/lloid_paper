@@ -156,42 +156,43 @@ analysis in S6/VSR3 \citep{HugheyGWPAW2011}, listed here.
 %
 \begin{itemize}
 %
-\item {\it Data aggregation and broadcasting ($\sim$$0.25$\,s):}
-The \LIGO{} data acquisition system records science
-data in 1/16\,s blocks \citep{Bork2001}. Data must also be aggregated from all
-of the \GW\ observatories using global computer networks capable of high
-bandwidth but perhaps only modest latency.  This could introduce an additional
-latency of $\sim$100\,ms.  These latencies are much smaller than the
-other sources of latency below and would require significant reengineering and
-capital investments to overcome.
+\item {\it Data acquisition and aggregation ($\gtrsim$100~ms):}
+The \LIGO\ data acquisition system collects data from detector subsystems 16
+times a second~\citep{Bork2001}. Data are also copied from all of the \GW\
+observatories to the analysis clusters over the Internet, which is capable of
+high bandwidth but perhaps only modest latency.  Together, these introduce a
+latency of $\gtrsim 100$~ms.  These technical sources of latency could be reduced
+with significant engineering and capital investments, but they are minor compared
+to any of the other sources of latency.
 %
-\item {\it Data calibration, quality control, and distribution
-($\sim$$2$\,min):} There is technical latency in calibrating the detector data,
-assessing its quality, and distributing it to a central location for analysis.
-None of this latency is fundamental and improvements in other areas could make
-this the dominating source of latency, so work should be done to improve this.
+\item {\it Data conditioning
+($\sim$1~min):} Science data must be calibrated using the detector's frequency
+response to gravitational radiation.  Currently, data are calibrated in blocks of
+16~s.  Within $\sim$1~min, data quality is assessed in order to create veto flags.
+These are both technical sources of latency that might be addressed with improved
+calibration and data quality software for advanced detectors.
 %
-\item {\it Trigger production ($2$--$5$\,min):} This was an impressive latency
-and was certainly sub-dominant in the S6/VSR3 analysis.  However, even if no
-other sources of latency exist, triggering latency is too long to catch prompt
-or extended
-emission. It is also more challenging for searches with advanced detectors
-because the templates needed to filter the data are about ten times longer.  We
-will focus on reducing the latency of trigger production in this work.
+\item {\it Trigger generation (2--5~min):} Low-latency data analysis pipelines
+deployed in S6/VSR3 achieved an impressive latency of minutes.  However, second
+to the human vetting process, this dominated the latency of the entire \EM\
+followup process.  Even if no other sources of latency existed, this trigger
+generation latency is too long to catch prompt or even extended emission.
+Low-latency trigger generation will become more challenging with advanced detectors
+because inspiral signals will stay in band up to ten times longer.  In this work,
+we will focus on reducing this source of latency.
 %
-\item {\it Event gathering, downselection, and pointing calculations
-($2$--$3$\,min):} S6/VSR3 saw the introduction of low-latency astronomical
+\item {\it Alert generation
+(2--3~min):} S6/VSR3 saw the introduction of low-latency astronomical
 alerts, which required gathering event parameters and sky localization from the
 various online analyses, downselecting the events, and calculating pointings.
-If other sources of latency improve, this could dominate, so work should be
-done to improve this.
+If other sources of latency improve, the technical latency associated with this
+infrastructure could dominate, so work should be done to improve it.
 %
-\item {\it Human vetting of the trigger quality ($10$--$20$\,min):} In
-commissioning the new alert system in S6/VSR3, humans manually examined each
-candidate for obvious flaws before publishing an alert. This was by far the
-largest latency during S6/VSR3 and hopefully confidence will grow to the
-point where human operators are satisfied with checks after alerts have been
-transmitted. We give it no further consideration here.
+\item {\it Human validation (10--20~min):} Because the new alert system was
+commissioned during S6/VSR3, humans examined each candidate for obvious flaws
+before publishing an alert. This was by far the largest latency during S6/VSR3.
+Hopefully, confidence in the system will grow to the point where no human intervention
+is necessary before alerts are sent, so we give it no further consideration here.
 %
 \end{itemize}
 
