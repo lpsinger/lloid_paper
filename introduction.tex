@@ -205,9 +205,9 @@ overlap-save algorithm for frequency domain (\FD) convolution, currently the
 preferred method in \GW{} searches.  The most obvious example of the latter is
 the time domain (\TD) convolution, which is latency-free.  However, its
 computational complexity is quadratic in the length of the templates, so it is
-prohibitively expensive for long templates.  We note that \citep{shaunIIR} have
-explored an infinite-impulse-response (IIR) decomposition of \CBC\ waveforms as
-a means to reduce the computational complexity of \TD\ filtering.  They
+prohibitively expensive for long templates.  \citet{shaunIIR} explored decomposing
+\CBC\ matched filters into banks of infinite impulse response (\textsc{iir})
+filters as a means to reduce the computational cost of latency-free data analysis.  They
 demonstrate a factor of 50 improvement in floating point operations per second
 over the standard \TD\ method.  We will significantly improve upon that number.
 
