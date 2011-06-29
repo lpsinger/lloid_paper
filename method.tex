@@ -173,30 +173,6 @@ manifestly orthogonal since the time slices are disjoint in time.  In the next
 section we examine how to reduce the number of filters within each time slice
 via \SVD{} of the time-sliced templates.
 
-\begin{comment}
-An example time slice design satisfying these constraints for a $1.4 - 1.4 \,
-M_{\odot}$ binary is shown in Table~\ref{table:time_slices}.
-%
-\begin{table}[h!]
-\begin{minipage}[c]{0.52\textwidth}
-\centering
-\vspace{0.8cm}
-\includegraphics{time_slices.pdf}
-\end{minipage}
-\begin{minipage}[c]{0.3\textwidth}
-\centering
-\input{time_slices.tex}
-\end{minipage}
-\caption{\label{table:time_slices} Example of nearly critically sampled,
-power-of-two time slices for a $1.4 - 1.4 \, M_{\odot}$ template extending from
-$f_\mathrm{low} = 10 \, \mathrm{Hz}$ to $f_\mathrm{hi} = f_\mathrm{ISCO} = 1571\, \mathrm{Hz}$
-with a time-frequency structure given by ($\ref{eq:fgw})$. $f^s$ is the sample
-rate of the time slice, $(t^{s+1}, t^s]$ are the boundaries in seconds
-preceding coalescence and \slicessamps\ is the number of samples in the
-$s^{\mathrm{th}}$ filter.}
-\end{table}
-\end{comment}
-
 \subsubsection{Reducing the number of filters with the \SVD{}}
 \label{sec:svd}
 
