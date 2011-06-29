@@ -16,7 +16,7 @@ import sys
 # Generate plot
 from gstlal.svd_bank import read_bank
 bank = read_bank('data/svd_0_9.xml')
-pylab.figure(figsize=(3,2.5))
+pylab.figure(figsize=(2.6,2.5))
 ax = pylab.subplot(111)
 legend_artists = []
 legend_labels = []
@@ -38,5 +38,5 @@ pylab.xticks([-x.end for x in bank.bank_fragments if x.end > 10], [str(x.end) fo
 pylab.grid()
 pylab.xlabel('time relative to coalescence (s)')
 pylab.ylabel(r'strain amplitude')
-pylab.subplots_adjust(left=0.075, right=0.97, top=0.98, bottom=0.225)
+pylab.subplots_adjust(left=0.075, right=0.97, top=0.95, bottom=0.225)
 pylab.savefig(sys.argv[1])
