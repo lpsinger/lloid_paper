@@ -54,7 +54,7 @@ sixth science run (S6) and Virgo\footnote{\url{http://www.ego-gw.it/}}
 completed its third science run (VSR3).  While both \LIGO{} detectors and Virgo
 were operating, several all-sky detection pipelines operated in a low-latency
 configuration to send astronomical alerts, namely \textsc{mbta}, Coherent
-WaveBurst, and Omega \citep{HugheyGWPAW2011, S6lowlatency}. The S6 analyses
+WaveBurst, and Omega \citep{HugheyGWPAW2011, S6lowlatency, S6lowlatency2, S6lowlatency3, S6lowlatency4}. The S6 analyses
 achieved latencies of 30--60 minutes, which were dominated by a human vetting
 process. Candidates were sent for \EM{} followup to several telescopes; Swift,
 \textsc{rotse}, \textsc{tarot}, and Zadko \citep{kanner2008, HugheyGWPAW2011}
@@ -203,12 +203,15 @@ matched filters, or cross-correlations between the data stream and a bank of
 nominal ``template'' signals.  There are many different implementations of
 matched filters, but most have high throughput at the cost of high latency, or
 low latency at the cost of low throughput.  The former are epitomized by the
-overlap-save algorithm
-for frequency domain (\FD) convolution, currently the preferred method in \GW{}
-searches.  The most obvious example of the latter is the time domain (\TD)
-convolution, which is latency-free.  However, its computational complexity is
-quadratic in the length of the templates, so it is prohibitively expensive for
-long templates.
+overlap-save algorithm for frequency domain (\FD) convolution, currently the
+preferred method in \GW{} searches.  The most obvious example of the latter is
+the time domain (\TD) convolution, which is latency-free.  However, its
+computational complexity is quadratic in the length of the templates, so it is
+prohibitively expensive for long templates.  We note that \citep{shaunIIR} have
+explored an infinite-impulse-response (IIR) decomposition of \CBC\ waveforms as
+a means to reduce the computational complexity of \TD\ filtering.  They
+demonstrate a factor of 50 improvement in floating point operations per second
+over the standard \TD\ method.  We will significantly improve upon that number.
 
 Fortunately, the morphology of inspiral signals can be exploited to offset some
 of the computational complexity of low-latency algorithms.  First, the signals
