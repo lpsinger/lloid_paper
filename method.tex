@@ -61,7 +61,7 @@ a latency of $\mathcal O(\tmpsamps)$ samples.
 \subsection{The \lloid\ method}
 
 Here we describe a method for reducing the computational cost of a \TD\ search
-for compact binary coalescence.  We give a truly zero-latency algorithm
+for compact binary coalescence.  We give a nearly zero-latency algorithm
 that competes in terms of floating point operations per second with the
 conventional \FD\ method, which by contrast requires a significant latency due to the
 inherent acausality of the Fourier transform.  Our method, called \lloid{}
@@ -224,6 +224,10 @@ We shall use the symbol $H^\shortuparrow$ to represent an interpolation filter,
 \begin{equation*}
 	x^{s}[k] = \left( H^\shortuparrow x^{s+1}\right)[k].
 \end{equation*}
+Ultimately, the latency of the entire \lloid\ algorithm is set by the decimation
+and interpolation filters because they are generally time-symmetric.  As a result,
+\lloid\ is very slightly acausal with an intrinsic latency of
+$\left(\max \left( N^\shortdownarrow, N^\shortuparrow \right) / 2 f^0 \right)$~s.
 
 From the combination of the time slice decomposition in
 equation~(\ref{eq:time-sliced-templates}) and the \SVD\ defined in

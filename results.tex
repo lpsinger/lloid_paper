@@ -164,7 +164,7 @@ method & \flops\ & latency (s) \\
 \tableline
 time domain & $2.4\times10^{13}$ & 0 \\
 frequency domain & $2.6\times10^8$ & $2\times10^3$ \\
-\lloid\ (theory) & $4.7\times10^8$ & $4\times10^{-3}$ \\
+\lloid\ (theory) & $4.7\times10^8$ & $2\times10^{-3}$ \\
 \lloid\ (prototype) & ----------- & 5 \\
 \tableline
 \end{tabular}
@@ -212,7 +212,8 @@ further.
 
 The 5~s latency is probably due to buffering and synchronization.  The latency
 might be reduced by carefully tuning buffer lengths at every stage in
-the pipeline.
+the pipeline.  The minimum theoretically possible latency is set by
+$N^\shortdownarrow$ and $N^\shortuparrow$.
 
 Even without further refinements, our implementation of the \lloid\ algorithm
 achieves latencies that would make other aspects of the analysis the limiting
