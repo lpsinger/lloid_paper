@@ -31,17 +31,6 @@ achieved and will benefit from the full bandwidth and \SNR\ of the \GW{} event
 at merger.  Probing even the extended emission timescale requires very low
 latency filtering schemes such as the one described here.
 
-\begin{comment}
-The detection algorithm we described has no intrinsic latency.  However, there
-are fundamental and practical latencies associated with the analysis and
-detection procedure. For example, the \LIGO{} data acquisition records science
-data in 1/16~s blocks~\citep{Bork2001}. Data must also be aggregated from all
-of the \GW\ observatories using global computer networks capable of high
-bandwidth but perhaps only modest latency.  This could introduce a latency of
-$\sim$100~ms.  Lastly, the software implementation of the algorithm itself may
-introduce latency.  
-\end{comment}
-
 We have shown a prototype implementation of the \lloid{} algorithm using
 \gstreamer, an open source signal processing platform.  Work will be done in
 order to improve upon the latency of our implementation.  Ultimately the best
@@ -69,17 +58,6 @@ We will explore these and also using the time-slice decomposition and the \SVD\
 to form low-latency signal-based vetoes (e.g.~$\chi^2$~statistics) that have
 been essential for glitch rejection used in previous \GW{} \CBC{} searches.
 
-\begin{comment}
-Another potential complication is that if adjacent time slices have non-negligible
-cross-correlation with each other, then there may be some subtleties in the design
-of the triggering and coincidence stages that we must address in order to translate
-the early-warning outputs into candidate events.  On the other hand, the time-slice
-decomposition and the \SVD\ may be beneficial for the postprocessing stage
-because they will help us form low-latency signal-based vetoes (e.g. $\chi^2$ statistics)
-that have been essential for glitch rejection used in previous \GW{} \CBC{}
-searches.
-\end{comment}
-
 Our future work must more deeply address sky localization accuracy in a
 realistic setting as well as observing strategies. Here, we have followed
 \citet{Fairhurst2009} in estimating the area of 90\% localization confidence in
@@ -91,17 +69,3 @@ imaged.  Extensive simulation campaigns incorporating realistic binary merger
 rates and detector networks will be necessary in order to fully understand the
 prospects for early-warning detection, localization, and \EM\ followup using
 the techniques we have described.
-
-
-%Latency budget, including `before' and `after' quotes for:
-
-%\begin{itemize}
-%\item Data acquisition
-%\item Calibration
-%\item Data aggregation
-%\item Analysis
-%\item Localization
-%\item Alert
-%\item Telescope actuation
-%\item Total
-%\end{itemize}
