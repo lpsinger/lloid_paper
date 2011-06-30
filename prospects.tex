@@ -1,0 +1,87 @@
+\section{Prospects for \earlywarning\ detection and \EM\ followup}
+
+\begin{figure}[h]
+\plotone{figures/snr_in_time}
+\caption{\label{fig:earlywarning}Expected number of \textsc{ns}--\textsc{ns}
+sources that could be detectable by Advanced \LIGO\ a given number of seconds
+before coalescence.  The heavy solid line is the most realistic yearly rate
+estimate.  The shaded region represents the 5 to 95\% confidence interval
+arising from uncertainty in predicted event rates \citep{Abadie:2010p10836}.}
+\end{figure}
+%
+Examining the signal to noise ratio (\SNR{}) stream for threshold crossings
+before the \GW{} signal leaves the detection band makes it possible to trade
+some \SNR{} and sky localization accuracy for pre-merger detection.
+Figure~\ref{fig:earlywarning} shows projected early detectability rates for
+\textsc{ns}--\textsc{ns} binaries in Advanced \LIGO\ assuming event rates
+predicted in \citet{Abadie:2010p10836} and anticipated detector sensitivity for
+the `zero detuning, high power' configuration described in \citet{ALIGONoise}.
+The most realistic estimates indicate that at an \SNR\ threshold of 8, we will
+observe a total of 40\,events\,yr$^{-1}$. $\sim$10\,yr$^{-1}$ will be detectable
+within 10\,s of merger and $\sim$5\,yr$^{-1}$ will be detectable within 25\,s of
+merger if analysis can proceed with near zero latency. These rates are shown
+with their substantial uncertainties in Figure~\ref{fig:earlywarning}.
+
+We emphasize that any practical \GW\ search will include technical delays due
+to light travel time between the detectors, science infrastructure, and the
+selected data analysis strategy.  Figure~\ref{fig:earlywarning} must be understood
+in the context of all of the potential sources of latency, some of which are avoidable
+and some of which are not. 
+
+
+\begin{table}[h]
+\caption{\label{table:sky-localization-accuracy}Horizon distance, \SNR\ at
+merger, and area of 90\% confidence at selected times before merger for sources
+with expected detectability rates of 40, 10, 1, and 0.1\,yr$^{-1}$.}
+\begin{center}
+\begin{tabular}{rrrrrrr}
+\tableline\tableline
+rate & horiz. & final & \multicolumn{4}{c}{$A$(90\%) (deg$^2$)} \\
+\cline{4-7}
+yr$^{-1}$ & (Mpc) & \SNR\ & 25 s & 10 s & 1 s & 0 s \\
+\tableline
+40\phd\phn & 445 & 8.0 & 15500 & 3100 & 200 & 9.6 \\
+10\phd\phn & 280 & 12.7 & 6100 & 1200 & 78 & 3.8 \\
+1\phd\phn & 130 & 27.4 & 1300 & 260 & 17 & 0.8 \\
+0.1 & 60 & 58.9 & 280 & 56 & 3.6 & 0.2 \\
+\tableline
+\end{tabular}
+\end{center}
+\end{table}
+%
+\begin{figure}[h]
+\plotone{figures/loc_in_time}
+\caption{\label{fig:sky-localization-accuracy}Area of the 90\% confidence
+region as a function of time before coalescence for sources with anticipated
+detectability rates of 40, 10, 1, and 0.1\,yr$^{-1}$. The heavy dot indicates
+the time at which the accumulated \SNR\ exceeds a threshold of 8.}
+\end{figure}
+
+\EM\ followup requires estimating the location of the \GW{} source. The localization
+uncertainty can be estimated from the uncertainty in the time of arrival of the \GW{}s,
+which is determined by the signal's effective bandwidth and \SNR{}
+\citep{Fairhurst2009}.  Table~\ref{fig:earlywarning} and
+Figure~\ref{fig:sky-localization-accuracy} show the estimated minimum 90\%
+confidence area versus time of the loudest coalescence events detectable by
+Advanced \LIGO{} and Advanced Virgo.  Once per year, we expect to observe an
+event with a final \SNR\ of $\approx 27$ whose location can be constrained to about
+1300\,deg$^2$ (3.1\% of the sky) within 25\,s of merger,
+260\,deg$^2$ (0.63\% of the sky) within 10\,s of merger, and
+0.82\,deg$^2$ (0.0020\% of the sky) at merger.
+
+It is infeasible to search hundreds of square degrees for a prompt counterpart.
+For reference, \textsc{lsst} should see first light around the same time as
+Advanced \LIGO{} and will have an unparalleled field of view of 9.6 deg$^2$
+\citep{2008arXiv0805.2366I}.  However, 
+it is possible to reduce the localization uncertainty by only looking at
+galaxies from a catalog that lie near the sky location and luminosity distance
+estimate from the \GW{} signal~\citep{galaxy-catalog} as was done in S6/VSR3.
+Within the expected Advanced \LIGO{} \textsc{ns}--\textsc{ns} horizon distance,
+the number of galaxies that can produce a given signal amplitude is much larger
+than in Initial \LIGO{} and thus the catalog will not be as useful
+for downselecting pointings generally. However, exceptional \GW{} sources will
+necessarily be extremely nearby. Within this reduced volume there will be fewer
+galaxies to consider for a given candidate and catalog completeness will be
+less of a concern.  This should reduce the 90\% confidence area substantially.
+Also future \GW{} detectors, should they be built, will improve the \SNR\ and
+likewise the error box.
