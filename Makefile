@@ -48,10 +48,10 @@ t3.eps: envelope.py
 ARCHIVENAME = sing$(shell date +%m%d)
 @phony: publish
 publish: $(ARCHIVENAME).tar.gz
-$(ARCHIVENAME).tar.gz: $(PREREQS) readme.txt
+$(ARCHIVENAME).tar.gz: $(PREREQS) readme.txt inspiral_svd.bbl
 	rm -rf $(ARCHIVENAME)
 	mkdir $(ARCHIVENAME)
-	ln $(PREREQS) readme.txt $(ARCHIVENAME)
+	ln $(PREREQS) readme.txt inspiral_svd.bbl $(ARCHIVENAME)
 	tar -chzf $(ARCHIVENAME).tar.gz $(ARCHIVENAME)
 	rm -rf $(ARCHIVENAME)
 
