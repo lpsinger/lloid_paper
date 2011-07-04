@@ -21,7 +21,7 @@ the parameter space by chirp mass.  We shall concentrate on a sub-bank with 657
 chirp masses between 1.1955 and 1.2045~$M_\odot$, or $2 \times 657 = 1314$~templates.
 Figure \ref{fig:tmpltbank} illustrates this procedure.
 \begin{figure}[h]
-	\plotone{figures/tmpltbank.pdf}
+	\plotone{f4}
 	\caption{\label{fig:tmpltbank}Source parameters selected for sub-bank used in this
 case study, consisting of component masses $m_1$, $m_2$, between 1 and 3~$M_\odot$, and
 chirp masses $\mathcal{M}$ between 1.1955 and 1.2045~$M_\odot$.}
@@ -33,7 +33,7 @@ in Table~\ref{tab:time_slices}.
 \caption{\label{tab:time_slices} Filter design sub-bank of 657 templates.  From left to right, this table shows the sample rate, time interval, number of samples, and number of orthogonal templates for each time slice.  We vary \SVD{} tolerance from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.}
 \begin{center}
 \begin{minipage}[c]{0.4\textwidth}
-\includegraphics{figures/envelope}
+\includegraphics{t3}
 \end{minipage}
 \begin{minipage}[c]{0.55\textwidth}
 \begin{tabular}{rr@{,\,}lc*{6}{r}}
@@ -121,13 +121,13 @@ that a filter length of 16 is sufficient to meet our target mismatch of 0.003.
 \begin{figure*}[b]
 	\begin{minipage}[t]{0.5\textwidth}
 		\begin{center}
-			\includegraphics{figures/bw.pdf}
+			\includegraphics{f5a}
 			(a) Mismatch versus \SVD\ tolerance
 		\end{center}
 	\end{minipage}
 	\begin{minipage}[t]{0.5\textwidth}
 		\begin{center}
-			\includegraphics{figures/bw_resample.pdf}
+			\includegraphics{f5b}
 			(b) Mismatch versus $N^\shortuparrow$
 		\end{center}
 	\end{minipage}
