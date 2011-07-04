@@ -52,7 +52,7 @@ $(ARCHIVENAME).tar.gz: $(PREREQS) readme.txt inspiral_svd.bbl
 	rm -rf $(ARCHIVENAME)
 	mkdir $(ARCHIVENAME)
 	ln $(PREREQS) readme.txt inspiral_svd.bbl $(ARCHIVENAME)
-	tar -chzf $(ARCHIVENAME).tar.gz $(ARCHIVENAME)
+	env COPYFILE_DISABLE=true COPY_EXTENDED_ATTRIBUTES_DISABLE=true tar -chzf $(ARCHIVENAME).tar.gz $(ARCHIVENAME)
 	rm -rf $(ARCHIVENAME)
 
 clean:
