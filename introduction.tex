@@ -5,7 +5,7 @@ As a compact binary system loses energy to gravitational waves (\GW{}s), its
 orbital separation decays, leading to a runaway inspiral with the \GW{}
 amplitude and frequency increasing until the system eventually merges.  If a
 neutron star (\textsc{ns}) is involved, it may become tidally disrupted near
-the merger and fuel a bright electromagnetic (\EM{}) counterpart
+the merger and fuel an electromagnetic (\EM{}) counterpart
 \citep{shibata:2007}.  Effort from both the \GW{} and astronomy communities may make it
 possible to use \GW{} observations as an early warning trigger for \EM{}
 followup. In the first generation of ground-based laser interferometers, the
@@ -20,30 +20,35 @@ problem, a computationally inexpensive low-latency filtering algorithm for detec
 inspiral signals in \GW{} data.  We also consider the prospects for advanced \GW{}
 detectors and discuss other areas of work that would be required for rapid analysis.
 
-Compact binary coalescence (\CBC) events are thought to be a mechanism for
-short gamma-ray bursts (\GRB{}s)~\citep{Lee:2005, nakar07}.  In this
-scenario, prompt gamma-ray emission arises on the accretion timescale of a
-central compact object formed $0.1$--$1.0$~s after the merger~\citep{Janka1999}.
-Optical flashes have only been observed for a handful of long \GRB{}s
-\citep{2011CRPhy..12..255A} by telescopes with extremely rapid response or, in
-the case of \textsc{grb 080319b}, by pure serendipity, where several telescopes
-were already observing the afterglow of another \GRB{} in the same field of
-view \citep{2008Natur.455..183R}. The observed optical flashes peaked within
-tens of seconds and decayed quickly.  Short \GRB{}s, on the other hand,
-typically fade so quickly that it is difficult to catch even the tails of the
-afterglows in any band. Rapid \GW{} transient alerts could enable the
-observation of prompt optical flashes and the rise of afterglows from short
-\GRB{}s.
-
-Interestingly, roughly a quarter to half of observed short
-\GRB{}s also exhibit extended emission of $30$--$100$\,s in duration beginning
-$\sim$$10$\,s after the \GRB{} and carrying comparable fluence to the initial
-outburst.  Potential explanations for the emission are delayed fall-back
-accretion caused by $r$-process heating \citep{Metzger2010} or the formation of
-a proto-magnetar that interacts with ejecta \citep{Bucciantini2011}.  A
-proto-magnetar may form from accretion-induced collapse or the merger of two
-\textsc{ns}s.  An accompanying \GW{} observation would confirm the existence of
-the latter channel.
+Compact binary coalescence (\CBC{}) is a plausible progenitor for most short
+gamma-ray bursts (short \GRB{}s) \citep{Lee:2005, nakar07}. The tidally
+disrupted material falls onto the newly formed, rapidly spinning compact object
+and is accelerated in jets along the spin axis with a timescale of
+$0.1$--$1.0$~s after the merger \citep{Janka1999}, matching the short \GRB{}
+duration distribution well. Prompt \EM{} emission can arise as fast outflowing
+matter collides with slower matter ejected earlier in inner shocks. The same
+inner shocks, or potentially reverse shocks, can produce an accompanying
+optical flash \citep{Sari99}. Prompt emission is a probe into the extreme
+initial conditions of the outflow, in contrast with afterglows, which arise in
+the external shock with the local medium and are relatively insensitive to
+initial conditions. Optical flashes have been observed for a handful of long
+\GRB{}s \citep{2011CRPhy..12..255A} by telescopes with extremely rapid response
+or, in the case of \textsc{grb 080319b}, by pure serendipity, where several
+telescopes were already observing the afterglow of another \GRB{} in the same
+field of view \citep{2008Natur.455..183R}. The observed optical flashes peaked
+within tens of seconds and decayed quickly. For short \GRB{} parameters,
+however, the reverse shock model predicts a peak flux in radio, approximately
+20 minutes after the \GRB{}, but also a relatively faint optical flash
+\citep{nakar07}; for a once-per-year Advanced LIGO event at $130$\,Mpc, the
+radio flux will peak around $9$\,GHz with $\sim$$5$\,mJy and the optical at
+$R\sim19$\,mag.  Interestingly, roughly a quarter to half of observed short
+\GRB{}s also exhibit extended X-ray emission of $30$--$100$\,s in duration
+beginning $\sim$$10$\,s after the \GRB{} and carrying comparable fluence to the
+initial outburst. This may be caused if the merger results in the formation of
+a proto-magnetar that interacts with ejecta \citep{Bucciantini2011}. Rapid
+\GW{} alerts would enable joint \EM{} and \GW{} observations to confirm the
+existence of \CBC{} progenitors to short \GRB{}s and allow the early \EM{}
+observation of exceptionally nearby and thus bright events.
 
 In October 2010, \LIGO{}\footnote{\url{http://www.ligo.org/}} completed its
 sixth science run (S6) and Virgo\footnote{\url{http://www.ego-gw.it/}}
@@ -57,8 +62,8 @@ Candidates were sent for \EM{} followup to several telescopes; Swift,
 \textsc{rotse}, \textsc{tarot}, and Zadko \citep{kanner2008, HugheyGWPAW2011}
 imaged some of the most likely sky locations.
 
-There were a number of sources of latency associated with \CBC{}
-analysis in S6/VSR3 \citep{HugheyGWPAW2011}, listed here.
+There were a number of sources of latency associated with the search for
+\CBC{} signals in S6/VSR3 \citep{HugheyGWPAW2011}, listed here.
 
 \paragraph{Data acquisition and aggregation ($\gtrsim$100~ms)}%
 The \LIGO\ data acquisition system collects data from detector subsystems 16
