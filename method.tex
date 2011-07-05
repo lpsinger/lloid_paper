@@ -52,7 +52,8 @@ Equation~(\ref{eq:SNRTD}) can be implemented in the time-domain as bank of
 finite impulse response (\fir) filters, requiring $\mathcal O(\numtmps
 \tmpsamps)$ floating point operations per sample.  However, it is typically
 much more computationally efficient to use the convolution theorem and the
-\fft\ to implement fast convolution in the frequency domain, requiring only
+Fast Fourier Transform (\fft) to implement fast convolution in the frequency
+domain, requiring only
 $\mathcal O(\numtmps \lg \tmpsamps)$ operations per sample but incurring
 a latency of $\mathcal O(\tmpsamps)$ samples.
 
@@ -138,10 +139,10 @@ early times in the inspiral.
 
 An inspiral signal will enter the detection band with some low frequency
 $f_\mathrm{low}$ at time $t_\mathrm{low}$ before merger.  Usually the template
-is truncated at some prescribed time $t^0$, or equivalent frequency $f_\mathrm{hi}$,
+is truncated at some prescribed time $t^0$, or equivalent frequency $f_\mathrm{high}$,
 often chosen to correspond to the \ISCO. The beginning of the template is critically
 sampled at $2 f_\mathrm{low}$, but the end of the template is critically sampled at a
-rate of $2 f_\mathrm{hi}$. In any time interval smaller than the duration of the template,
+rate of $2 f_\mathrm{high}$. In any time interval smaller than the duration of the template,
 the bandwidth of the filters across the entire template bank may be significantly less
 than the full sample rate at which data is acquired.
 
@@ -367,8 +368,8 @@ If the cost of the basis filters dominates, and the frequency of the templates e
 \begin{multline}
 \label{eq:speedup}
 \frac{2 \sum_{s=0}^{S-1} f^s \numsvdtmps \slicessamps}{2 \numtmps \tmpsamps f^0} \\
-\approx \frac{\alpha}{\left(t_\mathrm{low} - t_\mathrm{hi}\right) \left(f^0\right)^2} \int_{t_\mathrm{low}}^{t_\mathrm{hi}} \left(2 f(t) \right)^2 \, \mathrm{d} t \\
-= \frac{16 \alpha \left(t_\mathrm{low} f^2 (t_\mathrm{low}) - t_\mathrm{hi} f^2 (t_\mathrm{hi}) \right)}{\left(f^0\right)^2 \left(t_\mathrm{low} - t_\mathrm{hi}\right)}
+\approx \frac{\alpha}{\left(t_\mathrm{low} - t_\mathrm{high}\right) \left(f^0\right)^2} \int_{t_\mathrm{low}}^{t_\mathrm{high}} \left(2 f(t) \right)^2 \, \mathrm{d} t \\
+= \frac{16 \alpha \left(t_\mathrm{low} f^2 (t_\mathrm{low}) - t_\mathrm{high} f^2 (t_\mathrm{high}) \right)}{\left(f^0\right)^2 \left(t_\mathrm{low} - t_\mathrm{high}\right)}
 \end{multline}
 %
-where $\alpha \approx \numsvdtmps / \numtmps$ is the rank reduction factor, or ratio between the number of basis templates and the number of templates.  This approximation assumes that the frequency of the signal is evolving very slowly so that we can approximate the time slice sample rate as twice the instantaneous gravitational wave frequency, $f^s \approx 2 f(t)$, and the number of samples in the decimated time slice as the sample rate times an infinitesimally short time interval, $\slicessamps \approx 2 f(t) \, \mathrm{d}t$. The integral is evaluated using the power-law form of $f(t)$ from equation~(\ref{eq:fgw}). Substituting approximate values for a template bank designed for component masses around (1.4, 1.4) $M_\odot$, $\alpha \approx 10^{-2}$, $t_\mathrm{low} = 10^3$~s, $f_\mathrm{low} = 10^1$~Hz, $t_\mathrm{hi} = 1/1570$~s $f_\mathrm{hi} = 1570$~Hz, and $f^0 = (2)(1570)$~Hz, we find from equation~(\ref{eq:speedup}) that the \lloid\ method requires only $\sim 10^{-6}$ times as many \flops\ as the conventional \TD\ method.
+where $\alpha \approx \numsvdtmps / \numtmps$ is the rank reduction factor, or ratio between the number of basis templates and the number of templates.  This approximation assumes that the frequency of the signal is evolving very slowly so that we can approximate the time slice sample rate as twice the instantaneous gravitational wave frequency, $f^s \approx 2 f(t)$, and the number of samples in the decimated time slice as the sample rate times an infinitesimally short time interval, $\slicessamps \approx 2 f(t) \, \mathrm{d}t$. The integral is evaluated using the power-law form of $f(t)$ from equation~(\ref{eq:fgw}). Substituting approximate values for a template bank designed for component masses around (1.4, 1.4) $M_\odot$, $\alpha \approx 10^{-2}$, $t_\mathrm{low} = 10^3$~s, $f_\mathrm{low} = 10^1$~Hz, $t_\mathrm{high} = 1/1570$~s $f_\mathrm{high} = 1570$~Hz, and $f^0 = (2)(1570)$~Hz, we find from equation~(\ref{eq:speedup}) that the \lloid\ method requires only $\sim 10^{-6}$ times as many \flops\ as the conventional \TD\ method.
