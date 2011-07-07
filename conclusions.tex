@@ -8,7 +8,16 @@ analysis and observation strategy that will unfortunately have other sources of
 latency.  However, we hope that it will motivate further work to reduce such
 technical sources of \GW{} observation latency and encourage the possibility of
 even more rapid \EM\ followup observations to catch prompt emission in the
-advanced detector era.  
+advanced detector era.
+
+\CBC\ events may be the progenitors of some short hard \GRB{}s and are expected
+to be accompanied by a broad spectrum of \EM{} signals. Rapid alerts to the
+wider astronomical community will improve the chances of detecting an \EM{}
+counterpart in bands from gamma-rays down to radio. In the Advanced LIGO
+era, it appears possible to usefully localize a few rare events prior to the
+\GRB{}, allowing multi-wavelength observations of prompt emission. More
+frequently, low-latency alerts will be released after merger but will still
+yield extended X-ray tails and early afterglows.
 
 The \lloid{} method is as fast as standard \fft{} convolutions but allows for
 nearly latency-free, real-time operation.  We anticipate requiring $\sim$100
@@ -19,17 +28,6 @@ computational savings could be acheived by conditionally reconstructing the
 crosses a threshold~\citep{svd-compdetstat}.  However, the anticipated required
 number of computers is well within the current computing capabilities of the
 \LIGO{} Data Grid.
-
-\CBC\ events may be the progenitors of some short hard \GRB{}s and are expected
-to be accompanied by prompt \EM{} signals.  Rapid alerts to the broader
-astronomical community will improve the chances of detecting an \EM{}
-counterpart in bands from gamma-rays down to radio.  It will be extremely
-challenging for all but the rarest events to localize the source well enough in
-advance to detect the onset of prompt emission, however localization prior to
-the onset of extended emission on the 10--100~s time-scale is more easily
-achieved and will benefit from the full bandwidth and \SNR\ of the \GW{} event
-at merger.  Probing even the extended emission timescale requires very low
-latency filtering schemes such as the one described here.
 
 We have shown a prototype implementation of the \lloid{} algorithm using
 \gstreamer, an open source signal processing platform.  Work will be done in
