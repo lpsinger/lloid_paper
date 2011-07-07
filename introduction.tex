@@ -126,8 +126,9 @@ point operations per second is linear in the length of the templates, so it is
 prohibitively expensive for long templates.  \citet{shaunIIR} explored decomposing
 \CBC\ matched filters into banks of infinite impulse response (\textsc{iir})
 filters as a means to reduce the computational cost of latency-free data analysis.  They
-demonstrate a factor of 50 improvement in floating point operations per second
-over the standard \TD\ method.  We will significantly improve upon that number.
+demonstrate a factor of 250 improvement in floating point operations per second
+over the standard \TD\ method while faithfully reproducing the transfer functions of the
+matched filters above 20~Hz.  We will demonstrate a significantly greater speedup.
 
 Fortunately, the morphology of inspiral signals can be exploited to offset some
 of the computational complexity of low-latency algorithms.  First, the signals
