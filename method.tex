@@ -13,13 +13,13 @@ the redundancy of the template banks.
 \subsection{Conventional \CBC{} searches}
 
 Inspiral signals are continuously parameterized by a set of intrinsic source
-parameters $\mathbf\Theta$ that determine the amplitude and phase evolution of the
+parameters $\theta$ that determine the amplitude and phase evolution of the
 \GW{} strain. For systems in which the effects of spin can be ignored, the intrinsic
 source parameters are just the component masses of the binary,
- $\mathbf\Theta = (m_1, m_2)$. For a given source, the strain observed by the
+ $\theta = (m_1, m_2)$. For a given source, the strain observed by the
  detector is a linear combination of two waveforms corresponding to the
 `$+$' and `$\times$' \GW{} polarizations.  Thus, we must design two filters
-for each $\mathbf\Theta$.
+for each $\theta$.
 
 Searches for inspiral signals typically employ matched filter
 banks that discretely sample the possible intrinsic parameters~\citep{findchirppaper}.
@@ -28,8 +28,8 @@ and are formed by discretizing and time reversing the
 waveforms and weighting them by the inverse amplitude spectral density of the
 detector's noise.
 To construct a template bank, templates are chosen with
-$\numtmps/2$ discrete signal parameters $\mathbf\Theta_0,\, \mathbf\Theta_1,\, \dots,\,
-\mathbf\Theta_{\numtmps/2-1}$. These are chosen such that any possible signal
+$\numtmps/2$ discrete signal parameters $\theta_0,\, \theta_1,\, \dots,\,
+\theta_{\numtmps/2-1}$. These are chosen such that any possible signal
 will have an inner product $\geqslant$0.97 with at least one template.
 Such a template bank is said to have a {\em minimal match} of 0.97~\citep{Owen:1998dk}.
 
@@ -115,7 +115,7 @@ form an ensemble of partial \SNR{} streams.  By linearity of the filtering
 process, these partial \SNR\ streams can be summed to reproduce the
 \SNR\ of the full template.
 
-Since waveforms with neighboring intrinsic source parameters $\mathbf\Theta$
+Since waveforms with neighboring intrinsic source parameters $\theta$
  have similar time-frequency evolution, it is possible to design computationally
 efficient time slices for an extended region of parameter space rather than to
 design different time slices for each template.
