@@ -4,7 +4,7 @@
 As a compact binary system loses energy to gravitational waves (\GW{}s), its
 orbital separation decays, leading to a runaway inspiral with the \GW{}
 amplitude and frequency increasing until the system eventually merges.  If a
-neutron star (\textsc{ns}) is involved, it may become tidally disrupted near
+neutron star (\NS{}) is involved, it may become tidally disrupted near
 the merger and fuel an electromagnetic (\EM{}) counterpart
 \citep{shibata:2007}.  Effort from both the \GW{} and astronomy communities may make it
 possible to use \GW{} observations as an early warning trigger for \EM{}
@@ -35,7 +35,7 @@ initial conditions of the outflow, in contrast with afterglows, which arise in
 the external shock with the local medium and are relatively insensitive to
 initial conditions. Optical flashes have been observed for a handful of long
 \GRB{}s \citep{2011CRPhy..12..255A} by telescopes with extremely rapid response
-or, in the case of \textsc{grb 080319b}, by pure serendipity, where several
+or, in the case of GRB 080319b, by pure serendipity, where several
 telescopes were already observing the afterglow of another \GRB{} in the same
 field of view \citep{2008Natur.455..183R}. The observed optical flashes peaked
 within tens of seconds and decayed quickly. For short \GRB{} energy balance and
@@ -57,12 +57,12 @@ In October 2010, \LIGO{}\footnote{\url{http://www.ligo.org/}} completed its
 sixth science run (S6) and Virgo\footnote{\url{http://www.ego-gw.it/}}
 completed its third science run (VSR3).  While both \LIGO{} detectors and Virgo
 were operating, several all-sky detection pipelines operated in a low-latency
-configuration to send astronomical alerts, namely \textsc{mbta}, Coherent
+configuration to send astronomical alerts, namely \mbta{}, Coherent
 WaveBurst, and Omega \citep{HugheyGWPAW2011, S6lowlatency2, S6lowlatency3, S6lowlatency4}.
-\textsc{mbta} achieved the best \GW{} trigger-generation latencies of 2--5 minutes.
+\mbta{} achieved the best \GW{} trigger-generation latencies of 2--5 minutes.
 Alerts were sent with latencies of 30--60 minutes, dominated by human vetting.
 Candidates were sent for \EM{} followup to several telescopes; Swift,
-\textsc{lofar}, \textsc{rotse}, \textsc{tarot}, \textsc{quest}, SkyMapper,
+LOFAR, ROTSE, TAROT, QUEST, SkyMapper,
 Liverpool Telescope, Pi of the Sky, Zadko, and Palomar Transient Factory
 \citep{kanner2008, HugheyGWPAW2011} imaged some of the most likely sky
 locations.
@@ -124,7 +124,7 @@ preferred method in \GW{} searches.  The most obvious example of the latter is
 the time domain (\TD) convolution, which is latency-free.  However, its cost in floating
 point operations per second is linear in the length of the templates, so it is
 prohibitively expensive for long templates.  \citet{shaunIIR} explored decomposing
-\CBC\ matched filters into banks of infinite impulse response (\textsc{iir})
+\CBC\ matched filters into banks of infinite impulse response (IIR)
 filters as a means to reduce the computational cost of latency-free data analysis.  They
 demonstrate a factor of 250 improvement in floating point operations per second
 over the standard \TD\ method while faithfully reproducing the transfer functions of the
