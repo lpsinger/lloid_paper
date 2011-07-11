@@ -143,7 +143,7 @@ is truncated at some prescribed time $t^0$, or equivalent frequency $f_\mathrm{h
 often chosen to correspond to the \ISCO. The beginning of the template is critically
 sampled at $2 f_\mathrm{low}$, but the end of the template is critically sampled at a
 rate of $2 f_\mathrm{high}$. In any time interval smaller than the duration of the template,
-the bandwidth of the filters across the entire template bank may be significantly less
+the bandwidth of the filters across the entire template bank can be significantly less
 than the full sample rate at which data is acquired.
 
 Our goal is to reduce the filtering cost of a
@@ -156,7 +156,7 @@ sampled at frequencies $f^0,\, f^1,\, \dots,\, f^\mathrm{S-1}$ where $f^s$ is at
 least twice the highest nonzero frequency component of any filter in the bank for the
 $s$th time slice.
 
-The time sliced templates may then be downsampled in each interval without
+The time sliced templates can then be downsampled in each interval without
 aliasing, so we define them as
 %
 \begin{equation}
@@ -337,7 +337,7 @@ $$
 f^0 \cdot \frac{2 (\numtmps + 1) \lg \fftblock + 2 \numtmps}{1 - \tmpsamps/\fftblock} \; \mathrm{\flops} \,.
 $$
 
-In the limit of many templates, $M \gg 1$, we may neglect the cost of the forward
+In the limit of many templates, $M \gg 1$, we can neglect the cost of the forward
 transform of the data and of the multiplication of the transforms.  The computational
 cost will reach an optimum at some large but finite \fft\ block size
 $\fftblock \gg \tmpsamps$.  In this limit, the \FD\ method costs
