@@ -167,7 +167,7 @@ method & \flops\ & latency (s) \\
 time domain & $4.9\times10^{13}$ & 0 \\
 frequency domain & $5.2\times10^8$ & $2\times10^3$ \\
 \lloid\ (theory) & $4.9\times10^8$ & $2\times10^{-3}$ \\
-\lloid\ (prototype) & ----------- & 5 \\
+\lloid\ (prototype) & ----------- & 1 \\
 \tableline
 \end{tabular}
 \end{center}
@@ -205,9 +205,9 @@ We wrote a second, stripped pipeline to evaluate the actual latency and
 computational overhead.  We executed this pipeline on one of the submit
 machines of the \LIGO-Caltech cluster, a Sun Microsystems Sun
 Fire\texttrademark\ X4600~M2 server with eight quad-core 2.7~GHz AMD
-Opteron\texttrademark\ 8384 processors.  This test consumed 78\% of the
+Opteron\texttrademark\ 8384 processors.  This test consumed $\sim$90\% of the
 capacity of just one out of the 32 cores, maintaining a constant latency of
-5~s.
+$\sim$1~s.
 
 The measured overhead is consistent to within an order of magnitude with the
 lower bound from the \flops\ budget.  The additional overhead is probably
@@ -215,7 +215,7 @@ dominated by thread synchronization.  A carefully optimized \gstreamer\
 pipeline or a hand-tuned C implementation of the pipeline might reduce overhead
 further.
 
-The 5~s latency is probably due to buffering and synchronization.  The latency
+The 1~s latency is probably due to buffering and synchronization.  The latency
 might be reduced by carefully tuning buffer lengths at every stage in
 the pipeline.  The minimum theoretically possible latency is set by
 $N^\shortdownarrow$ and $N^\shortuparrow$.
