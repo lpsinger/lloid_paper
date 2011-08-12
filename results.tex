@@ -77,8 +77,8 @@ the truncation of the \SVD\ at $L^s < M$ basis templates.  As remarked upon in
 the \SVD\ tolerance.  The second comes from the limited bandwidth of the
 interpolation filters used to match the sample rates of the partial \SNR\ streams.
 The maximum possible bandwidth is determined by the length of the filter,
-$N^\shortuparrow$.  \SNR\ loss could also arise if the series rather than parallel
-connection of the decimation and interpolation filters reduces their bandwidth
+$N^\shortuparrow$.  \SNR\ loss could also arise if the combination of both the decimation
+filters and the interpolation filters reduces their bandwidth
 measurably, if the decimation and interpolation filters do not have perfectly uniform
 phase response, or if there is an unintended subsample time delay at any stage.
 
@@ -93,10 +93,14 @@ is lost due to the approximations in the \lloid\ algorithm and any of the techni
 imperfections mentioned above.  We call one minus this dot product the \emph{mismatch}
 relative to the nominal template.
 
+The two adjustable parameters that affect performance and mismatch the most are the SVD
+tolerance and the length of the interpolation filter.  The length of the decimation filter
+affects mismatch as well, but has very little impact on performance.
+
 \paragraph{Effect of \SVD\ tolerance}
 
 We studied how the \SVD\ tolerance affected \SNR\ loss by holding
-$N^\shortuparrow = 192$ fixed as we varied the \SVD\ tolerance from
+$N^\shortdownarrow = N^\shortuparrow = 192$ fixed as we varied the \SVD\ tolerance from
 $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.  The minimum, maximum, and median
 mismatch are shown as functions of \SVD\ tolerance in
 Figure~\ref{fig:bw}a.  As the \SVD\ tolerance increases toward 1, the
@@ -114,11 +118,19 @@ target \SNR{} loss.
 
 \paragraph{Effect of interpolation filter length}
 
-Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$, we studied the
-impact of the length $N^\shortuparrow$ of the interpolation filter.  The mismatch as
+Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$ and the length of the
+decimation filter fixed at $N^\shortdownarrow = 192$, we studied the
+impact of the length $N^\shortuparrow$ of the interpolation filter on mismatch.  The mismatch as
 a function of $N^\shortuparrow$ is shown in Figure~\ref{fig:bw}b.  The
 mismatch saturates at $\sim$$2 \times 10^{-4}$ with $N^\shortuparrow = 64$.  We find
 that a filter length of 16 is sufficient to meet our target mismatch of 0.003.
+
+Having selected an SVD tolerance of $\left(1-10^{-4}\right)$ and $N^\shortuparrow=16$, we found that
+we could reduce $N^\shortdownarrow$ to 48 without making the median mismatch higher than 0.003.
+
+During testing, we were surprised that careful design of the decimation and interpolation stages made a crucial difference in terms of computational overhead and latency.  When we tested the pipeline with the largest interpolation filters provided by GStreamer's audioresample element, we found that rather than making a negligible contribution to the total \flops\ budget and total measured overhead they became the dominant contribution.  The largest interpolation filters also incurred latencies of several seconds.  We now appreciate that the efficiency and low latency of \lloid\ hinge on proper specification of $N^\shortuparrow$.
+
+There is possibly further room for optimization here.  We have considered designing our own custom decimation and interpolation filters or tuning these filters separately for each time slice.
 
 \begin{figure*}[b]
 	\begin{minipage}[t]{0.5\textwidth}
@@ -148,14 +160,15 @@ methods}
 
 We are now prepared to offer the estimated computational cost of filtering this
 sub-bank of templates compared to other methods.  We used the results of the
-previous subsections to set the \SVD\ tolerance at $\left(1-10^{-4}\right)$ and
-the interpolation filter length to 16. Table~\ref{table:flops} shows the
-computational cost in \flops\ for this sub-bank.  For the \FD\ method, an \fft\
+previous subsections to set the \SVD\ tolerance to $\left(1-10^{-4}\right)$,
+the interpolation filter length to 16, and the decimation filter length to 48.
+Table~\ref{table:flops} shows the
+computational cost in \flops\ for the sub-bank we described above.  For the \FD\ method, an \fft\
 block size of $\fftblock = 2 \tmpsamps$ is assumed, resulting in a latency of
 $\left(\tmpsamps f^0\right)$ seconds.  Both the \FD\ method and \lloid\ are
 five orders of magnitude faster than the conventional \TD\ method.  However,
 the \FD\ method has a latency of over half of an hour, whereas \lloid\ has a
-latency of just $\sim$ms.
+latency of just over one second.
 %
 \begin{table}
 \caption{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the sub-bank described in section~\ref{sec:bank-setup}.}
@@ -166,8 +179,8 @@ method & \flops\ & latency (s) \\
 \tableline
 time domain & $4.9\times10^{13}$ & 0 \\
 frequency domain & $5.2\times10^8$ & $2\times10^3$ \\
-\lloid\ (theory) & $4.9\times10^8$ & $2\times10^{-3}$ \\
-\lloid\ (prototype) & ----------- & 1 \\
+\lloid\ (theory) & $6.6\times10^8$ & $1.2$ \\
+\lloid\ (prototype) & ($\sim$0.9 cores) & $1.5$ \\
 \tableline
 \end{tabular}
 \end{center}
@@ -175,24 +188,25 @@ frequency domain & $5.2\times10^8$ & $2\times10^3$ \\
 
 \subsection{Extrapolation of the computational cost to an Advanced \LIGO{} search}
 
-Table~\ref{table:flops} shows that the \lloid\ method requires $\sim$$10^8$
+Table~\ref{table:flops} shows that the \lloid\ method requires $\sim$$10^9$
 \flops\ to cover a sub-bank comprising $\sim$$10^2$ out of the total $\sim$$10^5$
 mass pairs.  Given that modern (ca. 2011) workstations can sustain computation
 rates up to $\sim$$10^{10}$ \flops{}, and assuming that other regions of the
 parameter space have similar computational scaling, an entire single detector
-search could be implemented with $\gtrsim$$10$ machines.  Template length does
+search could be implemented with $\gtrsim$$100$ machines.  Template length does
 vary over the parameter space; lower-mass templates sweep through frequency more
 slowly and would require more computations while higher-mass templates are shorter and
 would require fewer computations.  However, we consider the estimates based on this
-sub-bank to be a reasonable representation because they are not far from estimates
-based on equation~(\ref{eq:speedup}).
+sub-bank to be a reasonable representation because they are within an order of
+magnitude of estimates based on the approximate speedup in
+equation~(\ref{eq:speedup}).
 
 By comparison, using the \TD\ method to achieve the same latency costs
 $\sim$$10^{13}$ \flops\ for this particular sub-bank, and so it would require
-$\sim$$10^6$ present-day machines to search the full parameter space.
-Presently, the \LIGO{} Data Grid%
+a total of $\gtrsim$$10^{15}$ \flops\ or $\gtrsim$$10^6$ present-day machines
+to search the full parameter space.  Presently, the \LIGO{} Data Grid%
 \footnote{\url{https://www.lsc-group.phys.uwm.edu/lscdatagrid/}} consists of
-only $\sim$$10^4$ machines.
+only $\sim$$10^4$ machines, so direct \TD\ convolution is clearly impractical.
 
 \subsection{Measured latency and overhead}
 
@@ -207,18 +221,18 @@ machines of the \LIGO-Caltech cluster, a Sun Microsystems Sun
 Fire\texttrademark\ X4600~M2 server with eight quad-core 2.7~GHz AMD
 Opteron\texttrademark\ 8384 processors.  This test consumed $\sim$90\% of the
 capacity of just one out of the 32 cores, maintaining a constant latency of
-$\sim$1~s.
+$\sim$1.5~s.
 
 The measured overhead is consistent to within an order of magnitude with the
-lower bound from the \flops\ budget.  The additional overhead is probably
+lower bound from the \flops\ budget.  Additional overhead is possibly
 dominated by thread synchronization.  A carefully optimized \gstreamer\
 pipeline or a hand-tuned C implementation of the pipeline might reduce overhead
 further.
 
-The 1~s latency is probably due to buffering and synchronization.  The latency
-might be reduced by carefully tuning buffer lengths at every stage in
-the pipeline.  The minimum theoretically possible latency is set by
-$N^\shortdownarrow$ and $N^\shortuparrow$.
-Even without further refinements, our implementation of the \lloid\ algorithm
-achieves latencies that would make other aspects of the analysis the limiting
-steps assuming that the human vetting process is automated.  
+Since in this benchmark, the pipeline's input was buffered in
+0.25~s chunks, the total measured latency of 1.5~s is entirely consistent with
+1.2~s of latency being attributed to the acausality of the decimation and
+interpolation filters, as calculated in section~\ref{sec:lloid-method}.
+Our implementation of the \lloid\ algorithm has achieved latencies that would
+make other aspects of the analysis the limiting steps assuming that the human
+vetting process is automated.  

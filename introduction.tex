@@ -121,7 +121,7 @@ matched filters, but most have high throughput at the cost of high latency, or
 low latency at the cost of low throughput.  The former are epitomized by the
 overlap-save algorithm for frequency domain (\FD) convolution, currently the
 preferred method in \GW{} searches.  The most obvious example of the latter is
-the time domain (\TD) convolution, which is latency-free.  However, its cost in floating
+time domain (\TD) convolution, which is latency-free.  However, its cost in floating
 point operations per second is linear in the length of the templates, so it is
 prohibitively expensive for long templates.  \citet{shaunIIR} explored decomposing
 \CBC\ matched filters into banks of infinite impulse response (IIR)

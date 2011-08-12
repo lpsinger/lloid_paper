@@ -48,7 +48,7 @@ This results in $\numtmps$ \SNR\ time series. Local peak-finding across time and
 template indices results in single-detector triggers.  Coincidences are sought
 between triggers in different \GW\ detectors in order to form detection candidates.
 
-Equation~(\ref{eq:SNRTD}) can be implemented in the time-domain as bank of
+Equation~(\ref{eq:SNRTD}) can be implemented in the time-domain as a bank of
 finite impulse response (\fir) filters, requiring $\mathcal O(\numtmps
 \tmpsamps)$ floating point operations per sample.  However, it is typically
 much more computationally efficient to use the convolution theorem and the
@@ -61,7 +61,7 @@ a latency of $\mathcal O(\tmpsamps)$ samples.
 \subsection{The \lloid\ method}
 
 Here we describe a method for reducing the computational cost of a \TD\ search
-for compact binary coalescence.  We give a nearly zero-latency algorithm
+for compact binary coalescence.  We give an extremely low latency algorithm
 that competes in terms of floating point operations per second with the
 conventional \FD\ method, which by contrast requires a significant latency due to the
 inherent acausality of the Fourier transform.  Our method, called \lloid{}
@@ -202,7 +202,13 @@ achieved with few basis templates.  We find that when combined with the
 time slice decomposition, the number of basis templates \numsvdtmps\ is much
 smaller than the original number of templates \numtmps\ and improves on the
 rank reduction demonstrated in \citep{Cannon:2010p10398} by nearly an order
-of magnitude.  In the next section we describe how we form our early-warning
+of magnitude.
+
+Because the sets of filters from each time slice form orthogonal subspaces, and the basis
+basis filters within a given time slice are mutually orthogonal, the set of all basis filters
+from all time slices forms an orthogonal basis spanning the original templates.
+
+In the next section we describe how we form our early-warning
 detection statistic using the time slice decomposition and the \SVD.
 
 \subsubsection{Early-warning output}
@@ -225,9 +231,8 @@ We shall use the symbol $H^\shortuparrow$ to represent an interpolation filter,
 	x^{s}[k] = \left( H^\shortuparrow x^{s+1}\right)[k].
 \end{equation*}
 Ultimately, the latency of the entire \lloid\ algorithm is set by the decimation
-and interpolation filters because they are generally time-symmetric.  As a result,
-\lloid\ is very slightly acausal with an intrinsic latency of
-$\left(\max \left( N^\shortdownarrow, N^\shortuparrow \right) / 2 f^0 \right)$~seconds.
+and interpolation filters because they are generally time-symmetric and slightly
+acausal.
 
 From the combination of the time slice decomposition in
 equation~(\ref{eq:time-sliced-templates}) and the \SVD\ defined in
@@ -306,8 +311,8 @@ $f^s$		& sample rate in time slice $s$ \\
 \numslices	& num. time slices \\
 \numsvdtmps	& num. basis templates in time slice $s$ \\
 \slicessamps	& num. samples in decimated time slice $s$\\
-$N^\shortdownarrow$ & num. coefficients in decimation filter \\
-$N^\shortuparrow$ & num. coefficients in interpolation filter \\
+$N^\shortdownarrow$ & length of decimation filter \\
+$N^\shortuparrow$ & length of interpolation filter \\
 \tableline
 \end{tabular}
 \end{center}
@@ -343,23 +348,39 @@ cost will reach an optimum at some large but finite \fft\ block size
 $\fftblock \gg \tmpsamps$.  In this limit, the \FD\ method costs
 $\approx 2 f^0 \numtmps \lg \fftblock$ \flops.
 
-\subsubsection{\lloid\ method}
+By adjusting the \fft\ block size, it is possible to achieve low latency with FD
+convolution, but the computational cost grows rapidly as the latency in samples
+$(D-N$) decreases.  It is easy to show that in the limit of many templates and
+long templates, $M, \lg N \gg 1$, the computational cost scales as
+%
+$$
+\left(1 + \frac{\textrm{template length}}{\textrm{latency}}\right)
+$$
+per template per $2\lg N$.
+
+\subsubsection{\label{sec:lloid-method}\lloid\ method}
 
 For time slice $s$, the \lloid\ method requires $2 \slicessamps \numsvdtmps f^s$ \flops\ 
 to evaluate the orthogonal filters, $2 \numtmps \numsvdtmps f^s$ \flops\ to apply the 
 linear transformation from the $\numsvdtmps$ basis templates to the $\numtmps$ time-sliced templates, and $\numtmps f^s$ \flops\ to add the resultant partial \SNR\ stream.
 
-The computational cost of the decimation of the detector data is a little bit more subtle.  Decimation is achieved by applying an \fir\ anti-aliasing filter and then downsampling, or deleting samples in order to reduce the sample rate from $f^{s-1}$ to $f^s$.  Naively, an anti-aliasing filter with $N^\shortdownarrow$ coefficients should demand $2 N^\shortdownarrow f^{s-1}$ \flops.  However, it is necessary to evaluate the anti-aliasing filter only for the fraction $f^s / f^{s-1}$ of the samples that will not be deleted.  Consequently, an efficient decimator that requires only $2 N^\shortdownarrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 N^\shortdownarrow f^s$ \flops\ is possible.
+The computational cost of the decimation of the detector data is a little bit more subtle.  Decimation is achieved by applying an \fir\ anti-aliasing filter and then downsampling, or deleting samples in order to reduce the sample rate from $f^{s-1}$ to $f^s$.  Naively, an anti-aliasing filter with $(f^{s-1} / f^s) N^\shortdownarrow$ coefficients should demand $2 N^\shortdownarrow (f^{s-1})^2 / f^s$ \flops.  However, it is necessary to evaluate the anti-aliasing filter only for the fraction $f^s / f^{s-1}$ of the samples that will not be deleted.  Consequently, an efficient decimator that requires only $2 N^\shortdownarrow f^{s-1}$ \flops\ is possible.
 
-The story is similar for the interpolation filters used to match the sample rates of the partial \SNR{} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a low-pass filter with $N^\shortdownarrow$ coefficients.  The low-pass filter requires $2 M N^\shortdownarrow f^{s-1}$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^{s-1}/f$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1} \cdot \left( f^s / f^{s-1} \right) = 2 M N^\shortuparrow f^s$ \flops.
+The story is similar for the interpolation filters used to match the sample rates of the partial \SNR{} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a low-pass filter with $(f^{s-1} / f^s) N^\shortdownarrow$ coefficients.  The low-pass filter requires $2 M N^\shortdownarrow (f^{s-1})^2 / f^s$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^s / f^{s-1}$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1}$ \flops.
 
 Taking into account the decimation of the detector data, the orthogonal \fir\ filters, the reconstruction of the time-sliced templates, the interpolation of \SNR\ from previous time slices, and the accumulation of \SNR, in total the \lloid\ algorithm requires
 \begin{multline*}
-\sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s \\ + 2\sum_{\mathclap{f \in \{f^s\}}} \left( N^\shortdownarrow + \numtmps N^\shortuparrow \right) f^s
+\sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s \\ + 2\sum_{\mathclap{f^s \in \{f^k \, : \, 0 < k < S\}}} \left( N^\shortdownarrow f^0 + \numtmps N^\shortuparrow f^{s-1}\right)
 \end{multline*}
-\flops.  The second sum is carried out over the set of distinct sample rates rather than over the time slices themselves.
+\flops.  The second sum is carried out over the set of distinct sample rates (except for the base sample rate) rather than over the time slices themselves, as we have found that it is sometimes desirable to place multiple adjacent time slices at the same sample rate in order to keep the size of matrices that enter the singular value decomposition manageable.  Here we have assumed that the decimation filters are connected in parallel, converting from the base sample rate $f^0$ to each of the time slice sample rates $f^1$, $f^2$, $\dots$, and that the interpolation filters are connected in cascade fashion with each interpolation filter stepping from the sample rate of one time slice to the next.
 
 We can simplify this expression quite a bit by taking some limits that arise from sensible filter design.  In the limit of many templates, the cost of the decimation filters is negligible as compared to the cost of the interpolation filters.  Typically, we will design the interpolation filters with $N^\shortuparrow \lesssim \numsvdtmps$ so that the interpolation cost itself is negligible compared with the reconstruction cost.  Finally, if the number of basis templates per time slices $\numsvdtmps$ is not too small, the reconstruction cost dominates over the cost of accumulating the partial \SNR.  In these limits, the cost of \lloid\ is dominated by the basis filters themselves and the reconstruction, totaling $2 \sum_{s=0}^{S-1} f^s \numsvdtmps \left( \slicessamps + \numtmps \right)$ \flops.
+
+The latency of the \lloid\ method is entirely due to the acausality of the interpolation and decimation filters.  The latency is exactly
+$$
+\frac{1}{2} \left( N^\shortdownarrow / f^{S-1} + \sum_{\mathclap{f^s \in \{f^k \, : \, 0 < k < S\}}} N^\shortuparrow / f^s \right) \textrm{ seconds.}
+$$
+The first term is due to the decimation filter that converts from the base sample rate $f^0$ to the lowest sample rate $f^{S-1}$ and the sum that comprises the second term is due to the latency of all of the interpolation filters connected in series.
 
 \subsubsection{Speedup of \lloid\ relative to \TD\ method}
 

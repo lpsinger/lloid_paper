@@ -34,11 +34,11 @@ the reconstruction matrix, and the time-slice boundaries are all saved to disk.
 
 \subsection{Filtering stage}
 
-The \lloid\ algorithm is amenable to nearly latency free, real-time implementation.
-However, such a near real-time search pipeline would likely require integration directly into
+The \lloid\ algorithm is amenable to extremely low latency implementation.
+The lowest possibly latency could be achieved by integration directly into
 the data acquisition and storage system of the \LIGO\ observatories.  A slightly more 
-modest goal is to leverage existing low-latency, but not real-time, signal processing
-software in order to implement the \lloid\ algorithm.
+modest goal is to leverage existing signal processing software in order to implement
+the \lloid\ algorithm.
 
 We have implemented a prototype of the low-latency filtering stage using an
 open-source signal processing environment called
@@ -61,9 +61,11 @@ Our prototype pipeline, tested with GStreamer version 0.10.33, consists of the f
 
 The whitened detector data is reduced to successively
 lower sample rates by decimation. Decimation involves applying an anti-aliasing
-filter to the data, and then down-sampling by deleting samples.  We use a
-192-tap \fir\ decimator provided by \gstreamer{}'s {\tt audioresample}
-element.  The detector data is provided at every power-of-two sample rate
+filter to the data, and then down-sampling by deleting samples.  We use GStreamer's
+stock {\tt audioresample} element, which provides a FIR decimation filter with
+a Kaiser-windowed sinc function kernel.
+
+The detector data is provided at every power-of-two sample rate
 required by the time slices described in \eqref{eq:time-slices}.  At this point,
 the \gstreamer\ pipeline splits into several parallel branches to handle each
 time slice.
