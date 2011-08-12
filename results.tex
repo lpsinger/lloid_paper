@@ -165,7 +165,7 @@ the interpolation filter length to 16, and the decimation filter length to 48.
 Table~\ref{table:flops} shows the
 computational cost in \flops\ for the sub-bank we described above.  For the \FD\ method, an \fft\
 block size of $\fftblock = 2 \tmpsamps$ is assumed, resulting in a latency of
-$\left(\tmpsamps f^0\right)$ seconds.  Both the \FD\ method and \lloid\ are
+$\left(\tmpsamps / f^0\right)$ seconds.  Both the \FD\ method and \lloid\ are
 five orders of magnitude faster than the conventional \TD\ method.  However,
 the \FD\ method has a latency of over half of an hour, whereas \lloid\ has a
 latency of just over one second.
