@@ -170,40 +170,51 @@ five orders of magnitude faster than the conventional \TD\ method.  However,
 the \FD\ method has a latency of over half of an hour, whereas \lloid\ has a
 latency of just over one second.
 %
-\begin{table}
-\caption{\label{table:flops}Computational cost in \flops\ of the \TD\ method, the \FD\ method, and \lloid\ for the sub-bank described in section~\ref{sec:bank-setup}.}
+\begin{table*}
+\caption{\label{table:flops}Computational cost in \flops\ and latency in seconds
+of the \TD\ method, the \FD\ method, and \lloid.  Cost is given
+for both the sub-bank described in section~\ref{sec:bank-setup} and a full
+\NS--\NS\ search.  The last column gives the approximate number of machines per
+detector required for a full advanced LIGO \NS--\NS\ search.}
 \begin{center}
-\begin{tabular}{lll}
+\begin{tabular}{lllll}
 \tableline\tableline
-method & \flops\ & latency (s) \\
+& \flops\ & & \flops\ & number of \\
+method & (sub-bank) & latency (s) & (\NS--\NS) & machines \\[0.1em]
 \tableline
-time domain & $4.9\times10^{13}$ & 0 \\
-frequency domain & $5.2\times10^8$ & $2\times10^3$ \\
-\lloid\ (theory) & $6.6\times10^8$ & $1.2$ \\
-\lloid\ (prototype) & ($\sim$0.9 cores) & $1.5$ \\
+time domain & $4.9\times10^{13}$ & 0 & $3.8\times10^{15}$ & $\sim$$10^5$ \\
+frequency domain & $5.2\times10^8$ & $2\times10^3$ & $5.9\times10^{10}$ & $\sim$$10$ \\
+\lloid\ (theory) & $6.6\times10^8$ & $1.2$ & $\phantom{5.7}\sim 10^{10}$ & $\sim$$10$ \\
+\lloid\ (prototype) & (0.9 cores) & $1.5$ & ------------ & $\sim$$10$ \\
 \tableline
 \end{tabular}
 \end{center}
-\end{table}
+\end{table*}
 
-\subsection{Extrapolation of the computational cost to an Advanced \LIGO{} search}
+\subsection{Extrapolation of computational cost to an Advanced \LIGO{} search}
 
-Table~\ref{table:flops} shows that the \lloid\ method requires $\sim$$10^9$
-\flops\ to cover a sub-bank comprising $\sim$$10^2$ out of the total $\sim$$10^5$
+Table~\ref{table:flops} shows that the \lloid\ method requires $6.6 \times 10^8$
+\flops\ to cover a sub-bank comprising 657 out of the total 98544
 mass pairs.  Given that modern (ca. 2011) workstations can sustain computation
-rates up to $\sim$$10^{10}$ \flops{}, and assuming that other regions of the
+rates up to $\sim$$10^{10}$~\flops{}, and assuming that other regions of the
 parameter space have similar computational scaling, an entire single detector
-search could be implemented with $\gtrsim$$100$ machines.  Template length does
-vary over the parameter space; lower-mass templates sweep through frequency more
-slowly and would require more computations while higher-mass templates are shorter and
-would require fewer computations.  However, we consider the estimates based on this
-sub-bank to be a reasonable representation because they are within an order of
-magnitude of estimates based on the approximate speedup in
-equation~(\ref{eq:speedup}).
+search for \NS--\NS\ signals in the 1--3~$M_\odot$ component mass range could be
+implemented with $\sim$$10^{11}$ \flops\, or $\sim$$10$ machines.
+
+We computed the computational cost of a full advanced \LIGO\ \NS--\NS\ search a
+second way by computing the cost per template for the conventional \TD\ method,
+and then applying the \lloid\ speedup from equation~(\ref{eq:speedup}).  This
+should be a somewhat more accurate measure because template length varies over
+the parameter space.  Lower chirp mass templates sweep through frequency more
+slowly and require more computations while higher chirp mass templates are
+shorter and require fewer computations.  Despite these subtleties, this estimate
+gave us $4.6 \times 10^9$~\flops, differing by only a factor of $\sim$2 from the
+simple scaling argument above.  For this reason, we believe that $\sim$$10$
+machines is a realistic estimate of our computing requirements.
 
 By comparison, using the \TD\ method to achieve the same latency costs
 $\sim$$10^{13}$ \flops\ for this particular sub-bank, and so it would require
-a total of $\gtrsim$$10^{15}$ \flops\ or $\gtrsim$$10^6$ present-day machines
+a total of $\gtrsim$$10^{15}$ \flops\ or $\gtrsim$$10^5$ present-day machines
 to search the full parameter space.  Presently, the \LIGO{} Data Grid%
 \footnote{\url{https://www.lsc-group.phys.uwm.edu/lscdatagrid/}} consists of
 only $\sim$$10^4$ machines, so direct \TD\ convolution is clearly impractical.
