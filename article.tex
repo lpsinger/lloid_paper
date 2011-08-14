@@ -102,59 +102,57 @@ gravitational radiation from the final merger has arrived at the detectors.
 \end{abstract}
 
 \section{Introduction}
-\label{sec:introduction}
 
 As a compact binary system loses energy to gravitational waves (\GW{}s), its
 orbital separation decays, leading to a runaway inspiral with the \GW{}
 amplitude and frequency increasing until the system eventually merges.  If a
-neutron star (\NS{}) is involved, it might become tidally disrupted near
-the merger and fuel an electromagnetic (\EM{}) counterpart
-\citep{shibata:2007}.  Effort from both the \GW{} and the broader astronomical communities might make it
-possible to use \GW{} observations as an early warning trigger for \EM{}
+neutron star (\NS) is involved, it might become tidally disrupted near the
+merger and fuel an electromagnetic (\EM) counterpart \citep{shibata:2007}.
+Effort from both the \GW{} and the broader astronomical communities might make
+it possible to use \GW\ observations as an early warning trigger for \EM{}
 followup. In the first generation of ground-based laser interferometers, the
-\GW{} community initiated a project to send alerts when potential \GW{}
+\GW\ community initiated a project to send alerts when potential \GW{}
 transients were observed in order to trigger followup observations by \EM{}
 telescopes.  The typical latencies were 30 minutes \citep{HugheyGWPAW2011},
 which was an important achievement, but too late to catch any prompt \EM{}
 emission.  Since the \GW\ signal is in principle detectable even before the tidal
 disruption, one might have the ambition of reporting \GW\ candidates not minutes
-after the merger, but seconds before.  We explore one essential ingredient of this
-problem, a computationally inexpensive low-latency filtering algorithm for detecting
-inspiral signals in \GW{} data.  We also consider the prospects for advanced \GW{}
-detectors and discuss other areas of work that would be required for rapid analysis.
+after the merger, but seconds before.  We explore one essential ingredient of
+this problem, a computationally inexpensive low-latency filtering algorithm for
+detecting inspiral signals in \GW\ data.  We also consider the prospects for
+advanced \GW\ detectors and discuss other areas of work that would be required
+for rapid analysis.
 
 Compact binary coalescence (\CBC{}) is a plausible progenitor for most short
 gamma-ray bursts (short \GRB{}s) \citep{Lee:2005, nakar07}, but the
 association is not iron-clad \citep{2011ApJ...727..109V}. The tidally
 disrupted material falls onto the newly formed, rapidly spinning compact object
-and is accelerated in jets along the spin axis with a timescale of
-$0.1$--$1$~s after the merger \citep{Janka1999}, matching the short \GRB{}
-duration distribution well. Prompt \EM{} emission including the \GRB{}
-can arise as fast outflowing
-matter collides with slower matter ejected earlier in inner shocks. The same
-inner shocks, or potentially reverse shocks, can produce an accompanying
-optical flash \citep{Sari99}. The prompt emission is a probe into the extreme
-initial conditions of the outflow, in contrast with afterglows, which arise in
-the external shock with the local medium and are relatively insensitive to
-initial conditions. Optical flashes have been observed for a handful of long
-\GRB{}s \citep{2011CRPhy..12..255A} by telescopes with extremely rapid response
-or, in the case of GRB 080319b, by pure serendipity, where several
-telescopes were already observing the afterglow of another \GRB{} in the same
-field of view \citep{2008Natur.455..183R}. The observed optical flashes peaked
-within tens of seconds and decayed quickly. For short \GRB{} energy balance and
-plasma density,
-however, the reverse shock model predicts a peak flux in radio, approximately
-20 minutes after the \GRB{}, but also a relatively faint optical flash
-\citep{nakar07}; for a once-per-year Advanced LIGO event at $130$~Mpc, the
-radio flux will peak around 9~GHz at $\sim$$5$~mJy, with emission in the
-$R$-band at $\sim$19~mag. Interestingly, roughly a quarter to half of observed short
-\GRB{}s also exhibit extended X-ray emission of $30$--$100$~s in duration
-beginning $\sim$$10$~s after the \GRB{} and carrying comparable fluence to the
-initial outburst. This can be explained if the merger results in the formation
-of a proto-magnetar that interacts with ejecta \citep{Bucciantini2011}. Rapid
-\GW{} alerts would enable joint \EM{} and \GW{} observations to confirm
-the short \GRB{}-\CBC{} link and allow the early \EM{}
-observation of exceptionally nearby and thus bright events.
+and is accelerated in jets along the spin axis with a timescale of $0.1$--$1$~s
+after the merger \citep{Janka1999}, matching the short \GRB\ duration
+distribution well. Prompt \EM{} emission including the \GRB\ can arise as fast
+outflowing matter collides with slower matter ejected earlier in inner shocks.
+The same inner shocks, or potentially reverse shocks, can produce an
+accompanying optical flash \citep{Sari99}. The prompt emission is a probe into
+the extreme initial conditions of the outflow, in contrast with afterglows,
+which arise in the external shock with the local medium and are relatively
+insensitive to initial conditions. Optical flashes have been observed for a
+handful of long \GRB{}s \citep{2011CRPhy..12..255A} by telescopes with extremely
+rapid response or, in the case of GRB 080319b, by pure serendipity, where
+several telescopes were already observing the afterglow of another \GRB{} in
+the same field of view \citep{2008Natur.455..183R}. The observed optical flashes
+peaked within tens of seconds and decayed quickly. For short \GRB{} energy
+balance and plasma density, however, the reverse shock model predicts a peak
+flux in radio, approximately 20 minutes after the \GRB{}, but also a relatively
+faint optical flash \citep{nakar07}; for a once-per-year Advanced LIGO event at
+$130$~Mpc, the radio flux will peak around 9~GHz at $\sim$$5$~mJy, with emission
+in the $R$-band at $\sim$19~mag. Interestingly, roughly a quarter to half of
+observed short \GRB{}s also exhibit extended X-ray emission of $30$--$100$~s in
+duration beginning $\sim$$10$~s after the \GRB{} and carrying comparable fluence
+to the initial outburst. This can be explained if the merger results in the
+formation of a proto-magnetar that interacts with
+ejecta~\citep{Bucciantini2011}. Rapid \GW\ alerts would enable joint \EM\ and
+\GW\ observations to confirm the short \GRB{}-\CBC{} link and allow the early
+\EM\ observation of exceptionally nearby and thus bright events.
 
 In October 2010, \LIGO{}\footnote{\url{http://www.ligo.org/}} completed its
 sixth science run (S6) and Virgo\footnote{\url{http://www.ego-gw.it/}}
@@ -177,17 +175,17 @@ There were a number of sources of latency associated with the search for
 The \LIGO\ data acquisition system collects data from detector subsystems 16
 times a second~\citep{Bork2001}. Data are also copied from all of the \GW\
 observatories to the analysis clusters over the Internet, which is capable of
-high bandwidth but only modest latency.  Together, these introduce a
-latency of $\gtrsim$$100$~ms.  These technical sources of latency could be reduced
-with significant engineering and capital investments, but they are minor compared
+high bandwidth but only modest latency.  Together, these introduce a latency of
+$\gtrsim$$100$~ms.  These technical sources of latency could be reduced with
+significant engineering and capital investments, but they are minor compared
 to any of the other sources of latency.
 
 \paragraph{Data conditioning ($\sim$1~min)}%
-Science data must be calibrated using the detector's frequency
-response to gravitational radiation.  Currently, data are calibrated in blocks of
-16~s.  Within $\sim$1~min, data quality is assessed in order to create veto flags.
-These are both technical sources of latency that might be addressed with improved
-calibration and data quality software for advanced detectors.
+Science data must be calibrated using the detector's frequency response to
+gravitational radiation.  Currently, data are calibrated in blocks of 16~s.
+Within $\sim$1~min, data quality is assessed in order to create veto flags.
+These are both technical sources of latency that might be addressed with
+improved calibration and data quality software for advanced detectors.
 
 \paragraph{Trigger generation (2--5~min)}%
 Low-latency data analysis pipelines
@@ -195,29 +193,30 @@ deployed in S6/VSR3 achieved an impressive latency of minutes.  However, second
 to the human vetting process, this dominated the latency of the entire \EM\
 followup process.  Even if no other sources of latency existed, this trigger
 generation latency is too long to catch prompt or even extended emission.
-Low-latency trigger generation will become more challenging with advanced detectors
-because inspiral signals will stay in band up to ten times longer.  In this work,
-we will focus on reducing this source of latency.
+Low-latency trigger generation will become more challenging with advanced
+detectors because inspiral signals will stay in band up to ten times longer.  In
+this work, we will focus on reducing this source of latency.
 
 \paragraph{Alert generation (2--3~min)}%
-S6/VSR3 saw the introduction of low-latency astronomical
-alerts, which required gathering event parameters and sky localization from the
-various online analyses, downselecting the events, and calculating telescope pointings.
-If other sources of latency improve, the technical latency associated with this
+S6/VSR3 saw the introduction of low-latency astronomical alerts, which required
+gathering event parameters and sky localization from the various online
+analyses, downselecting the events, and calculating telescope pointings.  If
+other sources of latency improve, the technical latency associated with this
 infrastructure could dominate, so work should be done to improve it.
 
 \paragraph{Human validation (10--20~min)}%
-Because the new alert system was commissioned during S6/VSR3, all alerts were subjected
-to quality control checks by human operators before they were disseminated.
-This was by far the largest source of latency during S6/VSR3.
-Hopefully, confidence in the system will grow to the point where no human intervention
-is necessary before alerts are sent, so we give it no further consideration here.
+Because the new alert system was commissioned during S6/VSR3, all alerts were
+subjected to quality control checks by human operators before they were
+disseminated. This was by far the largest source of latency during S6/VSR3.
+Hopefully, confidence in the system will grow to the point where no human
+intervention is necessary before alerts are sent, so we give it no further
+consideration here.
 
 \paragraph{}
 
-This work will focus on reducing the latency of trigger production.  Data analysis
-strategies for advance detection of \CBC{}s will have to strike a balance between latency
-and throughput. \CBC{} searches consist of banks of
+This work will focus on reducing the latency of trigger production.  Data
+analysis strategies for advance detection of \CBC{}s will have to strike a
+balance between latency and throughput. \CBC{} searches consist of banks of
 matched filters, or cross-correlations between the data stream and a bank of
 nominal ``template'' signals.  There are many different implementations of
 matched filters, but most have high throughput at the cost of high latency, or
@@ -246,7 +245,7 @@ astronomical community.
 
 The paper is organized as follows.  First, we discuss prospects for early-warning
 detection.  Then, we provide an overview of our novel method for detecting compact
-binary coalescence signals with extremely low latency. We then describe a prototype
+binary coalescence signals near real-time. We then describe a prototype
 implementation using open source signal processing software.  To validate our approach
 we present results of simulations.  We conclude with some remarks on what remains to
 prepare for the advanced detector era.
@@ -340,7 +339,7 @@ less of a concern.  This should reduce the 90\% confidence area substantially.
 Proposed third generation \GW{} detectors would improve the \SNR\ and likewise
 sky localization.
 
-\section{Novel low latency algorithm for \CBC\ detection}
+\section{Novel \realtime\ algorithm for \CBC\ detection}
 \label{sec:method}
 
 In this section we describe a decomposition of the \CBC{} signal space that
@@ -403,7 +402,7 @@ a latency of $\mathcal O(\tmpsamps)$ samples.
 \subsection{The \lloid\ method}
 
 Here we describe a method for reducing the computational cost of a \TD\ search
-for compact binary coalescence.  We give an extremely low latency algorithm
+for compact binary coalescence.  We give a real-time algorithm
 that competes in terms of floating point operations per second with the
 conventional \FD\ method, which by contrast requires a significant latency due to the
 inherent acausality of the Fourier transform.  Our method, called \lloid{}
@@ -494,7 +493,7 @@ sample rate.  Specifically we consider here time slice boundaries with the
 smallest power-of-two sample rates that sub-critically sample the time-sliced
 templates.  The time slices consist of the $S$ intervals
 $\left[t^0, t^1\right),\, \left[t^1, t^2\right),\, \dots,\, \left[t^{S-1}, t^S\right)$,
-sampled at frequencies $f^0,\, f^1,\, \dots,\, f^\mathrm{S-1}$ where $f^s$ is at
+sampled at frequencies $f^0,\, f^1,\, \dots,\, f^\mathrm{S-1}$, where $f^s$ is at
 least twice the highest nonzero frequency component of any filter in the bank for the
 $s$th time slice.
 
@@ -574,7 +573,9 @@ We shall use the symbol $H^\shortuparrow$ to represent an interpolation filter,
 \end{equation*}
 Ultimately, the latency of the entire \lloid\ algorithm is set by the decimation
 and interpolation filters because they are generally time-symmetric and slightly
-acausal.
+acausal.  As long as the latency introduced by the decimation and interpolation
+filters for any time slice $s$ is less than that time slice's delay $t^s$, the
+total latency of the \lloid\ algorithm will be zero.
 
 From the combination of the time slice decomposition in
 equation~(\ref{eq:time-sliced-templates}) and the \SVD\ defined in
@@ -663,7 +664,11 @@ $N^\shortuparrow$ & length of interpolation filter \\
 
 \subsubsection{Conventional \TD{} method}
 
-The conventional \TD{} method consists of a bank of \fir{} filters, or sliding-window dot products.  If there are $\numtmps$ templates, each $\tmpsamps$ samples in length, then each filter requires $M N$ multiplications and additions per sample, or $2 \numtmps \tmpsamps f^0$ \flops\ at a sample rate $f^0$.
+The conventional \TD{} method consists of a bank of \fir{} filters, or
+sliding-window dot products.  If there are $\numtmps$ templates, each
+$\tmpsamps$ samples in length, then each filter requires $M N$ multiplications
+and additions per sample, or $2 \numtmps \tmpsamps f^0$ \flops\ at a sample rate
+$f^0$.
 
 \subsubsection{Conventional \FD{} method}
 
@@ -703,30 +708,69 @@ per template per $2\lg N$.
 \subsubsection{\label{sec:lloid-method}\lloid\ method}
 
 For time slice $s$, the \lloid\ method requires $2 \slicessamps \numsvdtmps f^s$ \flops\ 
-to evaluate the orthogonal filters, $2 \numtmps \numsvdtmps f^s$ \flops\ to apply the 
-linear transformation from the $\numsvdtmps$ basis templates to the $\numtmps$ time-sliced templates, and $\numtmps f^s$ \flops\ to add the resultant partial \SNR\ stream.
+to evaluate the orthogonal filters, $2 \numtmps \numsvdtmps f^s$ \flops\ to
+apply the  linear transformation from the $\numsvdtmps$ basis templates to the
+$\numtmps$ time-sliced templates, and $\numtmps f^s$ \flops\ to add the
+resultant partial \SNR\ stream.
 
-The computational cost of the decimation of the detector data is a little bit more subtle.  Decimation is achieved by applying an \fir\ anti-aliasing filter and then downsampling, or deleting samples in order to reduce the sample rate from $f^{s-1}$ to $f^s$.  Naively, an anti-aliasing filter with $(f^{s-1} / f^s) N^\shortdownarrow$ coefficients should demand $2 N^\shortdownarrow (f^{s-1})^2 / f^s$ \flops.  However, it is necessary to evaluate the anti-aliasing filter only for the fraction $f^s / f^{s-1}$ of the samples that will not be deleted.  Consequently, an efficient decimator that requires only $2 N^\shortdownarrow f^{s-1}$ \flops\ is possible.
+The computational cost of the decimation of the detector data is a little bit
+more subtle.  Decimation is achieved by applying an \fir\ anti-aliasing filter
+and then downsampling, or deleting samples in order to reduce the sample rate
+from $f^{s-1}$ to $f^s$.  Naively, an anti-aliasing filter with
+$(f^{s-1} / f^s) N^\shortdownarrow$ coefficients should demand
+$2 N^\shortdownarrow (f^{s-1})^2 / f^s$ \flops.  However, it is necessary to
+evaluate the anti-aliasing filter only for the fraction $f^s / f^{s-1}$ of the
+samples that will not be deleted.  Consequently, an efficient decimator that
+requires only $2 N^\shortdownarrow f^{s-1}$ \flops\ is possible.
 
-The story is similar for the interpolation filters used to match the sample rates of the partial \SNR{} streams.  Interpolation of a data stream from a sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples of the original stream, and then applying a low-pass filter with $(f^{s-1} / f^s) N^\shortdownarrow$ coefficients.  The low-pass filter requires $2 M N^\shortdownarrow (f^{s-1})^2 / f^s$ \flops.  However, by taking advantage of the fact that by construction a fraction $f^s / f^{s-1}$ of the samples are zero, it is possible to build an efficient interpolator that requires only $M N^\shortuparrow f^{s-1}$ \flops.
+The story is similar for the interpolation filters used to match the sample
+rates of the partial \SNR{} streams.  Interpolation of a data stream from a
+sample rate $f^s$ to $f^{s-1}$ consists of inserting zeros between the samples
+of the original stream, and then applying a low-pass filter with
+$(f^{s-1} / f^s) N^\shortdownarrow$ coefficients.  The low-pass filter requires
+$2 M N^\shortdownarrow (f^{s-1})^2 / f^s$ \flops.  However, by taking advantage
+of the fact that by construction a fraction $f^s / f^{s-1}$ of the samples are
+zero, it is possible to build an efficient interpolator that requires only
+$M N^\shortuparrow f^{s-1}$ \flops.
 
-Taking into account the decimation of the detector data, the orthogonal \fir\ filters, the reconstruction of the time-sliced templates, the interpolation of \SNR\ from previous time slices, and the accumulation of \SNR, in total the \lloid\ algorithm requires
+Taking into account the decimation of the detector data, the orthogonal \fir\
+filters, the reconstruction of the time-sliced templates, the interpolation of
+\SNR\ from previous time slices, and the accumulation of \SNR, in total the
+\lloid\ algorithm requires
+%
 \begin{multline*}
 \sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s \\ + 2\sum_{\mathclap{f^s \in \{f^k \, : \, 0 < k < S\}}} \left( N^\shortdownarrow f^0 + \numtmps N^\shortuparrow f^{s-1}\right)
 \end{multline*}
-\flops.  The second sum is carried out over the set of distinct sample rates (except for the base sample rate) rather than over the time slices themselves, as we have found that it is sometimes desirable to place multiple adjacent time slices at the same sample rate in order to keep the size of matrices that enter the singular value decomposition manageable.  Here we have assumed that the decimation filters are connected in parallel, converting from the base sample rate $f^0$ to each of the time slice sample rates $f^1$, $f^2$, $\dots$, and that the interpolation filters are connected in cascade fashion with each interpolation filter stepping from the sample rate of one time slice to the next.
+%
+\flops.  The second sum is carried out over the set of distinct sample rates
+(except for the base sample rate) rather than over the time slices themselves,
+as we have found that it is sometimes desirable to place multiple adjacent time
+slices at the same sample rate in order to keep the size of matrices that enter
+the singular value decomposition manageable.  Here we have assumed that the
+decimation filters are connected in parallel, converting from the base sample
+rate $f^0$ to each of the time slice sample rates $f^1$, $f^2$, $\dots$, and
+that the interpolation filters are connected in cascade fashion with each
+interpolation filter stepping from the sample rate of one time slice to the
+next.
 
-We can simplify this expression quite a bit by taking some limits that arise from sensible filter design.  In the limit of many templates, the cost of the decimation filters is negligible as compared to the cost of the interpolation filters.  Typically, we will design the interpolation filters with $N^\shortuparrow \lesssim \numsvdtmps$ so that the interpolation cost itself is negligible compared with the reconstruction cost.  Finally, if the number of basis templates per time slices $\numsvdtmps$ is not too small, the reconstruction cost dominates over the cost of accumulating the partial \SNR.  In these limits, the cost of \lloid\ is dominated by the basis filters themselves and the reconstruction, totaling $2 \sum_{s=0}^{S-1} f^s \numsvdtmps \left( \slicessamps + \numtmps \right)$ \flops.
-
-The latency of the \lloid\ method is entirely due to the acausality of the interpolation and decimation filters.  The latency is exactly
-$$
-\frac{1}{2} \left( N^\shortdownarrow / f^{S-1} + \sum_{\mathclap{f^s \in \{f^k \, : \, 0 < k < S\}}} N^\shortuparrow / f^s \right) \textrm{ seconds.}
-$$
-The first term is due to the decimation filter that converts from the base sample rate $f^0$ to the lowest sample rate $f^{S-1}$ and the sum that comprises the second term is due to the latency of all of the interpolation filters connected in series.
+We can simplify this expression quite a bit by taking some limits that arise
+from sensible filter design.  In the limit of many templates, the cost of the
+decimation filters is negligible as compared to the cost of the interpolation
+filters.  Typically, we will design the interpolation filters with
+$N^\shortuparrow \lesssim \numsvdtmps$ so that the interpolation cost itself is
+negligible compared with the reconstruction cost.  Finally, if the number of
+basis templates per time slices $\numsvdtmps$ is not too small, the
+reconstruction cost dominates over the cost of accumulating the partial \SNR.
+In these limits, the cost of \lloid\ is dominated by the basis filters
+themselves and the reconstruction, totaling
+$2 \sum_{s=0}^{S-1} f^s \numsvdtmps \left( \slicessamps + \numtmps \right)$ \flops.
 
 \subsubsection{Speedup of \lloid\ relative to \TD\ method}
 
-If the cost of the basis filters dominates, and the frequency of the templates evolves slowly enough in time, then we can use the time-frequency relationship of equation~(\ref{eq:fgw}) to estimate the speedup relative to the conventional \TD\ method.  The reduction in \flops\ is approximately
+If the cost of the basis filters dominates, and the frequency of the templates
+evolves slowly enough in time, then we can use the time-frequency relationship
+of equation~(\ref{eq:fgw}) to estimate the speedup relative to the conventional
+\TD\ method.  The reduction in \flops\ is approximately
 %
 \begin{multline}
 \label{eq:speedup}
@@ -735,10 +779,22 @@ If the cost of the basis filters dominates, and the frequency of the templates e
 = \frac{16 \alpha \left(t_\mathrm{low} f^2 (t_\mathrm{low}) - t_\mathrm{high} f^2 (t_\mathrm{high}) \right)}{\left(f^0\right)^2 \left(t_\mathrm{low} - t_\mathrm{high}\right)}
 \end{multline}
 %
-where $\alpha \approx \numsvdtmps / \numtmps$ is the rank reduction factor, or ratio between the number of basis templates and the number of templates.  This approximation assumes that the frequency of the signal is evolving very slowly so that we can approximate the time slice sample rate as twice the instantaneous gravitational wave frequency, $f^s \approx 2 f(t)$, and the number of samples in the decimated time slice as the sample rate times an infinitesimally short time interval, $\slicessamps \approx 2 f(t) \, \mathrm{d}t$. The integral is evaluated using the power-law form of $f(t)$ from equation~(\ref{eq:fgw}). Substituting approximate values for a template bank designed for component masses around (1.4, 1.4) $M_\odot$, $\alpha \approx 10^{-2}$, $t_\mathrm{low} = 10^3$~s, $f_\mathrm{low} = 10^1$~Hz, $t_\mathrm{high} = 1/1570$~s $f_\mathrm{high} = 1570$~Hz, and $f^0 = (2)(1570)$~Hz, we find from equation~(\ref{eq:speedup}) that the \lloid\ method requires only $\sim 10^{-6}$ times as many \flops\ as the conventional \TD\ method.
+where $\alpha \approx \numsvdtmps / \numtmps$ is the rank reduction factor, or
+ratio between the number of basis templates and the number of templates.  This
+approximation assumes that the frequency of the signal is evolving very slowly
+so that we can approximate the time slice sample rate as twice the instantaneous
+gravitational wave frequency, $f^s \approx 2 f(t)$, and the number of samples in
+the decimated time slice as the sample rate times an infinitesimally short time
+interval, $\slicessamps \approx 2 f(t) \, \mathrm{d}t$. The integral is
+evaluated using the power-law form of $f(t)$ from equation~(\ref{eq:fgw}).
+Substituting approximate values for a template bank designed for component
+masses around (1.4, 1.4) $M_\odot$, $\alpha \approx 10^{-2}$, $t_\mathrm{low} = 10^3$~s,
+$f_\mathrm{low} = 10^1$~Hz, $t_\mathrm{high} = 1/1570$~s $f_\mathrm{high} = 1570$~Hz,
+and $f^0 = (2)(1570)$~Hz, we find from equation~(\ref{eq:speedup}) that the
+\lloid\ method requires only $\sim 10^{-6}$ times as many \flops\ as the
+conventional \TD\ method.
 
 \section{Implementation}
-\label{sec:implementation}
 
 In this section we describe an implementation of the \lloid\ method described
 in section \ref{sec:method} suitable for rapid \GW{}
@@ -773,10 +829,8 @@ the reconstruction matrix, and the time-slice boundaries are all saved to disk.
 
 \subsection{Filtering stage}
 
-The \lloid\ algorithm is amenable to extremely low latency implementation.
-The lowest possibly latency could be achieved by integration directly into
-the data acquisition and storage system of the \LIGO\ observatories.  A slightly more 
-modest goal is to leverage existing signal processing software in order to implement
+The \lloid\ algorithm is amenable to latency free, real-time implementation.  However, such a real-time search pipeline would require integration directly into the data acquisition and storage systems of the \LIGO\ observatories.  A slightly more 
+modest goal is to leverage existing low-latency, but not real-time, signal processing software in order to implement
 the \lloid\ algorithm.
 
 We have implemented a prototype of the low-latency filtering stage using an
@@ -792,16 +846,24 @@ extended the \gstreamer\ framework by developing a library called
 \gstlal\footnote{\url{https://www.lsc-group.phys.uwm.edu/daswg/projects/gstlal.html}}
 that provides elements for \GW{} data analysis.
 
-\gstreamer\ pipelines typically operate with very low (in some consumer applications, imperceptibly low) latency rather than in true real-time because signals are partitioned into blocks of samples, or \emph{buffers}.  This affords a number of advantages, including amortizing the overhead of passing signals between elements and grouping together sequences of similar operations.  However, buffering a signal incurs a latency of up to one buffer length.  This latency can be made small at the cost of some additional overhead by making the buffers sufficiently small.
+\gstreamer\ pipelines typically operate with very low (in some consumer
+applications, imperceptibly low) latency rather than in true real-time because
+signals are partitioned into blocks of samples, or \emph{buffers}.  This affords
+a number of advantages, including amortizing the overhead of passing signals
+between elements and grouping together sequences of similar operations.
+However, buffering a signal incurs a latency of up to one buffer length.  This
+latency can be made small at the cost of some additional overhead by making the
+buffers sufficiently small.
 
-Our prototype pipeline, tested with GStreamer version 0.10.33, consists of the following stages.
+Our prototype pipeline, tested with GStreamer version 0.10.33, consists of the
+following stages.
 
 \paragraph{Decimation}
 
-The whitened detector data is reduced to successively
-lower sample rates by decimation. Decimation involves applying an anti-aliasing
-filter to the data, and then down-sampling by deleting samples.  We use GStreamer's
-stock {\tt audioresample} element, which provides a FIR decimation filter with
+The whitened detector data is reduced to successively lower sample rates by
+decimation. Decimation involves applying an anti-aliasing filter to the data,
+and then down-sampling by deleting samples.  We use GStreamer's stock
+\texttt{audioresample} element, which provides a FIR decimation filter with
 a Kaiser-windowed sinc function kernel.
 
 The detector data is provided at every power-of-two sample rate
@@ -812,12 +874,13 @@ time slice.
 \paragraph{Basis filters}
 
 Next, these decimated data streams are fed into parallel \fir\ filter banks.
-The basis filters are implemented using a \gstlal\ element called {\tt
-lal\_firbank}, which provides a single input, multiple output bank of \fir\ filters
-from a matrix of filter coefficients.  Several instances of {\tt lal\_firbank}
-execute in parallel to handle each of the time slices.  Filter coefficients are taken
-from the nonzero samples of the time slices in equation~\eqref{eq:time-sliced-templates},
-with the zero-padding effectively accomplished by appropriate queues, or delay lines.
+The basis filters are implemented using a \gstlal\ element called
+\texttt{lal\_firbank}, which provides a single input, multiple output bank of
+\fir\ filters from a matrix of filter coefficients.  Several instances of
+\texttt{lal\_firbank} execute in parallel to handle each of the time slices.
+Filter coefficients are taken from the nonzero samples of the time slices in
+equation~\eqref{eq:time-sliced-templates}, with the zero-padding effectively
+accomplished by appropriate queues, or delay lines.
 
 \paragraph{Reconstruction}
 
@@ -829,8 +892,8 @@ accomplished with the \texttt{gstlal} element \texttt{lal\_matrixmixer}.
 
 In order to form the early-warning output from each time slice, we have to add
 the partial \SNR\ to the early-warning output from the subsequent time slices.
-If the next time slice does not have the same sample rate, its output must
-first be interpolated.  The \gstreamer\ element {\tt audioresample} is used again here.  
+If the next time slice does not have the same sample rate, its output must first
+be interpolated.  The \gstreamer\ element \texttt{audioresample} is used again here.  
 
 \paragraph{\SNR\ accumulation}
 
@@ -841,14 +904,13 @@ at the full sample rate $f^0$.  In this way, the \lloid\ algorithm and this
 implementation naturally leads to a simple early-warning pipeline.
 
 \section{Results}
-\label{sec:results}
 
 In this section we evaluate the accuracy of the \lloid{} algorithm using our 
-\gstreamer{}-based implementation described in the previous section. We calculate the
-measured \SNR\ loss due to the approximations of the \lloid\ method and our
-implementation of it. Using a configuration that gives acceptable \SNR{} loss for
-our chosen set of source parameters, we then compare the computational cost in \flops\
-for \TD\ method, the \FD\ method, and \lloid.
+\gstreamer{}-based implementation described in the previous section. We calculate
+the measured \SNR\ loss due to the approximations of the \lloid\ method and our
+implementation of it. Using a configuration that gives acceptable \SNR{} loss
+for our chosen set of source parameters, we then compare the computational cost
+in \flops\ for \TD\ method, the \FD\ method, and \lloid.
 
 \subsection{Setup}
 \label{sec:bank-setup}
@@ -874,7 +936,10 @@ With this sub-bank we were able to construct an efficient time-slice decompositi
 that consisted of 11 time slices with sample rates between 32 and 4096 Hz summarized
 in Table~\ref{tab:time_slices}.
 \begin{table*}
-\caption{\label{tab:time_slices} Filter design sub-bank of 1314 templates.  From left to right, this table shows the sample rate, time interval, number of samples, and number of orthogonal templates for each time slice.  We vary \SVD{} tolerance from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.}
+\caption{\label{tab:time_slices} Filter design sub-bank of 1314 templates.  From
+left to right, this table shows the sample rate, time interval, number of
+samples, and number of orthogonal templates for each time slice.  We vary \SVD\
+tolerance from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.}
 \begin{center}
 \begin{minipage}[c]{0.4\textwidth}
 \includegraphics{t3}
@@ -960,19 +1025,28 @@ target \SNR{} loss.
 
 \paragraph{Effect of interpolation filter length}
 
-Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$ and the length of the
-decimation filter fixed at $N^\shortdownarrow = 192$, we studied the
-impact of the length $N^\shortuparrow$ of the interpolation filter on mismatch.  The mismatch as
-a function of $N^\shortuparrow$ is shown in Figure~\ref{fig:bw}b.  The
-mismatch saturates at $\sim$$2 \times 10^{-4}$ with $N^\shortuparrow = 64$.  We find
-that a filter length of 16 is sufficient to meet our target mismatch of 0.003.
+Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$ and the
+length of the decimation filter fixed at $N^\shortdownarrow = 192$, we studied
+the impact of the length $N^\shortuparrow$ of the interpolation filter on
+mismatch.  The mismatch as a function of $N^\shortuparrow$ is shown in
+Figure~\ref{fig:bw}b.  The mismatch saturates at $\sim$$2 \times 10^{-4}$ with
+$N^\shortuparrow = 64$.  We find that a filter length of 16 is sufficient to
+meet our target mismatch of 0.003.
 
-Having selected an SVD tolerance of $\left(1-10^{-4}\right)$ and $N^\shortuparrow=16$, we found that
-we could reduce $N^\shortdownarrow$ to 48 without making the median mismatch higher than 0.003.
+Having selected an SVD tolerance of $\left(1-10^{-4}\right)$ and
+$N^\shortuparrow=16$, we found that we could reduce $N^\shortdownarrow$ to 48
+without making the median mismatch higher than 0.003.
 
-During testing, we were surprised that careful design of the decimation and interpolation stages made a crucial difference in terms of computational overhead and latency.  When we tested the pipeline with the largest interpolation filters provided by GStreamer's audioresample element, we found that rather than making a negligible contribution to the total \flops\ budget and total measured overhead they became the dominant contribution.  The largest interpolation filters also incurred latencies of several seconds.  We now appreciate that the efficiency and low latency of \lloid\ hinge on proper specification of $N^\shortuparrow$.
-
-There is possibly further room for optimization here.  We have considered designing our own custom decimation and interpolation filters or tuning these filters separately for each time slice.
+During testing, we were surprised that careful design of the decimation and
+interpolation stages made a crucial difference in terms of computational
+overhead.  When we tested the pipeline with the largest interpolation filters
+provided by GStreamer's \texttt{audioresample} element, we found that rather than
+making a negligible contribution to the total \flops\ budget and total measured
+overhead they became the dominant contribution.  There is possibly further room
+for optimization beyond minimizing $N^\shortuparrow$.  We have considered
+designing our own custom decimation and interpolation filters or tuning these
+filters separately for each time slice.  We now appreciate that the efficiency
+of \lloid\ hinges on proper specification of $N^\shortuparrow$.
 
 \begin{figure*}[b]
 	\begin{minipage}[t]{0.5\textwidth}
@@ -994,7 +1068,7 @@ The whiskers represent the minimum and maximum mismatch over all templates.  In
 (a) the interpolation filter length is held fixed at $N^\shortuparrow = 192$, while
 the \SVD\ tolerance is varied from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.
 In (b), the \SVD\ tolerance is fixed at $\left(1-10^{-6}\right)$ while $N^\shortuparrow$
-is varied from 8 to 192 coefficients.}
+is varied from 8 to 192.}
 \end{figure*}
 
 \subsection{Lower bounds on computational cost and latency compared to other
@@ -1004,13 +1078,13 @@ We are now prepared to offer the estimated computational cost of filtering this
 sub-bank of templates compared to other methods.  We used the results of the
 previous subsections to set the \SVD\ tolerance to $\left(1-10^{-4}\right)$,
 the interpolation filter length to 16, and the decimation filter length to 48.
-Table~\ref{table:flops} shows the
-computational cost in \flops\ for the sub-bank we described above.  For the \FD\ method, an \fft\
-block size of $\fftblock = 2 \tmpsamps$ is assumed, resulting in a latency of
+Table~\ref{table:flops} shows the computational cost in \flops\ for the sub-bank
+we described above.  For the \FD\ method, an \fft\ block size of
+$\fftblock = 2 \tmpsamps$ is assumed, resulting in a latency of
 $\left(\tmpsamps / f^0\right)$ seconds.  Both the \FD\ method and \lloid\ are
-five orders of magnitude faster than the conventional \TD\ method.  However,
-the \FD\ method has a latency of over half of an hour, whereas \lloid\ has a
-latency of just over one second.
+five orders of magnitude faster than the conventional \TD\ method.  However, the
+\FD\ method has a latency of over half of an hour, whereas the \lloid\ algorithm
+has no latency at all.
 %
 \begin{table*}
 \caption{\label{table:flops}Computational cost in \flops\ and latency in seconds
@@ -1026,8 +1100,8 @@ method & (sub-bank) & latency (s) & (\NS--\NS) & machines \\[0.1em]
 \tableline
 time domain & $4.9\times10^{13}$ & 0 & $3.8\times10^{15}$ & $\sim$$10^5$ \\
 frequency domain & $5.2\times10^8$ & $2\times10^3$ & $5.9\times10^{10}$ & $\sim$$10$ \\
-\lloid\ (theory) & $6.6\times10^8$ & $1.2$ & $\phantom{5.7}\sim 10^{10}$ & $\sim$$10$ \\
-\lloid\ (prototype) & (0.9 cores) & $1.5$ & ------------ & $\sim$$10$ \\
+\lloid\ (theory) & $6.6\times10^8$ & 0 & $\phantom{5.7}\sim 10^{10}$ & $\sim$$10$ \\
+\lloid\ (prototype) & (0.9 cores) & $0.5$ & ------------ & $\sim$$10$ \\
 \tableline
 \end{tabular}
 \end{center}
@@ -1074,7 +1148,7 @@ machines of the \LIGO-Caltech cluster, a Sun Microsystems Sun
 Fire\texttrademark\ X4600~M2 server with eight quad-core 2.7~GHz AMD
 Opteron\texttrademark\ 8384 processors.  This test consumed $\sim$90\% of the
 capacity of just one out of the 32 cores, maintaining a constant latency of
-$\sim$1.5~s.
+$\sim$0.5~s.
 
 The measured overhead is consistent to within an order of magnitude with the
 lower bound from the \flops\ budget.  Additional overhead is possibly
@@ -1082,19 +1156,16 @@ dominated by thread synchronization.  A carefully optimized \gstreamer\
 pipeline or a hand-tuned C implementation of the pipeline might reduce overhead
 further.
 
-Since in this benchmark, the pipeline's input was buffered in
-0.25~s chunks, the total measured latency of 1.5~s is entirely consistent with
-1.2~s of latency being attributed to the acausality of the decimation and
-interpolation filters, as calculated in section~\ref{sec:lloid-method}.
-Our implementation of the \lloid\ algorithm has achieved latencies that would
-make other aspects of the analysis the limiting steps assuming that the human
-vetting process is automated.  
+The 0.5~s latency is probably due to buffering and synchronization.  The latency
+might be reduced by carefully tuning buffer lengths at every stage in the
+pipeline.  Even without further refinements, our implementation of the \lloid\
+algorithm has achieved latencies comparable to the \LIGO\ data acquisition
+system itself.  
 
 \section{Conclusions}
-\label{sec:conclusions}
 
-We have demonstrated a computationally feasible filtering algorithm for the rapid and
-even early-warning detection of \GW{}s emitted during the coalescence
+We have demonstrated a computationally feasible filtering algorithm for the rapid
+and even early-warning detection of \GW{}s emitted during the coalescence
 of neutron stars and stellar-mass black holes.  It is one part of a complicated
 analysis and observation strategy that will unfortunately have other sources of
 latency.  However, we hope that it will motivate further work to reduce such
@@ -1112,7 +1183,7 @@ frequently, low-latency alerts will be released after merger but will still
 yield extended X-ray tails and early afterglows.
 
 The \lloid{} method is as fast as standard \fft{} convolutions but allows for
-extremely low latency operation.  We anticipate requiring $\sim$40
+latency free, real-time operation.  We anticipate requiring $\sim$40
 modern multi-core computers to search for binary neutron stars using
 coincident \GW\ data from a 4-detector network.  In the future, additional
 computational savings could be acheived by conditionally reconstructing the
@@ -1164,15 +1235,14 @@ the techniques we have described.
 
 \LIGO\ was constructed by the California Institute of Technology and
 Massachusetts Institute of Technology with funding from the National Science
-Foundation and operates under cooperative agreement
-PHY-0107417.  CH would like to thank Ilya Mandel for
-many discussions about rate estimates and the prospects of early detection,
-Patrick Brady for countless fruitful conversations about
-low latency analysis methods, and John Zweizig for
-disscussions about \LIGO\ data acquisition.  NF would like to thank Alessandra
-Corsi and Larry Price for illuminating discussions on astronomical motivations.
-This research
-is supported by the National Science Foundation through a Graduate Research
+Foundation and operates under cooperative agreement PHY-0107417.  CH would like
+to thank Ilya Mandel for many discussions about rate estimates and the prospects
+of early detection, Patrick Brady for countless fruitful conversations about low
+latency analysis methods, and John Zweizig for disscussions about \LIGO\ data
+acquisition.  NF would like to thank Alessandra Corsi and Larry Price for
+illuminating discussions on astronomical motivations.  LS would like thank Shaun
+Hooper for productive conversations on signal processing.  This research is
+supported by the National Science Foundation through a Graduate Research
 Fellowship to LS and by the Perimeter Institute for Theoretical Physics through
 a fellowship to CH. DK is supported from the Max Planck Gesellschaft. 
 
