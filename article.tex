@@ -1039,16 +1039,13 @@ Having selected an SVD tolerance of $\left(1-10^{-4}\right)$ and
 $N^\shortuparrow=16$, we found that we could reduce $N^\shortdownarrow$ to 48
 without making the median mismatch higher than 0.003.
 
-During testing, we were surprised that careful design of the decimation and
-interpolation stages made a crucial difference in terms of computational
-overhead.  Connecting the interpolation filters in cascade fashion rather than
-in parallel made a significant difference.  Also, between $N^\shortuparrow = 16$
-and $N^\shortuparrow = 192$ the total cost in \flops\ varied across an order of
-magnitude.  There is possibly further room for optimization beyond minimizing
-$N^\shortuparrow$.  We have considered designing our own custom decimation and
-interpolation filters or tuning these filters separately for each time slice.
-We now appreciate that the efficiency of \lloid\ hinges on proper specification
-of $N^\shortuparrow$.
+We found that careful design of the decimation and interpolation stages made a
+crucial difference in terms of computational overhead.  Connecting the
+interpolation filters in cascade fashion rather than in parallel made a
+significant difference.  Also, between $N^\shortuparrow = 16$ and
+$N^\shortuparrow = 192$ the total cost in \flops\ varied across an order of
+magnitude.  We now appreciate that the efficiency of \lloid\ hinges on proper
+specification of $N^\shortuparrow$.
 
 \begin{figure*}[b]
 	\begin{minipage}[t]{0.5\textwidth}
