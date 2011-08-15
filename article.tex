@@ -702,9 +702,8 @@ $(D-N$) decreases.  It is easy to show that in the limit of many templates and
 long templates, $M, \lg N \gg 1$, the computational cost scales as
 %
 $$
-\left(1 + \frac{\textrm{template length}}{\textrm{latency}}\right)
+\left(1 + \frac{\textrm{template length}}{\textrm{latency}}\right) \left( 2 f^0 M \lg N \right).
 $$
-per template per $2\lg N$.
 
 \subsubsection{\label{sec:lloid-method}\lloid\ method}
 
@@ -1037,15 +1036,16 @@ meet our target mismatch of 0.003.
 
 Having selected an SVD tolerance of $\left(1-10^{-4}\right)$ and
 $N^\shortuparrow=16$, we found that we could reduce $N^\shortdownarrow$ to 48
-without making the median mismatch higher than 0.003.
+without exceeding a maximum mismatch of~0.003.
 
 We found that careful design of the decimation and interpolation stages made a
 crucial difference in terms of computational overhead.  Connecting the
-interpolation filters in cascade fashion rather than in parallel made a
-significant difference.  Also, between $N^\shortuparrow = 16$ and
-$N^\shortuparrow = 192$ the total cost in \flops\ varied across an order of
-magnitude.  We now appreciate that the efficiency of \lloid\ hinges on proper
-specification of $N^\shortuparrow$.
+interpolation filters in cascade fashion rather than in parallel resulted in a
+significant speedup.  Also, only the shortest interpolation filters that met our
+maximum mismatch constraint resulted in a sub-dominant contribution to the
+overall cost.  There is possibly further room for optimization beyond minimizing
+$N^\shortuparrow$.  We could design custom decimation and interpolation filters,
+or we could tune these filters separately for each time slice.
 
 \begin{figure*}[b]
 	\begin{minipage}[t]{0.5\textwidth}
@@ -1089,7 +1089,7 @@ has no latency at all.
 \caption{\label{table:flops}Computational cost in \flops\ and latency in seconds
 of the \TD\ method, the \FD\ method, and \lloid.  Cost is given
 for both the sub-bank described in section~\ref{sec:bank-setup} and a full
-\NS--\NS\ search.  The last column gives the approximate number of machines per
+1--3~$M_\odot$ \NS--\NS\ search.  The last column gives the approximate number of machines per
 detector required for a full Advanced LIGO \NS--\NS\ search.}
 \begin{center}
 \begin{tabular}{lllll}
@@ -1203,7 +1203,7 @@ the frequency of maximum sensitivity to the instantaneous frequency of the
 \GW\ waveform.  This is a challenging technique, but it has the potential for
 substantial gains in \SNR\ and timing accuracy \citep{PhysRevD.47.2184}.
 
-Although we have demonstrated a computationally feasible detection statistic
+Although we have demonstrated a computationally feasible statistic
 for advance detection, we have not yet explored data calibration and whitening,
 triggering, coincidence, and ranking of gravitational wave candidates in a
 framework that supports early \EM\ followup.  We will explore these and also
