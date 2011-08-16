@@ -926,17 +926,17 @@ curve~\citep{ALIGONoise}.  Templates are truncated at 10~Hz, where the projected
 sensitivity of Advanced \LIGO\ is interrupted by the ``seismic wall.''
 This results in a grid of 98544 points, or
 $2 \times 98544 = 197088$~templates.  Then we create sub-banks by partitioning
-the parameter space by chirp mass.  We shall concentrate on a sub-bank with 657 points with
-chirp masses between 1.1955 and 1.2045~$M_\odot$, or $2 \times 657 = 1314$~templates.
-Figure \ref{fig:tmpltbank} illustrates this procedure.
+the parameter space by chirp mass.  Figure \ref{fig:tmpltbank} illustrates this
+procedure. We concentrate on a sub-bank with 657 points with chirp masses
+between 1.1955 and 1.2045~$M_\odot$, or $2 \times 657 = 1314$~templates.
 \begin{figure}[h]
 	\plotone{f4}
 	\caption{\label{fig:tmpltbank}Source parameters selected for sub-bank used in this
 case study, consisting of component masses $m_1$, $m_2$, between 1 and 3~$M_\odot$, and
 chirp masses $\mathcal{M}$ between 1.1955 and 1.2045~$M_\odot$.}
 \end{figure}
-With this sub-bank we were able to construct an efficient time-slice decomposition
-that consisted of 11 time slices with sample rates between 32 and 4096 Hz summarized
+With this sub-bank we are able to construct an efficient time-slice decomposition
+that consists of 11 time slices with sample rates between 32 and 4096 Hz summarized
 in Table~\ref{tab:time_slices}.
 \begin{table*}
 \caption{\label{tab:time_slices} Filter design sub-bank of 1314 templates.  From
