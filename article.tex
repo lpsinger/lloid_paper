@@ -775,12 +775,12 @@ evolves slowly enough in time, then we can use the time-frequency relationship
 of equation~(\ref{eq:fgw}) to estimate the speedup relative to the conventional
 \TD\ method.  The reduction in \flops\ is approximately
 %
-\begin{multline*}
+\begin{multline}
 \label{eq:speedup}
 \frac{2 \sum_{s=0}^{S-1} f^s \numsvdtmps \slicessamps}{2 \numtmps \tmpsamps f^0} \\
 \approx \frac{\alpha}{\left(t_\mathrm{low} - t_\mathrm{high}\right) \left(f^0\right)^2} \int_{t_\mathrm{low}}^{t_\mathrm{high}} \left(2 f(t) \right)^2 \, \mathrm{d} t \\
 = \frac{16 \alpha \left(t_\mathrm{low} f^2 (t_\mathrm{low}) - t_\mathrm{high} f^2 (t_\mathrm{high}) \right)}{\left(f^0\right)^2 \left(t_\mathrm{low} - t_\mathrm{high}\right)}
-\end{multline*}
+\end{multline}
 %
 where $\alpha \approx \numsvdtmps / \numtmps$ is the rank reduction factor, or
 ratio between the number of basis templates and the number of templates.  This
