@@ -1110,12 +1110,17 @@ frequency domain & $5.2\times10^8$ & $2\times10^3$ & $5.9\times10^{10}$ & $\sim$
 \subsection{Extrapolation of computational cost to an Advanced \LIGO\ search}
 
 Table~\ref{table:flops} shows that the \lloid\ method requires $6.6 \times 10^8$
-\flops\ to cover a sub-bank comprising 657 out of the total 98544
-mass pairs.  Given that modern (ca. 2011) workstations can sustain computation
-rates up to $\sim$$10^{10}$~\flops{}, and assuming that other regions of the
-parameter space have similar computational scaling, an entire single detector
-search for \NS--\NS\ signals in the 1--3~$M_\odot$ component mass range could be
-implemented with $\sim$$10^{11}$ \flops\, or $\sim$$10$ machines.
+\flops\ to cover a sub-bank comprising 657 out of the total 98544 mass pairs.
+Assuming that other regions of the parameter space have similar computational
+scaling, an entire single detector search for \NS--\NS\ signals in the
+1--3~$M_\odot$ component mass range could be implemented with
+$\sim$$10^{11}$~\flops.  Modern (ca. 2011) workstations can achieve peak
+computation rates up to $\sim$$10^{11}$~\flops.  In practice, we expect that a
+software implementation of \lloid\ will reach average computation rates that are
+perhaps a factor 10 less than this, $\sim$$10^{10}$~\flops\ per machine, due to
+non-floating point tasks including bookkeeping and thread synchronization.
+Given these considerations, we estimate that a full single-detector Advanced
+\LIGO\ search with \lloid\ will require about $\sim$$10$ machines.
 
 We computed the computational cost of a full Advanced \LIGO\ \NS--\NS\ search a
 second way by dividing the entire 1--3~$M_\odot$ parameter space into sub-banks
@@ -1242,7 +1247,7 @@ supported by the National Science Foundation through a Graduate Research
 Fellowship to LS and by the Perimeter Institute for Theoretical Physics through
 a fellowship to CH. DK is supported from the Max Planck Gesellschaft. 
 
-This paper has \LIGO\ Document Number {LIGO-P0900004-v26}.
+This paper has \LIGO\ Document Number {LIGO-P0900004-v27}.
 
 \bibliographystyle{apj}
 \bibliography{references}
