@@ -738,9 +738,10 @@ filters, the reconstruction of the time-sliced templates, the interpolation of
 \SNR\ from previous time slices, and the accumulation of \SNR, in total the
 \lloid\ algorithm requires
 %
-\begin{multline*}
+\begin{multline}
+\label{eq:lloid-flops}
 \sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s \\ + 2\sum_{\mathclap{f^s \in \{f^k \, : \, 0 < k < S\}}} \left( N^\shortdownarrow f^0 + \numtmps N^\shortuparrow f^{s-1}\right)
-\end{multline*}
+\end{multline}
 %
 \flops.  The second sum is carried out over the set of distinct sample rates
 (except for the base sample rate) rather than over the time slices themselves,
@@ -772,12 +773,12 @@ evolves slowly enough in time, then we can use the time-frequency relationship
 of equation~(\ref{eq:fgw}) to estimate the speedup relative to the conventional
 \TD\ method.  The reduction in \flops\ is approximately
 %
-\begin{multline}
+\begin{multline*}
 \label{eq:speedup}
 \frac{2 \sum_{s=0}^{S-1} f^s \numsvdtmps \slicessamps}{2 \numtmps \tmpsamps f^0} \\
 \approx \frac{\alpha}{\left(t_\mathrm{low} - t_\mathrm{high}\right) \left(f^0\right)^2} \int_{t_\mathrm{low}}^{t_\mathrm{high}} \left(2 f(t) \right)^2 \, \mathrm{d} t \\
 = \frac{16 \alpha \left(t_\mathrm{low} f^2 (t_\mathrm{low}) - t_\mathrm{high} f^2 (t_\mathrm{high}) \right)}{\left(f^0\right)^2 \left(t_\mathrm{low} - t_\mathrm{high}\right)}
-\end{multline}
+\end{multline*}
 %
 where $\alpha \approx \numsvdtmps / \numtmps$ is the rank reduction factor, or
 ratio between the number of basis templates and the number of templates.  This
@@ -789,7 +790,7 @@ interval, $\slicessamps \approx 2 f(t) \, \mathrm{d}t$. The integral is
 evaluated using the power-law form of $f(t)$ from equation~(\ref{eq:fgw}).
 Substituting approximate values for a template bank designed for component
 masses around (1.4, 1.4) $M_\odot$, $\alpha \approx 10^{-2}$, $t_\mathrm{low} = 10^3$~s,
-$f_\mathrm{low} = 10^1$~Hz, $t_\mathrm{high} = 1/1570$~s $f_\mathrm{high} = 1570$~Hz,
+$f_\mathrm{low} = 10^1$~Hz, $t_\mathrm{high} = 1/1570$~s, $f_\mathrm{high} = 1570$~Hz,
 and $f^0 = (2)(1570)$~Hz, we find from equation~(\ref{eq:speedup}) that the
 \lloid\ method requires only $\sim 10^{-6}$ times as many \flops\ as the
 conventional \TD\ method.
@@ -1097,10 +1098,10 @@ detector required for a full Advanced LIGO \NS--\NS\ search.}
 & \flops\ & & \flops\ & number of \\
 method & (sub-bank) & latency (s) & (\NS--\NS) & machines \\[0.1em]
 \tableline
-time domain & $4.9\times10^{13}$ & 0 & $3.8\times10^{15}$ & $\sim$$10^5$ \\
-frequency domain & $5.2\times10^8$ & $2\times10^3$ & $5.9\times10^{10}$ & $\sim$$10$ \\
-\lloid\ (theory) & $6.6\times10^8$ & 0 & $\phantom{5.7}\sim 10^{10}$ & $\sim$$10$ \\
-\lloid\ (prototype) & (0.9 cores) & $0.5$ & ------------ & $\sim$$10$ \\
+time domain & $4.9\times10^{13}$ & 0 & $3.8\times10^{15}$ & $\sim$$3.8\times10^5$ \\
+frequency domain & $5.2\times10^8$ & $2\times10^3$ & $5.9\times10^{10}$ & $\sim$$5.9$ \\
+\lloid\ (theory) & $6.6\times10^8$ & 0 & $1.1 \times 10^{11}$ & $\sim$$11$ \\
+\lloid\ (prototype) & (0.9 cores) & $0.5$ & ------------ & $\gtrsim$$10$ \\
 \tableline
 \end{tabular}
 \end{center}
@@ -1117,15 +1118,16 @@ search for \NS--\NS\ signals in the 1--3~$M_\odot$ component mass range could be
 implemented with $\sim$$10^{11}$ \flops\, or $\sim$$10$ machines.
 
 We computed the computational cost of a full Advanced \LIGO\ \NS--\NS\ search a
-second way by computing the cost per template for the conventional \TD\ method,
-and then applying the \lloid\ speedup from equation~(\ref{eq:speedup}).  This
-should be a somewhat more accurate measure because template length varies over
-the parameter space.  Lower chirp mass templates sweep through frequency more
-slowly and require more computations while higher chirp mass templates are
-shorter and require fewer computations.  Despite these subtleties, this estimate
-gave us $4.6 \times 10^9$~\flops, differing by only a factor of $\sim$2 from the
-simple scaling argument above.  For this reason, we believe that $\sim$$10$
-machines is a realistic estimate of our computing requirements.
+second way by dividing the entire 1--3~$M_\odot$ parameter space into sub-banks
+of 657 points apiece, performing time slices and SVDs for each sub-bank, and
+tabulating the number of floating point operations using
+expression~(\ref{eq:lloid-flops}).  This should be a much more accurate measure
+because template length varies over the parameter space.  Lower chirp mass
+templates sweep through frequency more slowly and require more computations
+while higher chirp mass templates are shorter and require fewer computations.
+Despite these subtleties, this estimate gave us $1.1 \times 10^{11}$~\flops,
+agreeing with the simple scaling argument above.  Therefore we believe that
+$\sim$$10$ machines is a realistic estimate of our computing requirements.
 
 By comparison, using the \TD\ method to achieve the same latency costs
 $\sim$$10^{13}$ \flops\ for this particular sub-bank, and so it would require
@@ -1182,7 +1184,7 @@ frequently, low-latency alerts will be released after merger but will still
 yield extended X-ray tails and early afterglows.
 
 The \lloid\ method is as fast as standard \fft\ convolutions but allows for
-latency free, real-time operation.  We anticipate requiring $\sim$40
+latency free, real-time operation.  We anticipate requiring $\gtrsim$40
 modern multi-core computers to search for binary neutron stars using
 coincident \GW\ data from a 4-detector network.  In the future, additional
 computational savings could be acheived by conditionally reconstructing the
@@ -1209,7 +1211,9 @@ triggering, coincidence, and ranking of gravitational wave candidates in a
 framework that supports early \EM\ followup.  We will explore these and also
 using the time-slice decomposition and the \SVD\ to form low-latency
 signal-based vetoes (e.g.~$\chi^2$~statistics) that have been essential for
-glitch rejection used in previous \GW\ \CBC\ searches.
+glitch rejection used in previous \GW\ \CBC\ searches.  These additional stages
+may incur some extra overhead, so computing requirements will likely be somewhat
+higher than our estimates.
 
 Our future work must more deeply address sky localization accuracy in a
 realistic setting as well as observing strategies. Here, we have followed
