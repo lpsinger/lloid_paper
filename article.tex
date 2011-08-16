@@ -563,12 +563,14 @@ First, the sample rate of the detector data must be decimated to match sample
 rates with each of the time slices.  We will denote the decimated detector data
 streams using a superscript $^s$ to indicate the time slices to which they
 correspond, and the operator $H^\shortdownarrow$ will represent the appropriate
-decimation filter:
+decimation filter that converts between the base sample rate $f^0$ and the
+reduced sample rate $f^s$:
 \begin{equation*}
 \label{eq:decomp}
-	x^{s+1}[k] = \left( H^\shortdownarrow x^s\right)[k].
+	x^{s}[k] = \left( H^\shortdownarrow x^0\right)[k].
 \end{equation*}
-We shall use the symbol $H^\shortuparrow$ to represent an interpolation filter,
+We shall use the symbol $H^\shortuparrow$ to represent an interpolation filter
+that converts between sample rates $f^{s+1}$ and $f^s$ of adjacent time slices,
 \begin{equation*}
 	x^{s}[k] = \left( H^\shortuparrow x^{s+1}\right)[k].
 \end{equation*}
