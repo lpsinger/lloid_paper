@@ -1021,11 +1021,12 @@ complicated than in the original work~\citep{Cannon:2010p10398} due to the
 inclusion of the time-sliced templates and interpolation, though we still see
 that the average mismatch is approximately proportional to the \SVD\ tolerance
 down to $\left(1-10^{-4}\right)$.  However, as the \SVD\ tolerance becomes even
-higher, the mismatch seems to saturate around $2 \times 10^{-4}$.  This could be
-the effect of the interpolation, or an unintended technical imperfection that we
-did not model or expect.  However, this is still an order of magnitude below our
-target mismatch of 0.003.  We find that an \SVD\ tolerance of
-$\left(1-10^{-4}\right)$ is adequate to achieve our target \SNR\ loss.
+higher, the median mismatch seems to saturate around $2 \times 10^{-4}$.  This
+could be the effect of the interpolation, or an unintended technical
+imperfection that we did not model or expect.  However, this is still an order
+of magnitude below our target mismatch of 0.003.  We find that an \SVD\
+tolerance of $\left(1-10^{-4}\right)$ is adequate to achieve our target \SNR\
+loss.
 
 \paragraph{Effect of interpolation filter length}
 
@@ -1039,7 +1040,7 @@ meet our target mismatch of 0.003.
 
 Having selected an SVD tolerance of $\left(1-10^{-4}\right)$ and
 $N^\shortuparrow=16$, we found that we could reduce $N^\shortdownarrow$ to 48
-without exceeding a maximum mismatch of~0.003.
+without exceeding a median mismatch of~0.003.
 
 We found that careful design of the decimation and interpolation stages made a
 crucial difference in terms of computational overhead.  Connecting the
