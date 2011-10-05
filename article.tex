@@ -159,9 +159,7 @@ In October 2010, \LIGO{}\footnote{\url{http://www.ligo.org/}} completed its
 sixth science run (S6) and Virgo\footnote{\url{http://www.ego-gw.it/}}
 completed its third science run (VSR3).  While both \LIGO\ detectors and Virgo
 were operating, several all-sky detection pipelines operated in a low-latency
-configuration to send astronomical alerts, namely \mbta, Coherent
-WaveBurst, and Omega \citep{HugheyGWPAW2011, S6lowlatency2, S6lowlatency3, S6lowlatency4}.
-\mbta\ achieved the best \GW\ trigger-generation latencies of 2--5 minutes.
+configuration to send astronomical alerts, namely Coherent WaveBurst (cWB), Omega, and Multi-Band Template Analysis (\mbta)~\citep{HugheyGWPAW2011, S6lowlatency2, S6lowlatency3, S6lowlatency4}.  cWB and Omega are both unmodeled searches for bursts based on time-frequency decomposition of the GW data.  \mbta\ is a novel kind of template-based inspiral search that was purpose-built for low latency operation.  \mbta\ achieved the best \GW\ trigger-generation latencies of 2--5 minutes.
 Alerts were sent with latencies of 30--60 minutes, dominated by human vetting.
 Candidates were sent for \EM\ followup to several telescopes; Swift,
 LOFAR, ROTSE, TAROT, QUEST, SkyMapper,
@@ -228,8 +226,8 @@ time domain (\TD) convolution, which is latency-free.  However, its cost in floa
 point operations per second is linear in the length of the templates, so it is
 prohibitively expensive for long templates.  Several efforts are under way to
 develop low-latency \CBC\ search pipelines with tractable computing requirements.
-Examples include \mbta{}~\citep{Marion2004, Buskulic2010}, which was deployed in
-S6/VSR3, and a novel approach using networks of IIR filters that is being explored
+One example is \mbta{}~\citep{Marion2004, Buskulic2010}, which was deployed in
+S6/VSR3.  MBTA consists of two \FD\ template banks for two different frequency bands, one which is matched to the early inspiral and the other which is matched to the late inspiral.  Time coincidences are sought between triggers in both template banks.  Another novel approach using networks of parallel, second order IIR filters is being explored
 by \citet{shaunIIR, linqingIIR}.
 
 Fortunately, the morphology of inspiral signals can be exploited to offset some
@@ -481,7 +479,7 @@ early times in the inspiral.
 An inspiral signal will enter the detection band with some low frequency
 $f_\mathrm{low}$ at time $t_\mathrm{low}$ before merger.  Usually the template
 is truncated at some prescribed time $t^0$, or equivalent frequency $f_\mathrm{high}$,
-often chosen to correspond to the \ISCO. The beginning of the template is critically
+often chosen to correspond to the innermost stable circular orbit (\ISCO). The beginning of the template is critically
 sampled at $2 f_\mathrm{low}$, but the end of the template is critically sampled at a
 rate of $2 f_\mathrm{high}$. In any time interval smaller than the duration of the template,
 the bandwidth of the filters across the entire template bank can be significantly less
@@ -575,11 +573,6 @@ that converts between sample rates $f^{s+1}$ and $f^s$ of adjacent time slices,
 \begin{equation*}
 	x^{s}[k] = \left( H^\shortuparrow x^{s+1}\right)[k].
 \end{equation*}
-Ultimately, the latency of the entire \lloid\ algorithm is set by the decimation
-and interpolation filters because they are generally time-symmetric and slightly
-acausal.  As long as the latency introduced by the decimation and interpolation
-filters for any time slice $s$ is less than that time slice's delay $t^s$, the
-total latency of the \lloid\ algorithm will be zero.
 
 From the combination of the time slice decomposition in
 equation~(\ref{eq:time-sliced-templates}) and the \SVD\ defined in
@@ -631,6 +624,12 @@ much less than the number of output channels.}
 %
 The signal flow diagram in Figure~\ref{fig:pipeline} illustrates this
 recursion relation as a multirate filter network with a number of early-warning outputs.
+
+Ultimately, the latency of the entire \lloid\ algorithm is set by the decimation
+and interpolation filters because they are generally time-symmetric and slightly
+acausal.  Fortunately, as long as the latency introduced by the decimation and interpolation
+filters for any time slice $s$ is less than that time slice's delay $t^s$, the
+total latency of the \lloid\ algorithm will be zero.  To be concrete, suppose that the first time slice, sampled at a rate $f^0 = 4096$~Hz, spans times $[t^0,\textrm{ }t^1) = [0\textrm{ s},\textrm{ }0.5\textrm{ s})$, and the second time slice, sampled at $f^1 = 512$~Hz, spans $[t^1,\textrm{ }t^2) = [0.5\textrm{ s},\textrm{ }4.5\textrm{ s})$.  Then the second time slice's output, $\rho_i^1[k]$, will \emph{lead} the first time slice's output, $\rho_i^0[k]$, by 0.5~s.  A decimation filter will be necessary to convert the 4096~Hz input signal $x[k] \equiv x^0[k]$ to the 512~Hz input $x^1[k]$, and an interpolation filter will be necessary to match the sample rates of the two early-warning outputs.  In this example, as long as the decimation and interpolation filters are together acausal by less than $t^1 = 0.5$~s, the total SNR $\rho_i^0[k]$ will be available with a latency of zero samples.  When zero latency is important, we may take this as a requirement for the decimation and interpolation filter kernels.
 
 In the next section we compute the expected computational cost scaling of this
 decomposition and compare it with the brute-force \TD\ implementation of
@@ -923,7 +922,7 @@ We examine the performance of the \lloid\ algorithm on a small region of
 compact binary parameter space centered on typical \NS--\NS\
 masses.  We begin by constructing a template bank that spans component masses
 from 1~to~3~$M_\odot$ using a simulated Advanced \LIGO\ noise
-curve~\citep{ALIGONoise}.  Templates are truncated at 10~Hz, where the projected
+power spectrum~\citep{ALIGONoise}\footnote{\url{http://dcc.ligo.org/cgi-bin/DocDB/ShowDocument?docid=T0900288&version=3}}.  Templates are truncated at 10~Hz, where the projected
 sensitivity of Advanced \LIGO\ is interrupted by the ``seismic wall.''
 This results in a grid of 98544 points, or
 $2 \times 98544 = 197088$~templates.  Then we create sub-banks by partitioning
@@ -1203,8 +1202,9 @@ number of computers is well within the current computing capabilities of the
 \LIGO\ Data Grid.
 
 We have shown a prototype implementation of the \lloid\ algorithm using
-\gstreamer, an open source signal processing platform.  Work will be done in
-order to improve upon the latency of our implementation.  Ultimately the best
+\gstreamer, an open source signal processing platform.  Although our prototype
+already achieves latencies of less than one second, further fine tuning may
+reduce the latency even further.  Ultimately the best
 possible latency would be achieved by tighter integration between data
 acquisition and analysis with dedicated hardware and software. This could be
 considered for third-generation detector design.  Also possible for
@@ -1217,14 +1217,14 @@ substantial gains in \SNR\ and timing accuracy \citep{PhysRevD.47.2184}.
 Although we have demonstrated a computationally feasible statistic
 for advance detection, we have not yet explored data calibration and whitening,
 triggering, coincidence, and ranking of gravitational wave candidates in a
-framework that supports early \EM\ followup.  We will explore these and also
+framework that supports early \EM\ followup.  One might explore these and also
 using the time-slice decomposition and the \SVD\ to form low-latency
 signal-based vetoes (e.g.~$\chi^2$~statistics) that have been essential for
 glitch rejection used in previous \GW\ \CBC\ searches.  These additional stages
 may incur some extra overhead, so computing requirements will likely be somewhat
 higher than our estimates.
 
-Our future work must more deeply address sky localization accuracy in a
+Future work must more deeply address sky localization accuracy in a
 realistic setting as well as observing strategies. Here, we have followed
 \citet{Fairhurst2009} in estimating the area of 90\% localization confidence in
 terms of timing uncertainties alone, but it would be advantageous to use a
