@@ -832,13 +832,13 @@ the reconstruction matrix, and the time-slice boundaries are all saved to disk.
 
 \subsection{Filtering stage}
 
-The \lloid\ algorithm is amenable to latency free, real-time implementation.  However, such a real-time search pipeline would require integration directly into the data acquisition and storage systems of the \LIGO\ observatories.  A slightly more 
+The \lloid\ algorithm is amenable to latency free, real-time implementation.  However, a real-time search pipeline would require integration directly into the data acquisition and storage systems of the \LIGO\ observatories.  A slightly more 
 modest goal is to leverage existing low-latency, but not real-time, signal processing software in order to implement
 the \lloid\ algorithm.
 
 We have implemented a prototype of the low-latency filtering stage using an
 open-source signal processing environment called
-\gstreamer\footnote{\url{http://gstreamer.net/}}.
+\gstreamer\footnote{\url{http://gstreamer.net/}} (version 0.10.33).
 \gstreamer\ is a vital component of many Linux systems, providing media
 playback, authoring, and streaming on devices from cell phones to desktop
 computers to streaming media servers.  Given the similarities of
@@ -856,55 +856,7 @@ a number of advantages, including amortizing the overhead of passing signals
 between elements and grouping together sequences of similar operations.
 However, buffering a signal incurs a latency of up to one buffer length.  This
 latency can be made small at the cost of some additional overhead by making the
-buffers sufficiently small.
-
-Our prototype pipeline, tested with GStreamer version 0.10.33, consists of the
-following stages.
-
-\paragraph{Decimation}
-
-The whitened detector data is reduced to successively lower sample rates by
-decimation. Decimation involves applying an anti-aliasing filter to the data,
-and then down-sampling by deleting samples.  We use GStreamer's stock
-\texttt{audioresample} element, which provides a FIR decimation filter with
-a Kaiser-windowed sinc function kernel.
-
-The detector data is provided at every power-of-two sample rate
-required by the time slices described in \eqref{eq:time-slices}.  At this point,
-the \gstreamer\ pipeline splits into several parallel branches to handle each
-time slice.
-
-\paragraph{Basis filters}
-
-Next, these decimated data streams are fed into parallel \fir\ filter banks.
-The basis filters are implemented using a \gstlal\ element called
-\texttt{lal\_firbank}, which provides a single input, multiple output bank of
-\fir\ filters from a matrix of filter coefficients.  Several instances of
-\texttt{lal\_firbank} execute in parallel to handle each of the time slices.
-Filter coefficients are taken from the nonzero samples of the time slices in
-equation~\eqref{eq:time-sliced-templates}, with the zero-padding effectively
-accomplished by appropriate queues, or delay lines.
-
-\paragraph{Reconstruction}
-
-From the outputs of the \SVD\ basis filters, we form the partial \SNR\ streams
-for each time  slice by multiplying by the reconstruction matrices.  This is
-accomplished with the \texttt{gstlal} element \texttt{lal\_matrixmixer}.
-
-\paragraph{Interpolation}
-
-In order to form the early-warning output from each time slice, we have to add
-the partial \SNR\ to the early-warning output from the subsequent time slices.
-If the next time slice does not have the same sample rate, its output must first
-be interpolated.  The \gstreamer\ element \texttt{audioresample} is used again here.  
-
-\paragraph{\SNR\ accumulation}
-
-The early-warning output for each time slice is formed by accumulating
-interpolated early-warning output from the subsequent time slice.  This process
-continues until we have worked our way to the \SNR\ of the original templates
-at the full sample rate $f^0$.  In this way, the \lloid\ algorithm and this
-implementation naturally leads to a simple early-warning pipeline.
+buffers sufficiently small.  In any case, buffering is a reasonable strategy for low latency \LIGO\ data analysis because, as we previously remarked, the \LIGO\ data acquisition system has a granularity of $1/16$~s.
 
 \section{Results}
 
@@ -1033,7 +985,9 @@ loss.
 Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$ and the
 length of the decimation filter fixed at $N^\shortdownarrow = 192$, we studied
 the impact of the length $N^\shortuparrow$ of the interpolation filter on
-mismatch.  The mismatch as a function of $N^\shortuparrow$ is shown in
+mismatch.  We use GStreamer's stock
+\texttt{audioresample} element, which provides a FIR decimation filter with
+a Kaiser-windowed sinc function kernel.  The mismatch as a function of $N^\shortuparrow$ is shown in
 Figure~\ref{fig:bw}b.  The mismatch saturates at $\sim$$2 \times 10^{-4}$ with
 $N^\shortuparrow = 64$.  We find that a filter length of 16 is sufficient to
 meet our target mismatch of 0.003.
