@@ -341,9 +341,15 @@ which is determined by the signal's effective bandwidth and \SNR\
 \citep{Fairhurst2009}.  Table~\ref{fig:earlywarning} and
 Figure~\ref{fig:sky-localization-accuracy} show the estimated 90\%
 confidence area versus time of the loudest coalescence events detectable by
-Advanced \LIGO\ and Advanced Virgo.  This is the \emph{minimum} area; localization
-is best at high elevation from the plane containing the detectors and worst at zero elevation.
-As \citeauthor{Fairhurst2009} cautions, his formula also slightly \emph{overestimates} the minimum localization uncertainty for low SNR events because it makes an approximation that the timing errors are Gaussian distributed.  Nonetheless, given the large uncertainties in rates, these approximations suffice for an order of magnitude estimate.
+Advanced \LIGO\ and Advanced Virgo.  This is the \emph{minimum} area; localization is best at high elevation
+from the plane containing the detectors and worst at zero elevation. As
+\citeauthor{Fairhurst2009} cautions, his formula also slightly
+\emph{overestimates} the minimum area for low SNR events because it
+makes an approximation that the timing errors are Gaussian distributed
+and that the sky location estimates are Gaussian distributed about the
+true location.  Nonetheless, given the large uncertainties in rates,
+\citeauthor{Fairhurst2009}'s approximations suffice for an order of
+magnitude estimate.
 Once per year, we expect to observe an
 event with a final single-detector \SNR\ of $\approx$27 whose location can be constrained to about
 1300~deg$^2$ (3.1\% of the sky) within 25~s of merger,
