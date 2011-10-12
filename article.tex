@@ -410,7 +410,7 @@ $$
 \tilde{h}[n] = \tilde{s}^*[n] \tilde S^{-1}[n],
 $$
 %
-up to an arbitrary multiplicative constant.  $\tilde{h}[n]$, $\tilde{s}[n]$, and $\tilde{x}[n]$ are the discrete Fourier transforms of $h[k]$, $s[k]$, and $x[k]$, respectively, here $\tilde{S}[n]$ is the power spectral density of $n[k]$.  The discrete Fourier transform of the output is
+up to an arbitrary multiplicative constant.  $\tilde{h}[n]$, $\tilde{s}[n]$, and $\tilde{x}[n]$ are the discrete Fourier transforms (DFTs) of $h[k]$, $s[k]$, and $x[k]$, respectively, here $\tilde{S}[n]$ is the power spectral density of $n[k]$.  The discrete Fourier transform of the output is
 %
 \begin{multline}
 \label{eq:matched-filter-fd}
@@ -418,7 +418,7 @@ up to an arbitrary multiplicative constant.  $\tilde{h}[n]$, $\tilde{s}[n]$, and
 \equiv \left(\tilde{S}^{-1/2}[n] \tilde{s}[n]\right)^* \left(\tilde{S}^{-1/2}[n] \tilde{x}[n] \right).
 \end{multline}
 %
-The placement of parentheses in equation~(\ref{eq:matched-filter-fd}) emphasizes that the matched filter can be thought of as a cross-correlation of a whitened version of the data with a whitened version of the nominal signal.  In this paper, we shall not describe the exact process by which the detector's noise power spectrum is estimated and deconvolved from the data; for the remainder of this paper we shall define $x[k]$ as the \emph{whitened} data stream.
+The placement of parentheses in equation~(\ref{eq:matched-filter-fd}) emphasizes that the matched filter can be thought of as a cross-correlation of a whitened version of the data with a whitened version of the nominal signal.  In this paper, we shall not describe the exact process by which the detector's noise power spectrum is estimated and deconvolved from the data; for the remainder of this paper we shall define $x[k]$ as the \emph{whitened} data stream.  Correspondingly, from this point on we shall use $h[k]$ to describe the \emph{whitened} templates, being the inverse DFT of $\left(\tilde{S}^{-1/2}[n] \tilde{s}[n]\right)^*$.
 
 Inspiral signals are continuously parameterized by a set of intrinsic source
 parameters $\theta$ that determine the amplitude and phase evolution of the
