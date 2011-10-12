@@ -264,6 +264,29 @@ Before the \GW\ signal leaves the detection band, we can imagine examining the
 signal to noise ratio (\SNR) accumulated up to that point and if it is
 already significant, release an alert immediately, trading \SNR\ and sky
 localization accuracy for pre-merger detection.
+
+In the quadrupole approximation, the instantaneous frequency of the GW inspiral signal is related to the time $t$ relative to coalescence ~\citep{kidder1992, findchirppaper} through
+%
+\begin{equation} \label{eq:fgw}
+	f(t) = \frac{1}{\pi \mathcal{M}}
+		\left[ \frac{5}{256}\frac{\mathcal{M}}{t} \right]^{3/8}
+\end{equation}
+%
+where $\mathcal{M} = M^{2/5} \mu^{3/5}$ is the chirp mass of the binary in units of time ($G
+M_\odot / c^3 \approx 5$~$\upmu$s), $M$ is the total mass, and $\mu$ is the reduced mass. 
+The expected value of the single detector \SNR\ for an optimally oriented (source at detector's zenith or nadir, orbital plane face-on) inspiral source is~\citep{Abadie:2010p10836}
+%
+\begin{equation}
+	\label{eq:expected-snr}
+	\rho =
+		\frac{\mathcal{M}^{5/6} c}{\pi^{2/3} D}
+		\sqrt{
+			\frac{5}{6} \int_{f_\mathrm{low}}^{f_\mathrm{high}}
+			\frac{f^{-7/3}}{S(f)} \mathrm{d}f}
+\end{equation}
+%
+where $D$ is the luminosity distance and $S(f)$ is the power spectral density of the detector noise.  $f_\mathrm{low}$ and $f_\mathrm{high}$ are low and high frequency limits of integration which may be chosen to extend across the entire bandwidth of the detector.  If we want to trigger at a time $t$ before merger, then we must cut off the SNR integration at $f_\mathrm{high} = f(t)$ with $f(t)$ given by equation~(\ref{eq:fgw}) above.
+
 Figure~\ref{fig:earlywarning} shows projected early detectability rates for
 \NS--\NS\ binaries in Advanced \LIGO\ assuming the anticipated detector sensitivity for
 the `zero detuning, high power' configuration described in \citet{ALIGONoise} and
@@ -461,18 +484,7 @@ efficient time slices for an extended region of parameter space rather than to
 design different time slices for each template.
 
 For concreteness and simplicity, consider an inspiral waveform in the
-quadrapole approximation, for which the time-frequency relation~\citep{kidder1992, findchirppaper} is
-%
-\begin{equation} \label{eq:fgw}
-%
-f(t) = \frac{1}{\pi \mathcal{M}} \left[ \frac{5}{256}\frac{\mathcal{M}}{t}
-\right]^{3/8}.
-%
-\end{equation}
-%
-Here, $\mathcal{M}$ is the chirp mass of the binary in units of time (where $G
-M_\odot / c^3 \approx 5$~$\upmu$s) and $t$ is the time relative to the
-coalescence of the binary.
+quadrapole approximation, for which the time-frequency relation is given by equation~(\ref{eq:fgw}).
 This monotonic time-frequency relationship allows us
 to choose time slice boundaries that require substantially less bandwidth at
 early times in the inspiral.
