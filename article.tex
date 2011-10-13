@@ -230,7 +230,7 @@ point operations per second is linear in the length of the templates, so it is
 prohibitively expensive for long templates.  Several efforts are under way to
 develop low-latency \CBC\ search pipelines with tractable computing requirements.
 One example is \mbta{}~\citep{Marion2004, Buskulic2010}, which was deployed in
-S6/VSR3.  MBTA consists of two \FD\ template banks for two different frequency bands, one which is matched to the early inspiral and the other which is matched to the late inspiral.  Time coincidences are sought between triggers in both template banks.  Another novel approach using networks of parallel, second order IIR filters is being explored
+S6/VSR3.  MBTA consists of multiple, usually two, template banks for different frequency bands, one which is matched to the early inspiral and the other which is matched to the late inspiral.  An excursion in the output of any filter bank triggers coherent reconstruction of the full matched filtered output.  Final triggers are built from the reconstructed matched filter output.  Another novel approach using networks of parallel, second order IIR filters is being explored
 by \citet{shaunIIR, linqingIIR}.
 
 Fortunately, the morphology of inspiral signals can be exploited to offset some
