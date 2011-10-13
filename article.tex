@@ -395,7 +395,7 @@ $$
 A matched filter is a linear filter, defined as
 %
 $$
-	y[k] = \sum_{n=0}^{N-1} h[n] x[k-n] = y_s[k] + y_n[k],
+	y[k] = \sum_{n=0}^{N-1} h[n] \, x[k-n] = y_s[k] + y_n[k],
 $$
 %
 where $y_s$ is the response of the filter to the signal alone and $y_n$ is the response of the signal to noise alone.  The matched filter's coefficients maximize the ratio of the expectation of the filter's instantaneous response to the variance in the filter's output at all times:
@@ -407,18 +407,18 @@ $$
 It is well known~\citep[see, for example,][]{matched-filter} that if $n[k]$ is Gaussian and wide-sense stationary, then the optimum is obtained when
 %
 $$
-\tilde{h}[n] = \tilde{s}^*[n] \tilde S^{-1}[n],
+\tilde{h}[n] = \tilde{s}^*[n] \, \tilde{S}^{-1}[n],
 $$
 %
 up to an arbitrary multiplicative constant.  $\tilde{h}[n]$, $\tilde{s}[n]$, and $\tilde{x}[n]$ are the discrete Fourier transforms (DFTs) of $h[k]$, $s[k]$, and $x[k]$, respectively, here $\tilde{S}[n]$ is the power spectral density of $n[k]$.  The discrete Fourier transform of the output is
 %
 \begin{multline}
 \label{eq:matched-filter-fd}
-\tilde{y}[n] = \tilde{s}^*[n] \tilde{S}^{-1}[n] \tilde{x}[n] \\
-\equiv \left(\tilde{S}^{-1/2}[n] \tilde{s}[n]\right)^* \left(\tilde{S}^{-1/2}[n] \tilde{x}[n] \right).
+\tilde{y}[n] = \tilde{s}^*[n] \, \tilde{S}^{-1}[n] \, \tilde{x}[n] \\
+\equiv \left(\tilde{S}^{-1/2}[n] \, \tilde{s}[n]\right)^* \left(\tilde{S}^{-1/2}[n] \, \tilde{x}[n] \right).
 \end{multline}
 %
-The placement of parentheses in equation~(\ref{eq:matched-filter-fd}) emphasizes that the matched filter can be thought of as a cross-correlation of a whitened version of the data with a whitened version of the nominal signal.  In this paper, we shall not describe the exact process by which the detector's noise power spectrum is estimated and deconvolved from the data; for the remainder of this paper we shall define $x[k]$ as the \emph{whitened} data stream.  Correspondingly, from this point on we shall use $h[k]$ to describe the \emph{whitened} templates, being the inverse DFT of $\left(\tilde{S}^{-1/2}[n] \tilde{s}[n]\right)^*$.
+The placement of parentheses in equation~(\ref{eq:matched-filter-fd}) emphasizes that the matched filter can be thought of as a cross-correlation of a whitened version of the data with a whitened version of the nominal signal.  In this paper, we shall not describe the exact process by which the detector's noise power spectrum is estimated and deconvolved from the data; for the remainder of this paper we shall define $x[k]$ as the \emph{whitened} data stream.  Correspondingly, from this point on we shall use $h[k]$ to describe the \emph{whitened} templates, being the inverse DFT of $\left(\tilde{S}^{-1/2}[n] \, \tilde{s}[n]\right)^*$.
 
 Inspiral signals are continuously parameterized by a set of intrinsic source
 parameters $\theta$ that determine the amplitude and phase evolution of the
@@ -448,7 +448,7 @@ $x[k]$, both sampled at a rate $f^0$, the result can be interpreted as the
 %
 \begin{equation}
 	\label{eq:SNRTD}
-	\rho_i [k] = \sum_{n=0}^{N-1} h_{i}[n] x [k-n].
+	\rho_i [k] = \sum_{n=0}^{N-1} h_{i}[n] \, x [k-n].
 \end{equation}
 This results in $\numtmps$ \SNR\ time series. Local peak-finding across time and
 template indices results in single-detector triggers.  Coincidences are sought
