@@ -227,11 +227,7 @@ overlap-save algorithm for frequency domain (\FD) convolution, currently the
 preferred method in \GW\ searches.  The most obvious example of the latter is
 direct time domain (\TD) convolution, which is latency-free.  However, its cost in floating
 point operations per second is linear in the length of the templates, so it is
-prohibitively expensive for long templates.  Several efforts are under way to
-develop low-latency \CBC\ search pipelines with tractable computing requirements.
-One example is \mbta{}~\citep{Marion2004, Buskulic2010}, which was deployed in
-S6/VSR3.  MBTA consists of multiple, usually two, template banks for different frequency bands, one which is matched to the early inspiral and the other which is matched to the late inspiral.  An excursion in the output of any filter bank triggers coherent reconstruction of the full matched filtered output.  Final triggers are built from the reconstructed matched filter output.  Another novel approach using networks of parallel, second order IIR filters is being explored
-by \citet{shaunIIR, linqingIIR}.
+prohibitively expensive for long templates.
 
 Fortunately, the morphology of inspiral signals can be exploited to offset some
 of the computational complexity of known low-latency algorithms.  First, the signals
@@ -239,8 +235,15 @@ evolve slowly in frequency, so that they can be broken into contiguous
 band-limited time intervals and processed at possibly lower sample rates.
 Second, inspiral filter banks consist of highly similar templates, admitting
 methods such as the singular value decomposition (\SVD)~\citep{Cannon:2010p10398}
-or the Gram-Schmidt process~\citep{rbf} to reduce the number of templates.  We
-will use both aspects to demonstrate that a very low latency detection statistic
+or the Gram-Schmidt process~\citep{rbf} to reduce the number of templates.
+
+Several efforts that exploit one or both of these properties are under way to
+develop low-latency \CBC\ search pipelines with tractable computing requirements.
+One example is \mbta{}~\citep{Marion2004, Buskulic2010}, which was deployed in
+S6/VSR3.  MBTA consists of multiple, usually two, template banks for different frequency bands, one which is matched to the early inspiral and the other which is matched to the late inspiral.  An excursion in the output of any filter bank triggers coherent reconstruction of the full matched filtered output.  Final triggers are built from the reconstructed matched filter output.  Another novel approach using networks of parallel, second order IIR filters is being explored
+by \citet{shaunIIR, linqingIIR}.
+
+We will use both properties to demonstrate that a very low latency detection statistic
 is possible with current computing resources.  Assuming the other technical
 sources of latency can be reduced significantly, this could make it possible to
 send prompt alerts to the astronomical community.
