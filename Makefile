@@ -48,10 +48,10 @@ t3.eps: envelope.py
 ARCHIVENAME = sing$(shell date +%m%d)
 @phony: publish
 publish: $(ARCHIVENAME).tar.gz
-$(ARCHIVENAME).tar.gz: $(PREREQS) readme.txt article.bbl
+$(ARCHIVENAME).tar.gz: $(PREREQS) readme.txt coverletter.txt article.bbl
 	rm -rf $(ARCHIVENAME)
 	mkdir $(ARCHIVENAME)
-	ln $(FIGURES) article.tex readme.txt article.bbl $(ARCHIVENAME)
+	ln $(FIGURES) article.tex readme.txt coverletter.txt article.bbl $(ARCHIVENAME)
 	env COPYFILE_DISABLE=true COPY_EXTENDED_ATTRIBUTES_DISABLE=true tar -chzf $(ARCHIVENAME).tar.gz $(ARCHIVENAME)
 	rm -rf $(ARCHIVENAME)
 
