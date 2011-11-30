@@ -1,5 +1,6 @@
 \documentclass[preprint2]{aastex}
 
+\usepackage{lscape}
 \usepackage[colorlinks]{hyperref}
 \usepackage{epstopdf}
 \usepackage{amsmath}
@@ -227,7 +228,7 @@ overlap-save algorithm for frequency domain (\FD) convolution, currently the
 preferred method in \GW\ searches.  The most obvious example of the latter is
 direct time domain (\TD) convolution, which is latency-free.  However, its cost in floating
 point operations per second is linear in the length of the templates, so it is
-prohibitively expensive for long templates.
+prohibitively expensive for long templates.  The computational challenges of low-latency \CBC\ searches are still more daunting for advanced detectors for which the inspiral signal remains in band for a large fraction of an hour~(see appendix~\ref{sec:low-frequency-cutoff}).
 
 Fortunately, the morphology of inspiral signals can be exploited to offset some
 of the computational complexity of known low-latency algorithms.  First, the signals
@@ -1270,6 +1271,62 @@ a fellowship to CH. DK is supported from the Max Planck Gesellschaft.
 MAF is supported by NSF grant PHY-0855494.
 
 This paper has \LIGO\ Document Number {LIGO-P0900004-v29}.
+
+\appendix
+
+\section{\label{sec:low-frequency-cutoff}Low frequency cutoff for inspiral searches}
+
+Ground-based gravitational wave detectors are unavoidably affected at low frequencies by seismic and anthropogenic ground motion.  The LIGO test masses are suspended from multiple-stage pendula, which attenuate ground motion down to the pole frequency.  In the detector configuration in place during S6, seismic noise dominated the instrumental background below about 40~Hz.  Considerable effort is being invested in improving seismic attenuation in Advanced LIGO using active and passive isolation~\citep{0264-9381-27-8-084006}, so that suspension thermal noise will dominate down to 10 to 15~Hz.  Inspiral waveforms are chirps of infinite duration, but since an interferometric detector's noise diverges at this so-called `seismic wall,' templates for matched filter searches are truncated at a low frequency cutoff $f_\mathrm{low}$ in order to save computational overhead with negligible loss of SNR.
+
+The expected matched-filter SNR, integrated from $f_\mathrm{low}$ to $f_\mathrm{high}$, is given by equation~(\ref{eq:expected-snr}).  The high frequency cutoff for the inspiral is frequently taken to be the gravitational wave frequency at the ISCO; for non-spinning systems, $f_\mathrm{ISCO} = 4400 (\Msun / M)$~Hz, where $M$ is the total mass of the binary.  The choice of $f_\mathrm{low}$ is based on the fraction of the total SNR that is accumulated at frequencies above $f_\mathrm{low}$.  To illustrate the relative contributions to the SNR at different frequencies for a (1.4,~1.4)~$\Msun$ binary, we normalized and plotted the integrand of equation~(\ref{eq:expected-snr}), the noise-weighted power spectral density of the inspiral waveform, in figure~\ref{fig:low-frequency-cutoff}b.  This is the quantity
+%
+$$
+	\frac{1}{\rho^2}\frac{\mathrm{d}\rho^2}{\mathrm{d}f} = \frac{f^{-7/3}}{S(f)} \left( \int_0^{f_\mathrm{ISCO}} \frac{{f'}^{-7/3}}{S(f')} \, \mathrm{d}f' \right)^{-1},
+$$
+%
+which is normalized by the total SNR squared in order to put detectors with different absolute sensitivities on the same footing.  We used several different noise power spectra: all of the envisioned Advanced LIGO configurations from~\citet{ALIGONoise}; the best achieved sensitivity at LIGO Hanford Observatory (LHO) in LIGO's fifth science run (S5), measured by \citet{S5InspiralRange}; and the best achieved sensitivity at LHO during S6, measured by \citet{S6InspiralRange}.  (The noise spectra themselves are shown in figure~\ref{fig:low-frequency-cutoff}a.)  It is plain that during S5 and S6 the greatest contribution to the SNR was between 100 and 150~Hz, but for all of the proposed Advanced LIGO configurations the bulk of the SNR is accumulated below 60~Hz.  This information is presented in a complementary way in figure~\ref{fig:low-frequency-cutoff}c, as the square root of the cumulative integral from $f_\mathrm{low}$ to $f_\mathrm{ISCO}$, interpreted as a fraction of the total ``available'' SNR,
+%
+$$
+	\rho_\mathrm{frac}(f_\mathrm{low}) = \sqrt{\left( \int_{f_\mathrm{low}}^{f_\mathrm{ISCO}} \frac{{f}^{-7/3}}{S(f)} \, \mathrm{d}f \right) \left( \int_0^{f_\mathrm{ISCO}} \frac{{f}^{-7/3}}{S(f)} \, \mathrm{d}f \right)^{-1}}.
+$$
+%
+Table~\ref{table:accum_snr} shows the fractional accumulated SNR for four selected low frequency cutoffs, 40~Hz, 30~Hz, 20~Hz, and 10~Hz.  In S5 and S6, all of the SNR is accumulated above 40~Hz.  For the `high frequency' Advanced LIGO configuration, almost 50\% of the SNR is accumulated \emph{below} 40~Hz.  For the preferred final configuration, 'zero detuning, high power,' 86.1\% of the SNR is below 40~Hz, 93.2\% is below 30~Hz, and 98.1\% is below 20~Hz.
+
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{rcccc}
+\hline\hline
+Noise model & 40 Hz & 30 Hz & 20 Hz & 10 Hz \\
+\hline
+LHO (best S5) & 100.0 & 100.0 & 100.0 & 100.0 \\
+LHO (best S6) & 100.0 & 100.0 & 100.0 & 100.0 \\
+high frequency & 53.3 & 80.1 & 97.6 & 100.0 \\
+no SRM & 87.8 & 95.1 & 98.7 & 100.0 \\
+BHBH 20$^\circ$ & 71.1 & 84.2 & 96.2 & 100.0 \\
+NSNS optimized & 91.5 & 96.3 & 99.0 & 100.0 \\
+zero detuning, low power & 67.9 & 80.0 & 93.5 & 100.0 \\
+zero detuning, high power & 86.1 & 93.2 & 98.1 & 100.0 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{\label{table:accum_snr}Fractional accumulated SNR $\rho_\mathrm{frac}(f_\mathrm{low})$ for four selected low frequency cutoffs, $f_\mathrm{low}=40$~Hz, 30~Hz, 20~Hz, and 10~Hz.}
+\end{table}
+
+Since the gravitational wave amplitude is inversely proportional to the luminosity distance of the source, and the sensitive volume is proportional to distance cubed, the rate of detectable coalescences depends on the choice of low frequency cutoff.  An inspiral search that is designed with a low frequency cutoff at the seismic wall would gain an increase in detection rate of $\rho_\mathrm{frac}^{-3}(f_\mathrm{low})$ relative to a search with a low frequency cutoff of $f_\mathrm{low}$.  For a fractional accumulated SNR of 80\%, this would represent almost a twofold increase in the rate of detection.  For $\rho_\mathrm{frac} = 90\%$, the detection rate would still be increased by as much as 37\%.  Existing coalescing binary detection pipelines strive to sacrifice no more than 3\% of the available SNR; this forfeits less than a 10\% gain in detection rate.  In order to satisfy this constraint, the low frequency cutoff would have to be placed below 20~Hz for all of the conceived Advanced LIGO configurations.
+
+The instantaneous gravitational wave frequency, given by equation~(\ref{eq:fgw}) is a power law function of time, so the amount of time for the gravitational wave frequency to evolve from $f_\mathrm{low}$ to $f_\mathrm{ISCO}$ depends strongly on $f_\mathrm{low}$.  The duration of a (1.4,~1.4)~$\Msun$ inspiral is show in figure~\ref{fig:low-frequency-cutoff}d.  The inspiral takes only 25~s to evolve from 40~Hz to $f_\mathrm{ISCO}$, but takes 54~s to evolve from 30~Hz to $f_\mathrm{ISCO}$, 158~s from 20~Hz, and 1002~s from 10~Hz.
+
+\begin{figure}[b]
+	\includegraphics{f6a}%
+	\includegraphics{f6b}
+
+	\includegraphics{f6c}%
+	\includegraphics{f6d}
+
+	\includegraphics{f6e}
+
+	\caption{\label{fig:low-frequency-cutoff}Counterclockwise from top left:  (a)~Noise amplitude spectral density for a variety of Advanced LIGO noise models, S5, and S6.  (b)~Normalized signal to noise per unit frequency, $(\mathrm{d}\rho^2/\mathrm{d}f)/\rho^2$, for a (1.4,~1.4)~$\Msun$ inspiral.  (c)~Percentage of SNR that is accumulated from $f_\mathrm{low}$ to $f_\mathrm{ISCO}$, relative to SNR accumulated from $f_\mathrm{low} = 0\,\mathrm{Hz}$ to $f_\mathrm{ISCO}$.    (d)~Amount of time for a \NS--\NS\ inspiral signal to evolve from frequency $f_\mathrm{low}$ to $f_\mathrm{ISCO}$, as a function of $f_\mathrm{low}$.  For figures (a) through (c), the line style indicates which noise model was used.}
+\end{figure}
 
 \bibliographystyle{apj}
 \bibliography{references}
