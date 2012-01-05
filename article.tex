@@ -3,9 +3,11 @@
 \usepackage{lscape}
 \usepackage[colorlinks]{hyperref}
 \usepackage{epstopdf}
-\usepackage{amsmath}
+\usepackage{amsmath,amsthm}
 \usepackage{stmaryrd} % For \shortuparrow and \shortdownarrow
 \usepackage{upgreek} % For \upmu, upright mu
+
+\newtheorem{thm}{Theorem}
 
 \newcommand{\earlywarning}{early-warning}
 \newcommand{\NS}{NS}
@@ -47,6 +49,7 @@
 
 \DeclareMathOperator{\expectation}{E}
 \DeclareMathOperator{\var}{var}
+\DeclareMathOperator{\sinc}{sinc}
 
 % Macros for collapsing sizes of things
 % From TUGboat, Volume 22 (2001), No. 4
@@ -241,7 +244,7 @@ or the Gram-Schmidt process~\citep{rbf} to reduce the number of templates.
 Several efforts that exploit one or both of these properties are under way to
 develop low-latency \CBC\ search pipelines with tractable computing requirements.
 One example is \mbta{}~\citep{Marion2004, Buskulic2010}, which was deployed in
-S6/VSR3.  MBTA consists of multiple, usually two, template banks for different frequency bands, one which is matched to the early inspiral and the other which is matched to the late inspiral.  An excursion in the output of any filter bank triggers coherent reconstruction of the full matched filtered output.  Final triggers are built from the reconstructed matched filter output.  Another novel approach using networks of parallel, second order IIR filters is being explored
+S6/VSR3.  MBTA consists of multiple, usually two, template banks for different frequency bands, one which is matched to the early inspiral and the other which is matched to the late inspiral.  An excursion in the output of any filter bank triggers coherent reconstruction of the full matched filtered output.  Final triggers are built from the reconstructed matched filter output.  Another novel approach using networks of parallel, second order infinite impulse response~(IIR) filters is being explored
 by \citet{shaunIIR, linqingIIR}.
 
 We will use both properties to demonstrate that a very low latency detection statistic
@@ -1082,6 +1085,55 @@ the \SVD\ tolerance is varied from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\
 In (b), the \SVD\ tolerance is fixed at $\left(1-10^{-6}\right)$ while $N^\shortuparrow$
 is varied from 8 to 192.}
 \end{figure*}
+
+\subsection{Other potential sources of \SNR\ loss}
+
+One possible source of \SNR\ loss for which we have not accounted is the leakage of sharp spectral features built into the whitening filter.  In the \lloid\ algorithm, as with many other \GW\ search methods, the whitening procedure is treated as a data conditioning procedure that is separated from the matched filter stage.  In this paper, we assume that the input to the filter bank is a whitened data stream --- the result of feeding the \GW\ antenna's strain time series through a filter that flattens and normalizes its spectrum --- and how the whitening filter is implemented is not described in detail.  We elected to omit a detailed description of the whitening procedure since the focus here is on the implementation of a scalable inspiral filter bank.
+
+However, the inspiral templates themselves consist of the gravitational wave time series convolved with the impulse response of the whitening filter.  As a consequence, the \lloid\ algorithm must faithfully replicate the effect of the whitening filter.  Since in practice the noise spectra of ground-based \GW\ detectors contain both high-$Q$ lines at mechanical, electronic, and control resonances and a very sharp rolloff at the seismic wall, the frequency response of the \lloid\ filter bank must contain both high-$Q$ notches and a very abrupt high-pass filter.  \fir\ filters with rapidly varying frequency responses tend to have long impulse responses and many coefficients.  Since the \lloid\ basis filters have, by design, short impulse responses and very few coefficients, one might be concerned about spectral leakage contaminating the frequency response of the LLOID filter bank.
+
+The usual statement of the famous Nyquist-Shannon theorem, stated below as Theorem~\ref{thm:nyquist}, has a natural dual, \ref{thm:nyquist-dual}, that addresses the frequency resolution that can be achieved with a \fir\ filter of a given length.
+
+\begin{thm}
+	\label{thm:nyquist}
+	\citep[after][p. 518]{oppenheim1997signals}
+	Let $x(t)$ be a band-limited signal with continuous Fourier transform $\tilde{x}(f)$ such that $\tilde{x}(f') = 0 \; \forall \; f' : |f'| < f_M$.  Then $x(t)$ is uniquely determined by its discrete samples $x(n/f_s)$, $n = 0, \pm 1, \pm 2, \dots$, if $f_M < f_s / 2$.
+\end{thm}
+
+\begin{thm}
+	\label{thm:nyquist-dual}
+	Let $x(t)$ be a compactly supported signal such that $x(t') = 0 \; \forall \; t' : |t'| < t_M$.  Then its continuous Fourier transform $\tilde{x}(f)$ is uniquely determined by the discrete frequency components $\tilde{x}(n \, \Delta f)$, $n = 0, \pm 1, \pm 2, \dots$, if $t_M > 1 / (2 \, \Delta f)$.
+\end{thm}
+
+Another way of stating Theorem~\ref{thm:nyquist-dual} is that, provided $x(t)$ vanishes for $|t| > t_M$, where $t_M > 1 / (2 \, \Delta f)$, the continuous Fourier transform can be reconstructed at any frequency $f$ from a weighted sum of $\sinc$ functions centered at each of the discrete frequency components, namely,
+$$
+	\tilde{x}(f) \propto \sum_{n=-\infty}^{\infty} \tilde{x}\left(n \, \Delta f\right) \sinc \left[ 2 \pi (f - n \, \Delta f) t_M \right].
+$$
+Failure to meet this dual of the Nyquist-Shannon sampling criterion means that power from one of the discrete frequency components will ``leak'' into the rest of the spectrum through the side lobes of the $\sinc$ functions, producing a smeared out version of the desired frequency response.  In the \GW\ data analysis literature, the synthesis of inspiral matched filters involves a step called \emph{inverse spectrum truncation} \citep[see][section VII]{findchirppaper} that fixes the number of coefficients based on the desired frequency resolution.
+
+In order to effectively flatten a line in the detector's noise power
+spectrum, the time scale of the templates must be at least as long as
+the damping time $\tau$ of the line, $\tau = 2 Q / \omega_0$, where $Q$ is the quality
+factor of the line and $w_0$ is the central angular frequency.  For example,
+in the S6 detector configuration known as ``Enhanced LIGO,'' the violin modes \citep{ELIGOSusp} had $Q \sim 10^5$ and $\omega_0 \sim (2 \pi) 340$~rad/s, for a coherence time $\tau \sim 10^2$~s.
+
+In our example template bank, many of the time slices are much shorter
+than this.  However, the impulse response of the LLOID filter bank is very nearly
+equal to the full templates themselves, and the full templates are much longer than many
+coherence times of the violin mode.  For this reason, we do not expect
+\lloid\ to be affected by sharp line features any more than the
+traditional \fft-based searches currently employed in the \GW\ field.  Future works ought to verify this reasonable expectation with numerical experiments.
+
+There could, in principle, be lines with coherence times many times
+longer than the template duration.  For example, the $Q$ of the violin
+modes may increase by orders of magnitude in Advanced \LIGO~\citep{ALIGOSusp}.  Also,
+there are certainly narrow lines that are non-stationary.  Both of these
+cases can be dealt with by preprocessing $h(t)$ with bandstop filters
+that attenuates the lines themselves but also conservative neighborhoods
+around them.  If such a bandstop was implemented as an \fir\ filter, it
+could be built into the time slices just as before.
+
+Another way to deal with line features with coherence times much longer than the templates would be to entrirely `factor' the whitening out of the \lloid\ filter bank.  The data would be passed through the whitening filter twice and the inspiral templates would not depend on the detector's noise power spectral density at all.  Any line features could be notched out in the whitening stage with IIR filters, which can achieve infinitely high $Q$ at just second order.
 
 \subsection{Lower bounds on computational cost and latency compared to other
 methods}
