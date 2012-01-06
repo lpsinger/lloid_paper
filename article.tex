@@ -1096,7 +1096,7 @@ is varied from 8 to 192.}
 
 \subsection{Other potential sources of \SNR\ loss}
 
-One possible source of \SNR\ loss for which we have not accounted is the leakage of sharp spectral features built into the whitening filter.  In the \lloid\ algorithm, as with many other \GW\ search methods, the whitening procedure is treated as a data conditioning procedure that is separated from the matched filter stage.  In this paper, we assume that the input to the filter bank is a whitened data stream --- the result of feeding the \GW\ antenna's strain time series through a filter that flattens and normalizes its spectrum --- and how the whitening filter is implemented is not described in detail.  We elected to omit a detailed description of the whitening procedure since the focus here is on the implementation of a scalable inspiral filter bank.
+One possible source of \SNR\ loss for which we have not accounted is the leakage of sharp spectral features in the detector's noise spectrum due to the short durations of the time slices.  In the \lloid\ algorithm, as with many other \GW\ search methods, whitening is treated as an entirely separate data conditioning stage.  In this paper, we assume that the input to the filter bank is already whitened, having been passed through a filter that flattens and normalizes its spectrum.  We elected to omit a detailed description of the whitening procedure since the focus here is on the implementation of a scalable inspiral filter bank.
 
 However, the inspiral templates themselves consist of the gravitational wave time series convolved with the impulse response of the whitening filter.  As a consequence, the \lloid\ algorithm must faithfully replicate the effect of the whitening filter.  Since in practice the noise spectra of ground-based \GW\ detectors contain both high-$Q$ lines at mechanical, electronic, and control resonances and a very sharp rolloff at the seismic wall, the frequency response of the \lloid\ filter bank must contain both high-$Q$ notches and a very abrupt high-pass filter.  \fir\ filters with rapidly varying frequency responses tend to have long impulse responses and many coefficients.  Since the \lloid\ basis filters have, by design, short impulse responses and very few coefficients, one might be concerned about spectral leakage contaminating the frequency response of the LLOID filter bank.
 
@@ -1122,26 +1122,25 @@ Failure to meet this dual of the Nyquist-Shannon sampling criterion means that p
 In order to effectively flatten a line in the detector's noise power
 spectrum, the time scale of the templates must be at least as long as
 the damping time $\tau$ of the line, $\tau = 2 Q / \omega_0$, where $Q$ is the quality
-factor of the line and $w_0$ is the central angular frequency.  For example,
+factor of the line and $w_0$ is the central angular frequency.  To put this into the context of the sampling theorem, in order to resolve a notch with a particular $Q$ and $f_0$, a \fir\ filter must achieve a frequency resolution of $\Delta f \gtrsim \pi f_0 / Q$ and therefore its impulse response must last for at least a time $1/\Delta f = Q / \pi f_0$.  For example,
 in the S6 detector configuration known as ``Enhanced LIGO,'' the violin modes \citep{ELIGOSusp} had $Q \sim 10^5$ and $\omega_0 \sim (2 \pi) 340$~rad/s, for a coherence time $\tau \sim 10^2$~s.
 
 In our example template bank, many of the time slices are much shorter
-than this.  However, the impulse response of the LLOID filter bank is very nearly
-equal to the full templates themselves, and the full templates are much longer than many
-coherence times of the violin mode.  For this reason, we do not expect
-\lloid\ to be affected by sharp line features any more than the
-traditional \fft-based searches currently employed in the \GW\ field.  Future works ought to verify this reasonable expectation with numerical experiments.
+than this.  However, in summation the time slices have the same duration as the full templates themselves, and the full templates are much longer than many
+coherence times of the violin mode.  For this reason, we speculate that 
+\lloid\ should be just as robust to sharp line features as
+traditional \fft-based searches currently employed in the \GW\ field.  Future works must verify this reasonable supposition with numerical experiments, including impulse response studies similar to the ones presented here but with detector noise power spectra containing lines with realistically high quality factors.
 
 There could, in principle, be lines with coherence times many times
 longer than the template duration.  For example, the $Q$ of the violin
 modes may increase by orders of magnitude in Advanced \LIGO~\citep{ALIGOSusp}.  Also,
 there are certainly narrow lines that are non-stationary.  Both of these
 cases can be dealt with by preprocessing $h(t)$ with bandstop filters
-that attenuates the lines themselves but also conservative neighborhoods
-around them.  If such a bandstop was implemented as an \fir\ filter, it
-could be built into the time slices just as before.
+that attenuates the lines themselves but also conservatively large neighborhoods
+around them.  If such bandstops were implemented as an \fir\ filter, they
+could be built into the time slices without any difficulty.
 
-Another way to deal with line features with coherence times much longer than the templates would be to entrirely `factor' the whitening out of the \lloid\ filter bank.  The data would be passed through the whitening filter twice and the inspiral templates would not depend on the detector's noise power spectral density at all.  Any line features could be notched out in the whitening stage with IIR filters, which can achieve infinitely high $Q$ at just second order.
+Perhaps another way to deal with line features with coherence times much longer than the templates would be to entrirely `factor' the whitening out of the \lloid\ filter bank.  Any line features could be notched out in the whitening stage with IIR filters, which can achieve infinitely high $Q$ at just second order.  If the detector data were passed through the whitening filter twice, then time-sliced filters need not depend on the detector's noise power spectral density at all.  In such a variation on the \lloid\ method, the basis filters could be calculated from the \emph{weighted} \SVD~\citep[chapter 3.6]{WeightedSVD, jackson2003user} of the time-sliced templates, using the covariance of the detector noise as a weight matrix.
 
 \subsection{Lower bounds on computational cost and latency compared to other
 methods}
