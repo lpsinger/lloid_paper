@@ -1212,7 +1212,7 @@ to search the full parameter space.  To account for the varying sample rate and 
 \footnote{\url{https://www.lsc-group.phys.uwm.edu/lscdatagrid/}} consists of
 only $\sim$$10^4$ machines, so direct \TD\ convolution is clearly impractical.
 
-The overlap-save \FD\ method is slightly more efficient than LLOID for this particular sub-bank, requiring $5.2 \times 10^8$~\flops.  The scaling argument projects that a full \FD\ search would require $7.8 \times 10^{10}$~\flops.  The direct calculation from expression~(\ref{eq:fd-flops}) gives $5.9 \times 10^{10}$~\flops, in order-of-magnitude agreement.  It appears that in this application the conventional \FD\ search is scarcely a factor of 2 more computationally efficient than LLOID, but only at the price of thousands of seconds of latency.
+The overlap-save \FD\ method is slightly more efficient than LLOID for this particular sub-bank, requiring $5.2 \times 10^8$~\flops.  The scaling argument projects that a full \FD\ search would require $7.8 \times 10^{10}$~\flops.  The direct calculation from expression~(\ref{eq:fd-flops}) gives $5.9 \times 10^{10}$~\flops, in order-of-magnitude agreement.  In this application, the conventional \FD\ search is scarcely a factor of 2 faster than LLOID while gaining only $0.3$\% in \SNR, but only at the price of thousands of seconds of latency.
 
 \subsection{Measured latency and overhead}
 
