@@ -789,8 +789,8 @@ from $f^{s-1}$ to $f^s$.  Naively, an anti-aliasing filter with
 $(f^{s-1} / f^s) N^\shortdownarrow$ coefficients should demand
 $2 N^\shortdownarrow (f^{s-1})^2 / f^s$ \flops.  However, it is necessary to
 evaluate the anti-aliasing filter only for the fraction $f^s / f^{s-1}$ of the
-samples that will not be deleted.  Consequently, an efficient decimator that
-requires only $2 N^\shortdownarrow f^{s-1}$ \flops\ is possible.
+samples that will not be deleted.  Consequently, an efficient decimator 
+requires only $2 N^\shortdownarrow f^{s-1}$ \flops.  (One common realization is an ingenious structure called a \emph{polyphase decimator}, described in chapter 1 of \citet{jovanovic2002multirate}.)
 
 The story is similar for the interpolation filters used to match the sample
 rates of the partial \SNR\ streams.  Interpolation of a data stream from a
@@ -800,7 +800,7 @@ $(f^{s-1} / f^s) N^\shortuparrow$ coefficients.  The low-pass filter requires
 $2 M N^\shortuparrow (f^{s-1})^2 / f^s$ \flops.  However, by taking advantage
 of the fact that by construction a fraction $f^s / f^{s-1}$ of the samples are
 zero, it is possible to build an efficient interpolator that requires only
-$2 M N^\shortuparrow f^{s-1}$ \flops.
+$2 M N^\shortuparrow f^{s-1}$ \flops.  (Again, see \citet{jovanovic2002multirate} for a discussion of \emph{polyphase interpolation}.)
 
 Taking into account the decimation of the detector data, the orthogonal \fir\
 filters, the reconstruction of the time-sliced templates, the interpolation of
