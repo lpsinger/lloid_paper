@@ -412,11 +412,11 @@ up to an arbitrary multiplicative constant.  Here, $\tilde{h}[n]$, $\tilde{s}[n]
 $$
 	\tilde{S}[n] =
 	\begin{cases}
-		S(n f_s / 2 N) / 2 & \textrm{if } 0 \leqslant n \leqslant N / 2 \\
+		S(n f^0 / 2 N) / 2 & \textrm{if } 0 \leqslant n \leqslant N / 2 \\
 		\tilde{S}[N - n] & \textrm{otherwise},
 	\end{cases}
 $$
-where $N$ is the length of the filter and $f_s$ is the sample rate.  (In order to satisfy the Nyquist-Shannon sampling criterion, it is assumed that the detector's continuous noise power spectral density $S(f)$ vanishes for all $f > f_s / 2$, or alternatively, that the data is low-pass filtered prior to matched filtering.)  The discrete Fourier transform of the output is
+where $N$ is the length of the filter and $f^0$ is the sample rate.  (In order to satisfy the Nyquist-Shannon sampling criterion, it is assumed that the detector's continuous noise power spectral density $S(f)$ vanishes for all $f > f^0 / 2$, or alternatively, that the data is low-pass filtered prior to matched filtering.)  The discrete Fourier transform of the output is
 %
 \begin{multline}
 \label{eq:matched-filter-fd}
@@ -1105,7 +1105,7 @@ The usual statement of the famous Nyquist-Shannon theorem, stated below as Theor
 \begin{thm}
 	\label{thm:nyquist}
 	\citep[after][p. 518]{oppenheim1997signals}
-	Let $x(t)$ be a band-limited signal with continuous Fourier transform $\tilde{x}(f)$ such that $\tilde{x}(f') = 0 \; \forall \; f' : |f'| < f_M$.  Then $x(t)$ is uniquely determined by its discrete samples $x(n/f_s)$, $n = 0, \pm 1, \pm 2, \dots$, if $f_M < f_s / 2$.
+	Let $x(t)$ be a band-limited signal with continuous Fourier transform $\tilde{x}(f)$ such that $\tilde{x}(f') = 0 \; \forall \; f' : |f'| < f_M$.  Then $x(t)$ is uniquely determined by its discrete samples $x(n/f^0)$, $n = 0, \pm 1, \pm 2, \dots$, if $f_M < f^0 / 2$.
 \end{thm}
 
 \begin{thm}
