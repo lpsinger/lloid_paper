@@ -1140,7 +1140,7 @@ that attenuates the lines themselves but also conservatively large neighborhoods
 around them.  If such bandstops were implemented as an \fir\ filter, they
 could be built into the time slices without any difficulty.
 
-Perhaps another way to deal with line features with coherence times much longer than the templates would be to entrirely `factor' the whitening out of the \lloid\ filter bank.  Any line features could be notched out in the whitening stage with IIR filters, which can achieve infinitely high $Q$ at just second order.  If the detector data were passed through the whitening filter twice, then time-sliced filters need not depend on the detector's noise power spectral density at all.  In such a variation on the \lloid\ method, the basis filters could be calculated from the \emph{weighted} \SVD~\citep[chapter 3.6]{WeightedSVD, jackson2003user} of the time-sliced templates, using the covariance of the detector noise as a weight matrix.
+Another way to deal with line features with coherence times much longer than the templates would be to entirely `factor' the whitening out of the \lloid\ filter bank.  Any line features could be notched out in the whitening stage with IIR filters, which can achieve infinitely high $Q$ at just second order.  If the detector data were passed through the whitening filter twice, then time-sliced filters need not depend on the detector's noise power spectral density at all.  In such a variation on the \lloid\ method, the basis filters could be calculated from the \emph{weighted} \SVD~\citep[chapter 3.6]{WeightedSVD, jackson2003user} of the time-sliced templates, using the covariance of the detector noise as a weight matrix.
 
 \subsection{Lower bounds on computational cost and latency compared to other
 methods}
