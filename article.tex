@@ -412,7 +412,8 @@ up to an arbitrary multiplicative constant.  Here, $\tilde{h}[n]$, $\tilde{s}[n]
 $$
 	\tilde{S}[n] =
 	\begin{cases}
-		S(n f^0 / 2 N) / 2 & \textrm{if } 0 \leqslant n \leqslant N / 2 \\
+		S(n) & \textrm{if } n = 0 \textrm{ or } n = N / 2 \\
+		S(n f^0 / 2 N) / 2 & \textrm{if } 0 < n < N / 2 \\
 		\tilde{S}[N - n] & \textrm{otherwise},
 	\end{cases}
 $$
