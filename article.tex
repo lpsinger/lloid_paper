@@ -1155,8 +1155,7 @@ we described above.  For the overlap-save \FD\ method, an \fft\ block size of
 $\fftblock = 2 \tmpsamps$ is assumed, resulting in a latency of
 $\left(\tmpsamps / f^0\right)$ seconds.  Both the \FD\ method and \lloid\ are
 five orders of magnitude faster than the conventional, direct \TD\ method.  However, the
-\FD\ method has a latency of over half of an hour, whereas the \lloid\ algorithm
-has no latency at all.
+\FD\ method has a latency of over half of an hour, whereas the \lloid\ method, with suitable design of the decimation and interpolation filters, has no more latency than the direct \TD\ method.
 %
 \begin{table*}
 \caption{\label{table:flops}Computational cost in \flops\ and latency in seconds
