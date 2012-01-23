@@ -1114,11 +1114,11 @@ The usual statement of the famous Nyquist-Shannon theorem, stated below as Theor
 	Let $x(t)$ be a compactly supported signal such that $x(t') = 0 \; \forall \; t' : |t'| > t_M$.  Then its continuous Fourier transform $\tilde{x}(f)$ is uniquely determined by the discrete frequency components $\tilde{x}(n \, \Delta f)$, $n = 0, \pm 1, \pm 2, \dots$, if $\Delta f < 1 / (2 t_M)$.
 \end{thm}
 
-Another way of stating Theorem~\ref{thm:nyquist-dual} is that, provided $x(t)$ vanishes for $|t| > t_M$, where $t_M < 1 / (2 \, \Delta f)$, the continuous Fourier transform can be reconstructed at any frequency $f$ from a weighted sum of $\sinc$ functions centered at each of the discrete frequency components, namely,
+Another way of stating Theorem~\ref{thm:nyquist-dual} is that, provided $x(t)$ is nonzero only for $|t| < 1 / (2 \, \Delta f)$, the continuous Fourier transform can be reconstructed at any frequency $f$ from a weighted sum of $\sinc$ functions centered at each of the discrete frequency components, namely,
 $$
-	\tilde{x}(f) \propto \sum_{n=-\infty}^{\infty} \tilde{x}\left(n \, \Delta f\right) \sinc \left[ 2 \pi (f - n \, \Delta f) t_M \right].
+	\tilde{x}(f) \propto \sum_{n=-\infty}^{\infty} \tilde{x}\left(n \, \Delta f\right) \sinc \left[ \pi (f - n \, \Delta f) / \Delta f \right].
 $$
-Failure to meet this dual of the Nyquist-Shannon sampling criterion means that power from one of the discrete frequency components will ``leak'' into the rest of the spectrum through the side lobes of the $\sinc$ functions, producing a smeared out version of the desired frequency response.  In the \GW\ data analysis literature, the synthesis of inspiral matched filters involves a step called \emph{inverse spectrum truncation} \citep[see][section VII]{findchirppaper} that fixes the number of coefficients based on the desired frequency resolution.
+Failure to meet the conditions of this dual of the sampling theorem results in spectral leakage.  For a time-domain signal to capture spectral features that are the size of the central lobe of the $\sinc$ function, the signal must have a duration greater than $1/\Delta f$.  If the signal $x(t)$ is truncated by sampling it for a shorter duration, then its Fourier transform becomes smeared out; conceptually, power ``leaks'' out into the side lobes of the $\sinc$ functions and washes away sharp spectral features.  In the \GW\ data analysis literature, the synthesis of inspiral matched filters involves a step called \emph{inverse spectrum truncation} \citep[see][section VII]{findchirppaper} that fixes the number of coefficients based on the desired frequency resolution.
 
 In order to effectively flatten a line in the detector's noise power
 spectrum, the time scale of the templates must be at least as long as
