@@ -399,7 +399,7 @@ $$
 where $y_s$ is the response of the filter to the signal alone and $y_n$ is the response of the signal to noise alone.  The matched filter's coefficients maximize the ratio of the expectation of the filter's instantaneous response to the variance in the filter's output:
 %
 $$
-\textrm{signal to noise} = \frac{\expectation \left[ y[0] \right]^2}{\var \left[ y[k] \right]} = \frac{y_s[0]^2}{\var \left[ y_n[k] \right]}.
+(\textrm{signal to noise})^2 = \frac{\expectation \left[ y[0] \right]^2}{\var \left[ y[k] \right]} = \frac{y_s[0]^2}{\var \left[ y_n[k] \right]}.
 $$
 %
 It is well known~\citep[see, for example,][]{matched-filter} that if $n[k]$ is Gaussian and wide-sense stationary, then the optimum is obtained when
