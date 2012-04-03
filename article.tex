@@ -856,9 +856,7 @@ the decimated time slice as the sample rate times an infinitesimally short time
 interval, $\slicessamps \approx 2 f(t) \, \mathrm{d}t$. The integral is
 evaluated using the power-law form of $f(t)$ from equation~(\ref{eq:fgw}).
 Substituting approximate values for a template bank designed for component
-masses around (1.4, 1.4) $M_\odot$, $\alpha \approx 10^{-2}$, $t_\mathrm{low} = 10^3$~s,
-$f_\mathrm{low} = 10^1$~Hz, $t_\mathrm{high} = 1/1570$~s, $f_\mathrm{high} = 1570$~Hz,
-and $f^0 = (2)(1570)$~Hz, we find from equation~(\ref{eq:speedup}) that the
+masses around (1.4, 1.4) $M_\odot$, $\alpha \approx 10^{-2}$, $t_\mathrm{low} = 10^3$~s, $f_\mathrm{low} = 10^1$~Hz, $f_\mathrm{high} = f_\mathrm{ISCO} \approx 1570$~Hz, $f^0 = 2 f_\mathrm{ISCO}$, and $t_\mathrm{high} = {f_\mathrm{ISCO}}^{-1}$, we find from equation~(\ref{eq:speedup}) that the
 \lloid\ method requires only $\sim 10^{-6}$ times as many \flops\ as the
 conventional \TD\ method.
 
