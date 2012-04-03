@@ -279,18 +279,17 @@ localization accuracy for pre-merger detection.
 In the quadrupole approximation, the instantaneous frequency of the GW inspiral signal is related to the time $t$ relative to coalescence ~\citep{kidder1992, findchirppaper} through
 %
 \begin{equation} \label{eq:fgw}
-	f(t) = \frac{1}{\pi \mathcal{M}}
-		\left[ \frac{5}{256}\frac{\mathcal{M}}{t} \right]^{3/8}
+	f(t) = \frac{1}{\pi \mathcal{M}_\mathrm{t}}
+		\left[ \frac{5}{256}\frac{\mathcal{M}_\mathrm{t}}{t} \right]^{3/8}
 \end{equation}
 %
-where $\mathcal{M} = M^{2/5} \mu^{3/5}$ is the chirp mass of the binary in units of time ($G
-M_\odot / c^3 \approx 5$~$\upmu$s), $M$ is the total mass, and $\mu$ is the reduced mass. 
+where $\mathcal{M}=M^{2/5} \mu^{3/5}$ is the chirp mass of the binary, $\mathcal{M}_\mathrm{t}=G \mathcal{M} / c^3$ is the chirp mass in units of time, $M$ is the total mass, and $\mu$ is the reduced mass. 
 The expected value of the single detector \SNR\ for an optimally oriented (source at detector's zenith or nadir, orbital plane face-on) inspiral source is~\citep{Abadie:2010p10836}
 %
 \begin{equation}
 	\label{eq:expected-snr}
 	\rho =
-		\frac{\mathcal{M}^{5/6} c}{\pi^{2/3} D}
+		\frac{{\mathcal{M}_\mathrm{t}}^{5/6} c}{\pi^{2/3} D}
 		\sqrt{
 			\frac{5}{6} \int_{f_\mathrm{low}}^{f_\mathrm{high}}
 			\frac{f^{-7/3}}{S(f)} \mathrm{d}f}
