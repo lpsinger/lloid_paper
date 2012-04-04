@@ -5,6 +5,7 @@
 \usepackage{amsmath,amsthm}
 \usepackage{stmaryrd} % For \shortuparrow and \shortdownarrow
 \usepackage{upgreek} % For \upmu, upright mu
+\usepackage{multirow}
 
 \newtheorem{thm}{Theorem}
 
@@ -19,7 +20,7 @@
 \newcommand{\LCGT}{LCGT}%{{\sc lcgt}}
 \newcommand{\GEO}{GEO600}%{{\sc geo600}}
 \newcommand{\LSO}{LSO}%{{\sc lso}}
-\newcommand{\SNR}{SNR}%{{\sc snr}}
+\newcommand{\SNR}{S/N}%{{\sc snr}}
 \newcommand{\realtime}{real-time}
 \newcommand{\Msun}{\ensuremath{M_{\odot}}}
 \newcommand{\order}[1]{\ensuremath{\mathcal{O}[#1]}}
@@ -38,7 +39,7 @@
 \newcommand{\fir}{FIR}%{{\sc fir}}
 \newcommand{\fft}{FFT}%{{\sc fft}}
 \newcommand{\fmax}{\ensuremath{f^0}}
-\newcommand{\flops}{flop/s}
+\newcommand{\flops}{flop~s$^{-1}$}
 \newcommand{\gstlal}{{\tt gstlal}}
 \newcommand{\gstreamer}{GStreamer}
 \newcommand{\numcpus}{{600}}
@@ -96,14 +97,14 @@
 \altaffiltext{10}{Institut f\"{u}r Gravitationsphysik, Leibniz Universit\"{a}t Hannover, Hannover, Germany}
 \altaffiltext{11}{Department of Chemistry and Biology, Ryerson University, Toronto, ON, Canada}
 
-\keywords{gamma ray burst: general --- gravitational waves --- methods: data analysis --- methods: numerical}
+\keywords{gamma-ray burst: general --- gravitational waves --- methods: data analysis --- methods: numerical}
 
 \begin{abstract}
-Rapid detection of compact binary coalescence with a network of advanced
+Rapid detection of compact binary coalescence (CBC) with a network of advanced
 gravitational-wave detectors will offer a unique opportunity for
 multi-messenger astronomy.  Prompt detection alerts for the astronomical
 community might make it possible to observe the onset of electromagnetic
-emission from compact binary coalescence.  We demonstrate a computationally
+emission from CBC.  We demonstrate a computationally
 practical filtering strategy that could produce early-warning triggers before
 gravitational radiation from the final merger has arrived at the detectors.
 \end{abstract}
@@ -117,9 +118,9 @@ neutron star (\NS) is involved, it might become tidally disrupted near the
 merger and fuel an electromagnetic (\EM) counterpart \citep{shibata:2007}.
 Effort from both the \GW\ and the broader astronomical communities might make
 it possible to use \GW\ observations as early warning triggers for \EM\
-followup. In the first generation of ground-based laser interferometers, the
+follow-up. In the first generation of ground-based laser interferometers, the
 \GW\ community initiated a project to send alerts when potential \GW\
-transients were observed in order to trigger followup observations by \EM\
+transients were observed in order to trigger follow-up observations by \EM\
 telescopes.  The typical latencies were 30 minutes \citep{HugheyGWPAW2011}.
 This was an important achievement, but too late to catch any prompt optical flash
 or the onset of an on-axis optical afterglow.  Since the \GW\ signal is in principle detectable even before the tidal
@@ -131,7 +132,7 @@ prospects for advanced \GW\ detectors and discuss other areas of work that would
 be required for rapid analysis.
 
 Compact binary coalescence (\CBC) is a plausible progenitor for most short
-gamma-ray bursts (short \GRB{}s) \citep{Lee:2005, nakar07}, but the
+gamma-ray bursts \citep[short \GRB{}s;][]{Lee:2005, nakar07}, but the
 association is not iron-clad \citep{2011ApJ...727..109V}. The tidally
 disrupted material falls onto the newly formed, rapidly spinning compact object
 and is accelerated in jets along the spin axis with a timescale of $0.1$--$1$~s
@@ -146,13 +147,13 @@ insensitive to initial conditions. Optical flashes have been observed for a
 handful of long \GRB{}s \citep{2011CRPhy..12..255A} by telescopes with extremely
 rapid response or, in the case of GRB 080319b, by pure serendipity, where
 several telescopes were already observing the afterglow of another \GRB\ in
-the same field of view \citep{2008Natur.455..183R}. The observed optical flashes
+the same field of view \citep[FOV;][]{2008Natur.455..183R}. The observed optical flashes
 peaked within tens of seconds and decayed quickly. For short \GRB\ energy
 balance and plasma density, however, the reverse shock model predicts a peak
 flux in radio, approximately 20 minutes after the \GRB, but also a relatively
 faint optical flash \citep{nakar07}; for a once-per-year Advanced LIGO event at
 $130$~Mpc, the radio flux will peak around 9~GHz at $\sim$$5$~mJy, with emission
-in the $R$-band at $\sim$19~mag. Interestingly, roughly a quarter to half of
+in the $R$-band at $\sim$19~mag. Interestingly, roughly a quarter to half of the 
 observed short \GRB{}s also exhibit extended X-ray emission of $30$--$100$~s in
 duration beginning $\sim$$10$~s after the \GRB\ and carrying comparable fluence
 to the initial outburst. This can be explained if the merger results in the
@@ -161,13 +162,13 @@ ejecta~\citep{Bucciantini2011}. Rapid \GW\ alerts would enable joint \EM\ and
 \GW\ observations to confirm the short \GRB-\CBC\ link and allow the early
 \EM\ observation of exceptionally nearby and thus bright events.
 
-In October 2010, \LIGO{}\footnote{\url{http://www.ligo.org/}} completed its
+In 2010 October, \LIGO{}\footnote{\url{http://www.ligo.org/}} completed its
 sixth science run (S6) and Virgo\footnote{\url{http://www.ego-gw.it/}}
 completed its third science run (VSR3).  While both \LIGO\ detectors and Virgo
 were operating, several all-sky detection pipelines operated in a low-latency
-configuration to send astronomical alerts, namely Coherent WaveBurst (cWB), Omega, and Multi-Band Template Analysis \citep[MBTA;][]{HugheyGWPAW2011, S6lowlatency2, S6lowlatency3, S6lowlatency4}.  cWB and Omega are both unmodeled searches for bursts based on time-frequency decomposition of the GW data.  \mbta\ is a novel kind of template-based inspiral search that was purpose-built for low latency operation.  \mbta\ achieved the best \GW\ trigger-generation latencies of 2--5 minutes.
+configuration to send astronomical alerts, namely, Coherent WaveBurst (cWB), Omega, and Multi-Band Template Analysis \citep[MBTA;][]{HugheyGWPAW2011, S6lowlatency2, S6lowlatency3, S6lowlatency4}.  cWB and Omega are both unmodeled searches for bursts based on time-frequency decomposition of the GW data.  \mbta\ is a novel kind of template-based inspiral search that was purpose-built for low latency operation.  \mbta\ achieved the best \GW\ trigger-generation latencies of 2--5 minutes.
 Alerts were sent with latencies of 30--60 minutes, dominated by human vetting.
-Candidates were sent for \EM\ followup to several telescopes; Swift,
+Candidates were sent for \EM\ follow-up to several telescopes; \textit{Swift},
 LOFAR, ROTSE, TAROT, QUEST, SkyMapper,
 Liverpool Telescope, Pi of the Sky, Zadko, and Palomar Transient Factory
 \citep{kanner2008, HugheyGWPAW2011} imaged some of the most likely sky
@@ -188,7 +189,7 @@ to any of the other sources of latency.
 \paragraph{Data conditioning ($\sim$1~min)}%
 Science data must be calibrated using the detector's frequency response to
 gravitational radiation.  Currently, data are calibrated in blocks of 16~s.
-Within $\sim$1~min, data quality is assessed in order to create veto flags.
+Within $\sim$1~minute, data quality is assessed in order to create veto flags.
 These are both technical sources of latency that might be addressed with
 improved calibration and data quality software for advanced detectors.
 
@@ -196,10 +197,10 @@ improved calibration and data quality software for advanced detectors.
 Low-latency data analysis pipelines
 deployed in S6/VSR3 achieved an impressive latency of minutes.  However, second
 to the human vetting process, this dominated the latency of the entire \EM\
-followup process.  Even if no other sources of latency existed, this trigger
+follow-up process.  Even if no other sources of latency existed, this trigger
 generation latency is too long to catch prompt or even extended emission.
 Low-latency trigger generation will become more challenging with advanced
-detectors because inspiral signals will stay in band up to ten times longer.  In
+detectors because inspiral signals will stay in band up to 10 times longer.  In
 this work, we will focus on reducing this source of latency.
 
 \paragraph{Alert generation (2--3~min)}%
@@ -226,11 +227,11 @@ matched filters, or cross-correlations between the data stream and a bank of
 nominal ``template'' signals.  There are many different implementations of
 matched filters, but most have high throughput at the cost of high latency, or
 low latency at the cost of low throughput.  The former are epitomized by the
-overlap-save algorithm for frequency domain (\FD) convolution, currently the
+overlap-save algorithm for frequency-domain (\FD) convolution, currently the
 preferred method in \GW\ searches.  The most obvious example of the latter is
 direct time domain (\TD) convolution, which is latency-free.  However, its cost in floating
 point operations per second is linear in the length of the templates, so it is
-prohibitively expensive for long templates.  The computational challenges of low-latency \CBC\ searches are still more daunting for advanced detectors for which the inspiral signal remains in band for a large fraction of an hour~(see appendix~\ref{sec:low-frequency-cutoff}).
+prohibitively expensive for long templates.  The computational challenges of low-latency \CBC\ searches are still more daunting for advanced detectors for which the inspiral signal remains in band for a large fraction of an hour~(see the Appendix).
 
 Fortunately, the morphology of inspiral signals can be exploited to offset some
 of the computational complexity of known low-latency algorithms.  First, the signals
@@ -243,8 +244,8 @@ or the Gram-Schmidt process~\citep{rbf} to reduce the number of templates.
 Several efforts that exploit one or both of these properties are under way to
 develop low-latency \CBC\ search pipelines with tractable computing requirements.
 One example is \mbta{}~\citep{Marion2004, Buskulic2010}, which was deployed in
-S6/VSR3.  MBTA consists of multiple, usually two, template banks for different frequency bands, one which is matched to the early inspiral and the other which is matched to the late inspiral.  An excursion in the output of any filter bank triggers coherent reconstruction of the full matched filtered output.  Final triggers are built from the reconstructed matched filter output.  Another novel approach using networks of parallel, second order infinite impulse response~(IIR) filters is being explored
-by \citet{shaunIIR, linqingIIR}.
+S6/VSR3.  MBTA consists of multiple, usually two, template banks for different frequency bands, one which is matched to the early inspiral and the other which is matched to the late inspiral.  An excursion in the output of any filter bank triggers coherent reconstruction of the full matched filtered output.  Final triggers are built from the reconstructed matched filter output.  Another novel approach using networks of parallel, second-order infinite impulse response~(IIR) filters is being explored
+by \citet{shaunIIR} and \citet{linqingIIR}.
 
 We will use both properties to demonstrate that a very low latency detection statistic
 is possible with current computing resources.  Assuming the other technical
@@ -253,26 +254,26 @@ send prompt alerts to the astronomical community.
 
 The paper is organized as follows.  First, we discuss prospects for
 early-warning detection.  Then, we provide an overview of our novel
-method for detecting compact binary coalescence signals near real-time.
+method for detecting CBC signals near real-time.
 We then describe a prototype implementation using open source signal
 processing software.  To validate our approach we present a case study
 focusing on a particular subset of the \NS--\NS\ parameter space.  We
 conclude with some remarks on what remains to prepare for the advanced
 detector era.
 
-\section{Prospects for \earlywarning\ detection and \EM\ followup}
+\section{Prospects for \earlywarning\ detection and \EM\ follow-up}
 
 \begin{figure}[h]
 \plotone{f1}
 \caption{\label{fig:earlywarning}Expected number of \NS--\NS\
 sources that could be detectable by Advanced \LIGO\ a given number of seconds
 before coalescence.  The heavy solid line corresponds to the most probable yearly rate
-estimate from~\citet{Abadie:2010p10836}.  The shaded region represents the 5\% to 95\% confidence interval
+estimate from~\citet{Abadie:2010p10836}.  The shaded region represents the 5\%--95\% confidence interval
 arising from substantial uncertainty in predicted event rates.}
 \end{figure}
 %
 Before the \GW\ signal leaves the detection band, we can imagine examining the
-signal to noise ratio (\SNR) accumulated up to that point and if it is
+signal-to-noise ratio (\SNR) accumulated up to that point and if it is
 already significant, release an alert immediately, trading \SNR\ and sky
 localization accuracy for pre-merger detection.
 
@@ -280,11 +281,11 @@ In the quadrupole approximation, the instantaneous frequency of the GW inspiral 
 %
 \begin{equation} \label{eq:fgw}
 	f(t) = \frac{1}{\pi \mathcal{M}_\mathrm{t}}
-		\left[ \frac{5}{256}\frac{\mathcal{M}_\mathrm{t}}{t} \right]^{3/8}
+		\left[ \frac{5}{256}\frac{\mathcal{M}_\mathrm{t}}{t} \right]^{3/8},
 \end{equation}
 %
 where $\mathcal{M}=M^{2/5} \mu^{3/5}$ is the chirp mass of the binary, $\mathcal{M}_\mathrm{t}=G \mathcal{M} / c^3$ is the chirp mass in units of time, $M$ is the total mass, and $\mu$ is the reduced mass. 
-The expected value of the single detector \SNR\ for an optimally oriented (source at detector's zenith or nadir, orbital plane face-on) inspiral source is~\citep{Abadie:2010p10836}
+The expected value of the single-detector \SNR\ for an optimally oriented (source at detector's zenith or nadir, orbital plane face-on) inspiral source is~\citep{Abadie:2010p10836}
 %
 \begin{equation}
 	\label{eq:expected-snr}
@@ -292,16 +293,16 @@ The expected value of the single detector \SNR\ for an optimally oriented (sourc
 		\frac{{\mathcal{M}_\mathrm{t}}^{5/6} c}{\pi^{2/3} D}
 		\sqrt{
 			\frac{5}{6} \int_{f_\mathrm{low}}^{f_\mathrm{high}}
-			\frac{f^{-7/3}}{S(f)} \mathrm{d}f}
+			\frac{f^{-7/3}}{S(f)} \mathrm{d}f},
 \end{equation}
 %
-where $D$ is the luminosity distance and $S(f)$ is the one-sided power spectral density of the detector noise.  $f_\mathrm{low}$ and $f_\mathrm{high}$ are low and high frequency limits of integration which may be chosen to extend across the entire bandwidth of the detector.  If we want to trigger at a time $t$ before merger, then we must cut off the SNR integration at $f_\mathrm{high} = f(t)$ with $f(t)$ given by equation~(\ref{eq:fgw}) above.
+where $D$ is the luminosity distance and $S(f)$ is the one-sided power spectral density of the detector noise.  $f_\mathrm{low}$ and $f_\mathrm{high}$ are low- and high- frequency limits of integration which may be chosen to extend across the entire bandwidth of the detector.  If we want to trigger at a time $t$ before merger, then we must cut off the SNR integration at $f_\mathrm{high} = f(t)$ with $f(t)$ given by Equation~(\ref{eq:fgw}) above.
 
 Figure~\ref{fig:earlywarning} shows projected early detectability rates for
 \NS--\NS\ binaries in Advanced \LIGO\ assuming the anticipated detector sensitivity for
 the `zero detuning, high power' configuration described in \citet{ALIGONoise} and
 \NS--\NS\ merger rates estimated in \citet{Abadie:2010p10836}.  The merger rates
-have substantial measurement uncertainty due to the small sample of known double pulsar systems that will merge within a Hubble time; they also have systematic uncertainty due sensitive dependence on the pulsar luminosity distribution function~\citep{KalogeraRates}.
+have substantial measurement uncertainty due to the small sample of known double pulsar systems that will merge within a Hubble time; they also have systematic uncertainty due to sensitive dependence on the pulsar luminosity distribution function~\citep{KalogeraRates}.
 The most probable estimates indicate that at a single-detector \SNR\ threshold of 8, we will
 observe a total of 40~events~yr$^{-1}$; $\sim$10~yr$^{-1}$ will be detectable
 within 10~s of merger and $\sim$5~yr$^{-1}$ will be detectable within 25~s of
@@ -315,13 +316,13 @@ and some of which are not.
 
 
 \begin{table}[h]
-\caption{\label{table:sky-localization-accuracy}Horizon distance, \SNR\ at
-merger, and area of 90\% confidence at selected times before merger for sources
-with expected detectability rates of 40, 10, 1, and 0.1~yr$^{-1}$.  A dash (-----) signifies that the confidence area is omitted because at the indicated time the SNR would not have crossed the detection threshold of 8.}
+\caption{\label{table:sky-localization-accuracy}Horizon Distance, \SNR\ at
+Merger, and Area of 90\% Confidence at Selected Times Before Merger for Sources
+with Expected Detectability Rates of 40, 10, 1, and 0.1~yr$^{-1}$.}
 \begin{center}
 \begin{tabular}{rrrrrrr}
 \tableline\tableline
-rate & horiz. & final & \multicolumn{4}{c}{$A$(90\%) (deg$^2$)} \\
+Rate & Horizon & Final & \multicolumn{4}{c}{$A$(90\%) (deg$^2$)} \\
 \cline{4-7}
 yr$^{-1}$ & (Mpc) & \SNR\ & 25 s & 10 s & 1 s & 0 s \\
 \tableline
@@ -331,6 +332,7 @@ yr$^{-1}$ & (Mpc) & \SNR\ & 25 s & 10 s & 1 s & 0 s \\
 0.1 & 60 & 58.9 & 280 & 56 & 3.6 & 0.2 \\
 \tableline
 \end{tabular}
+\tablecomments{A dash (-----) signifies that the confidence area\\is omitted because at the indicated time the SNR would\\not have crossed the detection threshold of 8.}
 \end{center}
 \end{table}
 %
@@ -342,20 +344,20 @@ detectability rates of 40, 10, 1, and 0.1~yr$^{-1}$. The heavy dot indicates
 the time at which the accumulated \SNR\ exceeds a single-detector threshold of~8.}
 \end{figure}
 
-\EM\ followup requires estimating the location of the \GW\ source. The localization
+\EM\ follow-up requires estimating the location of the \GW\ source. The localization
 uncertainty can be estimated from the uncertainty in the time of arrival of the \GW{}s,
 which is determined by the signal's effective bandwidth and \SNR\
 \citep{Fairhurst2009}.  Table~\ref{fig:earlywarning} and
 Figure~\ref{fig:sky-localization-accuracy} show the estimated 90\%
 confidence area versus time of the loudest coalescence events detectable by
 Advanced \LIGO\ and Advanced Virgo.  This is the \emph{minimum} area; localization is best at high elevation
-from the plane containing the detectors and worst at zero elevation.  \citeauthor{Fairhurst2009} also cautions that his Fisher matrix calculation fails to capture disconnected patches of probability, which occur prominently in networks of three detectors where there are generally two local maxima on opposite sides of the plane of the detectors.  Aside from the mirror degeneracy, characterizing the uncertainty region by the Fisher matrix alone tends to overestimate, rather than underestimate, the area for low SNR events, but this effect is generally more than compensated by the source being in an unfavorable sky location.  For these reasons, the localization uncertainty estimated from timing is highly optimistic and will only suffice for an order of magnitude estimate.  Once per year, we expect to observe an
+from the plane containing the detectors and worst at zero elevation.  \citeauthor{Fairhurst2009} also cautions that his Fisher matrix calculation fails to capture disconnected patches of probability, which occur prominently in networks of three detectors where there are generally two local maxima on opposite sides of the plane of the detectors.  Aside from the mirror degeneracy, characterizing the uncertainty region by the Fisher matrix alone tends to overestimate, rather than underestimate, the area for low-\SNR\ events, but this effect is generally more than compensated by the source being in an unfavorable sky location.  For these reasons, the localization uncertainty estimated from timing is highly optimistic and will only suffice for an order-of-magnitude estimate.  Once per year, we expect to observe an
 event with a final single-detector \SNR\ of $\approx$27 whose location can be constrained to about
 1300~deg$^2$ (3.1\% of the sky) within 25~s of merger,
 260~deg$^2$ (0.63\% of the sky) within 10~s of merger, and
 0.82~deg$^2$ (0.0020\% of the sky) at merger.
 
-It is unfeasible to search hundreds of square degrees for a prompt counterpart.  For comparison to some examples of modern ground-based wide-field survey instruments, the Palomar Transient Factory P48 ~\citep{2010SPIE.7735E.122L} has a $3.50 \times 2.31$~deg$^2$ field of view~(FOV); the Pan-STARRS P1~\citep{2002SPIE.4836..154K} has a 7~deg$^2$ FOV.  Even the eagerly awaited LSST will have a FOV of 9.6~deg$^2$ \citep{2008arXiv0805.2366I}.  However, 
+It is unfeasible to search hundreds of square degrees for a prompt counterpart.  For comparison to some examples of modern ground-based wide-field survey instruments, the Palomar Transient Factory P48 ~\citep{2010SPIE.7735E.122L} has a $3.50 \times 2.31$~deg$^2$ FOV; the Pan-STARRS P1~\citep{2002SPIE.4836..154K} has a 7~deg$^2$ FOV.  Even the eagerly awaited LSST will have an FOV of 9.6~deg$^2$ \citep{2008arXiv0805.2366I}.  However, 
 it is possible to reduce the localization uncertainty by only looking at
 galaxies from a catalog that lie near the sky location and luminosity distance
 estimate from the \GW\ signal~\citep{galaxy-catalog} as was done in S6/VSR3.
@@ -370,7 +372,7 @@ less of a concern.  This should reduce the 90\% confidence area substantially.
 \section{Novel \realtime\ algorithm for \CBC\ detection}
 \label{sec:method}
 
-In this section we describe a decomposition of the \CBC\ signal space that
+In this section, we describe a decomposition of the \CBC\ signal space that
 reduces \TD\ filtering cost sufficiently to allow for the
 possibility of \earlywarning\ detection with modest computing requirements.  We
 expand on the ideas of \citet{Marion2004} and \citet{Buskulic2010} that describe a
@@ -382,7 +384,7 @@ the redundancy of the template banks.
 \subsection{Conventional \CBC\ searches}
 
 Searches for inspiral signals typically employ matched filter
-banks that discretely sample the possible intrinsic parameters~\citep{findchirppaper}.  Suppose that the observed data $x[k]$ consists of a known, nominal signal $s[k]$ and additive, zero-mean noise $n[k]$,
+banks that discretely sample the possible intrinsic parameters~\citep{findchirppaper}.  Suppose that the observed data $x[k]$ consists of a known, nominal signal $s[k]$, and additive, zero-mean noise $n[k]$
 %
 $$
 	x[k] = s[k] + n[k].
@@ -415,7 +417,7 @@ $$
 		\tilde{S}[N - n] & \textrm{otherwise},
 	\end{cases}
 $$
-where $N$ is the length of the filter and $f^0$ is the sample rate.  (In order to satisfy the Nyquist-Shannon sampling criterion, it is assumed that the detector's continuous noise power spectral density $S(f)$ vanishes for all $f > f^0 / 2$, or alternatively, that the data is low-pass filtered prior to matched filtering.)  The discrete Fourier transform of the output is
+where $N$ is the length of the filter and $f^0$ is the sample rate.  (In order to satisfy the Nyquist-Shannon sampling criterion, it is assumed that the detector's continuous noise power spectral density $S(f)$ vanishes for all $f > f^0 / 2$, or alternatively, that the data are low-pass filtered prior to matched filtering.)  The DFT of the output is
 %
 \begin{multline}
 \label{eq:matched-filter-fd}
@@ -423,7 +425,7 @@ where $N$ is the length of the filter and $f^0$ is the sample rate.  (In order t
 \equiv \left(\tilde{S}^{-1/2}[n] \, \tilde{s}[n]\right)^* \left(\tilde{S}^{-1/2}[n] \, \tilde{x}[n] \right).
 \end{multline}
 %
-The placement of parentheses in equation~(\ref{eq:matched-filter-fd}) emphasizes that the matched filter can be thought of as a cross-correlation of a whitened version of the data with a whitened version of the nominal signal.  In this paper, we shall not describe the exact process by which the detector's noise power spectrum is estimated and deconvolved from the data; for the remainder of this paper we shall define $x[k]$ as the \emph{whitened} data stream.  Correspondingly, from this point on we shall use $h[k]$ to describe the \emph{whitened} templates, being the inverse DFT of $\left(\tilde{S}^{-1/2}[n] \, \tilde{s}[n]\right)^*$.
+The placement of parentheses in Equation~(\ref{eq:matched-filter-fd}) emphasizes that the matched filter can be thought of as a cross-correlation of a whitened version of the data with a whitened version of the nominal signal.  In this paper, we shall not describe the exact process by which the detector's noise power spectrum is estimated and deconvolved from the data; for the remainder of this paper we shall define $x[k]$ as the \emph{whitened} data stream.  Correspondingly, from this point on we shall use $h[k]$ to describe the \emph{whitened} templates, being the inverse DFT of $\left(\tilde{S}^{-1/2}[n] \, \tilde{s}[n]\right)^*$.
 
 Inspiral signals are continuously parameterized by a set of intrinsic source
 parameters $\theta$ that determine the amplitude and phase evolution of the
@@ -459,12 +461,11 @@ This results in $\numtmps$ \SNR\ time series. Local peak-finding across time and
 template indices results in single-detector triggers.  Coincidences are sought
 between triggers in different \GW\ detectors in order to form detection candidates.
 
-Equation~(\ref{eq:SNRTD}) can be implemented in the time-domain as a bank of
+Equation~(\ref{eq:SNRTD}) can be implemented in the TD as a bank of
 finite impulse response (\fir) filters, requiring $\mathcal O(\numtmps
 \tmpsamps)$ floating point operations per sample.  However, it is typically
 much more computationally efficient to use the convolution theorem and the
-fast Fourier transform (\fft) to implement fast convolution in the frequency
-domain, requiring only
+fast Fourier transform (\fft) to implement fast convolution in the FD, requiring only
 $\mathcal O(\numtmps \lg \tmpsamps)$ operations per sample but incurring
 a latency of $\mathcal O(\tmpsamps)$ samples.
 
@@ -472,7 +473,7 @@ a latency of $\mathcal O(\tmpsamps)$ samples.
 \subsection{The \lloid\ method}
 
 Here we describe a method for reducing the computational cost of a \TD\ search
-for compact binary coalescence.  We give a zero latency, real-time algorithm
+for CBC.  We give a zero latency, real-time algorithm
 that competes in terms of floating point operations per second with the
 conventional overlap-save \FD\ method, which by contrast requires a significant latency due
 to the inherent acausality of the Fourier transform.  Our method, called \lloid\
@@ -493,20 +494,19 @@ factor of $\sim$$10^4$ floating point operations per second (\flops) over the
 original (full sample rate) templates.
 
 However, the resulting filters are still not
-orthogonal across the parameter space, and are in fact highly redundant.
+orthogonal across the parameter space and are in fact highly redundant.
 We use the \SVD\ to approximate the template bank by a set of orthogonal
 \emph{basis filters}~\citep{Cannon:2010p10398}.  We find that this approximation
 reduces the number of filters needed by another factor of $\sim$100.  These two
 transformations combined reduce the number of floating point operations
-to a level that is competitive with the conventional high-latency \FD\
-matched filter approach.  In the remainder of this section we describe the
+to a level that is competitive with the conventional high-latency \FD-matched filter approach.  In the remainder of this section we describe the
 \lloid\ algorithm in detail and provide some basic computational cost scaling.
 
 \subsubsection{Selectively reducing the sample rate of the data and templates}
 \label{sec:time-slices}
 
 The first step of our proposed method is to divide the templates into time
-slices in a \TD\ analogue to the \FD\ decomposition employed by MBTA~\citep{Marion2004,Buskulic2010}.  The application to GW data analysis is foreshadowed by an earlier \FD\ convolution algorithm, proposed by \citet{gardner1995efficient}, based on splitting the impulse response of a filter into smaller blocks.  We decompose each template
+slices in a \TD\ analog to the \FD\ decomposition employed by MBTA~\citep{Marion2004,Buskulic2010}.  The application to GW data analysis is foreshadowed by an earlier \FD\ convolution algorithm, proposed by \citet{gardner1995efficient}, based on splitting the impulse response of a filter into smaller blocks.  We decompose each template
 $h_{i}[k]$ into a sum of $S$ non-overlapping templates
 %
 \begin{equation}
@@ -530,7 +530,7 @@ efficient time slices for an extended region of parameter space rather than to
 design different time slices for each template.
 
 For concreteness and simplicity, consider an inspiral waveform in the
-quadrapole approximation, for which the time-frequency relation is given by equation~(\ref{eq:fgw}).
+quadrupole approximation, for which the time-frequency relation is given by Equation~(\ref{eq:fgw}).
 This monotonic time-frequency relationship allows us
 to choose time slice boundaries that require substantially less bandwidth at
 early times in the inspiral.
@@ -542,7 +542,7 @@ often chosen to correspond to the last stable orbit (\LSO). The beginning of the
 sampled at $2 f_\mathrm{low}$, but the end of the template is critically sampled at a
 rate of $2 f_\mathrm{high}$. In any time interval smaller than the duration of the template,
 the bandwidth of the filters across the entire template bank can be significantly less
-than the full sample rate at which data is acquired.
+than the full sample rate at which data are acquired.
 
 Our goal is to reduce the filtering cost of a
 large fraction of the waveform by computing part of the convolution at a lower
@@ -554,7 +554,7 @@ sampled at frequencies $f^0,\, f^1,\, \dots,\, f^\mathrm{S-1}$, where $f^s$ is a
 least twice the highest nonzero frequency component of any filter in the bank for the
 $s$th time slice.
 
-The time sliced templates can then be downsampled in each interval without
+The time-sliced templates can then be downsampled in each interval without
 aliasing, so we define them as
 %
 \begin{equation}
@@ -566,9 +566,9 @@ h_{i}^{s}[k] \equiv
 	\end{cases}
 \end{equation}
 %
-We note that the time slice decomposition in equation~(\ref{eq:time-slices}) is
+We note that the time slice decomposition in Equation~(\ref{eq:time-slices}) is
 manifestly orthogonal since the time slices are disjoint in time.  In the next
-section we examine how to reduce the number of filters within each time slice
+section, we examine how to reduce the number of filters within each time slice
 via \SVD\ of the time-sliced templates.
 
 \subsubsection{Reducing the number of filters with the \SVD}
@@ -578,7 +578,7 @@ As noted previously, the template banks used in inspiral searches are by design
 highly correlated.  \citet{Cannon:2010p10398} showed that applying the \SVD\
 to inspiral template banks greatly reduces the number of filters required to achieve a
 particular minimal match.  A similar technique can be applied to the time-sliced
-templates as defined in equation~\ref{eq:time-sliced-templates} above.  The \SVD\
+templates as defined in Equation~(\ref{eq:time-sliced-templates}) above.  The \SVD\
 is a matrix factorization that takes the form
 %
 \begin{equation}
@@ -607,7 +607,7 @@ the basis filters within a given time slice are mutually orthogonal, the set of
 all basis filters from all time slices forms an orthogonal basis spanning the
 original templates.
 
-In the next section we describe how we form our early-warning detection
+In the next section, we describe how we form our early-warning detection
 statistic using the time slice decomposition and the \SVD.
 
 \subsubsection{Early-warning output}
@@ -619,7 +619,7 @@ computational cost of evaluating it.
 
 First, the sample rate of the detector data must be decimated to match sample
 rates with each of the time slices.  We will denote the decimated detector data
-streams using a superscript $^s$ to indicate the time slices to which they
+streams using a superscript ``$s$'' to indicate the time slices to which they
 correspond.  The operator $H^\shortdownarrow$ will represent the appropriate
 decimation filter that converts between the base sample rate $f^0$ and the
 reduced sample rate $f^s$:
@@ -634,8 +634,8 @@ that converts between sample rates $f^{s+1}$ and $f^s$ of adjacent time slices,
 \end{equation*}
 
 From the combination of the time slice decomposition in
-equation~(\ref{eq:time-sliced-templates}) and the \SVD\ defined in
-equation~(\ref{eq:svddecomp}), we define the early-warning output accumulated
+Equation~(\ref{eq:time-sliced-templates}) and the \SVD\ defined in
+Equation~(\ref{eq:svddecomp}), we define the early-warning output accumulated
 up to time slice $s$ using the recurrence relation,
 %
 % orthogonal decomposition filtering
@@ -645,7 +645,7 @@ up to time slice $s$ using the recurrence relation,
 		% Interpolation SNR
 		\overbrace{
 			\left(H^\uparrow \rho_i^{s+1}\right)[k]
-		}^\textrm{\clap{{\sc snr} from previous time slices}} \\
+		}^\textrm{\clap{S/N from previous time slices}} \\
 		% Plus ...
 		+
 		% Reconstruction
@@ -673,9 +673,9 @@ signal flow.  Circles with arrows represent interpolation
 signs represent summing junctions
 \protect\includegraphics{f3c}.  Squares
 \protect\includegraphics{f3d} stand for \fir\ filters.  Sample
-rate decreases from the top of the diagram to the bottom.  In this diagram each
+rate decreases from the top of the diagram to the bottom.  In this diagram, each
 time slice contains three \fir\ filters that are linearly combined to produce
-four output channels.  In a typical pipeline the number of \fir\ filters is
+four output channels.  In a typical pipeline, the number of \fir\ filters is
 much less than the number of output channels.}
 	\end{center}
 \end{figure*}
@@ -685,14 +685,14 @@ The signal flow diagram in Figure~\ref{fig:pipeline} illustrates this
 recursion relation as a multirate filter network with a number of early-warning outputs.
 
 Ultimately, the latency of the entire \lloid\ algorithm is set by the decimation
-and interpolation filters because they are generally time-symmetric and slightly
+and interpolation filters because they are generally time symmetric and slightly
 acausal.  Fortunately, as long as the latency introduced by the decimation and interpolation
 filters for any time slice $s$ is less than that time slice's delay $t^s$, the
-total latency of the \lloid\ algorithm will be zero.  To be concrete, suppose that the first time slice, sampled at a rate $f^0 = 4096$~Hz, spans times $[t^0,\textrm{ }t^1) = [0\textrm{ s},\textrm{ }0.5\textrm{ s})$, and the second time slice, sampled at $f^1 = 512$~Hz, spans $[t^1,\textrm{ }t^2) = [0.5\textrm{ s},\textrm{ }4.5\textrm{ s})$.  Then the second time slice's output, $\rho_i^1[k]$, will \emph{lead} the first time slice's output, $\rho_i^0[k]$, by 0.5~s.  A decimation filter will be necessary to convert the 4096~Hz input signal $x[k] \equiv x^0[k]$ to the 512~Hz input $x^1[k]$, and an interpolation filter will be necessary to match the sample rates of the two early-warning outputs.  In this example, as long as the decimation and interpolation filters are together acausal by less than $t^1 = 0.5$~s, the total SNR $\rho_i^0[k]$ will be available with a latency of zero samples.  When zero latency is important, we may take this as a requirement for the decimation and interpolation filter kernels.
+total latency of the \lloid\ algorithm will be zero.  To be concrete, suppose that the first time slice, sampled at a rate $f^0 = 4096$~Hz, spans times $[t^0,\textrm{ }t^1) = [0\textrm{ s},\textrm{ }0.5\textrm{ s})$, and the second time slice, sampled at $f^1 = 512$~Hz, spans $[t^1,\textrm{ }t^2) = [0.5\textrm{ s},\textrm{ }4.5\textrm{ s})$.  Then the second time slice's output, $\rho_i^1[k]$, will \emph{lead} the first time slice's output, $\rho_i^0[k]$, by 0.5~s.  A decimation filter will be necessary to convert the 4096~Hz input signal $x[k] \equiv x^0[k]$ to the 512~Hz input $x^1[k]$, and an interpolation filter will be necessary to match the sample rates of the two early-warning outputs.  In this example, as long as the decimation and interpolation filters are together acausal by less than $t^1 = 0.5$~s, the total \SNR\ $\rho_i^0[k]$ will be available with a latency of zero samples.  When zero latency is important, we may take this as a requirement for the decimation and interpolation filter kernels.
 
-In the next section we compute the expected computational cost scaling of this
+In the next section, we compute the expected computational cost scaling of this
 decomposition and compare it with the direct \TD\ implementation of
-\eqref{eq:SNRTD} and higher latency blockwise \FD\ methods.
+Equation~\eqref{eq:SNRTD} and higher latency blockwise \FD\ methods.
 
 \subsection{Comparison of computational costs}
 
@@ -704,20 +704,20 @@ this section.
 % symbols used in FLOPs calculations table
 %
 \begin{table}
-\caption{\label{tab:recap}Notation used to describe filters.}
+\caption{\label{tab:recap}Notation Used to Describe Filters.}
 \begin{center}
 \begin{tabular}{ll}
 \tableline\tableline
 & Definition \\
 \tableline
-$f^s$		& sample rate in time slice $s$ \\
-\numtmps		& num. templates \\
-\tmpsamps	& num. samples per template \\
-\numslices	& num. time slices \\
-\numsvdtmps	& num. basis templates in time slice $s$ \\
-\slicessamps	& num. samples in decimated time slice $s$\\
-$N^\shortdownarrow$ & length of decimation filter \\
-$N^\shortuparrow$ & length of interpolation filter \\
+$f^s$		& Sample rate in time slice $s$ \\
+\numtmps		& Number of templates \\
+\tmpsamps	& Number of samples per template \\
+\numslices	& Number of time slices \\
+\numsvdtmps	& Number of basis templates in time slice $s$ \\
+\slicessamps	& Number of samples in decimated time slice $s$\\
+$N^\shortdownarrow$ & Length of decimation filter \\
+$N^\shortuparrow$ & Length of interpolation filter \\
 \tableline
 \end{tabular}
 \end{center}
@@ -788,7 +788,7 @@ $(f^{s-1} / f^s) N^\shortdownarrow$ coefficients should demand
 $2 N^\shortdownarrow (f^{s-1})^2 / f^s$ \flops.  However, it is necessary to
 evaluate the anti-aliasing filter only for the fraction $f^s / f^{s-1}$ of the
 samples that will not be deleted.  Consequently, an efficient decimator 
-requires only $2 N^\shortdownarrow f^{s-1}$ \flops.  (One common realization is an ingenious structure called a \emph{polyphase decimator}, described in chapter 1 of \citet{jovanovic2002multirate}.)
+requires only $2 N^\shortdownarrow f^{s-1}$ \flops.  (One common realization is an ingenious structure called a \emph{polyphase decimator}, described in Chapter 1 of \citet{jovanovic2002multirate}.)
 
 The story is similar for the interpolation filters used to match the sample
 rates of the partial \SNR\ streams.  Interpolation of a data stream from a
@@ -814,7 +814,7 @@ filters, the reconstruction of the time-sliced templates, the interpolation of
 (except for the base sample rate) rather than over the time slices themselves,
 as we have found that it is sometimes desirable to place multiple adjacent time
 slices at the same sample rate in order to keep the size of matrices that enter
-the singular value decomposition manageable.  Here we have assumed that the
+the SVD manageable.  Here we have assumed that the
 decimation filters are connected in parallel, converting from the base sample
 rate $f^0$ to each of the time slice sample rates $f^1$, $f^2$, $\dots$, and
 that the interpolation filters are connected in cascade fashion with each
@@ -837,7 +837,7 @@ $2 \sum_{s=0}^{S-1} f^s \numsvdtmps \left( \slicessamps + \numtmps \right)$ \flo
 
 If the cost of the basis filters dominates, and the frequency of the templates
 evolves slowly enough in time, then we can use the time-frequency relationship
-of equation~(\ref{eq:fgw}) to estimate the speedup relative to the conventional, direct
+of Equation~(\ref{eq:fgw}) to estimate the speedup relative to the conventional, direct
 \TD\ method.  The reduction in \flops\ is approximately
 %
 \begin{multline}
@@ -851,21 +851,21 @@ where $\alpha \approx \numsvdtmps / \numtmps$ is the rank reduction factor, or
 ratio between the number of basis templates and the number of templates.  This
 approximation assumes that the frequency of the signal is evolving very slowly
 so that we can approximate the time slice sample rate as twice the instantaneous
-gravitational wave frequency, $f^s \approx 2 f(t)$, and the number of samples in
+GW frequency, $f^s \approx 2 f(t)$, and the number of samples in
 the decimated time slice as the sample rate times an infinitesimally short time
 interval, $\slicessamps \approx 2 f(t) \, \mathrm{d}t$. The integral is
-evaluated using the power-law form of $f(t)$ from equation~(\ref{eq:fgw}).
+evaluated using the power-law form of $f(t)$ from Equation~(\ref{eq:fgw}).
 Substituting approximate values for a template bank designed for component
-masses around (1.4, 1.4) $M_\odot$, $\alpha \approx 10^{-2}$, $t_\mathrm{low} = 10^3$~s, $f_\mathrm{low} = 10^1$~Hz, $f_\mathrm{high} = f_\mathrm{ISCO} \approx 1570$~Hz, $f^0 = 2 f_\mathrm{ISCO}$, and $t_\mathrm{high} = {f_\mathrm{ISCO}}^{-1}$, we find from equation~(\ref{eq:speedup}) that the
+masses around (1.4, 1.4) $M_\odot$, $\alpha \approx 10^{-2}$, $t_\mathrm{low} = 10^3$~s, $f_\mathrm{low} = 10^1$~Hz, $f_\mathrm{high} = f_\mathrm{ISCO} \approx 1570$~Hz, $f^0 = 2 f_\mathrm{ISCO}$, and $t_\mathrm{high} = {f_\mathrm{ISCO}}^{-1}$, we find from Equation~(\ref{eq:speedup}) that the
 \lloid\ method requires only $\sim 10^{-6}$ times as many \flops\ as the
 conventional \TD\ method.
 
 \section{Implementation}
 
 In this section we describe an implementation of the \lloid\ method described
-in section \ref{sec:method} suitable for rapid \GW\
+in Section \ref{sec:method} suitable for rapid \GW\
 searches for \CBC{}s.  The \lloid\ method requires several
-computations that can be completed before the analysis is underway.  Thus
+computations that can be completed before the analysis is underway.  Thus, 
 we divide the procedure into an offline planning stage and an
 online, low-latency filtering stage.  The offline stage can be done before the
 analysis is started and updated asynchronously, whereas the online stage must
@@ -884,19 +884,19 @@ single computer.  Each sub-bank contains templates of comparable chirp mass, and
 therefore similar time-frequency evolution.  Dividing the source
 parameter space into smaller sub-banks also reduces the offline cost of the
 \SVD\ and is the approach considered in \citet{Cannon:2010p10398}.  Next, we choose
-time-slice boundaries as in equation~\eqref{eq:time-sliced-templates} such that all
+time slice boundaries as in Equation~\eqref{eq:time-sliced-templates} such that all
 of the templates within a sub-bank are sub-critically sampled at progressively lower
 sample rates.  For each time slice, the templates are downsampled to the
 appropriate sample rate.  Finally, the \SVD\ is applied to each time slice in
 the sub-bank in order to produce a set of orthonormal basis templates and a
 reconstruction matrix that maps them back to the original templates as
-described in equation~\eqref{eq:svddecomp}.  The downsampled basis templates,
-the reconstruction matrix, and the time-slice boundaries are all saved to disk.
+described in Equation~\eqref{eq:svddecomp}.  The downsampled basis templates,
+the reconstruction matrix, and the time slice boundaries are all saved to disk.
 
 \subsection{Filtering stage}
 
-The \lloid\ algorithm is amenable to latency free, real-time implementation.  However, a real-time search pipeline would require integration directly into the data acquisition and storage systems of the \LIGO\ observatories.  A slightly more 
-modest goal is to leverage existing low-latency, but not real-time, signal processing software in order to implement
+The \lloid\ algorithm is amenable to latency-free, real-time implementation.  However, a real-time search pipeline would require integration directly into the data acquisition and storage systems of the \LIGO\ observatories.  A slightly more 
+modest goal is to leverage existing low latency, but not real-time, signal processing software in order to implement
 the \lloid\ algorithm.
 
 We have implemented a prototype of the low-latency filtering stage using an
@@ -913,13 +913,13 @@ extended the \gstreamer\ framework by developing a library called
 that provides elements for \GW\ data analysis.
 
 \gstreamer\ pipelines typically operate with very low (in some consumer
-applications, imperceptibly low) latency rather than in true real-time because
+applications, imperceptibly low) latency rather than in true real time because
 signals are partitioned into blocks of samples, or \emph{buffers}.  This affords
 a number of advantages, including amortizing the overhead of passing signals
 between elements and grouping together sequences of similar operations.
 However, buffering a signal incurs a latency of up to one buffer length.  This
 latency can be made small at the cost of some additional overhead by making the
-buffers sufficiently small.  In any case, buffering is a reasonable strategy for low latency \LIGO\ data analysis because, as we previously remarked, the \LIGO\ data acquisition system has a granularity of $1/16$~s.
+buffers sufficiently small.  In any case, buffering is a reasonable strategy for low-latency \LIGO\ data analysis because, as we previously remarked, the \LIGO\ data acquisition system has a granularity of $1/16$~s.
 
 \section{Results}
 
@@ -939,51 +939,47 @@ masses.  We begin by constructing a template bank that spans component masses
 from 1~to~3~$M_\odot$ using a simulated Advanced \LIGO\ noise
 power spectrum~\citep{ALIGONoise}\footnote{\url{http://dcc.ligo.org/cgi-bin/DocDB/ShowDocument?docid=T0900288&version=3}}.  Waveforms are generated in the frequency domain in the stationary phase approximation at (post)$^{3.5}$-Newtonian order in phase and Newtonian order in amplitude \citep[the TaylorF2 waveforms described in][]{TaylorF2}.  Templates are truncated at 10~Hz, where the projected
 sensitivity of Advanced \LIGO\ is interrupted by the ``seismic wall.''
-This results in a grid of 98544 points, or
-$2 \times 98544 = 197088$~templates.  Then we create sub-banks by partitioning
+This results in a grid of 98,544 points, or
+$2 \times 98,544 = 197,088$~templates.  Then we create sub-banks by partitioning
 the parameter space by chirp mass.  Figure \ref{fig:tmpltbank} illustrates this
 procedure. We concentrate on a sub-bank with 657 points with chirp masses
 between 1.1955 and 1.2045~$M_\odot$, or $2 \times 657 = 1314$~templates.
 \begin{figure}[h]
 	\plotone{f4}
 	\caption{\label{fig:tmpltbank}Source parameters selected for sub-bank used in this
-case study, consisting of component masses $m_1$, $m_2$, between 1 and 3~$M_\odot$, and
+case study, consisting of component masses $m_1$ and $m_2$, between 1 and 3~$M_\odot$, and
 chirp masses $\mathcal{M}$ between 1.1955 and 1.2045~$M_\odot$.}
 \end{figure}
-With this sub-bank we are able to construct an efficient time-slice decomposition
+With this sub-bank we are able to construct an efficient time slice decomposition
 that consists of 11 time slices with sample rates between 32 and 4096 Hz summarized
 in Table~\ref{tab:time_slices}.
 \begin{table*}
-\caption{\label{tab:time_slices} Filter design sub-bank of 1314 templates.  From
+\caption{\label{tab:time_slices} Filter Design Sub-Bank of 1314 Templates.}
+\begin{center}
+\begin{tabular}{crr@{,\,}lc*{6}{r}}
+\tableline\tableline
+\\ [-2ex]
+& $f^s$ & $[t^s$&$t^{s+1})$ & &\multicolumn{6}{c}{$-\log_{10}$ (1$-$\SVD\ tolerance)} \\% [1ex]
+\cline{6-11}
+\\[-2.5ex]
+& (Hz) & \multicolumn{2}{c}{(s)} & $N^s$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ \\ \tableline
+\multirow{11}{*}{\includegraphics{t3}} & 4096 & [0&0.5) & 2048 & 1 & 4 & 6 & 8 & 10 & 14 \\[0.5em]
+& 512 & [0.5&4.5) & 2048 & 2 & 6 & 8 & 10 & 12 & 16 \\[0.5em]
+& 256 & [4.5&12.5) & 2048 & 2 & 6 & 8 & 10 & 12 & 15 \\[0.5em]
+& 128 & [12.5&76.5) & 8192 & 6 & 20 & 25 & 28 & 30 & 32 \\[0.5em]
+& 64 & [76.5&140.5) & 4096 & 1 & 8 & 15 & 18 & 20 & 22 \\[0.5em]
+& 64 & [140.5&268.5) & 8192 & 1 & 7 & 21 & 25 & 28 & 30 \\[0.5em]
+& 64 & [268.5&396.5) & 8192 & 1 & 1 & 15 & 20 & 23 & 25 \\[0.5em]
+& 32 & [396.5&460.5) & 2048 & 1 & 1 & 3 & 9 & 12 & 14 \\[0.5em]
+& 32 & [460.5&588.5) & 4096 & 1 & 1 & 7 & 16 & 18 & 21 \\[0.5em]
+& 32 & [588.5&844.5) & 8192 & 1 & 1 & 8 & 26 & 30 & 33 \\[0.5em]
+& 32 & [844.5&1100.5) & 8192 & 1 & 1 & 1 & 12 & 20 & 23 \\[0.5em]
+\tableline
+\end{tabular}
+\tablecomments{From
 left to right, this table shows the sample rate, time interval, number of
 samples, and number of orthogonal templates for each time slice.  We vary \SVD\
 tolerance from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.}
-\begin{center}
-\begin{minipage}[c]{0.4\textwidth}
-\includegraphics{t3}
-\end{minipage}
-\begin{minipage}[c]{0.55\textwidth}
-\begin{tabular}{rr@{,\,}lc*{6}{r}}
-\tableline\tableline
-\\ [-2ex]
-$f^s$ & $[t^s$&$t^{s+1})$ & &\multicolumn{6}{c}{$-\log_{10}$ (1$-$\SVD\ tolerance)} \\% [1ex]
-\cline{5-10}
-\\[-2.5ex]
-(Hz) & \multicolumn{2}{c}{(s)} & $N^s$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ \\ \tableline
-4096 & [0&0.5) & 2048 & 1 & 4 & 6 & 8 & 10 & 14 \\
-512 & [0.5&4.5) & 2048 & 2 & 6 & 8 & 10 & 12 & 16 \\
-256 & [4.5&12.5) & 2048 & 2 & 6 & 8 & 10 & 12 & 15 \\
-128 & [12.5&76.5) & 8192 & 6 & 20 & 25 & 28 & 30 & 32 \\
-64 & [76.5&140.5) & 4096 & 1 & 8 & 15 & 18 & 20 & 22 \\
-64 & [140.5&268.5) & 8192 & 1 & 7 & 21 & 25 & 28 & 30 \\
-64 & [268.5&396.5) & 8192 & 1 & 1 & 15 & 20 & 23 & 25 \\
-32 & [396.5&460.5) & 2048 & 1 & 1 & 3 & 9 & 12 & 14 \\
-32 & [460.5&588.5) & 4096 & 1 & 1 & 7 & 16 & 18 & 21 \\
-32 & [588.5&844.5) & 8192 & 1 & 1 & 8 & 26 & 30 & 33 \\
-32 & [844.5&1100.5) & 8192 & 1 & 1 & 1 & 12 & 20 & 23 \\
-\tableline
-\end{tabular}
-\end{minipage}
 \end{center}
 \end{table*}
 We use this sub-bank and decomposition for the remainder of this section.
@@ -998,7 +994,7 @@ than 0.003.
 We expect two main contributions to the \SNR\ loss to arise in our
 implementation of the \lloid\ algorithm.  The first is the \SNR\ loss due to
 the truncation of the \SVD\ at $L^s < M$ basis templates.  As remarked upon in
-\citet{Cannon:2010p10398} and section~\ref{sec:svd}, this effect is measured by
+\citet{Cannon:2010p10398} and Section~\ref{sec:svd}, this effect is measured by
 the \SVD\ tolerance.  The second comes from the limited bandwidth of the
 interpolation filters used to match the sample rates of the partial \SNR\ streams.
 The maximum possible bandwidth is determined by the length of the filter,
@@ -1029,7 +1025,7 @@ We studied how the \SVD\ tolerance affected \SNR\ loss by holding
 $N^\shortdownarrow = N^\shortuparrow = 192$ fixed as we varied the \SVD\
 tolerance from $\left(1-10^{-1}\right)$ to $\left(1-10^{-6}\right)$.  The
 minimum, maximum, and median mismatch are shown as functions of \SVD\ tolerance
-in Figure~\ref{fig:bw}a.  As the \SVD\ tolerance increases toward 1, the \SVD\
+in Figure~\ref{fig:bw}(a).  As the \SVD\ tolerance increases toward 1, the \SVD\
 becomes an exact matrix factorization, but the computational cost increases as
 the number of basis filters increases.  The conditions presented here are more
 complicated than in the original work~\citep{Cannon:2010p10398} due to the
@@ -1049,9 +1045,9 @@ Next, keeping the \SVD\ tolerance fixed at $\left(1-10^{-6}\right)$ and the
 length of the decimation filter fixed at $N^\shortdownarrow = 192$, we studied
 the impact of the length $N^\shortuparrow$ of the interpolation filter on
 mismatch.  We use GStreamer's stock
-\texttt{audioresample} element, which provides a FIR decimation filter with
+\texttt{audioresample} element, which provides an FIR decimation filter with
 a Kaiser-windowed sinc function kernel.  The mismatch as a function of $N^\shortuparrow$ is shown in
-Figure~\ref{fig:bw}b.  The mismatch saturates at $\sim$$2 \times 10^{-4}$ with
+Figure~\ref{fig:bw}(b).  The mismatch saturates at $\sim$$2 \times 10^{-4}$ with
 $N^\shortuparrow = 64$.  We find that a filter length of 16 is sufficient to
 meet our target mismatch of 0.003.
 
@@ -1095,14 +1091,14 @@ is varied from 8 to 192.}
 
 One possible source of \SNR\ loss for which we have not accounted is the leakage of sharp spectral features in the detector's noise spectrum due to the short durations of the time slices.  In the \lloid\ algorithm, as with many other \GW\ search methods, whitening is treated as an entirely separate data conditioning stage.  In this paper, we assume that the input to the filter bank is already whitened, having been passed through a filter that flattens and normalizes its spectrum.  We elected to omit a detailed description of the whitening procedure since the focus here is on the implementation of a scalable inspiral filter bank.
 
-However, the inspiral templates themselves consist of the gravitational wave time series convolved with the impulse response of the whitening filter.  As a consequence, the \lloid\ algorithm must faithfully replicate the effect of the whitening filter.  Since in practice the noise spectra of ground-based \GW\ detectors contain both high-$Q$ lines at mechanical, electronic, and control resonances and a very sharp rolloff at the seismic wall, the frequency response of the \lloid\ filter bank must contain both high-$Q$ notches and a very abrupt high-pass filter.  \fir\ filters with rapidly varying frequency responses tend to have long impulse responses and many coefficients.  Since the \lloid\ basis filters have, by design, short impulse responses and very few coefficients, one might be concerned about spectral leakage contaminating the frequency response of the LLOID filter bank.
+However, the inspiral templates themselves consist of the GW time series convolved with the impulse response of the whitening filter.  As a consequence, the \lloid\ algorithm must faithfully replicate the effect of the whitening filter.  Since in practice the noise spectra of ground-based \GW\ detectors contain both high-$Q$ lines at mechanical, electronic, and control resonances and a very sharp rolloff at the seismic wall, the frequency response of the \lloid\ filter bank must contain both high-$Q$ notches and a very abrupt high-pass filter.  \fir\ filters with rapidly varying frequency responses tend to have long impulse responses and many coefficients.  Since the \lloid\ basis filters have, by design, short impulse responses and very few coefficients, one might be concerned about spectral leakage contaminating the frequency response of the LLOID filter bank.
 
-The usual statement of the famous Nyquist-Shannon theorem, stated below as Theorem~\ref{thm:nyquist}, has a natural dual, \ref{thm:nyquist-dual}, that addresses the frequency resolution that can be achieved with a \fir\ filter of a given length.
+The usual statement of the famous Nyquist-Shannon theorem, stated below as Theorem~\ref{thm:nyquist}, has a natural dual, Theorem~\ref{thm:nyquist-dual}, that addresses the frequency resolution that can be achieved with an \fir\ filter of a given length.
 
 \begin{thm}
 	\label{thm:nyquist}
-	\citep[after][p. 518]{oppenheim1997signals}
-	Let $x(t)$ be a band-limited signal with continuous Fourier transform $\tilde{x}(f)$ such that $\tilde{x}(f') = 0 \; \forall \; f' : |f'| > f_M$.  Then $x(t)$ is uniquely determined by its discrete samples $x(n/f^0)$, $n = 0, \pm 1, \pm 2, \dots$, if $f^0 > 2 f_M$.
+	\citep[After][p. 518]{oppenheim1997signals}
+	Let $x(t)$ be a band-limited signal with continuous Fourier transform $\tilde{x}(f)$ such that $\tilde{x}(f') = 0 \; \forall \; f' : |f'| > f_M$.  Then, $x(t)$ is uniquely determined by its discrete samples $x(n/f^0)$, $n = 0, \pm 1, \pm 2, \dots$, if $f^0 > 2 f_M$.
 \end{thm}
 
 \begin{thm}
@@ -1114,13 +1110,13 @@ Another way of stating Theorem~\ref{thm:nyquist-dual} is that, provided $x(t)$ i
 $$
 	\tilde{x}(f) \propto \sum_{n=-\infty}^{\infty} \tilde{x}\left(n \, \Delta f\right) \sinc \left[ \pi (f - n \, \Delta f) / \Delta f \right].
 $$
-Failure to meet the conditions of this dual of the sampling theorem results in spectral leakage.  For a time-domain signal to capture spectral features that are the size of the central lobe of the $\sinc$ function, the signal must have a duration greater than $1/\Delta f$.  If the signal $x(t)$ is truncated by sampling it for a shorter duration, then its Fourier transform becomes smeared out; conceptually, power ``leaks'' out into the side lobes of the $\sinc$ functions and washes away sharp spectral features.  In the \GW\ data analysis literature, the synthesis of inspiral matched filters involves a step called \emph{inverse spectrum truncation} \citep[see][section VII]{findchirppaper} that fixes the number of coefficients based on the desired frequency resolution.
+Failure to meet the conditions of this dual of the sampling theorem results in spectral leakage.  For a TD signal to capture spectral features that are the size of the central lobe of the $\sinc$ function, the signal must have a duration greater than $1/\Delta f$.  If the signal $x(t)$ is truncated by sampling it for a shorter duration, then its Fourier transform becomes smeared out; conceptually, power ``leaks'' out into the side lobes of the $\sinc$ functions and washes away sharp spectral features.  In the \GW\ data analysis literature, the synthesis of inspiral matched filters involves a step called \emph{inverse spectrum truncation} \citep[see][Section VII]{findchirppaper} that fixes the number of coefficients based on the desired frequency resolution.
 
 In order to effectively flatten a line in the detector's noise power
-spectrum, the time scale of the templates must be at least as long as
+spectrum, the timescale of the templates must be at least as long as
 the damping time $\tau$ of the line, $\tau = 2 Q / \omega_0$, where $Q$ is the quality
-factor of the line and $w_0$ is the central angular frequency.  To put this into the context of the sampling theorem, in order to resolve a notch with a particular $Q$ and $f_0$, a \fir\ filter must achieve a frequency resolution of $\Delta f \gtrsim \pi f_0 / Q$ and therefore its impulse response must last for at least a time $1/\Delta f = Q / \pi f_0$.  For example,
-in the S6 detector configuration known as ``Enhanced LIGO,'' the violin modes \citep{ELIGOSusp} had $Q \sim 10^5$ and $\omega_0 \sim (2 \pi) 340$~rad/s, for a coherence time $\tau \sim 10^2$~s.
+factor of the line and $w_0$ is the central angular frequency.  To put this into the context of the sampling theorem, in order to resolve a notch with a particular $Q$ and $f_0$, an \fir\ filter must achieve a frequency resolution of $\Delta f \gtrsim \pi f_0 / Q$ and therefore its impulse response must last for at least a time $1/\Delta f = Q / \pi f_0$.  For example,
+in the S6 detector configuration known as ``Enhanced LIGO,'' the violin modes \citep{ELIGOSusp} had $Q \sim 10^5$ and $\omega_0 \sim (2 \pi) 340$~rad~s$^{-1}$, for a coherence time $\tau \sim 10^2$~s.
 
 In our example template bank, many of the time slices are much shorter
 than this.  However, in summation the time slices have the same duration as the full templates themselves, and the full templates are much longer than many
@@ -1137,7 +1133,7 @@ that attenuates the lines themselves but also conservatively large neighborhoods
 around them.  If such bandstops were implemented as an \fir\ filter, they
 could be built into the time slices without any difficulty.
 
-Another way to deal with line features with coherence times much longer than the templates would be to entirely `factor' the whitening out of the \lloid\ filter bank.  Any line features could be notched out in the whitening stage with IIR filters, which can achieve infinitely high $Q$ at just second order.  If the detector data were passed through the whitening filter twice, then time-sliced filters need not depend on the detector's noise power spectral density at all.  In such a variation on the \lloid\ method, the basis filters could be calculated from the \emph{weighted} \SVD~\citep[chapter 3.6]{WeightedSVD, jackson2003user} of the time-sliced templates, using the covariance of the detector noise as a weight matrix.
+Another way to deal with line features with coherence times much longer than the templates would be to entirely `factor' the whitening out of the \lloid\ filter bank.  Any line features could be notched out in the whitening stage with IIR filters, which can achieve infinitely high $Q$ at just second order.  If the detector data were passed through the whitening filter twice, then time-sliced filters need not depend on the detector's noise power spectral density at all.  In such a variation on the \lloid\ method, the basis filters could be calculated from the \emph{weighted} \SVD~\citep[Chapter 3.6]{WeightedSVD, jackson2003user} of the time-sliced templates, using the covariance of the detector noise as a weight matrix.
 
 \subsection{Lower bounds on computational cost and latency compared to other
 methods}
@@ -1154,24 +1150,25 @@ five orders of magnitude faster than the conventional, direct \TD\ method.  Howe
 \FD\ method has a latency of over half of an hour, whereas the \lloid\ method, with suitable design of the decimation and interpolation filters, has no more latency than the direct \TD\ method.
 %
 \begin{table*}
-\caption{\label{table:flops}Computational cost in \flops\ and latency in seconds
-of the direct \TD\ method, the overlap-save \FD\ method, and \lloid.  Cost is given
-for both the sub-bank described in section~\ref{sec:bank-setup} and a full
-1--3~$M_\odot$ \NS--\NS\ search.  The last column gives the approximate number of machines per
-detector required for a full Advanced LIGO \NS--\NS\ search.}
+\caption{\label{table:flops}Computational Cost in Flop~s$^{-1}$ and Latency in Seconds
+of the Direct \TD\ Method, the Overlap-Save \FD\ Method, and \lloid.}
 \begin{center}
 \begin{tabular}{lllll}
 \tableline\tableline
-& \flops\ & & \flops\ & number of \\
-method & (sub-bank) & latency (s) & (\NS--\NS) & machines \\[0.1em]
+& Flop~s$^{-1}$ & & Flop~s$^{-1}$ & number of \\
+Method & (Sub-bank) & Latency (s) & (\NS--\NS) & Machines \\[0.1em]
 \tableline
-direct (\TD) & $4.9\times10^{13}$ & 0 & $3.8\times10^{15}$ & $\sim$$3.8\times10^5$ \\
-overlap-save (\FD) & $5.2\times10^8$ & $2\times10^3$ & $5.9\times10^{10}$ & $\sim$$5.9$ \\
+Direct (\TD) & $4.9\times10^{13}$ & 0 & $3.8\times10^{15}$ & $\sim$$3.8\times10^5$ \\
+Overlap-save (\FD) & $5.2\times10^8$ & $2\times10^3$ & $5.9\times10^{10}$ & $\sim$$5.9$ \\
 \lloid\ (theory) & $6.6\times10^8$ & 0 & $1.1 \times 10^{11}$ & $\sim$$11$ \\
 \lloid\ (prototype) & (0.9 cores) & $0.5$ & ------------ & $\gtrsim$$10$ \\
 \tableline
 \end{tabular}
 \end{center}
+\tablecomments{Cost is given
+for both the sub-bank described in Section~\ref{sec:bank-setup} and a full
+1--3~$M_\odot$ \NS--\NS\ search.  The last column gives the approximate number of machines per
+detector required for a full Advanced LIGO \NS--\NS\ search.}
 \end{table*}
 
 \subsection{Extrapolation of computational cost to an Advanced \LIGO\ search}
@@ -1179,14 +1176,14 @@ overlap-save (\FD) & $5.2\times10^8$ & $2\times10^3$ & $5.9\times10^{10}$ & $\si
 Table~\ref{table:flops} shows that the \lloid\ method requires $6.6 \times 10^8$
 \flops\ to cover a sub-bank comprising 657 out of the total 98544 mass pairs.
 Assuming that other regions of the parameter space have similar computational
-scaling, an entire single detector search for \NS--\NS\ signals in the
+scaling, an entire single-detector search for \NS--\NS\ signals in the
 1--3~$M_\odot$ component mass range could be implemented with $(98544/657)\approx150$ times the cost, or $9.9 \times 10^{10}$~\flops.
 
 We computed the computational cost of a full Advanced \LIGO\ \NS--\NS\ search a
 second way by dividing the entire 1--3~$M_\odot$ parameter space into sub-banks
 of 657 points apiece, performing time slices and SVDs for each sub-bank, and
 tabulating the number of floating point operations using
-expression~(\ref{eq:lloid-flops}).  This should be a much more accurate measure
+Expression~(\ref{eq:lloid-flops}).  This should be a much more accurate measure
 because template length varies over the parameter space.  Lower chirp mass
 templates sweep through frequency more slowly and require more computations
 while higher chirp mass templates are shorter and require fewer computations.
@@ -1207,7 +1204,7 @@ to search the full parameter space.  To account for the varying sample rate and 
 \footnote{\url{https://www.lsc-group.phys.uwm.edu/lscdatagrid/}} consists of
 only $\sim$$10^4$ machines, so direct \TD\ convolution is clearly impractical.
 
-The overlap-save \FD\ method is slightly more efficient than LLOID for this particular sub-bank, requiring $5.2 \times 10^8$~\flops.  The scaling argument projects that a full \FD\ search would require $7.8 \times 10^{10}$~\flops.  The direct calculation from expression~(\ref{eq:fd-flops}) gives $5.9 \times 10^{10}$~\flops, in order-of-magnitude agreement.  In this application, the conventional \FD\ search is scarcely a factor of 2 faster than LLOID while gaining only $0.3$\% in \SNR, but only at the price of thousands of seconds of latency.
+The overlap-save \FD\ method is slightly more efficient than LLOID for this particular sub-bank, requiring $5.2 \times 10^8$~\flops.  The scaling argument projects that a full \FD\ search would require $7.8 \times 10^{10}$~\flops.  The direct calculation from Expression~(\ref{eq:fd-flops}) gives $5.9 \times 10^{10}$~\flops, in order-of-magnitude agreement.  In this application, the conventional \FD\ search is scarcely a factor of two faster than LLOID while gaining only $0.3$\% in \SNR, but only at the price of thousands of seconds of latency.
 
 \subsection{Measured latency and overhead}
 
@@ -1240,11 +1237,11 @@ system itself.
 
 We have demonstrated a computationally feasible filtering algorithm for the rapid
 and even early-warning detection of \GW{}s emitted during the coalescence
-of neutron stars and stellar-mass black holes.  It is one part of a complicated
+of \NS{}s and stellar-mass black holes.  It is one part of a complicated
 analysis and observation strategy that will unfortunately have other sources of
 latency.  However, we hope that it will motivate further work to reduce such
 technical sources of \GW\ observation latency and encourage the possibility of
-even more rapid \EM\ followup observations to catch prompt emission in the
+even more rapid \EM\ follow-up observations to catch prompt emission in the
 advanced detector era.
 
 \CBC\ events may be the progenitors of some short hard \GRB{}s and are expected
@@ -1258,16 +1255,16 @@ yield extended X-ray tails and early on-axis afterglows.
 
 The \lloid\ method is as fast as conventional \fft-based, \FD\ convolution but allows for
 latency free, real-time operation.  We anticipate requiring $\gtrsim$40
-modern multi-core computers to search for binary neutron stars using
-coincident \GW\ data from a 4-detector network.  In the future, additional
-computational savings could be acheived by conditionally reconstructing the
-\SNR\ time-series only during times when a composite detection statistic
+modern multi-core computers to search for binary \NS{}s using
+coincident \GW\ data from a four-detector network.  In the future, additional
+computational savings could be achieved by conditionally reconstructing the
+\SNR\ time series only during times when a composite detection statistic
 crosses a threshold~\citep{svd-compdetstat}.  However, the anticipated required
 number of computers is well within the current computing capabilities of the
 \LIGO\ Data Grid.
 
 We have shown a prototype implementation of the \lloid\ algorithm using
-\gstreamer, an open source signal processing platform.  Although our prototype
+\gstreamer, an open-source signal processing platform.  Although our prototype
 already achieves latencies of less than one second, further fine tuning may
 reduce the latency even further.  Ultimately the best
 possible latency would be achieved by tighter integration between data
@@ -1281,10 +1278,10 @@ substantial gains in \SNR\ and timing accuracy \citep{PhysRevD.47.2184}.
 
 Although we have demonstrated a computationally feasible statistic
 for advance detection, we have not yet explored data calibration and whitening,
-triggering, coincidence, and ranking of gravitational wave candidates in a
-framework that supports early \EM\ followup.  One might explore these and also
-using the time-slice decomposition and the \SVD\ to form low-latency
-signal-based vetoes (e.g.~$\chi^2$~statistics) that have been essential for
+triggering, coincidence, and ranking of GW candidates in a
+framework that supports early \EM\ follow-up.  One might explore these and also
+using the time slice decomposition and the \SVD\ to form low-latency
+signal-based vetoes (e.g.,~$\chi^2$~statistics) that have been essential for
 glitch rejection used in previous \GW\ \CBC\ searches.  These additional stages
 may incur some extra overhead, so computing requirements will likely be somewhat
 higher than our estimates.
@@ -1298,24 +1295,22 @@ early detections will arise from nearby sources, the galaxy catalog technique
 might be an important ingredient in reducing the fraction of sky that must be
 imaged.  Extensive simulation campaigns incorporating realistic binary merger
 rates and detector networks will be necessary in order to fully understand the
-prospects for early-warning detection, localization, and \EM\ followup using
+prospects for early-warning detection, localization, and \EM\ follow-up using
 the techniques we have described.
 
 \acknowledgements
 
 \LIGO\ was constructed by the California Institute of Technology and
 Massachusetts Institute of Technology with funding from the National Science
-Foundation and operates under cooperative agreement PHY-0107417.  CH would like
-to thank Ilya Mandel for many discussions about rate estimates and the prospects
-of early detection, Patrick Brady for countless fruitful conversations about low
-latency analysis methods, and John Zweizig for disscussions about \LIGO\ data
-acquisition.  NF would like to thank Alessandra Corsi and Larry Price for
-illuminating discussions on astronomical motivations.  LS would like thank Shaun
+Foundation and operates under cooperative agreement PHY-0107417.  C.H. thanks Ilya Mandel for many discussions about rate estimates and the prospects
+of early detection, Patrick Brady for countless fruitful conversations about low-latency analysis methods, and John Zweizig for discussions about \LIGO\ data
+acquisition.  N.F. thanks Alessandra Corsi and Larry Price for
+illuminating discussions on astronomical motivations.  L.S. thanks Shaun
 Hooper for productive conversations on signal processing.  This research is
 supported by the National Science Foundation through a Graduate Research
-Fellowship to LS and by the Perimeter Institute for Theoretical Physics through
-a fellowship to CH. DK is supported from the Max Planck Gesellschaft.
-MAF is supported by NSF grant PHY-0855494.
+Fellowship to L.S. and by the Perimeter Institute for Theoretical Physics through
+a fellowship to C.H. D.K. is supported from the Max Planck Gesellschaft.
+M.A.F. is supported by NSF Grant PHY-0855494.
 
 This paper has \LIGO\ Document Number {LIGO-P0900004-v33}.
 
@@ -1323,45 +1318,45 @@ This paper has \LIGO\ Document Number {LIGO-P0900004-v33}.
 
 \section{\label{sec:low-frequency-cutoff}Low frequency cutoff for inspiral searches}
 
-Ground-based gravitational wave detectors are unavoidably affected at low frequencies by seismic and anthropogenic ground motion.  The LIGO test masses are suspended from multiple-stage pendula, which attenuate ground motion down to the pole frequency.  In the detector configuration in place during S6, seismic noise dominated the instrumental background below about 40~Hz.  Considerable effort is being invested in improving seismic attenuation in Advanced LIGO using active and passive isolation~\citep{0264-9381-27-8-084006}, so that suspension thermal noise will dominate down to 10 to 15~Hz.  Inspiral waveforms are chirps of infinite duration, but since an interferometric detector's noise diverges at this so-called `seismic wall,' templates for matched filter searches are truncated at a low frequency cutoff $f_\mathrm{low}$ in order to save computational overhead with negligible loss of SNR.
+Ground-based GW detectors are unavoidably affected at low frequencies by seismic and anthropogenic ground motion.  The LIGO test masses are suspended from multiple-stage pendula, which attenuate ground motion down to the pole frequency.  In the detector configuration in place during S6, seismic noise dominated the instrumental background below about 40~Hz.  Considerable effort is being invested in improving seismic attenuation in Advanced LIGO using active and passive isolation~\citep{0264-9381-27-8-084006}, so that suspension thermal noise will dominate down to 10--15~Hz.  Inspiral waveforms are chirps of infinite duration, but since an interferometric detector's noise diverges at this so-called ``seismic wall,'' templates for matched filter searches are truncated at a low-frequency cutoff $f_\mathrm{low}$ in order to save computational overhead with negligible loss of SNR.
 
-The expected matched-filter SNR, integrated from $f_\mathrm{low}$ to $f_\mathrm{high}$, is given by equation~(\ref{eq:expected-snr}).  The high frequency cutoff for the inspiral is frequently taken to be the gravitational wave frequency at the LSO; for non-spinning systems, $f_\mathrm{LSO} = 4400 (\Msun / M)$~Hz, where $M$ is the total mass of the binary \citep[section 3.4.1 of][]{livrev12}.  The choice of $f_\mathrm{low}$ is based on the fraction of the total SNR that is accumulated at frequencies above $f_\mathrm{low}$.  To illustrate the relative contributions to the SNR at different frequencies for a (1.4,~1.4)~$\Msun$ binary, we normalized and plotted the integrand of equation~(\ref{eq:expected-snr}), the noise-weighted power spectral density of the inspiral waveform, in Figure~\ref{fig:low-frequency-cutoff}b.  This is the quantity
+The expected matched-filter SNR, integrated from $f_\mathrm{low}$ to $f_\mathrm{high}$, is given by Equation~(\ref{eq:expected-snr}).  The high-frequency cutoff for the inspiral is frequently taken to be the GW frequency at the LSO; for non-spinning systems, $f_\mathrm{LSO} = 4400 (\Msun / M)$~Hz, where $M$ is the total mass of the binary \citep[section 3.4.1 of][]{livrev12}.  The choice of $f_\mathrm{low}$ is based on the fraction of the total SNR that is accumulated at frequencies above $f_\mathrm{low}$.  To illustrate the relative contributions to the SNR at different frequencies for a (1.4,~1.4)~$\Msun$ binary, we normalized and plotted the integrand of Equation~(\ref{eq:expected-snr}), the noise-weighted power spectral density of the inspiral waveform, in Figure~\ref{fig:low-frequency-cutoff}(b).  This is the quantity
 %
 $$
 	\frac{1}{\rho^2}\frac{\mathrm{d}\rho^2}{\mathrm{d}f} = \frac{f^{-7/3}}{S(f)} \left( \int_0^{f_\mathrm{LSO}} \frac{{f'}^{-7/3}}{S(f')} \, \mathrm{d}f' \right)^{-1},
 $$
 %
-which is normalized by the total SNR squared in order to put detectors with different absolute sensitivities on the same footing.  We used several different noise power spectra: all of the envisioned Advanced LIGO configurations from~\citet{ALIGONoise}; the best achieved sensitivity at LIGO Hanford Observatory (LHO) in LIGO's fifth science run (S5), measured by \citet{S5InspiralRange}; and the best achieved sensitivity at LHO during S6, measured by \citet{S6InspiralRange}.  (The noise spectra themselves are shown in Figure~\ref{fig:low-frequency-cutoff}a.)  It is plain that during S5 and S6 the greatest contribution to the SNR was between 100 and 150~Hz, but for all of the proposed Advanced LIGO configurations the bulk of the SNR is accumulated below 60~Hz.  This information is presented in a complementary way in Figure~\ref{fig:low-frequency-cutoff}c, as the square root of the cumulative integral from $f_\mathrm{low}$ to $f_\mathrm{LSO}$, interpreted as a fraction of the total ``available'' SNR,
+which is normalized by the total SNR squared in order to put detectors with different absolute sensitivities on the same footing.  We used several different noise power spectra: all of the envisioned Advanced LIGO configurations from~\citet{ALIGONoise}; the best-achieved sensitivity at LIGO Hanford Observatory (LHO) in LIGO's fifth science run (S5), measured by \citet{S5InspiralRange}; and the best-achieved sensitivity at LHO during S6, measured by \citet{S6InspiralRange}.  (The noise spectra themselves are shown in Figure~\ref{fig:low-frequency-cutoff}(a).)  It is plain that during S5 and S6 the greatest contribution to the \SNR\ was between 100 and 150~Hz, but for all of the proposed Advanced LIGO configurations the bulk of the \SNR\ is accumulated below 60~Hz.  This information is presented in a complementary way in Figure~\ref{fig:low-frequency-cutoff}(c), as the square root of the cumulative integral from $f_\mathrm{low}$ to $f_\mathrm{LSO}$, interpreted as a fraction of the total ``available'' \SNR,
 %
 $$
 	\rho_\mathrm{frac}(f_\mathrm{low}) = \sqrt{\left( \int_{f_\mathrm{low}}^{f_\mathrm{LSO}} \frac{{f}^{-7/3}}{S(f)} \, \mathrm{d}f \right) \left( \int_0^{f_\mathrm{LSO}} \frac{{f}^{-7/3}}{S(f)} \, \mathrm{d}f \right)^{-1}}.
 $$
 %
-Table~\ref{table:accum_snr} shows the fractional accumulated SNR for four selected low frequency cutoffs, 40~Hz, 30~Hz, 20~Hz, and 10~Hz.  In S5 and S6, all of the SNR is accumulated above 40~Hz.  For the `high frequency' Advanced LIGO configuration, scarcely \emph{half} of the SNR is accumulated above 40~Hz.  For the preferred final configuration, `zero detuning, high power,' 86.1\% of the SNR is above 40~Hz, 93.2\% is above 30~Hz, and 98.1\% is above 20~Hz.  (Since SNR accumulates in quadrature, this means, on the other hand, that under the `high frequency' configuration a template encompassing \emph{just the early inspiral} from 10 to 40~Hz would accumulate $\sqrt{1 - 0.533^2} \approx 84.6\%$ of the total SNR!  In the `zero detuning, high power,' configuration, integration from 10 to 40~Hz alone would yield 50.9\% of the total SNR, from 10 to 30~Hz, 36.2\%, and from 10 to 20~Hz, 19.4\%.)
+Table~\ref{table:accum_snr} shows the fractional accumulated \SNR\ for four selected low-frequency cutoffs, 40~Hz, 30~Hz, 20~Hz, and 10~Hz.  In S5 and S6, all of the \SNR\ is accumulated above 40~Hz.  For the `high frequency' Advanced LIGO configuration, scarcely \emph{half} of the \SNR\ is accumulated above 40~Hz.  For the preferred final configuration, `zero detuning, high power,' 86.1\% of the \SNR\ is above 40~Hz, 93.2\% is above 30~Hz, and 98.1\% is above 20~Hz.  (Since \SNR\ accumulates in quadrature, this means, on the other hand, that under the `high frequency' configuration a template encompassing \emph{just the early inspiral} from 10 to 40~Hz would accumulate $\sqrt{1 - 0.533^2} \approx 84.6\%$ of the total \SNR!  In the `zero detuning, high power,' configuration, integration from 10 to 40~Hz alone would yield 50.9\% of the total \SNR, from 10 to 30~Hz, 36.2\%, and from 10 to 20~Hz, 19.4\%.)
 
 \begin{table}[h]
 \begin{center}
+\caption{\label{table:accum_snr}Fractional Accumulated \SNR\ $\rho_\mathrm{frac}(f_\mathrm{low})$ for Four Selected Low Frequency Cutoffs, $f_\mathrm{low}=40$~Hz, 30~Hz, 20~Hz, and 10~Hz.}
 \begin{tabular}{rcccc}
 \hline\hline
 Noise model & 40 Hz & 30 Hz & 20 Hz & 10 Hz \\
 \hline
 LHO (best S5) & 100.0 & 100.0 & 100.0 & 100.0 \\
 LHO (best S6) & 100.0 & 100.0 & 100.0 & 100.0 \\
-high frequency & 53.3 & 80.1 & 97.6 & 100.0 \\
-no SRM & 87.8 & 95.1 & 98.7 & 100.0 \\
+High frequency & 53.3 & 80.1 & 97.6 & 100.0 \\
+No SRM & 87.8 & 95.1 & 98.7 & 100.0 \\
 BHBH 20$^\circ$ & 71.1 & 84.2 & 96.2 & 100.0 \\
 NSNS optimized & 91.5 & 96.3 & 99.0 & 100.0 \\
-zero detuning, low power & 67.9 & 80.0 & 93.5 & 100.0 \\
-zero detuning, high power & 86.1 & 93.2 & 98.1 & 100.0 \\
+Zero detuning, low power & 67.9 & 80.0 & 93.5 & 100.0 \\
+Zero detuning, high power & 86.1 & 93.2 & 98.1 & 100.0 \\
 \hline
 \end{tabular}
 \end{center}
-\caption{\label{table:accum_snr}Fractional accumulated SNR $\rho_\mathrm{frac}(f_\mathrm{low})$ for four selected low frequency cutoffs, $f_\mathrm{low}=40$~Hz, 30~Hz, 20~Hz, and 10~Hz.}
 \end{table}
 
-Since the gravitational wave amplitude is inversely proportional to the luminosity distance of the source, and the sensitive volume is proportional to distance cubed, the rate of detectable coalescences depends on the choice of low frequency cutoff.  An inspiral search that is designed with a low frequency cutoff at the seismic wall would gain an increase in detection rate of $\rho_\mathrm{frac}^{-3}(f_\mathrm{low})$ relative to a search with a low frequency cutoff of $f_\mathrm{low}$.  This would represent almost a twofold increase in the rate of detection over a search with a fractional accumulated SNR of 80\%, and still a 37\% increase over a search with $\rho_\mathrm{frac} = 90\%$.  Existing coalescing binary detection pipelines strive to sacrifice no more than 3\% of the available SNR; this forfeits less than a 10\% gain in detection rate.  In order to satisfy this constraint, the low frequency cutoff would have to be placed below 30~Hz for all of the conceived Advanced LIGO configurations.
+Since the GW amplitude is inversely proportional to the luminosity distance of the source, and the sensitive volume is proportional to distance cubed, the rate of detectable coalescences depends on the choice of low-frequency cutoff.  An inspiral search that is designed with a low-frequency cutoff at the seismic wall would gain an increase in detection rate of $\rho_\mathrm{frac}^{-3}(f_\mathrm{low})$ relative to a search with a low-frequency cutoff of $f_\mathrm{low}$.  This would represent almost a twofold increase in the rate of detection over a search with a fractional accumulated \SNR\ of 80\%, and still a 37\% increase over a search with $\rho_\mathrm{frac} = 90\%$.  Existing coalescing binary detection pipelines strive to sacrifice no more than 3\% of the available \SNR; this forfeits less than a 10\% gain in detection rate.  In order to satisfy this constraint, the low-frequency cutoff would have to be placed below 30~Hz for all of the conceived Advanced LIGO configurations.
 
-The instantaneous gravitational wave frequency, given by equation~(\ref{eq:fgw}) is a power law function of time, so the amount of time for the gravitational wave frequency to evolve from $f_\mathrm{low}$ to $f_\mathrm{LSO}$ depends strongly on $f_\mathrm{low}$.  The duration of a (1.4,~1.4)~$\Msun$ inspiral is show in Figure~\ref{fig:low-frequency-cutoff}d.  The inspiral takes only 25~s to evolve from 40~Hz to $f_\mathrm{LSO}$, but takes 54~s to evolve from 30~Hz to $f_\mathrm{LSO}$, 158~s from 20~Hz, and 1002~s from 10~Hz.
+The instantaneous GW frequency, given by Equation~(\ref{eq:fgw}), is a power law function of time, so the amount of time for the GW frequency to evolve from $f_\mathrm{low}$ to $f_\mathrm{LSO}$ depends strongly on $f_\mathrm{low}$.  The duration of a (1.4,~1.4)~$\Msun$ inspiral is show in Figure~\ref{fig:low-frequency-cutoff}(d).  The inspiral takes only 25~s to evolve from 40~Hz to $f_\mathrm{LSO}$, but takes 54~s to evolve from 30~Hz to $f_\mathrm{LSO}$, 158~s from 20~Hz, and 1002~s from 10~Hz.
 
 \begin{figure}[b]
 	\includegraphics{f6a}%
@@ -1372,7 +1367,7 @@ The instantaneous gravitational wave frequency, given by equation~(\ref{eq:fgw})
 
 	\includegraphics{f6e}
 
-	\caption{\label{fig:low-frequency-cutoff}From top left:  (a)~Noise amplitude spectral density for a variety of Advanced LIGO noise models, S5, and S6.  (b)~Normalized signal to noise per unit frequency, $(\mathrm{d}\rho^2/\mathrm{d}f)/\rho^2$, for a (1.4,~1.4)~$\Msun$ inspiral.  (c)~Percentage of SNR that is accumulated from $f_\mathrm{low}$ to $f_\mathrm{LSO}$, relative to SNR accumulated from $f_\mathrm{low} = 0\,\mathrm{Hz}$ to $f_\mathrm{LSO}$.    (d)~Amount of time for a \NS--\NS\ inspiral signal to evolve from frequency $f_\mathrm{low}$ to $f_\mathrm{LSO}$, as a function of $f_\mathrm{low}$.  For Figures (a) through (c), the line style indicates which noise model was used.}
+	\caption{\label{fig:low-frequency-cutoff}From top left:  (a)~noise amplitude spectral density for a variety of Advanced LIGO noise models, S5, and S6.  (b)~Normalized signal-to-noise per unit frequency, $(\mathrm{d}\rho^2/\mathrm{d}f)/\rho^2$, for a (1.4,~1.4)~$\Msun$ inspiral.  (c)~Percentage of \SNR\ that is accumulated from $f_\mathrm{low}$ to $f_\mathrm{LSO}$, relative to \SNR\ accumulated from $f_\mathrm{low} = 0\,\mathrm{Hz}$ to $f_\mathrm{LSO}$.    (d)~Amount of time for a \NS--\NS\ inspiral signal to evolve from frequency $f_\mathrm{low}$ to $f_\mathrm{LSO}$, as a function of $f_\mathrm{low}$.  For (a)--(c), the line style indicates which noise model was used.}
 \end{figure}
 
 \bibliographystyle{apj}
