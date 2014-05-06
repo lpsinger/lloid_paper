@@ -2,7 +2,7 @@
 \usepackage{tikz}
 \usetikzlibrary{external,decorations.pathreplacing,matrix,fit,calc,chains,scopes}
 \tikzexternalize[force remake=true]
-\tikzset{external/system call={pdflatex \tikzexternalcheckshellescape -halt-on-error -interaction=batchmode -jobname "\image" "\texsource"; pdftops -eps "\image".pdf "\image".eps}}
+\tikzset{external/system call={pdflatex \tikzexternalcheckshellescape -halt-on-error -interaction=batchmode -jobname "\image" "\texsource"}}
 
 
 % Copied from signalflowdiagram.sty

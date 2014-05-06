@@ -1,7 +1,23 @@
 TEX = env TEXINPUTS=:$(CURDIR)/packages/aastex52:$(CURDIR)/packages/astronat/apj: pdflatex -file-line-error -halt-on-error -shell-escape
 BIBTEX = env BSTINPUTS=:$(CURDIR)/packages/astronat/apj: TEXINPUTS=:$(CURDIR)/packages/aastex52:$(CURDIR)/packages/astronat/apj: bibtex
 
-FIGURES = f1.eps f2.eps f3.eps f3a.eps f3b.eps f3c.eps f3d.eps f4.eps f5a.eps f5b.eps t3.eps f6a.eps f6b.eps f6c.eps f6d.eps f6e.eps
+FIGURES = \
+	figures/snr_in_time.pdf \
+	figures/localization_uncertainty.pdf \
+	figures/lloid-diagram.pdf \
+	figures/upsample-symbol.pdf \
+	figures/downsample-symbol.pdf \
+	figures/adder-symbol.pdf \
+	figures/fir-symbol.pdf \
+	figures/tmpltbank.pdf \
+	figures/bw.pdf \
+	figures/bw_resample.pdf \
+	figures/envelope.pdf \
+	figures/asds.pdf \
+	figures/weighted_asds.pdf \
+	figures/accum_snr.pdf \
+	figures/inspiral_tf_relation.pdf \
+	figures/psd_legend.pdf
 PREREQS = \
 	$(FIGURES) article.tex references.bib
 
@@ -11,52 +27,28 @@ article.pdf: $(PREREQS)
 	$(TEX) -draftmode article
 	$(TEX) article
 
-f1.eps: snr_in_time.py matplotlibrc
+figures/snr_in_time.pdf: snr_in_time.py matplotlibrc
 	python $< $@
 
-f2.eps: localization_uncertainty.py matplotlibrc
+figures/localization_uncertainty.pdf: localization_uncertainty.py matplotlibrc
 	python $< $@
 
-f3.eps: figures/lloid-diagram.eps
-	ln -s $< $@
-
-f3a.eps: figures/upsample-symbol.eps
-	ln -s $< $@
-
-f3b.eps: figures/downsample-symbol.eps
-	ln -s $< $@
-
-f3c.eps: figures/adder-symbol.eps
-	ln -s $< $@
-
-f3d.eps: figures/fir-symbol.eps
-	ln -s $< $@
-
-f4.eps: figures/tmpltbank.pdf
-	pdftops -eps $^ $@
-
-f5a.eps: figures/bw.pdf
-	pdftops -eps $^ $@
-
-f5b.eps: figures/bw_resample.pdf
-	pdftops -eps $^ $@
-
-f6a.eps: plot_asds.py noisemodels.py matplotlibrc
+figures/asds.pdf: plot_asds.py noisemodels.py matplotlibrc
 	python $< $@
 
-f6b.eps: plot_weighted_asds.py noisemodels.py matplotlibrc
+figures/weighted_asds.pdf: plot_weighted_asds.py noisemodels.py matplotlibrc
 	python $< $@
 
-f6c.eps: plot_accum_snr.py noisemodels.py matplotlibrc
+figures/accum_snr.pdf: plot_accum_snr.py noisemodels.py matplotlibrc
 	python $< $@
 
-f6d.eps: plot_inspiral_tf_relation.py noisemodels.py matplotlibrc
+figures/inspiral_tf_relation.pdf: plot_inspiral_tf_relation.py noisemodels.py matplotlibrc
 	python $< $@
 
-f6e.eps: plot_legend.py noisemodels.py matplotlibrc
+figures/psd_legend.pdf: plot_legend.py noisemodels.py matplotlibrc
 	python $< $@
 
-t3.eps: envelope.py
+figures/envelope.pdf: envelope.py
 	python $< $@
 
 # Run 'make publish' to prepare manuscript for submission

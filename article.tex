@@ -264,7 +264,7 @@ detector era.
 \section{Prospects for \earlywarning\ detection and \EM\ follow-up}
 
 \begin{figure}[h]
-\plotone{f1}
+\plotone{figures/snr_in_time}
 \caption{\label{fig:earlywarning}Expected number of \NS--\NS\
 sources that could be detectable by Advanced \LIGO\ a given number of seconds
 before coalescence.  The heavy solid line corresponds to the most probable yearly rate
@@ -337,7 +337,7 @@ yr$^{-1}$ & (Mpc) & \SNR\ & 25 s & 10 s & 1 s & 0 s \\
 \end{table}
 %
 \begin{figure}[h]
-\plotone{f2}
+\plotone{figures/localization_uncertainty}
 \caption{\label{fig:sky-localization-accuracy}Area of the 90\% confidence
 region as a function of time before coalescence for sources with anticipated
 detectability rates of 40, 10, 1, and 0.1~yr$^{-1}$. The heavy dot indicates
@@ -665,14 +665,14 @@ approximates the \SNR\ of the original templates.
 %
 \begin{figure*}[h!]
 	\begin{center}
-		\includegraphics{f3}
+		\includegraphics{figures/lloid-diagram}
 		\caption{\label{fig:pipeline} Schematic of \lloid\ pipeline illustrating
 signal flow.  Circles with arrows represent interpolation
-\protect\includegraphics{f3a} or decimation
-\protect\includegraphics{f3b}.  Circles with plus
+\protect\includegraphics{figures/upsample-symbol} or decimation
+\protect\includegraphics{figures/downsample-symbol}.  Circles with plus
 signs represent summing junctions
-\protect\includegraphics{f3c}.  Squares
-\protect\includegraphics{f3d} stand for \fir\ filters.  Sample
+\protect\includegraphics{figures/adder-symbol}.  Squares
+\protect\includegraphics{figures/fir-symbol} stand for \fir\ filters.  Sample
 rate decreases from the top of the diagram to the bottom.  In this diagram, each
 time slice contains three \fir\ filters that are linearly combined to produce
 four output channels.  In a typical pipeline, the number of \fir\ filters is
@@ -945,7 +945,7 @@ the parameter space by chirp mass.  Figure \ref{fig:tmpltbank} illustrates this
 procedure. We concentrate on a sub-bank with 657 points with chirp masses
 between 1.1955 and 1.2045~$M_\odot$, or $2 \times 657 = 1314$~templates.
 \begin{figure}[h]
-	\plotone{f4}
+	\plotone{figures/tmpltbank}
 	\caption{\label{fig:tmpltbank}Source parameters selected for sub-bank used in this
 case study, consisting of component masses $m_1$ and $m_2$, between 1 and 3~$M_\odot$, and
 chirp masses $\mathcal{M}$ between 1.1955 and 1.2045~$M_\odot$.}
@@ -963,7 +963,7 @@ in Table~\ref{tab:time_slices}.
 \cline{6-11}
 \\[-2.5ex]
 & (Hz) & \multicolumn{2}{c}{(s)} & $N^s$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ \\ \tableline
-\multirow{11}{*}{\includegraphics{t3}} & 4096 & [0&0.5) & 2048 & 1 & 4 & 6 & 8 & 10 & 14 \\[0.5em]
+\multirow{11}{*}{\includegraphics{figures/envelope}} & 4096 & [0&0.5) & 2048 & 1 & 4 & 6 & 8 & 10 & 14 \\[0.5em]
 & 512 & [0.5&4.5) & 2048 & 2 & 6 & 8 & 10 & 12 & 16 \\[0.5em]
 & 256 & [4.5&12.5) & 2048 & 2 & 6 & 8 & 10 & 12 & 15 \\[0.5em]
 & 128 & [12.5&76.5) & 8192 & 6 & 20 & 25 & 28 & 30 & 32 \\[0.5em]
@@ -1067,13 +1067,13 @@ or we could tune these filters separately for each time slice.
 \begin{figure*}[b]
 	\begin{minipage}[t]{0.5\textwidth}
 		\begin{center}
-			\includegraphics{f5a}
+			\includegraphics{figures/bw}
 			(a) Mismatch versus \SVD\ tolerance
 		\end{center}
 	\end{minipage}
 	\begin{minipage}[t]{0.5\textwidth}
 		\begin{center}
-			\includegraphics{f5b}
+			\includegraphics{figures/bw_resample}
 			(b) Mismatch versus $N^\shortuparrow$
 		\end{center}
 	\end{minipage}
@@ -1359,13 +1359,13 @@ Since the GW amplitude is inversely proportional to the luminosity distance of t
 The instantaneous GW frequency, given by Equation~(\ref{eq:fgw}), is a power law function of time, so the amount of time for the GW frequency to evolve from $f_\mathrm{low}$ to $f_\mathrm{LSO}$ depends strongly on $f_\mathrm{low}$.  The duration of a (1.4,~1.4)~$\Msun$ inspiral is show in Figure~\ref{fig:low-frequency-cutoff}(d).  The inspiral takes only 25~s to evolve from 40~Hz to $f_\mathrm{LSO}$, but takes 54~s to evolve from 30~Hz to $f_\mathrm{LSO}$, 158~s from 20~Hz, and 1002~s from 10~Hz.
 
 \begin{figure}[b]
-	\includegraphics{f6a}%
-	\includegraphics{f6b}
+	\includegraphics{figures/asds}%
+	\includegraphics{figures/weighted_asds}
 
-	\includegraphics{f6c}%
-	\includegraphics{f6d}
+	\includegraphics{figures/accum_snr}%
+	\includegraphics{figures/inspiral_tf_relation}
 
-	\includegraphics{f6e}
+	\includegraphics{figures/psd_legend}
 
 	\caption{\label{fig:low-frequency-cutoff}From top left:  (a)~noise amplitude spectral density for a variety of Advanced LIGO noise models, S5, and S6.  (b)~Normalized signal-to-noise per unit frequency, $(\mathrm{d}\rho^2/\mathrm{d}f)/\rho^2$, for a (1.4,~1.4)~$\Msun$ inspiral.  (c)~Percentage of \SNR\ that is accumulated from $f_\mathrm{low}$ to $f_\mathrm{LSO}$, relative to \SNR\ accumulated from $f_\mathrm{low} = 0\,\mathrm{Hz}$ to $f_\mathrm{LSO}$.    (d)~Amount of time for a \NS--\NS\ inspiral signal to evolve from frequency $f_\mathrm{low}$ to $f_\mathrm{LSO}$, as a function of $f_\mathrm{low}$.  For (a)--(c), the line style indicates which noise model was used.}
 \end{figure}
