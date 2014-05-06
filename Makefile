@@ -1,5 +1,5 @@
-TEX = env TEXINPUTS=:$(CURDIR)/packages/aastex52:$(CURDIR)/packages/astronat/apj: pdflatex -file-line-error -halt-on-error -shell-escape
-BIBTEX = env BSTINPUTS=:$(CURDIR)/packages/astronat/apj: TEXINPUTS=:$(CURDIR)/packages/aastex52:$(CURDIR)/packages/astronat/apj: bibtex
+TEX = env TEXINPUTS=:$(CURDIR)/packages/astronat/apj: pdflatex -file-line-error -halt-on-error -shell-escape
+BIBTEX = env BSTINPUTS=:$(CURDIR)/packages/astronat/apj: TEXINPUTS=:$(CURDIR)/packages/astronat/apj: bibtex
 
 FIGURES = \
 	figures/snr_in_time.pdf \
