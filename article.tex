@@ -639,12 +639,12 @@ up to time slice $s$ using the recurrence relation,
 %
 % orthogonal decomposition filtering
 %
-\begin{multline}
+\begin{equation}
 	\rho_i^s [k] =%
 		% Interpolation SNR
 		\overbrace{
 			\left(H^\uparrow \rho_i^{s+1}\right)[k]
-		}^\textrm{\clap{S/N from previous time slices}} \\
+		}^\textrm{\clap{S/N from previous time slices}}
 		% Plus ...
 		+
 		% Reconstruction
@@ -655,7 +655,7 @@ up to time slice $s$ using the recurrence relation,
 		\overbrace{
 			\sum_{\mathclap{n=0}}^{\mathclap{N^s-1}} u_l^s[n] x^s[k-n]
 		}^\textrm{\clap{orthogonal {\sc fir} filters}} .
-\end{multline}
+\end{equation}
 %
 %
 Observe that the early-warning output for time slice 0, $\rho_i^0[k]$,
@@ -804,10 +804,10 @@ filters, the reconstruction of the time-sliced templates, the interpolation of
 \SNR\ from previous time slices, and the accumulation of \SNR, in total the
 \lloid\ algorithm requires
 %
-\begin{multline}
+\begin{equation}
 \label{eq:lloid-flops}
-\sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s \\ + 2\sum_{\mathclap{f^s \in \{f^k \, : \, 0 < k < S\}}} \left( N^\shortdownarrow f^0 + \numtmps N^\shortuparrow f^{s-1}\right)
-\end{multline}
+\sum_{\mathclap{s=0}}^{\mathclap{S-1}} \left( 2 \slicessamps \numsvdtmps + 2 \numtmps \numsvdtmps + \numtmps \right) f^s + 2\sum_{\mathclap{f^s \in \{f^k \, : \, 0 < k < S\}}} \left( N^\shortdownarrow f^0 + \numtmps N^\shortuparrow f^{s-1}\right)
+\end{equation}
 %
 \flops.  The second sum is carried out over the set of distinct sample rates
 (except for the base sample rate) rather than over the time slices themselves,
