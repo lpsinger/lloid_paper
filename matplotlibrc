@@ -8,3 +8,6 @@ axes.labelsize: 9
 xtick.labelsize: 9
 ytick.labelsize: 9
 legend.fontsize: 9
+axes.linewidth: 0.5
+grid.linewidth: 0.25
+lines.linewidth: 0.5

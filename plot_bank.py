@@ -48,7 +48,7 @@ small_data = zip(*small_data)
 big_data = zip(*big_data)
 
 def foo():
-	pylab.fill_betweenx(fill_mtotal, fill_min_mchirp, fill_max_mchirp, edgecolor='0.5', facecolor='0.5')
+	pylab.fill_betweenx(fill_mtotal, fill_min_mchirp, fill_max_mchirp, edgecolor='0.6', facecolor='0.6')
 	#pylab.plot(big_data[0], big_data[1], ',k', markersize=0.01)
 	pylab.plot(small_data[0], small_data[1], ',k')
 	#pylab.fill_between(fill_mchirp, fill_min_mtotal, fill_max_mtotal, edgecolor='none', facecolor='k')
