@@ -1,9 +1,10 @@
 backend: agg
+text.usetex: true
 font.family: serif
-font.serif: cmr10
-font.size: 10.0
-axes.titlesize: 10.0
-axes.labelsize: 10.0
-xtick.labelsize: 10.0
-ytick.labelsize: 10.0
-legend.fontsize: 10.0
+font.serif: Times
+font.size: 9
+axes.titlesize: 9
+axes.labelsize: 9
+xtick.labelsize: 9
+ytick.labelsize: 9
+legend.fontsize: 9

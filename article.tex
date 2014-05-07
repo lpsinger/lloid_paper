@@ -1,4 +1,4 @@
-\documentclass[iop,apj]{emulateapj}
+\documentclass[iop,apj,twocolappendix]{emulateapj}
 \usepackage{apjfonts}
 
 \usepackage[colorlinks]{hyperref}
@@ -264,7 +264,7 @@ detector era.
 \section{Prospects for early-warning detection and \EM\ follow-up}
 
 \begin{figure}[h]
-\plotone{figures/snr_in_time}
+\includegraphics[width=\columnwidth]{figures/snr_in_time}
 \caption{\label{fig:earlywarning}Expected number of \NS--\NS\
 sources that could be detectable by Advanced \LIGO\ a given number of seconds
 before coalescence.  The heavy solid line corresponds to the most probable yearly rate
@@ -315,6 +315,14 @@ in the context of all of the potential sources of latency, some of which are avo
 and some of which are not. 
 
 
+\begin{figure}[h]
+\includegraphics[width=\columnwidth]{figures/localization_uncertainty}
+\caption{\label{fig:sky-localization-accuracy}Area of the 90\% confidence
+region as a function of time before coalescence for sources with anticipated
+detectability rates of 40, 10, 1, and 0.1~yr$^{-1}$. The heavy dot indicates
+the time at which the accumulated \SNR\ exceeds a single-detector threshold of~8.}
+\end{figure}
+%
 \begin{table}[h]
 \caption{\label{table:sky-localization-accuracy}Horizon Distance, \SNR\ at
 Merger, and Area of 90\% Confidence at Selected Times Before Merger for Sources
@@ -335,14 +343,6 @@ yr$^{-1}$ & (Mpc) & \SNR\ & 25 s & 10 s & 1 s & 0 s \\
 \tablecomments{A dash (-----) signifies that the confidence area\\is omitted because at the indicated time the SNR would\\not have crossed the detection threshold of 8.}
 \end{center}
 \end{table}
-%
-\begin{figure}[h]
-\plotone{figures/localization_uncertainty}
-\caption{\label{fig:sky-localization-accuracy}Area of the 90\% confidence
-region as a function of time before coalescence for sources with anticipated
-detectability rates of 40, 10, 1, and 0.1~yr$^{-1}$. The heavy dot indicates
-the time at which the accumulated \SNR\ exceeds a single-detector threshold of~8.}
-\end{figure}
 
 \EM\ follow-up requires estimating the location of the \GW\ source. The localization
 uncertainty can be estimated from the uncertainty in the time of arrival of the \GW{}s,
@@ -945,7 +945,7 @@ the parameter space by chirp mass.  Figure \ref{fig:tmpltbank} illustrates this
 procedure. We concentrate on a sub-bank with 657 points with chirp masses
 between 1.1955 and 1.2045~$M_\odot$, or $2 \times 657 = 1314$~templates.
 \begin{figure}[h]
-	\plotone{figures/tmpltbank}
+	\includegraphics[width=\columnwidth]{figures/tmpltbank}
 	\caption{\label{fig:tmpltbank}Source parameters selected for sub-bank used in this
 case study, consisting of component masses $m_1$ and $m_2$, between 1 and 3~$M_\odot$, and
 chirp masses $\mathcal{M}$ between 1.1955 and 1.2045~$M_\odot$.}
@@ -1067,13 +1067,13 @@ or we could tune these filters separately for each time slice.
 \begin{figure*}[b]
 	\begin{minipage}[t]{0.5\textwidth}
 		\begin{center}
-			\includegraphics{figures/bw}
+			\includegraphics{figures/bw}\\
 			(a) Mismatch versus \SVD\ tolerance
 		\end{center}
 	\end{minipage}
 	\begin{minipage}[t]{0.5\textwidth}
 		\begin{center}
-			\includegraphics{figures/bw_resample}
+			\includegraphics{figures/bw_resample}\\
 			(b) Mismatch versus $N^\shortuparrow$
 		\end{center}
 	\end{minipage}
@@ -1149,7 +1149,7 @@ $\left(\tmpsamps / f^0\right)$ seconds.  Both the \FD\ method and \lloid\ are
 five orders of magnitude faster than the conventional, direct \TD\ method.  However, the
 \FD\ method has a latency of over half of an hour, whereas the \lloid\ method, with suitable design of the decimation and interpolation filters, has no more latency than the direct \TD\ method.
 %
-\begin{table*}
+\begin{table}
 \caption{\label{table:flops}Computational Cost in Flop~s$^{-1}$ and Latency in Seconds
 of the Direct \TD\ Method, the Overlap-Save \FD\ Method, and \lloid.}
 \begin{center}
@@ -1169,7 +1169,7 @@ Overlap-save (\FD) & $5.2\times10^8$ & $2\times10^3$ & $5.9\times10^{10}$ & $\si
 for both the sub-bank described in Section~\ref{sec:bank-setup} and a full
 1--3~$M_\odot$ \NS--\NS\ search.  The last column gives the approximate number of machines per
 detector required for a full Advanced LIGO \NS--\NS\ search.}
-\end{table*}
+\end{table}
 
 \subsection{Extrapolation of computational cost to an Advanced \LIGO\ search}
 
@@ -1358,17 +1358,19 @@ Since the GW amplitude is inversely proportional to the luminosity distance of t
 
 The instantaneous GW frequency, given by Equation~(\ref{eq:fgw}), is a power law function of time, so the amount of time for the GW frequency to evolve from $f_\mathrm{low}$ to $f_\mathrm{LSO}$ depends strongly on $f_\mathrm{low}$.  The duration of a (1.4,~1.4)~$\Msun$ inspiral is show in Figure~\ref{fig:low-frequency-cutoff}(d).  The inspiral takes only 25~s to evolve from 40~Hz to $f_\mathrm{LSO}$, but takes 54~s to evolve from 30~Hz to $f_\mathrm{LSO}$, 158~s from 20~Hz, and 1002~s from 10~Hz.
 
-\begin{figure}[b]
+\begin{figure*}[b]
+	\begin{center}
 	\includegraphics{figures/asds}%
-	\includegraphics{figures/weighted_asds}
+	\includegraphics{figures/weighted_asds}\\[1em]
 
 	\includegraphics{figures/accum_snr}%
-	\includegraphics{figures/inspiral_tf_relation}
+	\includegraphics{figures/inspiral_tf_relation}\\[1em]
 
 	\includegraphics{figures/psd_legend}
+	\end{center}
 
 	\caption{\label{fig:low-frequency-cutoff}From top left:  (a)~noise amplitude spectral density for a variety of Advanced LIGO noise models, S5, and S6.  (b)~Normalized signal-to-noise per unit frequency, $(\mathrm{d}\rho^2/\mathrm{d}f)/\rho^2$, for a (1.4,~1.4)~$\Msun$ inspiral.  (c)~Percentage of \SNR\ that is accumulated from $f_\mathrm{low}$ to $f_\mathrm{LSO}$, relative to \SNR\ accumulated from $f_\mathrm{low} = 0\,\mathrm{Hz}$ to $f_\mathrm{LSO}$.    (d)~Amount of time for a \NS--\NS\ inspiral signal to evolve from frequency $f_\mathrm{low}$ to $f_\mathrm{LSO}$, as a function of $f_\mathrm{low}$.  For (a)--(c), the line style indicates which noise model was used.}
-\end{figure}
+\end{figure*}
 
 \bibliographystyle{apj}
 \bibliography{references}

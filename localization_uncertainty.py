@@ -141,7 +141,7 @@ print r"\tableline"
 print r"\end{tabular}"
 
 
-fig = pylab.figure(figsize=(3,2))
+fig = pylab.figure(figsize=(3.5,2.5))
 ax = fig.add_subplot(1,1,1, adjustable='box')
 
 for rate in (40., 10., 1., 0.1):
@@ -156,7 +156,7 @@ pylab.xlim(0., 1000.)
 pylab.ylim(1e-1, 41253)
 ax.invert_xaxis()
 pylab.grid()
-pylab.ylabel(r'$A$(90%) (deg$^2$)')
+pylab.ylabel(r'$A$(90\%) (deg$^2$)')
 pylab.xlabel(r'time before coalescence, $t$ (s)')
-pylab.subplots_adjust(bottom=0.2,top=0.95,left=0.2,right=0.85)
+pylab.subplots_adjust(bottom=0.2,top=0.95,left=0.15,right=0.875)
 pylab.savefig(sys.argv[1])

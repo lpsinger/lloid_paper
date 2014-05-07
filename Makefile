@@ -45,22 +45,17 @@ figures/accum_snr.pdf: plot_accum_snr.py noisemodels.py matplotlibrc
 figures/inspiral_tf_relation.pdf: plot_inspiral_tf_relation.py noisemodels.py matplotlibrc
 	python $< $@
 
+figures/tmpltbank.pdf: plot_bank.py matplotlibrc
+	python $< $@
+
 figures/psd_legend.pdf: plot_legend.py noisemodels.py matplotlibrc
 	python $< $@
 
-figures/envelope.pdf: envelope.py
+figures/envelope.pdf: envelope.py matplotlibrc
 	python $< $@
 
-# Run 'make publish' to prepare manuscript for submission
-ARCHIVENAME = sing$(shell date +%m%d)
-@phony: publish
-publish: $(ARCHIVENAME).tar.gz
-$(ARCHIVENAME).tar.gz: $(PREREQS) readme.txt coverletter.txt article.bbl
-	rm -rf $(ARCHIVENAME)
-	mkdir $(ARCHIVENAME)
-	ln $(FIGURES) article.tex readme.txt coverletter.txt article.bbl $(ARCHIVENAME)
-	env COPYFILE_DISABLE=true COPY_EXTENDED_ATTRIBUTES_DISABLE=true tar -chzf $(ARCHIVENAME).tar.gz $(ARCHIVENAME)
-	rm -rf $(ARCHIVENAME)
+article.tar.gz: $(PREREQS) article.bbl
+	COPYFILE_DISABLE=true tar -H -czf $@ $^
 
 clean:
-	rm -f article.{aux,out,log,bbl,blg,pdf} $(FIGURES)
+	rm -f article.{aux,out,log,bbl,blg,pdf} article.tar.gz $(FIGURES)
