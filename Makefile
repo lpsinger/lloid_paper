@@ -19,7 +19,7 @@ FIGURES = \
 	figures/inspiral_tf_relation.pdf \
 	figures/psd_legend.pdf
 PREREQS = \
-	$(FIGURES) article.tex references.bib
+	$(FIGURES) article.tex macros.tex references.bib
 
 article.pdf: $(PREREQS)
 	$(TEX) -draftmode article
